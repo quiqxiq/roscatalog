@@ -1,0 +1,13 @@
+# build output
+/roscatalog
+/example
+/rosverify
+*.test
+*.out
+coverage.*
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

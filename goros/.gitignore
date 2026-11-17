@@ -1,0 +1,11 @@
+.vscode
+.idea
+*.exe
+*.out
+*.test
+
+# Lokal referensi & tooling — tidak boleh ikut ter-commit (D-020)
+.refrences/
+.understand-anything/
+# Harness probe/spike lab — hasil sudah tercatat di docs/RESEARCH.md
+_lab/

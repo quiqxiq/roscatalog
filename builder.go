@@ -1,0 +1,258 @@
+package roscatalog
+
+import (
+	"sort"
+	"time"
+)
+
+func (r *Resource) keyField() string {
+	if r.Singleton {
+		return ""
+	}
+	return ".id"
+}
+
+// P adalah singkatan untuk daftar string.
+func P(s ...string) []string { return s }
+
+// Table membuat resource menu bertabel (punya .id per baris).
+func Table(id string, g Group, title, path string) *Resource {
+	return &Resource{ID: id, Group: g, Title: title, Path: path}
+}
+
+// Single membuat resource menu tanpa baris (settings/singleton).
+func Single(id string, g Group, title, path string) *Resource {
+	return &Resource{ID: id, Group: g, Title: title, Path: path, Singleton: true}
+}
+
+// Tool membuat resource yang hanya berupa satu command native (ping, torch, ...).
+func Tool(id string, g Group, title, command string, args []Arg, fields []string, selfTerminating bool) *Resource {
+	r := &Resource{ID: id, Group: g, Title: title, Path: command, Singleton: true}
+	return r.add(View{
+		Name: "run", Mode: ModeNative, Command: command,
+		Args: args, Proplist: fields, ServerProplist: len(fields) > 0,
+		SelfTerminating: selfTerminating,
+	})
+}
+
+// ---------------------------------------------------------------------------
+// Metadata
+// ---------------------------------------------------------------------------
+
+// Describe mengisi catatan resource.
+func (r *Resource) Describe(s string) *Resource { r.Notes = s; return r }
+
+// Check menandai resource sudah dicocokkan dengan CLI reference RouterOS 7.26.
+func (r *Resource) Check() *Resource { r.Verified = true; return r }
+
+// Filter mendaftarkan properti yang aman dipakai sebagai query ?prop=value.
+func (r *Resource) Filter(props ...string) *Resource { r.Filters = props; return r }
+
+// ---------------------------------------------------------------------------
+// View
+// ---------------------------------------------------------------------------
+
+func (r *Resource) add(v View) *Resource {
+	r.Views = append(r.Views, v)
+	return r
+}
+
+func (r *Resource) last() *View { return &r.Views[len(r.Views)-1] }
+
+// For membatasi view terakhir ke satu mayor RouterOS.
+func (r *Resource) For(ver Version) *Resource { r.last().Version = ver; return r }
+
+// MarkHeavy menandai view terakhir sebagai tabel besar.
+func (r *Resource) MarkHeavy() *Resource { r.last().Heavy = true; return r }
+
+// UseServerProplist mengaktifkan =.proplist= pada view terakhir (untuk command
+// native yang terbukti menerimanya, mis. monitor-traffic).
+func (r *Resource) UseServerProplist() *Resource { r.last().ServerProplist = true; return r }
+
+// Hint mengisi catatan pada view terakhir.
+func (r *Resource) Hint(s string) *Resource { r.last().Note = s; return r }
+
+// Named menambah view oneshot (print) dengan nama dan proplist tertentu.
+func (r *Resource) Named(name string, props ...string) *Resource {
+	return r.add(View{
+		Name: name, Mode: ModeOneShot, Command: r.Path + "/print",
+		Proplist: props, ServerProplist: true, WithID: !r.Singleton, Key: r.keyField(),
+	})
+}
+
+// List adalah view oneshot standar bernama "list".
+func (r *Resource) List(props ...string) *Resource { return r.Named("list", props...) }
+
+// Count membaca jumlah baris saja (=count-only=; hasil di =ret=N pada !done).
+func (r *Resource) Count() *Resource {
+	return r.add(View{
+		Name: "count", Mode: ModeOneShot, Command: r.Path + "/print",
+		Flags: P("count-only"), Note: "jumlah ada di =ret=N pada !done",
+	})
+}
+
+// Live membuat view interval: print [stats] interval=every.
+func (r *Resource) Live(every time.Duration, stats bool, props ...string) *Resource {
+	v := View{
+		Name: "live", Mode: ModeInterval, Command: r.Path + "/print",
+		Interval: every, Proplist: props, ServerProplist: true, WithID: !r.Singleton,
+		Key: r.keyField(),
+	}
+	if stats {
+		v.Flags = P("stats")
+	}
+	return r.add(v)
+}
+
+// Events membuat view listen (event perubahan item, tanpa snapshot awal).
+// ServerProplist sengaja tidak dipakai: di RouterOS 7.24.6 proplist pada
+// listen menekan event .dead=true. Kolom diambil dari view list saat Build
+// dan disaring di klien.
+func (r *Resource) Events() *Resource {
+	return r.add(View{
+		Name: "events", Mode: ModeListen, Command: r.Path + "/listen",
+		Key:  r.keyField(),
+		Note: "tanpa snapshot awal; .dead=true berarti item hilang; kolom diambil dari view list saat Build",
+	})
+}
+
+// Tail membuat view follow: snapshot lalu entri baru (print follow).
+func (r *Resource) Tail(props ...string) *Resource {
+	return r.add(View{
+		Name: "tail", Mode: ModeFollow, Command: r.Path + "/print",
+		Flags: P("follow"), Proplist: props, ServerProplist: true, WithID: !r.Singleton,
+		Key: r.keyField(), Note: "kirim entri yang ada dulu, lalu entri baru",
+	})
+}
+
+// TailOnly membuat view follow-only: hanya entri baru.
+func (r *Resource) TailOnly(props ...string) *Resource {
+	return r.add(View{
+		Name: "tail-only", Mode: ModeFollow, Command: r.Path + "/print",
+		Flags: P("follow-only"), Proplist: props, ServerProplist: true, WithID: !r.Singleton,
+		Key: r.keyField(), Note: "hanya entri baru setelah command dijalankan",
+	})
+}
+
+// Monitor membuat view native /path/monitor dengan argumen pemilih.
+func (r *Resource) Monitor(selector string, fields ...string) *Resource {
+	return r.add(View{
+		Name: "monitor", Mode: ModeNative, Command: r.Path + "/monitor",
+		Args: []Arg{
+			{Name: selector, Required: true, Note: "item yang dipantau"},
+			{Name: "once", Note: "kirim satu kali lalu selesai"},
+			{Name: "duration", Note: "batasi lama streaming, mis. 10s"},
+			{Name: "interval", Note: "jeda antar update"},
+		},
+		Proplist: fields, ServerProplist: len(fields) > 0, SelfTerminating: true,
+	})
+}
+
+// KeyBy menetapkan properti kunci baris pada view terakhir (mis. "name" untuk
+// monitor-traffic dengan banyak interface), dipakai snapshot dan diff.
+func (r *Resource) KeyBy(prop string) *Resource { r.last().Key = prop; return r }
+
+// ---------------------------------------------------------------------------
+// Aksi
+// ---------------------------------------------------------------------------
+
+func (r *Resource) act(a Action) *Resource {
+	r.Actions = append(r.Actions, a)
+	return r
+}
+
+// Do menambah aksi khusus.
+func (r *Resource) Do(name string, sel Selector, req, opt []string, destructive bool, note string) *Resource {
+	return r.act(Action{
+		Name: name, Command: r.Path + "/" + name, Selector: sel,
+		Required: req, Optional: opt, Destructive: destructive, Note: note,
+	})
+}
+
+// Add menambah aksi add.
+func (r *Resource) Add(req, opt []string) *Resource {
+	return r.Do("add", SelNone, req, opt, false, "balasan sukses berisi =ret=*ID")
+}
+
+// Set menambah aksi set. Pada singleton tanpa selector, pada tabel dengan .id.
+func (r *Resource) Set(props ...string) *Resource {
+	sel := SelID
+	if r.Singleton {
+		sel = SelNone
+	}
+	return r.Do("set", sel, nil, props, false, "")
+}
+
+// Remove menambah aksi remove.
+func (r *Resource) Remove(note string) *Resource {
+	return r.Do("remove", SelID, nil, nil, true, note)
+}
+
+// Toggle menambah enable dan disable.
+func (r *Resource) Toggle() *Resource {
+	return r.Do("enable", SelID, nil, nil, false, "").
+		Do("disable", SelID, nil, nil, false, "")
+}
+
+// CRUD menambah add, set, remove, enable, disable.
+func (r *Resource) CRUD(req, opt []string) *Resource {
+	all := append(append([]string{}, req...), opt...)
+	return r.Add(req, opt).Set(all...).Remove("").Toggle()
+}
+
+// Move menambah aksi move (urutan rule).
+func (r *Resource) Move() *Resource {
+	return r.Do("move", SelNumbers, P("destination"), nil, false,
+		"destination berisi *ID item tujuan; item dipindah ke depannya")
+}
+
+// ResetCounters menambah reset-counters dan reset-counters-all.
+func (r *Resource) ResetCounters() *Resource {
+	return r.Do("reset-counters", SelNumbers, nil, nil, false, "").
+		Do("reset-counters-all", SelNone, nil, nil, false, "semua item di menu")
+}
+
+// ---------------------------------------------------------------------------
+// Registry
+// ---------------------------------------------------------------------------
+
+var registry []*Resource
+
+func register(rs ...*Resource) { registry = append(registry, rs...) }
+
+// All mengembalikan semua resource, urut menurut grup lalu ID.
+func All() []*Resource {
+	out := append([]*Resource(nil), registry...)
+	rank := make(map[Group]int, len(GroupOrder))
+	for i, g := range GroupOrder {
+		rank[g] = i
+	}
+	sort.SliceStable(out, func(i, j int) bool {
+		if rank[out[i].Group] != rank[out[j].Group] {
+			return rank[out[i].Group] < rank[out[j].Group]
+		}
+		return out[i].ID < out[j].ID
+	})
+	return out
+}
+
+// Lookup mencari resource menurut ID.
+func Lookup(id string) (*Resource, bool) {
+	for _, r := range registry {
+		if r.ID == id {
+			return r, true
+		}
+	}
+	return nil, false
+}
+
+// ByGroup mengembalikan resource dalam satu grup.
+func ByGroup(g Group) []*Resource {
+	var out []*Resource
+	for _, r := range All() {
+		if r.Group == g {
+			out = append(out, r)
+		}
+	}
+	return out
+}

@@ -13,8 +13,10 @@ go.mod                      # module example.com/roscatalog
 catalog_*.go                # 74 resource, 129 view baca, 245 aksi tulis
 plan.go / types.go          # Plan, Build, Sentence, Query
 rosrun/                     # adapter ke goros/v4 (satu-satunya import engine)
+mikhmon/                    # overlay khusus Mikhmon: subset + workflow + script
 cmd/example/                # jalankan satu view dari CLI
 cmd/rosverify/              # verifikasi/discovery via /console/inspect
+cmd/mikhmon-live/           # uji profile/voucher/sales/expire ke router
 goros/                      # module github.com/quiqxiq/goros/v4 (fork engine)
 ```
 
@@ -56,9 +58,51 @@ verb, argumen native, dan field `print`. Status `unknown` bukan error: `listen`
 adalah verb API-only, v6 tidak punya inspect, dan sebagian menu singleton tidak
 mengembalikan field lewat completion.
 
+## Paket `mikhmon`
+
+`mikhmon/` adalah overlay, bukan katalog duplikat. Ia menyaring resource root
+yang dipakai Mikhmon, menyediakan builder `on-login`/Expire Monitor, format
+laporan penjualan/QuickPrint, dan `Client` workflow di atas `rosrun.Runner`.
+
+```go
+import (
+    "context"
+
+    "example.com/roscatalog/mikhmon"
+)
+
+ctx := context.Background()
+client := mikhmon.New(run) // run = *rosrun.Runner
+
+onLogin, _ := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
+    Mode: mikhmon.ExpiryRemoveRecord, Price: "5000", Validity: "1d",
+    SellingPrice: "7000", Profile: "1jam",
+})
+
+_, _ = client.AddProfile(ctx, mikhmon.Profile{
+    Name: "1jam", RateLimit: "1M/1M", SharedUsers: "1", OnLogin: onLogin,
+})
+_, _ = client.AddUser(ctx, mikhmon.User{
+    Name: "vc001", Password: "vc001", Profile: "1jam",
+    Server: "all", Comment: mikhmon.MikhmonComment("vc001", "vc001", "batch"),
+})
+```
+
+Uji langsung ke router (membuat data `zzmik...`, lalu menghapusnya):
+
+```bash
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
+```
+
+Yang diuji: profile + `on-login`, voucher, record penjualan (`source` dan
+`owner`), normalisasi `owner=*sys` ala RouterOS 7.24+, serta Expire Monitor
+mode `X`/`N`.
+
 ## Dokumen
 
 - `USAGE.md` — cara pakai, plan stream/poll, event, jebakan, verifikasi.
+- `MIKHMON.md` — pemetaan command Mikhmon v4 dan contoh workflow.
 - `REFERENCE.md` — referensi lengkap yang di-generate dari katalog.
 - `goros/docs/` — desain, keputusan, riset, dan usage engine.
 

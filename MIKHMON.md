@@ -827,3 +827,68 @@ Intinya: command-command Mikhmon sudah tercakup di katalog, kecuali
 `/system/logging`. `on-login`, Expire Monitor, laporan penjualan, dan QuickPrint
 bukan command baru — semuanya adalah kombinasi `/ip/hotspot/user/profile`,
 `/system/scheduler`, dan `/system/script`.
+
+---
+
+## 14. Paket `mikhmon/`
+
+Katalog root sengaja tetap umum. Untuk pemakaian sehari-hari ala Mikhmon,
+tersedia paket `example.com/roscatalog/mikhmon` di folder `mikhmon/`.
+
+Paket itu adalah **overlay**, bukan duplikat katalog:
+
+- `mikhmon.Lookup`/`Resources`/`IDs` hanya mengekspos 22 resource yang dipakai
+  Mikhmon (dashboard, hotspot, DHCP, pool/NAT/queue, scheduler/script).
+- `mikhmon.OnLoginScript` membangun `on-login` satu baris, termasuk metadata
+  harga, normalisasi tanggal v6/v7, scheduler sementara, mode N/X, lock, dan
+  laporan `remc`/`ntfc`.
+- `mikhmon.ExpireMonitorScript` mengembalikan on-event
+  `Mikhmon-Expire-Monitor` yang sama dengan `assets/js/func.js`.
+- `mikhmon.Sale` dan `mikhmon.QuickPrintPreset` menyusun/membaca format name,
+  source, owner, dan source QuickPrint.
+- `mikhmon.Client` membungkus workflow add profile, add user/voucher,
+  set on-login, install Expire Monitor, add sale, simpan QuickPrint, kick user,
+  dan hapus user `limit-uptime=1s`.
+
+`Client` hanya membutuhkan interface `Executor`; `*rosrun.Runner` sudah
+memenuhinya. Contoh lengkap ada di `mikhmon/README.md`.
+
+### Verifikasi langsung
+
+Command `cmd/mikhmon-live` membuat profile + voucher uji, menjalankan
+`on-login` secara manual dengan variabel hotspot (`$user`, `$address`,
+`$"mac-address"`), lalu memeriksa:
+
+- `on-login` tersimpan satu baris dan tidak terpotong;
+- comment user berubah menjadi tanggal kedaluwarsa + mode `X`;
+- scheduler sementara `name=<user>` sudah dihapus;
+- script laporan memiliki `comment=mikhmon`, `source=<tanggal>`, dan
+  `owner=<bulan><tahun>`;
+- query `?source=` (dipakai `get_report.php`) dan `?owner=`
+  (dipakai dashboard) menemukan laporan;
+- skenario `owner=*sys` ala RouterOS 7.24+ bisa ditemukan lewat
+  `?comment=mikhmon&?owner=*sys` lalu dinormalisasi dengan
+  `/system/script/set owner=<bulan><tahun>`;
+- Expire Monitor mode `X` menghapus user dan mode `N` menyetel
+  `limit-uptime=1s`.
+
+Hasil uji 2026-11-18:
+
+| Router | Versi | Profile + on-login | Voucher | Sales source/owner | `owner=*sys` | Expire X/N |
+|---|---|---|---|---|---|---|
+| 192.168.122.26 | 7.22.1 | ok, 1.899 byte | ok | ok | ok | ok |
+| 192.168.122.60 | 6.49.17 | ok, 1.899 byte | ok | ok | ok | ok |
+| 192.168.122.189 | 7.24.6 | ok, 1.899 byte | ok | ok | ok | ok |
+
+Catatan: 7.24.2 tidak tersedia saat pengujian; yang diuji adalah 7.24.6
+(long-term). Jalur `owner=*sys` diuji eksplisit dengan membuat script laporan
+ber-`owner=*sys` lalu menjalankan normalisasi yang sama seperti
+`get_dashboard.php`. Semua data uji berprefix `zzmik` dihapus kembali dan tidak
+ada sisa user/profile/script/scheduler.
+
+Untuk mengulang:
+
+```bash
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
+```

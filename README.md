@@ -95,6 +95,18 @@ go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
 go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
 ```
 
+Untuk login hotspot nyata lewat webterm GNS3:
+
+```bash
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret \
+  -webterm <container> -hotspot http://10.10.8.1 -scheduler-wait
+```
+
+Tanpa `-webterm`, `on-login` dijalankan sebagai script sementara. Dengan
+`-webterm`, command melakukan login HTTP CHAP ke hotspot, sehingga `on-login`
+berjalan di konteks hotspot yang sebenarnya. `-scheduler-wait` menunggu tick
+scheduler Expire Monitor, bukan menjalankan on-event manual.
+
 Yang diuji: profile + `on-login`, voucher, record penjualan (`source` dan
 `owner`), normalisasi `owner=*sys` ala RouterOS 7.24+, serta Expire Monitor
 mode `X`/`N`.

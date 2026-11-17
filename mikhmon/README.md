@@ -12,8 +12,8 @@ Isinya:
 - `Sale` — format nama/source/owner laporan penjualan.
 - `QuickPrintPreset` — format source preset QuickPrint.
 - `Client` — workflow add profile, add user/voucher, set on-login, install
-  Expire Monitor, add sale, simpan QuickPrint, kick user, dan hapus user
-  kedaluwarsa.
+  Expire Monitor, add sale, simpan QuickPrint, normalize laporan `owner=*sys`,
+  kick user, dan hapus user kedaluwarsa.
 
 `Client` hanya bergantung pada interface `Executor`:
 
@@ -81,7 +81,15 @@ go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
 go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
 ```
 
-Command membuat data berprefix `zzmik`, menjalankan on-login secara manual
-dengan variabel `$user`, `$address`, dan `$"mac-address"`, lalu memverifikasi
-laporan penjualan lewat query `source`/`owner`. Data uji dihapus lagi; pakai
-`-keep` untuk mempertahankannya.
+Untuk login hotspot nyata dari container webterm GNS3:
+
+```bash
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret \
+  -webterm <container> -hotspot http://10.10.8.1 -scheduler-wait
+```
+
+Tanpa `-webterm`, `on-login` dijalankan sebagai script sementara. Dengan
+`-webterm`, command melakukan login HTTP CHAP ke hotspot, lalu memverifikasi
+sesi aktif, comment expiry, dan laporan penjualan. `-scheduler-wait` menunggu
+tick scheduler Expire Monitor yang sebenarnya. Data uji berprefix `zzmik`
+dihapus lagi; pakai `-keep` untuk mempertahankannya.

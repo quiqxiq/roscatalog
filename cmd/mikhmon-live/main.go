@@ -4,18 +4,38 @@
 //	go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
 //	go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
 //
+// Untuk login hotspot nyata dari container webterm GNS3:
+//
+//	go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret \
+//	  -webterm <container> -hotspot http://10.10.8.1
+//
+// Tambahkan -scheduler-wait untuk menunggu tick scheduler Expire Monitor
+// yang sebenarnya, bukan menjalankan on-event secara manual.
+//
+// Tanpa -webterm, on-login dijalankan sebagai script sementara dengan variabel
+// hotspot ($user, $address, $"mac-address"). Dengan -webterm, login dilakukan
+// lewat form hotspot (HTTP CHAP) sehingga on-login berjalan di konteks hotspot
+// yang sebenarnya.
+//
 // Command ini membuat data uji berprefix zzmik lalu menghapusnya lagi. Data
 // Mikhmon yang sudah ada tidak diubah, kecuali scheduler Expire Monitor yang
 // belum ada (dibuat lalu dihapus) dan script laporan uji.
 package main
 
 import (
+	"bytes"
 	"context"
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
+	"net/url"
 	"os"
+	"os/exec"
+	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -67,13 +87,20 @@ func main() {
 	addr := flag.String("addr", "", "alamat API, mis. 192.168.88.1:8728")
 	user := flag.String("user", "admin", "user API")
 	pass := flag.String("pass", "", "password API")
-	timeout := flag.Duration("timeout", 2*time.Minute, "batas waktu seluruh skenario")
+	timeout := flag.Duration("timeout", 4*time.Minute, "batas waktu seluruh skenario")
 	asJSON := flag.Bool("json", false, "cetak laporan JSON")
 	keep := flag.Bool("keep", false, "jangan hapus data uji")
+	webterm := flag.String("webterm", "", "container webterm GNS3 untuk login hotspot nyata")
+	hotspot := flag.String("hotspot", "", "base URL hotspot, mis. http://10.10.8.1 (wajib bila -webterm dipakai)")
+	schedulerWait := flag.Bool("scheduler-wait", false, "tunggu tick scheduler Expire Monitor (bukan jalankan on-event manual)")
 	flag.Parse()
 
 	if *addr == "" {
 		fmt.Fprintln(os.Stderr, "-addr wajib diisi")
+		os.Exit(2)
+	}
+	if *webterm != "" && *hotspot == "" {
+		fmt.Fprintln(os.Stderr, "-hotspot wajib diisi bila -webterm dipakai")
 		os.Exit(2)
 	}
 
@@ -81,7 +108,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), *timeout)
 	defer cancel()
 
-	err := scenario(ctx, *addr, *user, *pass, *keep, rep)
+	err := scenario(ctx, *addr, *user, *pass, *webterm, *hotspot, *keep, *schedulerWait, rep)
 	if err != nil {
 		rep.Error = err.Error()
 	}
@@ -141,7 +168,7 @@ type tester struct {
 	cleans []cleanup
 }
 
-func scenario(ctx context.Context, addr, user, pass string, keep bool, rep *report) error {
+func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, keep, schedulerWait bool, rep *report) error {
 	c, err := routeros.Dial(addr, user, pass)
 	if err != nil {
 		return fmt.Errorf("dial %s: %w", addr, err)
@@ -285,6 +312,10 @@ func scenario(ctx context.Context, addr, user, pass string, keep bool, rep *repo
 		t.onCleanup("user "+userName, func() error {
 			return t.removeByName("hotspot-user", "list", "name", userName)
 		})
+		t.onCleanup("active "+userName, func() error {
+			_, err := t.client.KickUser(t.ctx, userName)
+			return err
+		})
 		return "id=" + id, nil
 	}); err != nil {
 		return err
@@ -336,24 +367,54 @@ func scenario(ctx context.Context, addr, user, pass string, keep bool, rep *repo
 		return nil
 	})
 
-	if err := t.must("on-login/simulasi login", func() (string, error) {
-		sim := fmt.Sprintf(`:local user "%s"; :local address "198.51.100.10"; :local "mac-address" "AA:BB:CC:DD:EE:FF"; %s`,
-			userName, onLogin)
-		if _, err := t.action("system-script", "add", "", map[string]string{
-			"name": onLoginName, "source": sim, "comment": tag,
+	if webterm == "" {
+		if err := t.must("on-login/simulasi login", func() (string, error) {
+			sim := fmt.Sprintf(`:local user "%s"; :local address "198.51.100.10"; :local "mac-address" "AA:BB:CC:DD:EE:FF"; %s`,
+				userName, onLogin)
+			if _, err := t.action("system-script", "add", "", map[string]string{
+				"name": onLoginName, "source": sim, "comment": tag,
+			}); err != nil {
+				return "", err
+			}
+			t.onCleanup("script "+onLoginName, func() error {
+				return t.removeByName("system-script", "list", "name", onLoginName)
+			})
+			if _, err := t.action("system-script", "run", onLoginName, nil); err != nil {
+				return "", err
+			}
+			time.Sleep(3 * time.Second)
+			return "script dijalankan", nil
 		}); err != nil {
-			return "", err
+			return err
 		}
-		t.onCleanup("script "+onLoginName, func() error {
-			return t.removeByName("system-script", "list", "name", onLoginName)
-		})
-		if _, err := t.action("system-script", "run", onLoginName, nil); err != nil {
-			return "", err
+	} else {
+		if err := t.must("hotspot/login webterm", func() (string, error) {
+			out, err := webtermLogin(webterm, hotspot, userName, userName)
+			if err != nil {
+				return "", err
+			}
+			time.Sleep(3 * time.Second)
+			return out, nil
+		}); err != nil {
+			return err
 		}
-		time.Sleep(3 * time.Second)
-		return "script dijalankan", nil
-	}); err != nil {
-		return err
+	}
+
+	if webterm != "" {
+		if err := t.must("hotspot/active", func() (string, error) {
+			rows, err := t.once("hotspot-active", "list",
+				ros.Query{Prop: "user", Value: userName})
+			if err != nil {
+				return "", err
+			}
+			if len(rows) == 0 {
+				return "", errors.New("login tidak menghasilkan sesi hotspot aktif")
+			}
+			row := rows[0]
+			return fmt.Sprintf("user=%s address=%s mac=%s", row["user"], row["address"], row["mac-address"]), nil
+		}); err != nil {
+			return err
+		}
 	}
 
 	if err := t.must("on-login/comment user", func() (string, error) {
@@ -477,26 +538,12 @@ func scenario(ctx context.Context, addr, user, pass string, keep bool, rep *repo
 		t.onCleanup("sales *sys "+sysSale.Name(), func() error {
 			return t.removeByID("mikhmon-sales", id)
 		})
-		sysRows, err := t.once("mikhmon-sales", "report",
-			ros.Query{Prop: "comment", Value: mikhmon.SalesComment},
-			ros.Query{Prop: "owner", Value: "*sys"})
+		n, err := t.client.NormalizeSalesOwner(ctx, owner)
 		if err != nil {
 			return "", err
 		}
-		var found bool
-		for _, row := range sysRows {
-			if row["name"] != sysSale.Name() {
-				continue
-			}
-			found = true
-			if _, err := t.action("system-script", "set", row[".id"], map[string]string{
-				"owner": owner,
-			}); err != nil {
-				return "", err
-			}
-		}
-		if !found {
-			return "", errors.New("query comment=mikhmon&owner=*sys tidak menemukan laporan uji")
+		if n == 0 {
+			return "", errors.New("tidak ada laporan owner=*sys yang dinormalisasi")
 		}
 		rows, err := t.client.Sales(ctx, owner)
 		if err != nil {
@@ -505,7 +552,7 @@ func scenario(ctx context.Context, addr, user, pass string, keep bool, rep *repo
 		if !containsName(rows, sysSale.User) {
 			return "", errors.New("set owner tidak membuat laporan tampil di query owner")
 		}
-		return fmt.Sprintf("owner=*sys ditemukan lalu dinormalisasi ke %s", owner), nil
+		return fmt.Sprintf("%d laporan owner=*sys dinormalisasi ke %s", n, owner), nil
 	}); err != nil {
 		return err
 	}
@@ -575,6 +622,22 @@ func scenario(ctx context.Context, addr, user, pass string, keep bool, rep *repo
 	}
 
 	if err := t.must("expire-monitor/jalankan", func() (string, error) {
+		if schedulerWait {
+			deadline := time.Now().Add(150 * time.Second)
+			for time.Now().Before(deadline) {
+				time.Sleep(5 * time.Second)
+				rows, err := t.client.Users(ctx, profileName)
+				if err != nil {
+					return "", err
+				}
+				if !findName(rows, userX) {
+					if lim := limitFor(rows, userN); lim == "1s" || lim == "00:00:01" {
+						return "tick scheduler Expire Monitor", nil
+					}
+				}
+			}
+			return "", errors.New("timeout menunggu tick scheduler Expire Monitor")
+		}
 		script := expMon["on-event"]
 		if script == "" {
 			script = mikhmon.ExpireMonitorScript()
@@ -730,6 +793,112 @@ func findName(rows []map[string]string, name string) bool {
 		}
 	}
 	return false
+}
+
+func limitFor(rows []map[string]string, name string) string {
+	for _, row := range rows {
+		if row["name"] == name {
+			return row["limit-uptime"]
+		}
+	}
+	return ""
+}
+
+var challengeRe = regexp.MustCompile(`hexMD5\('([^']*)' \+ document\.login\.password\.value \+ '([^']*)'\)`)
+
+// webtermLogin melakukan login hotspot nyata dari dalam container webterm
+// GNS3. Halaman login RouterOS memakai MD5(challenge + password + challenge).
+func webtermLogin(container, base, user, password string) (string, error) {
+	base = strings.TrimRight(base, "/")
+	page, err := dockerCurl(container, "-sS", "-H", "Host: hotspot.local", base+"/login")
+	if err != nil {
+		return "", err
+	}
+	if strings.Contains(page, "You are logged in") {
+		return "sudah login", nil
+	}
+	m := challengeRe.FindStringSubmatch(page)
+	if m == nil {
+		return "", errors.New("challenge MD5 hotspot tidak ditemukan di halaman login")
+	}
+	prefix, err := decodeOctal(m[1])
+	if err != nil {
+		return "", err
+	}
+	suffix, err := decodeOctal(m[2])
+	if err != nil {
+		return "", err
+	}
+	h := md5.New()
+	h.Write(prefix)
+	h.Write([]byte(password))
+	h.Write(suffix)
+	sum := hex.EncodeToString(h.Sum(nil))
+
+	jar := "/tmp/hotspot-cookies-" + user
+	body := "username=" + url.QueryEscape(user) +
+		"&password=" + sum + "&dst=&popup=true"
+	out, err := dockerCurl(container,
+		"-sS", "-L", "-c", jar, "-b", jar,
+		"-H", "Host: hotspot.local",
+		"--data", body,
+		"-w", "\nHTTP_CODE:%{http_code}\n",
+		base+"/login")
+	if err != nil {
+		return "", err
+	}
+	low := strings.ToLower(out)
+	if strings.Contains(low, "invalid username or password") ||
+		strings.Contains(low, "login failed") {
+		return "", fmt.Errorf("login hotspot ditolak: %s", snippet(out))
+	}
+	return "POST login ok " + statusLine(out), nil
+}
+
+func dockerCurl(container string, args ...string) (string, error) {
+	cmdArgs := append([]string{"exec", container, "curl", "--max-time", "15"}, args...)
+	cmd := exec.Command("docker", cmdArgs...)
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	if err := cmd.Run(); err != nil {
+		return stdout.String(), fmt.Errorf("docker exec curl: %w: %s", err, strings.TrimSpace(stderr.String()))
+	}
+	return stdout.String(), nil
+}
+
+func decodeOctal(s string) ([]byte, error) {
+	out := make([]byte, 0, len(s))
+	for i := 0; i < len(s); {
+		if s[i] == '\\' && i+3 < len(s) {
+			v, err := strconv.ParseUint(s[i+1:i+4], 8, 8)
+			if err == nil {
+				out = append(out, byte(v))
+				i += 4
+				continue
+			}
+		}
+		out = append(out, s[i])
+		i++
+	}
+	return out, nil
+}
+
+func statusLine(out string) string {
+	for _, line := range strings.Split(out, "\n") {
+		if strings.HasPrefix(line, "HTTP_CODE:") {
+			return line
+		}
+	}
+	return "HTTP_CODE:?"
+}
+
+func snippet(s string) string {
+	s = strings.Join(strings.Fields(s), " ")
+	if len(s) > 180 {
+		return s[:180] + "..."
+	}
+	return s
 }
 
 func legacyDate(date string) (string, error) {

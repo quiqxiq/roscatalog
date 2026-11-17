@@ -847,19 +847,27 @@ Paket itu adalah **overlay**, bukan duplikat katalog:
 - `mikhmon.Sale` dan `mikhmon.QuickPrintPreset` menyusun/membaca format name,
   source, owner, dan source QuickPrint.
 - `mikhmon.Client` membungkus workflow add profile, add user/voucher,
-  set on-login, install Expire Monitor, add sale, simpan QuickPrint, kick user,
-  dan hapus user `limit-uptime=1s`.
+  set on-login, install Expire Monitor, add sale, simpan QuickPrint, normalize
+  laporan `owner=*sys`, kick user, dan hapus user `limit-uptime=1s`.
 
 `Client` hanya membutuhkan interface `Executor`; `*rosrun.Runner` sudah
 memenuhinya. Contoh lengkap ada di `mikhmon/README.md`.
 
 ### Verifikasi langsung
 
-Command `cmd/mikhmon-live` membuat profile + voucher uji, menjalankan
-`on-login` secara manual dengan variabel hotspot (`$user`, `$address`,
-`$"mac-address"`), lalu memeriksa:
+Command `cmd/mikhmon-live` punya dua mode:
+
+1. **Simulasi** (tanpa `-webterm`): `on-login` dijalankan sebagai script
+   sementara dengan variabel hotspot (`$user`, `$address`,
+   `$"mac-address"`).
+2. **Login hotspot nyata** (`-webterm` + `-hotspot`): login HTTP CHAP dilakukan
+   dari container webterm GNS3, sehingga `on-login` berjalan di konteks hotspot
+   yang sebenarnya.
+
+Yang diperiksa:
 
 - `on-login` tersimpan satu baris dan tidak terpotong;
+- sesi hotspot aktif muncul setelah login;
 - comment user berubah menjadi tanggal kedaluwarsa + mode `X`;
 - scheduler sementara `name=<user>` sudah dihapus;
 - script laporan memiliki `comment=mikhmon`, `source=<tanggal>`, dan
@@ -870,25 +878,44 @@ Command `cmd/mikhmon-live` membuat profile + voucher uji, menjalankan
   `?comment=mikhmon&?owner=*sys` lalu dinormalisasi dengan
   `/system/script/set owner=<bulan><tahun>`;
 - Expire Monitor mode `X` menghapus user dan mode `N` menyetel
-  `limit-uptime=1s`.
+  `limit-uptime=1s`; dengan `-scheduler-wait`, command menunggu tick scheduler
+  yang sebenarnya, bukan menjalankan on-event manual.
 
-Hasil uji 2026-11-18:
+Hasil uji 2026-11-18 (login hotspot nyata lewat webterm + tick scheduler):
 
-| Router | Versi | Profile + on-login | Voucher | Sales source/owner | `owner=*sys` | Expire X/N |
-|---|---|---|---|---|---|---|
-| 192.168.122.26 | 7.22.1 | ok, 1.899 byte | ok | ok | ok | ok |
-| 192.168.122.60 | 6.49.17 | ok, 1.899 byte | ok | ok | ok | ok |
-| 192.168.122.189 | 7.24.6 | ok, 1.899 byte | ok | ok | ok | ok |
+| Router | Versi | Profile + on-login | Voucher | Real login | Sales source | Sales owner | `owner=*sys` | Expire tick X/N |
+|---|---|---|---|---|---|---|---|---|
+| 192.168.122.26 | 7.22.1 | ok, 1.899 byte | ok | ok | ok | `nov2026` | ok | ok |
+| 192.168.122.60 | 6.49.17 | ok, 1.899 byte | ok | ok | ok | `nov2026` | ok | ok |
+| 192.168.122.189 | 7.24.6 | ok, 1.899 byte | ok | ok | ok | `*sys` | ok | ok |
+
+Temuan penting dari login hotspot nyata:
+
+- Di 7.22.1 dan 6.49.17, `on-login` menulis laporan dengan
+  `owner=nov2026`; dashboard langsung menemukannya.
+- Di 7.24.6, login nyata menulis laporan dengan **`owner=*sys`**. Query
+  `?owner=nov2026` tidak menemukannya, tetapi query `?source=nov/18/2026`
+  (dipakai `get_report.php`) tetap menemukannya. Normalisasi
+  `?comment=mikhmon&?owner=*sys` lalu `set owner=nov2026` membuat laporan
+  muncul di dashboard.
+- Ini mereproduksi gejala “penjualan tidak tampil di frontend” pada keluarga
+  7.24.x: record-nya ada, tetapi owner-nya `*sys` sampai dinormalisasi.
 
 Catatan: 7.24.2 tidak tersedia saat pengujian; yang diuji adalah 7.24.6
-(long-term). Jalur `owner=*sys` diuji eksplisit dengan membuat script laporan
-ber-`owner=*sys` lalu menjalankan normalisasi yang sama seperti
-`get_dashboard.php`. Semua data uji berprefix `zzmik` dihapus kembali dan tidak
-ada sisa user/profile/script/scheduler.
+(long-term). Semua data uji berprefix `zzmik` dihapus kembali, termasuk sesi
+hotspot aktif, sehingga tidak ada sisa user/profile/script/scheduler.
 
 Untuk mengulang:
 
 ```bash
+# simulasi on-login
 go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
-go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
+
+# login hotspot nyata dari webterm GNS3
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret \
+  -webterm <container> -hotspot http://10.10.8.1 -scheduler-wait
+
+# laporan JSON
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret \
+  -webterm <container> -hotspot http://10.10.8.1 -scheduler-wait -json
 ```

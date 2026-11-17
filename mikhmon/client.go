@@ -242,6 +242,41 @@ func (c *Client) Sales(ctx context.Context, owner string) ([]map[string]string, 
 	return c.once(ctx, "mikhmon-sales", "report", q)
 }
 
+// NormalizeSalesOwner memperbaiki laporan Mikhmon yang ditulis dengan
+// owner=*sys (perilaku RouterOS 7.24+) menjadi bulan+tahun. Bila owner kosong,
+// owner diturunkan dari source setiap laporan. Ini jalur yang dipakai
+// get_dashboard.php sebelum menampilkan laporan bulanan.
+func (c *Client) NormalizeSalesOwner(ctx context.Context, owner string) (int, error) {
+	rows, err := c.once(ctx, "mikhmon-sales", "report",
+		[]ros.Query{
+			{Prop: "comment", Value: SalesComment},
+			{Prop: "owner", Value: "*sys"},
+		})
+	if err != nil {
+		return 0, err
+	}
+	n := 0
+	for _, row := range rows {
+		id := row[".id"]
+		if id == "" {
+			continue
+		}
+		target := owner
+		if target == "" {
+			target = (Sale{Date: row["source"]}).Owner()
+		}
+		if target == "" {
+			continue
+		}
+		if _, err := c.action(ctx, "system-script", "set", id,
+			map[string]string{"owner": target}); err != nil {
+			return n, err
+		}
+		n++
+	}
+	return n, nil
+}
+
 // SaveQuickPrint membuat atau memperbarui preset QuickPrint berdasarkan nama.
 func (c *Client) SaveQuickPrint(ctx context.Context, p QuickPrintPreset) (string, error) {
 	if strings.TrimSpace(p.Package) == "" {

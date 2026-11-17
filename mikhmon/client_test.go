@@ -174,6 +174,55 @@ func TestAddSale(t *testing.T) {
 	}
 }
 
+func TestNormalizeSalesOwner(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{
+		{".id": "*R1", "source": "nov/18/2026"},
+		{".id": "*R2", "source": "2026-11-18"},
+	}}
+	c := New(f)
+	n, err := c.NormalizeSalesOwner(context.Background(), "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if n != 2 || len(f.execs) != 2 {
+		t.Fatalf("n=%d exec=%d, want 2", n, len(f.execs))
+	}
+	for _, sent := range f.execs {
+		got := joined(sent)
+		if !strings.Contains(got, "/system/script/set") ||
+			!strings.Contains(got, "=owner=nov2026") {
+			t.Errorf("sentence normalisasi salah: %s", got)
+		}
+	}
+	if got := joined(f.onceReqs[0].Sentence); !strings.Contains(got, "?owner=*sys") ||
+		!strings.Contains(got, "?comment=mikhmon") {
+		t.Errorf("query normalisasi salah: %s", got)
+	}
+}
+
+func TestNormalizeSalesOwnerExplicit(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{{".id": "*R1", "source": "bad"}}}
+	c := New(f)
+	n, err := c.NormalizeSalesOwner(context.Background(), "nov2026")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if n != 1 {
+		t.Fatalf("n=%d", n)
+	}
+}
+
+func TestNormalizeSalesOwnerEmpty(t *testing.T) {
+	c := New(&fakeExec{})
+	n, err := c.NormalizeSalesOwner(context.Background(), "nov2026")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if n != 0 {
+		t.Fatalf("n=%d", n)
+	}
+}
+
 func TestRemoveExpiredUsers(t *testing.T) {
 	f := &fakeExec{onceRows: []map[string]string{
 		{".id": "*U1"}, {".id": "*U2"},

@@ -183,26 +183,29 @@ Properti kosong (mis. `comment` yang belum diisi) memang tidak dikirim router, j
 - `ROUTEROS_LIVE_ADDR=192.168.88.1:8728 ROUTEROS_LIVE_USER=admin ROUTEROS_LIVE_PASS=secret go test ./rosrun -run TestLiveListenRemoval -v` menguji `listen` ke router sungguhan: membuat lalu menghapus satu entri address-list dan memastikan event `removed` (`.dead=true`) diterima tanpa `.proplist`.
 - `cd goros && go test ./...` menjalankan tes engine (sebagian tes lab butuh env `ROUTEROS_TEST_*`).
 - `go run ./cmd/rosverify ...` memverifikasi katalog ke router sungguhan lewat `/console/inspect` (§10).
+- `go run ./cmd/mikhmon-live ...` menguji workflow Mikhmon: profile + on-login, voucher, sales record, dan Expire Monitor (§11). Tanpa `-webterm`, on-login dijalankan sebagai script sementara; dengan `-webterm` + `-hotspot`, command melakukan login hotspot nyata (HTTP CHAP) dari container webterm GNS3. Tambahkan `-scheduler-wait` untuk menunggu tick scheduler Expire Monitor.
 
 Tes mock sudah mencakup race tag go-routeros yang lama; di goros/v4 tag didaftarkan sebelum request di-flush, jadi `go test -race -count=20 ./rosrun` lulus.
 
 ## 9. Struktur repo: dua module, satu workspace
 
-```
+```text
 go.work                 # use . dan ./goros
 go.mod                  # module example.com/roscatalog
 catalog_*.go            # data katalog (tanpa dependensi API)
 plan.go, types.go       # Build/Plan/Sentence
 rosrun/                 # adapter: satu-satunya yang mengimpor goros
+mikhmon/                # overlay + workflow khusus Mikhmon
 cmd/example/            # CLI menjalankan satu view
 cmd/rosverify/          # verifikasi/discovery via /console/inspect
+cmd/mikhmon-live/       # uji profile/voucher/sales/expire ke router
 goros/                  # module github.com/quiqxiq/goros/v4 (fork engine)
   schema/               # discovery /console/inspect + cache
   gate/                 # validasi syntax (:parse) dan atribut
   transport/            # native-api, SSH, kontrak terstruktur
 ```
 
-Aturan dependensi: `roscatalog` tetap murni data; `rosrun` menjadi satu-satunya jembatan ke `goros`; `cmd/rosverify` memakai `goros.Inspect` untuk memeriksa katalog, bukan untuk menggantinya. Untuk pengembangan lokal cukup `go test ./...` di root; `go.work` otomatis memakai `goros/` setempat.
+Aturan dependensi: `roscatalog` tetap murni data; `rosrun` menjadi satu-satunya jembatan ke `goros`; `mikhmon` hanya bergantung pada katalog root dan interface `Executor` (dipenuhi `*rosrun.Runner`), bukan mengimpor `goros`; `cmd/rosverify` memakai `goros.Inspect` untuk memeriksa katalog, bukan untuk menggantinya. Untuk pengembangan lokal cukup `go test ./...` di root; `go.work` otomatis memakai `goros/` setempat.
 
 ## 10. Verifikasi katalog dengan `/console/inspect` (RouterOS 7+)
 
@@ -242,3 +245,208 @@ Batasan yang perlu diingat:
 - RouterOS v6 tidak punya `/console/inspect`; verifier akan `unknown`.
 - Inspect tidak menangkap perilaku. Contoh nyata di CHR 7.24.6: `.proplist` pada `listen` menekan event `.dead=true`. Karena itu `Build` tidak mengirim `.proplist` untuk `ModeListen`; `rosrun` menyaring kolom di klien dan penghapusan tetap terdeteksi.
 - Hasil inspect bisa berbeda antar versi; simpan laporan JSON per versi sebagai golden schema di CI.
+
+## 11. Workflow Mikhmon (`mikhmon/`)
+
+`mikhmon/` adalah overlay khusus Mikhmon v4, bukan duplikat katalog. Paket ini
+menyaring resource root yang dipakai Mikhmon dan menambahkan:
+
+- builder `on-login` dan Expire Monitor,
+- format laporan penjualan (`Sale`) dan QuickPrint,
+- `Client` workflow di atas `rosrun.Runner`.
+
+`Client` hanya membutuhkan interface `Executor`; `*rosrun.Runner` memenuhinya,
+jadi `mikhmon` tidak mengimpor `goros` secara langsung.
+
+### 11.1 Menyiapkan client
+
+```go
+import (
+    "context"
+
+    "example.com/roscatalog/mikhmon"
+    "example.com/roscatalog/rosrun"
+)
+
+run := rosrun.New(c) // c = *routeros.Client yang sudah login
+client := mikhmon.New(run)
+ctx := context.Background()
+```
+
+Subset resource bisa dilihat lewat `mikhmon.IDs()`/`mikhmon.Resources()`;
+`mikhmon.Lookup` hanya mengembalikan resource yang termasuk subset Mikhmon.
+
+### 11.2 Profile dan `on-login`
+
+Gunakan `OnLoginScript`; jangan menulis `on-login` multi-baris sendiri.
+
+```go
+onLogin, err := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
+    Mode:         mikhmon.ExpiryRemoveRecord, // remc: expiry + laporan
+    Price:        "5000",
+    Validity:     "1d",
+    SellingPrice: "7000",
+    Profile:      "1jam",
+    LockUser:     false,
+    LockServer:   false,
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+_, err = client.AddProfile(ctx, mikhmon.Profile{
+    Name:        "1jam",
+    AddressPool: "pool-hotspot",
+    RateLimit:   "1M/1M",
+    SharedUsers: "1",
+    OnLogin:     onLogin,
+})
+```
+
+Mode yang tersedia: `ExpiryNone` (`0`), `ExpiryRemove` (`rem`),
+`ExpiryNotice` (`ntf`), `ExpiryRemoveRecord` (`remc`), dan
+`ExpiryNoticeRecord` (`ntfc`).
+
+Untuk mengganti script pada profile yang sudah ada:
+
+```go
+err = client.SetOnLogin(ctx, "1jam", onLogin)
+```
+
+`AddProfile`/`SetOnLogin` menolak script yang mengandung newline, karena driver
+API memecah parameter pada newline.
+
+### 11.3 Voucher
+
+```go
+name := "vc001"
+comment := mikhmon.MikhmonComment(name, name, "batch-1") // vc-batch-1
+
+_, err = client.AddUser(ctx, mikhmon.User{
+    Name:        name,
+    Password:    name,
+    Profile:     "1jam",
+    Server:      "all",
+    Comment:     comment,
+    LimitUptime: "1d",
+})
+
+rows, err := client.Vouchers(ctx, comment) // view voucher, termasuk password
+```
+
+`AddUsers` menambah beberapa user berurutan. `Users(ctx, profile)` membaca user
+per profile, `KickUser` memutus sesi aktif, dan `RemoveExpiredUsers` menghapus
+user ber-`limit-uptime=1s` (hati-hati bila dipakai di router produksi).
+
+### 11.4 Expire Monitor
+
+```go
+if err := client.InstallExpireMonitor(ctx); err != nil {
+    log.Fatal(err)
+}
+
+sched, err := client.ExpireMonitor(ctx) // map nama/interval/on-event/disabled
+```
+
+`InstallExpireMonitor` membuat scheduler `Mikhmon-Expire-Monitor` bila belum
+ada, atau memperbarui interval/on-event lalu mengaktifkannya. On-event-nya
+disalin dari `assets/js/func.js` dan tetap satu baris.
+
+Mode kerja:
+
+- `N`: saat kedaluwarsa, set `limit-uptime=1s` lalu putuskan sesi aktif.
+- `X`: saat kedaluwarsa, hapus user lalu putuskan sesi aktif.
+
+### 11.5 Laporan penjualan dan `owner=*sys`
+
+`on-login` mode `remc`/`ntfc` menulis `/system/script` dengan:
+
+- `name`: `tanggal-|-jam-|-user-|-harga-|-address-|-mac-|-validity-|-profile-|-comment`,
+- `source`: tanggal legacy, mis. `nov/18/2026`,
+- `owner`: bulan+tahun, mis. `nov2026`,
+- `comment`: `mikhmon`.
+
+Menulis laporan manual:
+
+```go
+_, err := client.AddSale(ctx, mikhmon.Sale{
+    Date: "nov/18/2026", Time: "10:00:00", User: "vc001",
+    Price: "5000", Address: "198.51.100.10", MAC: "AA:BB:CC:DD:EE:FF",
+    Validity: "1d", Profile: "1jam", Comment: "vc-123-11.18.26",
+})
+
+rows, err := client.Sales(ctx, "nov2026")
+```
+
+Di RouterOS 7.24+, login hotspot nyata dapat menulis laporan dengan
+`owner=*sys`. Akibatnya:
+
+- query `?source=nov/18/2026` (dipakai `get_report.php`) tetap menemukan,
+- query `?owner=nov2026` (dipakai dashboard) belum menemukan.
+
+Normalisasi yang sama dengan `get_dashboard.php`:
+
+```go
+n, err := client.NormalizeSalesOwner(ctx, "nov2026")
+// cari comment=mikhmon + owner=*sys, lalu set owner=nov2026
+```
+
+Jika `owner` kosong, helper menurunkan owner dari `source` tiap laporan.
+Setelah normalisasi, `client.Sales(ctx, "nov2026")` menemukan laporan tersebut.
+
+### 11.6 QuickPrint
+
+```go
+id, err := client.SaveQuickPrint(ctx, mikhmon.QuickPrintPreset{
+    Package: "1jam", Server: "all", UserMode: "vc", UserLength: "4",
+    Char: "mix", Profile: "1jam", TimeLimit: "1d", DataLimit: "0",
+    Comment: "catatan", Validity: "1d",
+    Price: "5000", SellingPrice: "7000", UserLock: "Disable",
+})
+```
+
+`SaveQuickPrint` melakukan upsert berdasarkan `Quick_Print_<paket>` dan menulis
+`comment=QuickPrintMikhmon`. `QuickPrints(ctx)` membaca semua preset beserta
+`source`-nya.
+
+### 11.7 Uji langsung ke router
+
+Simulasi (tanpa login hotspot nyata):
+
+```bash
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret -json
+```
+
+Login hotspot nyata dari webterm GNS3 + tick scheduler sebenarnya:
+
+```bash
+go run ./cmd/mikhmon-live -addr 192.168.88.1:8728 -user admin -pass secret \
+  -webterm <container> -hotspot http://10.10.8.1 -scheduler-wait -json
+```
+
+Container webterm harus berada di subnet hotspot yang sama. Command akan:
+
+- membuat profile + voucher uji berprefix `zzmik`,
+- login HTTP CHAP ke hotspot (mode `-webterm`),
+- memeriksa sesi aktif dan comment expiry,
+- membuat laporan penjualan dan mengecek query `source`/`owner`,
+- menguji normalisasi `owner=*sys`,
+- menunggu tick Expire Monitor (`-scheduler-wait`) atau menjalankan on-event
+  manual,
+- menghapus user/profile/script/sesi uji (pakai `-keep` untuk menahan data).
+
+Hasil verifikasi 2026-11-18 dengan login hotspot nyata:
+
+| Router | Versi | Profile/voucher | Real login | Sales owner | Expire X/N |
+|---|---|---|---|---|---|
+| 192.168.122.26 | 7.22.1 | ok | ok | `nov2026` | ok |
+| 192.168.122.60 | 6.49.17 | ok | ok | `nov2026` | ok |
+| 192.168.122.189 | 7.24.6 | ok | ok | `*sys` -> normalisasi | ok |
+
+Di 7.24.6, `source` tetap ditemukan; dashboard `owner` perlu
+`NormalizeSalesOwner`. Versi 7.24.2 tidak tersedia saat pengujian; perilaku
+7.24.x diverifikasi di 7.24.6.
+
+Detail pemetaan command dan contoh mentah ada di `MIKHMON.md`; API paket ada di
+`mikhmon/README.md`.

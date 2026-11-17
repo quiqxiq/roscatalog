@@ -86,7 +86,16 @@ _, _ = client.AddUser(ctx, mikhmon.User{
     Name: "vc001", Password: "vc001", Profile: "1jam",
     Server: "all", Comment: mikhmon.MikhmonComment("vc001", "vc001", "batch"),
 })
+
+// Di RouterOS 7.24+, laporan yang dibuat on-login bisa memiliki owner=*sys.
+// Normalisasi ini sama dengan yang dilakukan get_dashboard.php.
+_, _ = client.NormalizeSalesOwner(ctx, "nov2026")
 ```
+
+Verifikasi login hotspot nyata lewat webterm GNS3 pada 7.22.1, 6.49.17, dan
+7.24.6: profile + on-login, voucher, sales record, dan Expire Monitor lulus.
+Di 7.24.6 laporan hasil login nyata ber-`owner=*sys`; query `source` tetap
+menemukannya, sedangkan dashboard `owner` perlu `NormalizeSalesOwner`.
 
 Uji langsung ke router (membuat data `zzmik...`, lalu menghapusnya):
 
@@ -107,9 +116,10 @@ Tanpa `-webterm`, `on-login` dijalankan sebagai script sementara. Dengan
 berjalan di konteks hotspot yang sebenarnya. `-scheduler-wait` menunggu tick
 scheduler Expire Monitor, bukan menjalankan on-event manual.
 
-Yang diuji: profile + `on-login`, voucher, record penjualan (`source` dan
-`owner`), normalisasi `owner=*sys` ala RouterOS 7.24+, serta Expire Monitor
-mode `X`/`N`.
+Yang diuji: profile + `on-login`, voucher, login hotspot nyata, record
+penjualan (`source` dan `owner`), normalisasi `owner=*sys` ala RouterOS 7.24+,
+serta tick scheduler Expire Monitor mode `X`/`N`. Detail workflow ada di
+`USAGE.md` §11 dan `MIKHMON.md` §14.
 
 ## Dokumen
 

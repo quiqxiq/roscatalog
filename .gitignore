@@ -11,3 +11,6 @@ coverage.*
 .idea/
 .vscode/
 *.swp
+
+# local reference checkout (nested git, not part of this module)
+/mikhmon_v4/

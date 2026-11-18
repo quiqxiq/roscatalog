@@ -27,6 +27,52 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 ```
 
+### 1.1 Sesi dua koneksi dengan reconnect (disarankan)
+
+`rosrun.Open` membuka dua koneksi per router: satu untuk command
+(`Once`/`Count`/`Exec`) dan satu untuk feed stream (`Watch`). Keduanya
+dipantau; bila putus, sesi menyambung ulang dengan backoff dan memberi tahu
+stream lewat event `KindReconnecting`.
+
+```go
+sess, err := rosrun.Open(ctx, rosrun.Config{
+    ID:        "router-3",             // hanya untuk log
+    Address:   "192.168.122.189:8728", // atau host + Port
+    Username:  "admin",
+    Password:  os.Getenv("ROUTEROS_PASS"),
+    Timeout:   10 * time.Second,
+    Stream:    true,          // preferensi bawaan: true=stream, false=poll
+    PollEvery: time.Second,
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer sess.Close()
+
+req, _ := res.Build(view, ros.AnyVersion, sess.PlanFor(res, view, ros.AnyVersion), ros.Params{})
+events, _ := sess.Watch(ctx, req) // otomatis lanjut setelah reconnect
+```
+
+Yang perlu diingat:
+
+| Hal | Perilaku |
+| --- | --- |
+| Dua koneksi | Stream lambat tidak menahan `Exec`. |
+| `Config.Stream` | Hanya plan bawaan; `ros.Stream()`/`ros.Poll(d)` eksplisit selalu menang. |
+| Reconnect | Backoff 1s→10s. `Watch` mengirim `KindReconnecting` lalu melanjutkan request yang sama. |
+| Command tulis | Tidak diulang otomatis; `Exec` mengembalikan `ErrReconnecting` selama jeda. |
+| Setelah `Close` | Semua panggilan mengembalikan `ErrClosed`; stream ditutup. |
+| Limiter/audit | `Config.Gate` dipanggil sekali per command; `release` dipanggil setelah selesai. |
+| Status | `sess.Stats()` berisi epoch, jumlah reconnect, dan status kedua koneksi. |
+
+Untuk uji cepat ke router sungguhan:
+
+```bash
+go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret
+go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
+  -resource interface -view live -stream -every 1s -n 2
+```
+
 ## 2. Stream atau poll
 
 `Plan` menentukan siapa yang menggerakkan pengiriman:

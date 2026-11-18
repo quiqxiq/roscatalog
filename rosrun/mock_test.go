@@ -41,6 +41,7 @@ type mock struct {
 	rejectPaths    map[string]bool // path -> selalu ditolak (mis. listen tidak didukung)
 	printCalls     int32           // jumlah print one-shot hotspot-active
 	streamsActive  int32
+	accepted       int // jumlah koneksi yang pernah diterima
 }
 
 func newMock(t *testing.T) *mock {
@@ -64,6 +65,28 @@ func (m *mock) close() {
 	m.mu.Unlock()
 }
 
+// addr adalah alamat listener untuk Config.Address.
+func (m *mock) addr() string { return m.ln.Addr().String() }
+
+// acceptedCount mengembalikan jumlah koneksi yang pernah diterima.
+func (m *mock) acceptedCount() int {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.accepted
+}
+
+// dropAll memutus semua koneksi aktif tanpa menutup listener, meniru router
+// yang menutup sesi API. Klien boleh tersambung lagi.
+func (m *mock) dropAll() {
+	m.mu.Lock()
+	conns := m.conns
+	m.conns = nil
+	m.mu.Unlock()
+	for _, c := range conns {
+		_ = c.Close()
+	}
+}
+
 // client membuka koneksi goros/v4 sungguhan ke mock dan membungkusnya.
 func (m *mock) client() (*routeros.Client, *Runner) {
 	m.t.Helper()
@@ -85,6 +108,7 @@ func (m *mock) accept() {
 		}
 		m.mu.Lock()
 		m.conns = append(m.conns, conn)
+		m.accepted++
 		m.mu.Unlock()
 		go m.serve(conn)
 	}

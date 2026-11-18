@@ -11,6 +11,11 @@
 //   - Konsumen yang lambat memblokir loop baca bersama (channel stream penuh =
 //     semua balasan berhenti, termasuk balasan command lain). Runner menguras
 //     channel library ke antrean sendiri sebelum dibaca konsumen.
+//
+// Runner membungkus satu *routeros.Client. Untuk pemakaian aplikasi — dua
+// koneksi per router, reconnect otomatis, dan plan stream/poll bawaan —
+// gunakan MikroTik (session.go). New tetap tersedia untuk pemakaian satu
+// koneksi dan test.
 package rosrun
 
 import (
@@ -39,6 +44,10 @@ const (
 	KindRemoved  Kind = "removed"  // Row: item hilang (minimal Key)
 	KindCount    Kind = "count"    // Count: hasil count-only
 	KindError    Kind = "error"    // Err: stream berakhir karena error
+	// KindReconnecting menandai jeda: koneksi putus dan Watch akan
+	// melanjutkan request yang sama setelah tersambung lagi. Tidak ada data
+	// yang hilang dari sisi pemanggil selain selama jeda ini.
+	KindReconnecting Kind = "reconnecting"
 )
 
 // Event adalah satu kejadian dari Watch.
@@ -66,6 +75,10 @@ type Runner struct {
 	// Bila true, runner mengirim Snapshot kosong setelah 3x Every tanpa baris.
 	// Ini inferensi, bukan konfirmasi router.
 	EmptySnapshots bool
+
+	// Gate opsional, dipanggil sekali per command yang menuju router (satu
+	// kali per RunArgs, satu kali per stream). Cocok untuk limiter per router.
+	Gate Gate
 }
 
 // New membungkus client yang sudah login dan menyalakan mode async
@@ -81,6 +94,18 @@ func New(c *routeros.Client) *Runner {
 		}()
 	}
 	return r
+}
+
+// newRunner membangun Runner dari Config tanpa menyentuh mode async: koneksi
+// sudah diaktifkan oleh dial, jadi Runner hanya mewarisi setelan.
+func newRunner(c *routeros.Client, cfg Config) *Runner {
+	return &Runner{
+		c:              c,
+		Logf:           cfg.Logf,
+		MaxBuffered:    cfg.MaxBuffered,
+		EmptySnapshots: cfg.EmptySnapshots,
+		Gate:           cfg.Gate,
+	}
 }
 
 func (r *Runner) logf(format string, args ...any) {
@@ -191,6 +216,18 @@ func (r *Runner) Watch(ctx context.Context, req ros.Request) (<-chan Event, erro
 // run menjalankan RunArgs di goroutine agar bisa ditinggalkan saat ctx selesai
 // tanpa memakai varian Context milik library.
 func (r *Runner) run(ctx context.Context, sentence []string) (*routeros.Reply, error) {
+	if len(sentence) == 0 {
+		return nil, errors.New("rosrun: empty sentence")
+	}
+	var release func()
+	if r.Gate != nil {
+		var err error
+		release, err = r.Gate(ctx, sentence[0])
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	type result struct {
 		rep *routeros.Reply
 		err error
@@ -198,6 +235,11 @@ func (r *Runner) run(ctx context.Context, sentence []string) (*routeros.Reply, e
 	ch := make(chan result, 1)
 	go func() {
 		rep, err := r.c.RunArgs(sentence)
+		// Lepas slot setelah command benar-benar selesai di wire, bukan saat
+		// pemanggil menyerah karena ctx.
+		if release != nil {
+			release()
+		}
 		ch <- result{rep, err}
 	}()
 	select {
@@ -488,6 +530,19 @@ func (q *queue) pop(ctx context.Context, timeout time.Duration) (*proto.Sentence
 func (r *Runner) stream(ctx context.Context, req ros.Request, emit func(Event) bool) error {
 	sentence := req.Sentence
 	fallbackUsed := false
+
+	if len(sentence) == 0 {
+		return errors.New("rosrun: empty sentence")
+	}
+	if r.Gate != nil {
+		release, err := r.Gate(ctx, sentence[0])
+		if err != nil {
+			return err
+		}
+		if release != nil {
+			defer release()
+		}
+	}
 
 	for {
 		l, err := r.c.ListenArgs(sentence)

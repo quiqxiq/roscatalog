@@ -36,6 +36,25 @@ go run ./cmd/example -addr 192.168.88.1:8728 -user admin -pass secret \
   -resource hotspot-active -view live -delivery stream -every 1s
 ```
 
+Untuk pemakaian aplikasi (dua koneksi + reconnect), pakai `rosrun.Open`:
+
+```go
+sess, err := rosrun.Open(ctx, rosrun.Config{
+    Address: "192.168.88.1:8728", Username: "admin", Password: "secret",
+    Stream: true, PollEvery: time.Second,
+})
+if err != nil { log.Fatal(err) }
+defer sess.Close()
+
+events, err := sess.Watch(ctx, req) // lanjut otomatis setelah reconnect
+```
+
+Uji cepat ke router:
+
+```bash
+go run ./cmd/roscheck -addr 192.168.88.1:8728 -user admin -pass secret
+```
+
 Verifikasi katalog ke router sungguhan (RouterOS 7+):
 
 ```bash

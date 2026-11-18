@@ -241,9 +241,10 @@ func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, ke
 	var onLogin string
 	if err := t.must("on-login/build", func() (string, error) {
 		s, err := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
-			Mode:  mikhmon.ExpiryRemoveRecord,
-			Price: "5000", Validity: "1d", SellingPrice: "7000",
-			Profile: profileName,
+			Mode:        mikhmon.ExpiryRemoveRecord,
+			Validity:    "1d",
+			Profile:     profileName,
+			RecordSales: true,
 		})
 		if err != nil {
 			return "", err

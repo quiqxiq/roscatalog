@@ -51,8 +51,7 @@ func TestOneLine(t *testing.T) {
 
 func TestOnLoginScriptRem(t *testing.T) {
 	got, err := OnLoginScript(OnLoginOptions{
-		Mode: ExpiryRemove, Price: "5000", Validity: "1d",
-		SellingPrice: "7000", LockUser: true,
+		Mode: ExpiryRemove, Validity: "1d", LockUser: true,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -60,8 +59,8 @@ func TestOnLoginScriptRem(t *testing.T) {
 	if strings.ContainsAny(got, "\r\n") {
 		t.Fatal("on-login mengandung newline")
 	}
-	if !strings.HasPrefix(got, `:put (",rem,5000,1d,7000,,Enable,Disable,")`) {
-		t.Fatalf("metadata salah: %.80s", got)
+	if strings.Contains(got, ":put") {
+		t.Fatal("metadata harga tidak boleh ditulis ke on-login")
 	}
 	if !strings.Contains(got, `:local mode "X"`) {
 		t.Error("mode X tidak ada")
@@ -73,29 +72,36 @@ func TestOnLoginScriptRem(t *testing.T) {
 		t.Error("lock MAC tidak ada")
 	}
 	if strings.Contains(got, "comment=mikhmon") {
-		t.Error("mode rem tidak boleh menulis laporan")
+		t.Error("mode rem tanpa record_sales tidak boleh menulis laporan")
 	}
 	if !strings.HasSuffix(got, "}}") {
 		t.Errorf("script tidak ditutup: %s", got[len(got)-20:])
 	}
 }
 
-func TestOnLoginScriptNoticeRecord(t *testing.T) {
+func TestOnLoginScriptHookAndFallback(t *testing.T) {
 	got, err := OnLoginScript(OnLoginOptions{
-		Mode: ExpiryNoticeRecord, Price: "5000", Validity: "1d",
-		SellingPrice: "7000", Profile: "1jam", LockServer: true,
+		Mode: ExpiryNoticeRecord, Validity: "1d", Profile: "1jam",
+		RecordSales: true, LockServer: true,
+		PublicURL: "https://mikmon.example", HookToken: "tok_123", VerifyTLS: true,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
+	if strings.Contains(got, ":put") || strings.Contains(got, "5000") || strings.Contains(got, "7000") {
+		t.Fatal("harga tidak boleh masuk on-login")
+	}
 	if !strings.Contains(got, `:local mode "N"`) {
 		t.Error("mode N tidak ada")
 	}
-	if !strings.Contains(got, "comment=mikhmon") {
-		t.Error("laporan penjualan tidak ada")
+	if !strings.Contains(got, "/tool fetch") || !strings.Contains(got, "on-error=") {
+		t.Error("fetch-first fallback tidak ada")
 	}
-	if !strings.Contains(got, "-|-1jam-|-") {
-		t.Error("nama profile tidak masuk laporan")
+	if !strings.Contains(got, "comment=mikhmon") {
+		t.Error("fallback script tidak ada")
+	}
+	if !strings.Contains(got, "-|-1jam-|-") || !strings.Contains(got, "v2-|-") {
+		t.Error("payload v2/profile tidak ada")
 	}
 	if !strings.Contains(got, "server=$srv") {
 		t.Error("lock server tidak ada")
@@ -107,16 +113,19 @@ func TestOnLoginScriptNoticeRecord(t *testing.T) {
 
 func TestOnLoginScriptNone(t *testing.T) {
 	got, err := OnLoginScript(OnLoginOptions{
-		Mode: ExpiryNone, Price: "5000", Validity: "1d", SellingPrice: "7000",
+		Mode: ExpiryNone, Validity: "1d", Profile: "1jam", RecordSales: true,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if strings.Contains(got, ":local mode") || strings.Contains(got, "scheduler") {
+	if strings.Contains(got, "interval=\"1d\"") {
 		t.Fatalf("mode 0 tidak boleh punya logika expiry: %s", got)
 	}
-	if !strings.HasPrefix(got, `:put (",0,5000,1d,7000,,Disable,Disable,")`) {
-		t.Fatalf("metadata salah: %s", got)
+	if strings.Contains(got, ":put") {
+		t.Fatal("metadata harga tidak boleh ada")
+	}
+	if !strings.Contains(got, "comment=mikhmon") {
+		t.Error("record sales fallback tidak ada")
 	}
 }
 
@@ -128,14 +137,27 @@ func TestOnLoginScriptValidation(t *testing.T) {
 		t.Error("validity kosong harus error")
 	}
 	if _, err := OnLoginScript(OnLoginOptions{
-		Mode: ExpiryRemoveRecord, Validity: "1d",
+		Mode: ExpiryRemoveRecord, Validity: "1d", RecordSales: true,
 	}); err == nil {
-		t.Error("profile kosong pada remc harus error")
+		t.Error("profile kosong pada record sales harus error")
 	}
 	if _, err := OnLoginScript(OnLoginOptions{
 		Mode: ExpiryRemove, Validity: "1d", Profile: "bad\"profile",
 	}); err == nil {
 		t.Error("profile dengan kutip harus error")
+	}
+}
+
+func TestParseOnLoginScript(t *testing.T) {
+	old := `:put (",rem,5000,1d,7000,,Enable,Disable,")`
+	meta := ParseOnLoginScript(old)
+	if meta.Mode != "rem" || meta.Price != "5000" || meta.Validity != "1d" || !meta.LockUser {
+		t.Fatalf("legacy metadata tidak terbaca: %+v", meta)
+	}
+	fresh := `:local mode "N"; interval="30d"; mac-address=$mac; /tool fetch`
+	meta = ParseOnLoginScript(fresh)
+	if meta.Mode != "N" || meta.Validity != "30d" || !meta.LockUser || !meta.RecordSales {
+		t.Fatalf("metadata baru tidak terbaca: %+v", meta)
 	}
 }
 

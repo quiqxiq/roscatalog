@@ -64,6 +64,58 @@ func ParseSaleName(name string) (Sale, error) {
 	}, nil
 }
 
+// PendingSale is a sale recorded by a router when the hook was unreachable.
+// It intentionally does not contain price; the backend resolves price from
+// hotspot_profiles when the record is drained.
+type PendingSale struct {
+	Date     string
+	Time     string
+	User     string
+	Address  string
+	MAC      string
+	Validity string
+	Profile  string
+	Comment  string
+}
+
+// Name returns the v2 fallback script name.
+func (s PendingSale) Name() string {
+	return strings.Join([]string{
+		"v2", s.Date, s.Time, s.User, s.Address, s.MAC,
+		s.Validity, s.Profile, s.Comment,
+	}, "-|-")
+}
+
+// Source is the legacy date used by the sync owner scan.
+func (s PendingSale) Source() string { return s.Date }
+
+// Validate checks fields required to resolve the sale.
+func (s PendingSale) Validate() error {
+	for name, v := range map[string]string{
+		"date": s.Date, "time": s.Time, "user": s.User, "profile": s.Profile,
+	} {
+		if strings.TrimSpace(v) == "" {
+			return fmt.Errorf("mikhmon: pending sale.%s wajib diisi", name)
+		}
+	}
+	if ownerFromDate(s.Date) == "" {
+		return fmt.Errorf("mikhmon: format pending sale.Date %q tidak dikenali", s.Date)
+	}
+	return nil
+}
+
+// ParsePendingSaleName reverses PendingSale.Name. Comment may contain "-|-".
+func ParsePendingSaleName(name string) (PendingSale, error) {
+	parts := strings.SplitN(name, "-|-", 9)
+	if len(parts) != 9 || parts[0] != "v2" {
+		return PendingSale{}, fmt.Errorf("mikhmon: nama pending sale %q tidak valid", name)
+	}
+	return PendingSale{
+		Date: parts[1], Time: parts[2], User: parts[3], Address: parts[4],
+		MAC: parts[5], Validity: parts[6], Profile: parts[7], Comment: parts[8],
+	}, nil
+}
+
 var monthNumbers = map[string]string{
 	"01": "jan", "02": "feb", "03": "mar", "04": "apr",
 	"05": "may", "06": "jun", "07": "jul", "08": "aug",

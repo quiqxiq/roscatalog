@@ -253,6 +253,7 @@ func (m *MikroTik) forward(ctx context.Context, cancel context.CancelFunc, req r
 		// bukan akhir yang wajar. Command native yang berhenti sendiri
 		// (mis. ping count) tidak diulang.
 		infinite := req.Delivery == ros.DeliveryPoll ||
+			req.Delivery == ros.DeliveryEvents ||
 			(req.Delivery == ros.DeliveryStream && req.Mode != ros.ModeNative)
 		if !restart {
 			if !infinite && !m.feed.isDown() && m.epochs.current() == epoch {
@@ -322,7 +323,7 @@ func (m *MikroTik) WatchAuto(ctx context.Context, res *ros.Resource, view string
 	if err != nil {
 		return nil, err
 	}
-	if req.Delivery != ros.DeliveryStream {
+	if req.Delivery != ros.DeliveryStream && req.Delivery != ros.DeliveryEvents {
 		return m.Watch(ctx, req)
 	}
 
@@ -390,6 +391,9 @@ func (m *MikroTik) pollEvery(res *ros.Resource, view string, ver ros.Version, pl
 // stream. Plan eksplisit pemanggil tidak pernah ditimpa.
 func (m *MikroTik) PlanFor(res *ros.Resource, view string, ver ros.Version) ros.Plan {
 	wanted := ros.DeliveryStream
+	if v, ok := res.View(view, ver); ok && v.Mode == ros.ModeListen {
+		wanted = ros.DeliveryEvents
+	}
 	if m.cfg.Poll {
 		wanted = ros.DeliveryPoll
 	}

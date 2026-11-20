@@ -13,9 +13,13 @@ type Delivery string
 const (
 	// DeliveryOnce menjalankan command satu kali.
 	DeliveryOnce Delivery = "once"
-	// DeliveryStream: router yang mengirim terus-menerus (print interval=ms,
-	// follow / follow-only, listen, atau command native seperti monitor).
+	// DeliveryStream: router mengirim data secara terus-menerus — print
+	// interval=N, follow / follow-only, atau command native seperti monitor.
 	DeliveryStream Delivery = "stream"
+	// DeliveryEvents: /path/listen, yaitu event perubahan item saja (tanpa
+	// snapshot awal). Diam lama adalah normal: tidak ada perubahan berarti
+	// tidak ada event. Penghapusan terlihat dari =.dead=true.
+	DeliveryEvents Delivery = "events"
 	// DeliveryPoll: Go mengulang command one-shot (print, atau monitor =once=)
 	// tiap Plan.Every. Router tidak menyimpan stream terbuka.
 	DeliveryPoll Delivery = "poll"
@@ -37,24 +41,30 @@ type Plan struct {
 	//   Stream pada view native   : =interval= bila command mendukungnya
 	//   Poll                      : jeda antar one-shot dari sisi Go
 	//                               (MinPollEvery..MaxPollEvery)
+	//   Events                    : tidak dipakai (event dikirim router)
 	Every time.Duration
 	// Diff mengubah hasil poll menjadi event added/changed/removed (poll pada
 	// view listen/follow selalu memakai diff).
 	Diff bool
-	// Seed pada stream listen: setelah listen aktif, ambil snapshot awal dengan
-	// print agar pemakai tahu keadaan sebelum event pertama.
+	// Seed pada events: setelah listen aktif, ambil snapshot awal dengan print
+	// agar pemakai tahu keadaan sebelum event pertama.
 	Seed bool
 }
 
 // Once menjalankan satu kali.
 func Once() Plan { return Plan{Delivery: DeliveryOnce} }
 
-// Stream memakai mode asli view dengan interval bawaan.
+// Stream memakai mode asli view dengan interval bawaan. Untuk view listen,
+// Build menormalkannya menjadi DeliveryEvents.
 func Stream() Plan { return Plan{Delivery: DeliveryStream} }
 
 // StreamEvery seperti Stream dengan interval sendiri. Nilai harus berada di
 // antara MinPrintInterval dan MaxPrintInterval.
 func StreamEvery(d time.Duration) Plan { return Plan{Delivery: DeliveryStream, Every: d} }
+
+// Events memakai /path/listen: hanya event perubahan item, tanpa snapshot
+// awal. Gunakan WithSeed untuk mengambil snapshot pertama lewat print.
+func Events() Plan { return Plan{Delivery: DeliveryEvents} }
 
 // Poll mengulang one-shot dari Go tiap d. Nilai harus berada di antara
 // MinPollEvery dan MaxPollEvery.
@@ -63,7 +73,7 @@ func Poll(d time.Duration) Plan { return Plan{Delivery: DeliveryPoll, Every: d} 
 // WithDiff meminta event added/changed/removed.
 func (p Plan) WithDiff() Plan { p.Diff = true; return p }
 
-// WithSeed meminta snapshot awal untuk stream listen.
+// WithSeed meminta snapshot awal untuk Events (listen).
 func (p Plan) WithSeed() Plan { p.Seed = true; return p }
 
 // Shape menjelaskan bagaimana balasan router dikelompokkan oleh pemanggil.
@@ -137,7 +147,7 @@ func (r *Resource) Deliveries(viewName string, ver Version) []Delivery {
 		}
 		return out
 	case ModeListen:
-		out := []Delivery{DeliveryStream}
+		out := []Delivery{DeliveryEvents}
 		if _, ok := r.View("list", ver); ok {
 			out = append(out, DeliveryPoll)
 		}
@@ -192,6 +202,15 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 	d := plan.Delivery
 	if d == "" {
 		d = allowed[0]
+	}
+	// Kompatibilitas: Stream pada view listen adalah Events. Pemisahan ini
+	// membuat niat pemakai eksplisit dan mematikan watchdog stream untuk
+	// listen (diam lama adalah normal).
+	if d == DeliveryStream && v.Mode == ModeListen {
+		d = DeliveryEvents
+	}
+	if d == DeliveryEvents && v.Mode != ModeListen {
+		return Request{}, fmt.Errorf("%s/%s: pengiriman events hanya untuk view listen", r.ID, v.Name)
 	}
 	valid := false
 	for _, a := range allowed {
@@ -264,7 +283,7 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		if v.Mode == ModeNative {
 			req.Mode = ModeNative
 		}
-	case DeliveryStream:
+	case DeliveryStream, DeliveryEvents:
 		req.Mode = v.Mode
 		switch v.Mode {
 		case ModeInterval:

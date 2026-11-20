@@ -227,7 +227,7 @@ func (r *Runner) Watch(ctx context.Context, req ros.Request) (<-chan Event, erro
 			err = r.watchOnce(ctx, req, emit)
 		case ros.DeliveryPoll:
 			err = r.poll(ctx, req, emit)
-		case ros.DeliveryStream:
+		case ros.DeliveryStream, ros.DeliveryEvents:
 			err = r.stream(ctx, req, emit)
 		default:
 			err = fmt.Errorf("Delivery tidak dikenal: %q", req.Delivery)
@@ -722,17 +722,10 @@ func (r *Runner) consume(ctx context.Context, req ros.Request, q *queue, emit fu
 				return got, nil
 			}
 		}
+		// Listen TIDAK memakai watchdog diam: tidak ada event adalah keadaan
+		// normal, bukan channel rusak. Kesehatan koneksi dipantau lewat status.
 		for {
-			s, res := q.pop(ctx, r.checkEvery())
-			if res == popGot {
-				last = time.Now()
-			}
-			if res == popTimeout {
-				if time.Since(last) >= r.staleEvery() {
-					return got, errStreamStale
-				}
-				continue
-			}
+			s, res := q.pop(ctx, 0)
 			if res != popGot {
 				return got, nil
 			}

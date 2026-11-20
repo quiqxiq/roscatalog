@@ -234,7 +234,7 @@ func TestLiveSessionListen(t *testing.T) {
 	if !ok {
 		t.Fatal("resource fw-address-list tidak ada")
 	}
-	req, err := al.Build("events", ros.AnyVersion, ros.Stream(), ros.Params{})
+	req, err := al.Build("events", ros.AnyVersion, ros.Events(), ros.Params{})
 	if err != nil {
 		t.Fatalf("build: %v", err)
 	}

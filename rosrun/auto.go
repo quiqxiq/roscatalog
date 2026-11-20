@@ -25,7 +25,7 @@ func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, 
 	if err != nil {
 		return nil, err
 	}
-	if req.Delivery != ros.DeliveryStream {
+	if req.Delivery != ros.DeliveryStream && req.Delivery != ros.DeliveryEvents {
 		return first, nil
 	}
 

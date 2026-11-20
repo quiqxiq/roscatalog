@@ -119,9 +119,16 @@ func TestBuildNative(t *testing.T) {
 func TestBuildListen(t *testing.T) {
 	// Stream listen: tanpa .proplist (di RouterOS 7.24.6 proplist menekan
 	// event .dead=true); kolom tetap disaring di klien dari view list.
+	// Stream() pada view listen dinormalkan menjadi Events.
 	req := mustBuild(t, "hotspot-active", "events", AnyVersion, Stream(), Params{})
-	if req.Shape != ShapeChanges || req.Mode != ModeListen || req.Sentence[0] != "/ip/hotspot/active/listen" {
+	if req.Delivery != DeliveryEvents || req.Shape != ShapeChanges || req.Mode != ModeListen ||
+		req.Sentence[0] != "/ip/hotspot/active/listen" {
 		t.Errorf("listen: %+v", req)
+	}
+
+	req = mustBuild(t, "hotspot-active", "events", AnyVersion, Events(), Params{})
+	if req.Delivery != DeliveryEvents || req.Shape != ShapeChanges {
+		t.Errorf("events eksplisit: %+v", req)
 	}
 	for _, w := range req.Sentence {
 		if strings.HasPrefix(w, "=.proplist=") {
@@ -155,9 +162,16 @@ func TestBuildListen(t *testing.T) {
 	if _, err := r.Build("events", AnyVersion, Stream(), Params{}); err == nil {
 		t.Error("ip-route tanpa versi seharusnya ditolak")
 	}
-	req = mustBuild(t, "ip-route", "events", V7, Stream(), Params{})
+	req = mustBuild(t, "ip-route", "events", V7, Events(), Params{})
 	if req.Sentence[0] != "/ip/route/listen" || !contains(req.Fields, "routing-table") {
 		t.Errorf("ip-route v7: sentence=%q fields=%v", req.Sentence, req.Fields)
+	}
+
+	// Events hanya untuk view listen.
+	if ar, ok := Lookup("hotspot-active"); ok {
+		if _, err := ar.Build("list", AnyVersion, Events(), Params{}); err == nil {
+			t.Error("Events pada view list seharusnya ditolak")
+		}
 	}
 	if contains(req.Fields, "routing-mark") {
 		t.Errorf("ip-route v7 memakai field v6: %v", req.Fields)
@@ -238,7 +252,7 @@ func TestDeliveriesTable(t *testing.T) {
 	cases := map[string][]Delivery{
 		"hotspot-user/list":             {DeliveryOnce, DeliveryPoll},
 		"hotspot-active/live":           {DeliveryStream, DeliveryPoll},
-		"hotspot-active/events":         {DeliveryStream, DeliveryPoll},
+		"hotspot-active/events":         {DeliveryEvents, DeliveryPoll},
 		"log/tail":                      {DeliveryStream, DeliveryPoll},
 		"interface-monitor-traffic/run": {DeliveryStream, DeliveryOnce, DeliveryPoll},
 		"tool-ping/run":                 {DeliveryStream},

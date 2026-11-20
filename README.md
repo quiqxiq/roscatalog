@@ -71,8 +71,9 @@ for _, st := range mgr.Statuses() { fmt.Println(st.ID, st.State) }
 ```
 
 Default delivery adalah **stream** (realtime): `print interval=`, `follow`,
-`follow-only`, `listen`, atau command native seperti `monitor`. Set `Poll: true`
-untuk polling dari Go. Tiap router memakai satu koneksi async (`DualConn: true`
+`follow-only`, atau command native seperti `monitor`. View `/listen` memakai
+**`ros.Events()`** yang terpisah: hanya event perubahan, tanpa snapshot awal,
+dan tidak dibuka ulang saat sepi. Set `Poll: true` untuk polling dari Go. Tiap router memakai satu koneksi async (`DualConn: true`
 adalah escape hatch yang akan dihapus), dan command in-flight dibatasi
 `MaxInFlight` (default 8). `Manager.Acquire/Release/Retain/Drop` menyediakan
 refcount, hold non-viewer, dan grace.
@@ -183,6 +184,7 @@ serta tick scheduler Expire Monitor mode `X`/`N`. Detail workflow ada di
 
 - `USAGE.md` — cara pakai, plan stream/poll, event, jebakan, verifikasi.
 - `ROADMAP.md` — rencana proplist opsional berbasis struct (raw vs proyeksi).
+- `CHANGELOG.md` — riwayat rilis dan perubahan.
 - `mikrotik_inspect/SOURCE.md` — struct lengkap dari inspect + `print` router + katalog.
 - `fields/` — struct tersebut sebagai package Go, satu file per menu (ip, ppp, queue, ...).
 - `commands/` — data perintah + argumen dari inspect, termasuk seluruh flag `print`.

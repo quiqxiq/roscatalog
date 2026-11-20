@@ -19,6 +19,9 @@ func TestPlanForDefaultsToStream(t *testing.T) {
 	if got := s.PlanFor(res, "live", ros.AnyVersion).Delivery; got != ros.DeliveryStream {
 		t.Fatalf("PlanFor default = %q, want stream", got)
 	}
+	if got := s.PlanFor(res, "events", ros.AnyVersion).Delivery; got != ros.DeliveryEvents {
+		t.Fatalf("PlanFor events = %q, want events", got)
+	}
 
 	m2 := newMock(t)
 	s2 := openMock(t, m2, func(c *Config) { c.Poll = true })
@@ -169,6 +172,31 @@ func TestListenNeverSendsProplistWithUnion(t *testing.T) {
 		if c.has(".proplist") {
 			t.Fatalf("listen tidak boleh mengirim .proplist: %+v", c.attrs)
 		}
+	}
+}
+
+func TestListenIsNotReopenedOnSilence(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, func(c *Config) {
+		c.StreamCheck = 50 * time.Millisecond
+		c.StreamStale = 100 * time.Millisecond
+	})
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	req := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Events(), ros.Params{})
+	ch, err := s.Watch(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	go func() {
+		for range ch {
+		}
+	}()
+
+	time.Sleep(400 * time.Millisecond)
+	if got := len(m.callsTo("/ip/hotspot/active/listen")); got != 1 {
+		t.Fatalf("listen dibuka %d kali; diam tidak boleh memicu watchdog", got)
 	}
 }
 

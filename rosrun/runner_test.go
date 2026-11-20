@@ -283,7 +283,7 @@ func TestStreamListenWithSeed(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Stream().WithSeed(), ros.Params{})
+	req := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Events().WithSeed(), ros.Params{})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 4)
 

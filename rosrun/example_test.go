@@ -34,7 +34,7 @@ func Example_usage() {
 	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second).WithDiff(), ros.Params{})
 
 	// listen + seed
-	req, _ = res.Build("events", ros.AnyVersion, ros.Stream().WithSeed(), ros.Params{})
+	req, _ = res.Build("events", ros.AnyVersion, ros.Events().WithSeed(), ros.Params{})
 
 	// native stream / poll
 	mt, _ := ros.Lookup("interface-monitor-traffic")

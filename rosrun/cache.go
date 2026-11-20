@@ -158,7 +158,8 @@ func (m *MikroTik) Subscribe(ctx context.Context, req ros.Request) (*Subscriptio
 	if err := m.ready(m.feed); err != nil {
 		return nil, err
 	}
-	if req.Delivery != ros.DeliveryStream && req.Delivery != ros.DeliveryPoll {
+	if req.Delivery != ros.DeliveryStream && req.Delivery != ros.DeliveryEvents &&
+		req.Delivery != ros.DeliveryPoll {
 		return nil, fmt.Errorf("rosrun.Subscribe: Delivery %q tidak didukung", req.Delivery)
 	}
 	if m.cache == nil {
@@ -237,7 +238,7 @@ func (c *feedCache) ensureRunningLocked(entry *cacheEntry) {
 			entry.poll = newPollState()
 		}
 		c.sched.add(entry)
-	case ros.DeliveryStream:
+	case ros.DeliveryStream, ros.DeliveryEvents:
 		c.startStreamLocked(entry)
 	}
 }

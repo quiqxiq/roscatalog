@@ -423,6 +423,9 @@ Sudah dikerjakan:
   yang akan dihapus setelah satu rilis.
 - **Default realtime**: `Config.Poll` (default false) → stream; `Stream`
   deprecated. `PlanFor` memilih stream lebih dulu.
+- **`DeliveryEvents` terpisah dari `DeliveryStream`**: `ros.Events()` khusus
+  `/listen`; tanpa watchdog diam (sepi = normal), `Stream()` pada view listen
+  dinormalkan ke Events demi kompatibilitas.
 - **Limiter per router** (`MaxInFlight`, default 8) + statistik command/menu.
 - **Satu scheduler per sesi** untuk semua `DeliveryPoll`.
 - **Union proplist per menu**: subscriber berbeda field berbagi satu upstream;

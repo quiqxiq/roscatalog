@@ -161,12 +161,19 @@ membatalkan upstream, tetapi event terakhir disimpan sampai `Cache.TTL`
 
 | Plan | Arti | Yang dikirim ke router |
 |---|---|---|
-| `ros.Stream()` | Router mengirim terus, interval bawaan view | `print =interval=`, `follow`, `/listen`, atau command native |
+| `ros.Stream()` | Router mengirim terus: interval/follow/native | `print =interval=`, `follow`, atau command native |
 | `ros.StreamEvery(2*time.Second)` | Sama, dengan interval sendiri (1s..5s) | `=interval=2s` |
+| `ros.Events()` | Hanya event perubahan item (`/listen`), tanpa snapshot awal | `/path/listen` |
 | `ros.Poll(5*time.Second)` | Go mengulang one-shot tiap 5s (5s..30s) | `print` biasa, atau command + `=once=` |
 | `ros.Once()` | Satu kali | satu command |
 | tambahan `.WithDiff()` | Poll menghasilkan added/changed/removed | (sisi Go) |
-| tambahan `.WithSeed()` | Stream listen mulai dengan snapshot awal | `listen`, lalu `print` |
+| tambahan `.WithSeed()` | Events mulai dengan snapshot awal | `listen`, lalu `print` |
+
+`Stream` dan `Events` sengaja dipisah. `Stream` adalah aliran data berulang
+(snapshot/rows) dan memakai watchdog diam; `Events` adalah notifikasi perubahan
+dan **diam lama adalah normal**, jadi tidak dibuka ulang hanya karena sepi.
+`Stream()` pada view `listen` masih diterima dan dinormalkan menjadi `Events`
+untuk kompatibilitas.
 
 `res.Deliveries("live", ver)` memberi tahu pilihan yang valid untuk sebuah view.
 
@@ -189,7 +196,7 @@ req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second).WithDiff(), r
 ### Listen dengan snapshot awal
 
 ```go
-req, _ := res.Build("events", ros.AnyVersion, ros.Stream().WithSeed(), ros.Params{})
+req, _ := res.Build("events", ros.AnyVersion, ros.Events().WithSeed(), ros.Params{})
 events, _ := run.Watch(ctx, req)
 // KindSnapshot (keadaan awal), lalu KindAdded / KindChanged / KindRemoved
 ```

@@ -28,11 +28,11 @@ func TestReconnectCommand(t *testing.T) {
 
 	waitFor(t, 8*time.Second, func() bool {
 		st := s.Stats()
-		return !st.CmdDown && !st.FeedDown && st.Reconnects >= 2
-	}, "both connections to reconnect")
+		return !st.CmdDown && !st.FeedDown && st.Reconnects >= 1
+	}, "connection to reconnect")
 
-	if got := m.acceptedCount(); got < 4 {
-		t.Fatalf("accepted connections = %d, want at least 4", got)
+	if got := m.acceptedCount(); got < 2 {
+		t.Fatalf("accepted connections = %d, want at least 2", got)
 	}
 
 	id, err := s.Exec(testContext(t, 3*time.Second), []string{"/ip/hotspot/user/add", "=name=vc1"})

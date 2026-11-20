@@ -82,9 +82,19 @@ const (
 	V7         Version = "v7"
 )
 
-// Arg adalah argumen command untuk view native.
+// ArgKind membedakan argumen bernilai (=name=value) dari flag (=name=).
+// Zero value ArgValue menjaga kompatibilitas dengan Arg lama.
+type ArgKind uint8
+
+const (
+	ArgValue ArgKind = iota
+	ArgFlag
+)
+
+// Arg adalah argumen command, dipakai view native dan action (termasuk print).
 type Arg struct {
 	Name     string
+	Kind     ArgKind
 	Required bool
 	Note     string
 }
@@ -95,7 +105,11 @@ type View struct {
 	Mode    Mode     //
 	Command string   // path command API lengkap, mis. /ip/hotspot/active/print
 	Flags   []string // dikirim sebagai =flag= (stats, count-only, follow, ...)
-	Args    []Arg    // argumen command (khusus ModeNative)
+
+	// AllowedFlags adalah flag yang benar-benar didukung command ini (dari
+	// /console/inspect). Params.Flags divalidasi terhadap daftar ini.
+	AllowedFlags []string
+	Args         []Arg // argumen command (khusus ModeNative)
 
 	// Proplist adalah kolom yang benar-benar dibutuhkan. Bila ServerProplist
 	// true, dikirim sebagai =.proplist= (didukung print, follow, interval,
@@ -114,7 +128,11 @@ type View struct {
 	Note            string
 }
 
-// Action adalah command tulis (add, set, remove, ...).
+// Action adalah satu perintah RouterOS. Read=true untuk perintah baca
+// (print, get, find, export), termasuk seluruh varian print (stats/detail/...).
+// Args memuat semua argumen yang didukung perintah ini; flag bertanda
+// Kind=ArgFlag. Required/Optional dipertahankan untuk kompatibilitas dengan
+// builder lama.
 type Action struct {
 	Name        string
 	Command     string
@@ -122,6 +140,8 @@ type Action struct {
 	Required    []string
 	Optional    []string
 	Destructive bool
+	Read        bool
+	Args        []Arg
 	Note        string
 }
 
@@ -221,6 +241,20 @@ type Params struct {
 	Query    []Query           // filter sisi server
 	Interval time.Duration     // override interval (ModeInterval)
 	Args     map[string]string // argumen view native; nilai kosong = flag (=once=)
+	// Flags adalah flag print tambahan (brief, detail, stats, ...).
+	// Divalidasi terhadap View.AllowedFlags; konflik antarflag ditolak.
+	Flags []string
+	// Proplist adalah daftar kolom yang dikirim apa adanya sebagai =.proplist=.
+	// TIDAK divalidasi terhadap daftar field katalog — ini jalan keluar untuk
+	// struct buatan pemakai yang memuat field di luar katalog. Raw menang atas
+	// Proplist, dan Proplist menang atas Only.
+	Proplist []string
+	// Raw meminta semua kolom apa adanya: tidak mengirim =.proplist= dan
+	//.Request.Fields dikosongkan supaya rosrun tidak menyaring kolom.
+	Raw bool
+	// Only membatasi kolom yang diambil dari daftar field view. Nama harus
+	// tercantum di Proplist view, kalau tidak Build mengembalikan error.
+	Only []string
 }
 
 // FormatTime mengubah durasi Go ke format waktu RouterOS (1s, 500ms).
@@ -229,6 +263,59 @@ func FormatTime(d time.Duration) string {
 		return fmt.Sprintf("%ds", int64(d/time.Second))
 	}
 	return fmt.Sprintf("%dms", int64(d/time.Millisecond))
+}
+
+// exclusiveFlagGroups berisi flag print yang tidak boleh dipakai bersamaan.
+// Daftar ini sengaja konservatif: hanya pasangan yang jelas kontradiktif.
+var exclusiveFlagGroups = [][]string{
+	{"brief", "detail", "terse"},
+	{"follow", "follow-only"},
+	{"stats", "count-only"},
+	{"stats", "stats-detail"},
+}
+
+// checkExclusive menolak kombinasi flag yang saling eksklusif.
+func checkExclusive(flags []string) error {
+	seen := map[string]bool{}
+	for _, f := range flags {
+		seen[f] = true
+	}
+	for _, group := range exclusiveFlagGroups {
+		n := 0
+		for _, g := range group {
+			if seen[g] {
+				n++
+			}
+		}
+		if n > 1 {
+			return fmt.Errorf("flag %s saling eksklusif", strings.Join(group, "/"))
+		}
+	}
+	return nil
+}
+
+// validateFlags menolak flag yang tidak didukung command dan kombinasi flag
+// yang saling eksklusif.
+func validateFlags(command string, allowed, flags []string) error {
+	if len(flags) == 0 {
+		return nil
+	}
+	ok := make(map[string]bool, len(allowed))
+	for _, f := range allowed {
+		ok[f] = true
+	}
+	for _, f := range flags {
+		if !ok[f] {
+			return fmt.Errorf("%s: flag %q tidak didukung", command, f)
+		}
+	}
+	return checkExclusive(flags)
+}
+
+func sortedStrings(in []string) []string {
+	out := append([]string(nil), in...)
+	sort.Strings(out)
+	return out
 }
 
 // ProplistWords mengembalikan isi =.proplist= (dengan .id bila perlu).
@@ -297,6 +384,23 @@ func (v View) Sentence(p Params) ([]string, error) {
 	for _, f := range v.Flags {
 		w = append(w, "="+f+"=")
 	}
+	if len(p.Flags) > 0 {
+		if err := validateFlags(v.Command, v.AllowedFlags, p.Flags); err != nil {
+			return nil, err
+		}
+		if err := checkExclusive(append(append([]string(nil), v.Flags...), p.Flags...)); err != nil {
+			return nil, fmt.Errorf("%s: %w", v.Command, err)
+		}
+		have := make(map[string]bool, len(v.Flags))
+		for _, f := range v.Flags {
+			have[f] = true
+		}
+		for _, f := range sortedStrings(p.Flags) {
+			if !have[f] {
+				w = append(w, "="+f+"=")
+			}
+		}
+	}
 	if v.ServerProplist && len(v.Proplist) > 0 {
 		w = append(w, "=.proplist="+strings.Join(v.ProplistWords(), ","))
 	}
@@ -316,12 +420,35 @@ func (v View) Sentence(p Params) ([]string, error) {
 // Sentence menyusun word list API untuk aksi tulis. selector diisi dengan
 // *ID, nama, atau daftar dipisah koma sesuai Action.Selector.
 func (a Action) Sentence(selector string, args map[string]string, tag string) ([]string, error) {
+	return a.SentenceWith(selector, nil, args, tag)
+}
+
+// FlagNames mengembalikan nama flag yang dideklarasikan pada action.
+func (a Action) FlagNames() []string {
+	var out []string
+	for _, arg := range a.Args {
+		if arg.Kind == ArgFlag {
+			out = append(out, arg.Name)
+		}
+	}
+	return out
+}
+
+// SentenceWith menyusun word list untuk action apa pun, termasuk print.
+// flags harus merupakan flag yang dideklarasikan di Action.Args (Kind=ArgFlag).
+func (a Action) SentenceWith(selector string, flags []string, args map[string]string, tag string) ([]string, error) {
 	w := []string{a.Command}
 	if a.Selector != SelNone {
 		if selector == "" {
 			return nil, fmt.Errorf("%s: selector (%s) wajib diisi", a.Command, a.Selector)
 		}
 		w = append(w, "="+string(a.Selector)+"="+selector)
+	}
+	if err := validateFlags(a.Command, a.FlagNames(), flags); err != nil {
+		return nil, err
+	}
+	for _, f := range sortedStrings(flags) {
+		w = append(w, "="+f+"=")
 	}
 	for _, r := range a.Required {
 		if _, ok := args[r]; !ok {

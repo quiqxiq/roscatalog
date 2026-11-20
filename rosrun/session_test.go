@@ -107,12 +107,12 @@ func TestConfigAddr(t *testing.T) {
 	}
 }
 
-func TestOpenUsesTwoConnections(t *testing.T) {
+func TestOpenUsesOneConnection(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)
 
-	if got := m.acceptedCount(); got != 2 {
-		t.Fatalf("accepted connections = %d, want 2", got)
+	if got := m.acceptedCount(); got != 1 {
+		t.Fatalf("accepted connections = %d, want 1", got)
 	}
 	st := s.Stats()
 	if !st.Open {
@@ -251,7 +251,7 @@ func TestPlanFor(t *testing.T) {
 		c.StreamEvery = 2 * time.Second
 		c.PollEvery = 5 * time.Second
 	})
-	poll := openMock(t, m, func(c *Config) { c.Stream = false; c.PollEvery = 5 * time.Second })
+	poll := openMock(t, m, func(c *Config) { c.Poll = true; c.PollEvery = 5 * time.Second })
 
 	live, _ := ros.Lookup("hotspot-active")
 

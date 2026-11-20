@@ -39,8 +39,8 @@ func TestOpenAllThreeRouters(t *testing.T) {
 		t.Errorf("IDs = %q", got)
 	}
 	for _, m := range []*mock{m1, m2, m3} {
-		if got := m.acceptedCount(); got != 2 {
-			t.Errorf("accepted = %d, want 2", got)
+		if got := m.acceptedCount(); got != 1 {
+			t.Errorf("accepted = %d, want 1", got)
 		}
 	}
 	sts := mgr.Statuses()
@@ -174,7 +174,7 @@ func TestManagerWatchAutoAllUsesPerRouterStream(t *testing.T) {
 	cfg1.Stream = true
 	cfg1.StreamEvery = time.Second
 	cfg2 := managerConfig("poll", m2)
-	cfg2.Stream = false
+	cfg2.Poll = true
 
 	mgr, err := OpenAll(context.Background(), []Config{cfg1, cfg2})
 	if err != nil {

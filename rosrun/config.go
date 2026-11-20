@@ -39,6 +39,15 @@ const (
 	DefaultCacheTTL = 5 * time.Second
 	// DefaultCacheMaxEntries membatasi jumlah feed yang di-cache per router.
 	DefaultCacheMaxEntries = 64
+
+	// DefaultMaxInFlight membatasi command per router. Delapan adalah plafon
+	// yang jauh di atas burst normal dan jauh di bawah kasus tak terbatas.
+	DefaultMaxInFlight = 8
+	// DefaultGrace adalah jeda sebelum sesi tanpa pemakai ditutup.
+	DefaultGrace = 30 * time.Second
+	// DefaultStreamStale/DefaultStreamCheck mengatur watchdog stream.
+	DefaultStreamStale = 10 * time.Second
+	DefaultStreamCheck = 5 * time.Second
 )
 
 // StatusConfig mengatur monitor status realtime per router.
@@ -109,9 +118,31 @@ type Config struct {
 	// Timeout membatasi dial+login. Kosong = DefaultDialTimeout.
 	Timeout time.Duration
 
-	// Stream adalah preferensi delivery bawaan: true memakai stream, false
-	// memakai poll. Plan eksplisit pada Request selalu menang. Lihat PlanFor.
+	// Poll memaksa polling dari Go. Default false = stream (realtime):
+	// interval=, follow, follow-only, listen, atau command native seperti
+	// monitor. Plan eksplisit pada Request selalu menang. Lihat PlanFor.
+	Poll bool
+
+	// Deprecated: Stream dipertahankan agar kode lama tetap compile.
+	// Stream=false TIDAK lagi berarti poll; gunakan Poll=true.
 	Stream bool
+
+	// DualConn mempertahankan dua koneksi lama (command + feed). Default
+	// false = satu koneksi async, sama seperti MikroDash. Opsi ini akan
+	// dihapus setelah satu rilis.
+	DualConn bool
+
+	// MaxInFlight membatasi command per router. Kosong = DefaultMaxInFlight.
+	MaxInFlight int
+
+	// Grace adalah jeda sebelum sesi yang tidak dipakai lagi ditutup oleh
+	// Manager. Kosong = DefaultGrace.
+	Grace time.Duration
+
+	// StreamStale dan StreamCheck mengatur watchdog channel stream.
+	// Kosong = DefaultStreamStale/DefaultStreamCheck.
+	StreamStale time.Duration
+	StreamCheck time.Duration
 
 	// PollEvery adalah jeda poll bawaan. Kosong = DefaultPollEvery.
 	// Nilai harus 5s..30s.
@@ -212,6 +243,15 @@ func (c Config) Validate() error {
 	if c.Queue < 0 || c.MaxBuffered < 0 {
 		return fmt.Errorf("rosrun: queue and max buffered must not be negative")
 	}
+	if c.MaxInFlight < 0 {
+		return fmt.Errorf("rosrun: max in flight must not be negative")
+	}
+	if c.Grace < 0 {
+		return fmt.Errorf("rosrun: grace must not be negative")
+	}
+	if c.StreamStale < 0 || c.StreamCheck < 0 {
+		return fmt.Errorf("rosrun: stream watchdog durations must not be negative")
+	}
 	return nil
 }
 
@@ -252,6 +292,18 @@ func (c Config) withDefaults() Config {
 	}
 	if c.MaxBuffered == 0 {
 		c.MaxBuffered = DefaultMaxBuffered
+	}
+	if c.MaxInFlight == 0 {
+		c.MaxInFlight = DefaultMaxInFlight
+	}
+	if c.Grace == 0 {
+		c.Grace = DefaultGrace
+	}
+	if c.StreamStale == 0 {
+		c.StreamStale = DefaultStreamStale
+	}
+	if c.StreamCheck == 0 {
+		c.StreamCheck = DefaultStreamCheck
 	}
 	return c
 }

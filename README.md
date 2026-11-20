@@ -37,12 +37,12 @@ go run ./cmd/example -addr 192.168.88.1:8728 -user admin -pass secret \
   -resource hotspot-active -view live -delivery stream -every 1s
 ```
 
-Untuk pemakaian aplikasi (dua koneksi + reconnect), pakai `rosrun.Open`:
+Untuk pemakaian aplikasi (satu koneksi async + reconnect), pakai `rosrun.Open`:
 
 ```go
 sess, err := rosrun.Open(ctx, rosrun.Config{
     Address: "192.168.88.1:8728", Username: "admin", Password: "secret",
-    Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second,
+    StreamEvery: time.Second, PollEvery: 5 * time.Second, // default: stream
 })
 if err != nil { log.Fatal(err) }
 defer sess.Close()
@@ -57,9 +57,9 @@ Banyak router:
 ```go
 mgr, err := rosrun.OpenAll(ctx, []rosrun.Config{
     {ID: "r1", Address: "192.168.88.1:8728", Username: "admin", Password: "secret",
-        Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second},
+        StreamEvery: time.Second, PollEvery: 5 * time.Second},
     {ID: "r2", Address: "192.168.88.2:8728", Username: "admin", Password: "secret",
-        Stream: false, PollEvery: 5 * time.Second},
+        Poll: true, PollEvery: 5 * time.Second},
 })
 if err != nil { log.Printf("partial: %v", err) }
 defer mgr.Close()
@@ -69,6 +69,13 @@ events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.
 for ev := range events { fmt.Println(ev.RouterID, ev.Kind) }
 for _, st := range mgr.Statuses() { fmt.Println(st.ID, st.State) }
 ```
+
+Default delivery adalah **stream** (realtime): `print interval=`, `follow`,
+`follow-only`, `listen`, atau command native seperti `monitor`. Set `Poll: true`
+untuk polling dari Go. Tiap router memakai satu koneksi async (`DualConn: true`
+adalah escape hatch yang akan dihapus), dan command in-flight dibatasi
+`MaxInFlight` (default 8). `Manager.Acquire/Release/Retain/Drop` menyediakan
+refcount, hold non-viewer, dan grace.
 
 Batas proyek: `interval` **1s..5s** (print stats, ping, command native) dan
 `PollEvery` **5s..30s**. View counter mengirim `print [stats] interval=N`
@@ -178,6 +185,7 @@ serta tick scheduler Expire Monitor mode `X`/`N`. Detail workflow ada di
 - `ROADMAP.md` — rencana proplist opsional berbasis struct (raw vs proyeksi).
 - `mikrotik_inspect/SOURCE.md` — struct lengkap dari inspect + `print` router + katalog.
 - `fields/` — struct tersebut sebagai package Go, satu file per menu (ip, ppp, queue, ...).
+- `commands/` — data perintah + argumen dari inspect, termasuk seluruh flag `print`.
 - `MIKHMON.md` — pemetaan command Mikhmon v4 dan contoh workflow.
 - `REFERENCE.md` — referensi lengkap yang di-generate dari katalog.
 - `goros/docs/` — desain, keputusan, riset, dan usage engine.

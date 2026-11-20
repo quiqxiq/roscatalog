@@ -34,16 +34,49 @@ type Manager struct {
 	routers map[string]*MikroTik
 	order   []string
 
+	// Lifecycle: refcount pemakai, hold non-viewer, dan grace sebelum tutup.
+	cfgs   map[string]Config
+	refs   map[string]int
+	holds  map[string]map[string]bool
+	linger map[string]*time.Timer
+	grace  time.Duration
+
 	closed    atomic.Bool
 	closeOnce sync.Once
 	closeErr  error
+}
+
+// ensureMapsLocked menyiapkan map lifecycle untuk Manager yang dibuat manual.
+// Caller memegang m.mu.
+func (m *Manager) ensureMapsLocked() {
+	if m.routers == nil {
+		m.routers = map[string]*MikroTik{}
+	}
+	if m.cfgs == nil {
+		m.cfgs = map[string]Config{}
+	}
+	if m.refs == nil {
+		m.refs = map[string]int{}
+	}
+	if m.holds == nil {
+		m.holds = map[string]map[string]bool{}
+	}
+	if m.linger == nil {
+		m.linger = map[string]*time.Timer{}
+	}
 }
 
 // OpenAll membuka semua router secara paralel. Bila sebagian gagal, router yang
 // berhasil tetap dikembalikan bersama error gabungan (partial success).
 // Bila tidak ada satu pun yang berhasil, hasilnya nil dan error.
 func OpenAll(ctx context.Context, cfgs []Config) (*Manager, error) {
-	m := &Manager{routers: make(map[string]*MikroTik)}
+	m := &Manager{
+		routers: make(map[string]*MikroTik),
+		cfgs:    make(map[string]Config),
+		refs:    make(map[string]int),
+		holds:   make(map[string]map[string]bool),
+		linger:  make(map[string]*time.Timer),
+	}
 	if len(cfgs) == 0 {
 		return m, nil
 	}
@@ -89,6 +122,11 @@ func OpenAll(ctx context.Context, cfgs []Config) (*Manager, error) {
 			continue
 		}
 		m.routers[cfg.ID] = res.sess
+		m.cfgs[cfg.ID] = cfg
+		m.refs[cfg.ID] = 0
+		if cfg.Grace > 0 {
+			m.grace = cfg.Grace
+		}
 		m.order = append(m.order, cfg.ID)
 	}
 
@@ -124,6 +162,7 @@ func (m *Manager) Add(ctx context.Context, cfg Config) (*MikroTik, error) {
 
 	m.mu.Lock()
 	defer m.mu.Unlock()
+	m.ensureMapsLocked()
 	if m.closed.Load() {
 		_ = sess.Close()
 		return nil, ErrClosed
@@ -133,6 +172,11 @@ func (m *Manager) Add(ctx context.Context, cfg Config) (*MikroTik, error) {
 		return nil, fmt.Errorf("rosrun: router id %q already exists", cfg.ID)
 	}
 	m.routers[cfg.ID] = sess
+	m.cfgs[cfg.ID] = cfg
+	m.refs[cfg.ID] = 0
+	if cfg.Grace > 0 {
+		m.grace = cfg.Grace
+	}
 	m.order = append(m.order, cfg.ID)
 	return sess, nil
 }
@@ -180,6 +224,174 @@ func (m *Manager) Len() int {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	return len(m.order)
+}
+
+// Acquire menaikkan refcount sesi untuk router id, membuka sesi bila belum ada.
+// Grace yang sedang berjalan dibatalkan.
+func (m *Manager) Acquire(ctx context.Context, id string) (*MikroTik, error) {
+	if m == nil {
+		return nil, ErrClosed
+	}
+	m.mu.Lock()
+	m.ensureMapsLocked()
+	if m.closed.Load() {
+		m.mu.Unlock()
+		return nil, ErrClosed
+	}
+	if s := m.routers[id]; s != nil {
+		m.refs[id]++
+		if t := m.linger[id]; t != nil {
+			t.Stop()
+			delete(m.linger, id)
+		}
+		m.mu.Unlock()
+		return s, nil
+	}
+	cfg, ok := m.cfgs[id]
+	m.mu.Unlock()
+	if !ok {
+		return nil, fmt.Errorf("rosrun: unknown router %q", id)
+	}
+
+	sess, err := Open(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.closed.Load() {
+		_ = sess.Close()
+		return nil, ErrClosed
+	}
+	if s := m.routers[id]; s != nil {
+		// Balapan dengan Acquire lain; sesi baru tidak dipakai.
+		_ = sess.Close()
+		m.refs[id]++
+		return s, nil
+	}
+	m.routers[id] = sess
+	m.refs[id] = 1
+	m.order = append(m.order, id)
+	return sess, nil
+}
+
+// Release menurunkan refcount. Bila mencapai nol dan tidak ada hold, grace
+// dimulai; sesi baru benar-benar ditutup setelah grace lewat.
+func (m *Manager) Release(id string) {
+	if m == nil {
+		return
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.routers[id] == nil {
+		return
+	}
+	if m.refs[id] > 0 {
+		m.refs[id]--
+	}
+	if m.refs[id] == 0 {
+		m.armLingerLocked(id)
+	}
+}
+
+// Retain menahan sesi hidup tanpa viewer. Alasan yang sama boleh diulang.
+func (m *Manager) Retain(id, reason string) error {
+	if m == nil {
+		return ErrClosed
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.ensureMapsLocked()
+	if m.routers[id] == nil {
+		return fmt.Errorf("rosrun: unknown router %q", id)
+	}
+	if m.holds[id] == nil {
+		m.holds[id] = map[string]bool{}
+	}
+	m.holds[id][reason] = true
+	if t := m.linger[id]; t != nil {
+		t.Stop()
+		delete(m.linger, id)
+	}
+	return nil
+}
+
+// Drop melepas satu hold. Bila itu hold terakhir dan tidak ada viewer, grace
+// dimulai.
+func (m *Manager) Drop(id, reason string) {
+	if m == nil {
+		return
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.holds[id] != nil {
+		delete(m.holds[id], reason)
+	}
+	if m.refs[id] == 0 && len(m.holds[id]) == 0 {
+		m.armLingerLocked(id)
+	}
+}
+
+// Subscribe adalah Acquire + shared feed + Release saat subscription ditutup.
+func (m *Manager) Subscribe(ctx context.Context, id string, req ros.Request) (*Subscription, error) {
+	sess, err := m.Acquire(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	sub, err := sess.Subscribe(ctx, req)
+	if err != nil {
+		m.Release(id)
+		return nil, err
+	}
+	sub.onClose = func() { m.Release(id) }
+	return sub, nil
+}
+
+// armLingerLocked menjadwalkan teardown. Caller memegang m.mu.
+func (m *Manager) armLingerLocked(id string) {
+	if len(m.holds[id]) > 0 {
+		return
+	}
+	if t := m.linger[id]; t != nil {
+		t.Stop()
+	}
+	grace := m.grace
+	if grace <= 0 {
+		grace = DefaultGrace
+	}
+	m.linger[id] = time.AfterFunc(grace, func() { m.idleOut(id) })
+}
+
+func (m *Manager) idleOut(id string) {
+	m.mu.Lock()
+	if m.closed.Load() {
+		m.mu.Unlock()
+		return
+	}
+	if m.refs[id] > 0 || len(m.holds[id]) > 0 {
+		m.mu.Unlock()
+		return
+	}
+	sess := m.routers[id]
+	delete(m.routers, id)
+	delete(m.cfgs, id)
+	delete(m.refs, id)
+	delete(m.holds, id)
+	if t := m.linger[id]; t != nil {
+		t.Stop()
+		delete(m.linger, id)
+	}
+	for i, x := range m.order {
+		if x == id {
+			m.order = append(m.order[:i], m.order[i+1:]...)
+			break
+		}
+	}
+	m.mu.Unlock()
+	if sess != nil {
+		_ = sess.Close()
+	}
 }
 
 // WatchAll menjalankan Request yang sama di semua router. Kegagalan satu

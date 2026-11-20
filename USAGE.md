@@ -27,12 +27,15 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 ```
 
-### 1.1 Sesi dua koneksi dengan reconnect (disarankan)
+### 1.1 Satu koneksi async dengan reconnect (disarankan)
 
-`rosrun.Open` membuka dua koneksi per router: satu untuk command
-(`Once`/`Count`/`Exec`) dan satu untuk feed stream (`Watch`). Keduanya
-dipantau; bila putus, sesi menyambung ulang dengan backoff dan memberi tahu
-stream lewat event `KindReconnecting`.
+`rosrun.Open` membuka **satu koneksi async** per router, sama seperti
+MikroDash. Command (`Once`/`Count`/`Exec`) dan stream (`Watch`/`Subscribe`)
+dimultipleks lewat tag di koneksi itu. Bila putus, sesi menyambung ulang dengan
+backoff dan memberi tahu stream lewat event `KindReconnecting`.
+
+Dua koneksi lama masih bisa dipilih dengan `DualConn: true`, tetapi opsi itu
+akan dihapus setelah satu rilis.
 
 ```go
 sess, err := rosrun.Open(ctx, rosrun.Config{
@@ -41,9 +44,12 @@ sess, err := rosrun.Open(ctx, rosrun.Config{
     Username:    "admin",
     Password:    os.Getenv("ROUTEROS_PASS"),
     Timeout:     10 * time.Second,
-    Stream:      true,                   // preferensi bawaan: true=stream, false=poll
+    // Default realtime: stream. Set Poll:true untuk polling dari Go.
+    Poll:        false,
     StreamEvery: time.Second,            // 1s..5s untuk interval/native
     PollEvery:   5 * time.Second,        // 5s..30s
+    MaxInFlight: 8,                      // command in-flight per router
+    Grace:       30 * time.Second,       // Manager: jeda sebelum sesi ditutup
     Status: rosrun.StatusConfig{
         Every:   time.Second,            // native /ping tanpa count/duration
         Target:  "8.8.8.8",
@@ -63,14 +69,17 @@ Yang perlu diingat:
 
 | Hal | Perilaku |
 | --- | --- |
-| Dua koneksi | Stream lambat tidak menahan `Exec`. |
-| `Config.Stream` | Hanya plan bawaan; `ros.Stream()`/`ros.Poll(d)` eksplisit selalu menang. |
-| Reconnect | Backoff 1s→10s. `Watch` mengirim `KindReconnecting` lalu melanjutkan request yang sama. |
+| Satu koneksi | Command dan stream berbagi satu socket async; `DualConn:true` mempertahankan model lama. |
+| Default realtime | Stream (`interval=`, `follow`, `listen`, `monitor`) dipilih lebih dulu. |
+| `Config.Poll` | `true` memaksa polling dari Go. `Config.Stream` deprecated. |
+| Limiter | Maksimum `MaxInFlight` command per router (default 8); stream tidak mengambil slot command. |
+| Reconnect | Backoff 1s→10s; penolakan kredensial memakai backoff panjang agar log login router tidak dibanjiri. `Watch` mengirim `KindReconnecting` lalu melanjutkan request yang sama. |
+| Watchdog stream | Channel yang diam 10 detik dibuka ulang (dicek tiap 5 detik). |
 | Command tulis | Tidak diulang otomatis; `Exec` mengembalikan `ErrReconnecting` selama jeda. |
 | Setelah `Close` | Semua panggilan mengembalikan `ErrClosed`; stream ditutup. |
-| Limiter/audit | `Config.Gate` dipanggil sekali per command; `release` dipanggil setelah selesai. |
-| Status | `sess.Stats()` berisi epoch, jumlah reconnect, dan status kedua koneksi. Status realtime: `sess.Status()` dan `sess.WatchStatus(ctx)`. |
-| Cache | `sess.Subscribe(ctx, req)` berbagi satu stream/poll per request dan menyajikan snapshot terakhir ke subscriber baru. |
+| Status | `sess.Stats()` berisi epoch, reconnect, status koneksi, command/menit, menu tersibuk, dan channel terbuka. |
+| Cache | `sess.Subscribe(ctx, req)` berbagi satu upstream per menu dan menyaring hasil ke field tiap subscriber. |
+| Lifecycle | `Manager.Acquire`/`Release`/`Retain`/`Drop` mengatur refcount, hold non-viewer, dan grace. |
 
 Untuk uji cepat ke router sungguhan:
 
@@ -104,11 +113,11 @@ turun atau ping status melewati `Status.Timeout`.
 ```go
 mgr, err := rosrun.OpenAll(ctx, []rosrun.Config{
     {ID: "r60", Address: "192.168.122.60:8728", Username: "admin", Password: pass,
-        Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second},
+        StreamEvery: time.Second, PollEvery: 5 * time.Second},
     {ID: "r26", Address: "192.168.122.26:8728", Username: "admin", Password: pass,
-        Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second},
+        StreamEvery: time.Second, PollEvery: 5 * time.Second},
     {ID: "r189", Address: "192.168.122.189:8728", Username: "admin", Password: pass,
-        Stream: false, PollEvery: 5 * time.Second},
+        Poll: true, PollEvery: 5 * time.Second},
 })
 if err != nil {
     log.Printf("sebagian router gagal: %v", err) // partial success
@@ -278,11 +287,13 @@ Semuanya diperiksa pada source goros/v4 (turunan go-routeros v3.0.1), dan yang p
 
 ## 6. Banyak router dan WebSocket
 
-- Gunakan `rosrun.OpenAll` / `rosrun.Manager` untuk membuka banyak router sekaligus. Tiap router tetap punya dua koneksi dan supervisor reconnect sendiri.
-- `Manager.WatchAll` menjalankan Request yang sama di semua router; `Manager.WatchAutoAll` memakai `Config.Stream` masing-masing router. Kegagalan satu router menjadi `RouterEvent.KindError` dan tidak menghentikan router lain.
+- Gunakan `rosrun.OpenAll` / `rosrun.Manager` untuk membuka banyak router sekaligus. Tiap router memakai satu koneksi async dan supervisor reconnect sendiri (`DualConn:true` untuk model lama).
+- `Manager.WatchAll` menjalankan Request yang sama di semua router; `Manager.WatchAutoAll` memakai `Config.Poll` masing-masing router. Kegagalan satu router menjadi `RouterEvent.KindError` dan tidak menghentikan router lain.
+- `Manager.Acquire`/`Release`/`Retain`/`Drop` mengatur refcount, hold non-viewer, dan grace sebelum sesi ditutup.
 - `Manager.Statuses()` / `Manager.WatchStatuses(ctx)` memberi status realtime per router.
 - Satu `routeros.Client` + satu `Runner` per router; `Watch` berkali-kali pada koneksi yang sama aman karena mode async.
-- Pola fan-out: `Subscribe`/`Manager.SubscribeAll` berbagi satu upstream per `Request.Fingerprint()` dan menyajikan `Latest()` ke pelanggan baru. Subscriber terakhir pergi → upstream dibatalkan; cache terakhir disimpan sampai `Cache.TTL`.
+- Pola fan-out: `Subscribe`/`Manager.SubscribeAll` berbagi satu upstream per **menu** (union proplist) dan menyajikan `Latest()` ke pelanggan baru; tiap subscriber menerima hasil yang disaring ke field-nya sendiri. Subscriber terakhir pergi → upstream dibatalkan; cache terakhir disimpan sampai `Cache.TTL`.
+- Poll memakai satu scheduler per sesi (bukan satu timer per subscription). Stream tetap membuka channel sendiri.
 - `Build` menolak interval di luar 1s..5s dan poll di luar 5s..30s.
 
 ## 7. Validasi terhadap router Anda

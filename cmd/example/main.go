@@ -37,6 +37,8 @@ func main() {
 		every    = flag.Duration("every", 5*time.Second, "interval stream atau jeda poll (1s..5s / 5s..30s)")
 		diff     = flag.Bool("diff", false, "poll: keluarkan added/changed/removed")
 		seed     = flag.Bool("seed", false, "listen: ambil snapshot awal")
+		raw      = flag.Bool("raw", false, "print tanpa =.proplist=, kembalikan semua kolom")
+		proplist = flag.String("proplist", "", "daftar kolom dipisah koma (override, tanpa validasi katalog)")
 	)
 	params := ros.Params{Args: map[string]string{}}
 	flag.Func("arg", "argumen command native, mis. interface=ether1 (boleh berulang)", func(s string) error {
@@ -50,6 +52,13 @@ func main() {
 		return nil
 	})
 	flag.Parse()
+
+	if *raw {
+		params.Raw = true
+	}
+	if *proplist != "" {
+		params.Proplist = strings.Split(*proplist, ",")
+	}
 
 	res, ok := ros.Lookup(*resource)
 	if !ok {

@@ -1,16 +1,16 @@
-// Perintah roscheck menguji satu sesi MikroTik: sambungan, dua koneksi,
+// Perintah roscheck menguji satu sesi MikroTik: sambungan, satu koneksi async,
 // reconnect, sekali jalan, dan stream/poll.
 //
 //	# uji koneksi saja
 //	go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret
 //
-//	# stream live 1 detik
+//	# stream live 1 detik (default)
 //	go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
-//	  -resource hotspot-active -view live -stream -every 1s
+//	  -resource hotspot-active -view live -every 1s
 //
 //	# poll daftar user
 //	go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
-//	  -resource hotspot-user -view list -once
+//	  -resource hotspot-user -view list -stream=false -once
 package main
 
 import (
@@ -40,7 +40,7 @@ func main() {
 		view     = flag.String("view", "", "nama view; kosong = pilih otomatis")
 		ver      = flag.String("ver", "", "v6 atau v7")
 		once     = flag.Bool("once", false, "jalankan sekali, bukan stream/poll")
-		stream   = flag.Bool("stream", false, "preferensi stream (bawaan poll)")
+		stream   = flag.Bool("stream", true, "preferensi stream (bawaan stream; false = poll)")
 		every    = flag.Duration("every", 5*time.Second, "interval stream atau jeda poll (1s..5s / 5s..30s)")
 		count    = flag.Int("n", 3, "jumlah event sebelum berhenti (0 = sampai Ctrl+C)")
 
@@ -69,7 +69,7 @@ func main() {
 		TLS:       *useTLS,
 		Insecure:  *insecure,
 		Timeout:   *timeout,
-		Stream:    *stream,
+		Poll:      !*stream,
 		PollEvery: *every,
 		Logf:      log.Printf,
 	}

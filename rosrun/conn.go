@@ -90,7 +90,7 @@ func (c *managedConn) err() error {
 // dial membuka satu koneksi login+async. Setiap koneksi punya loop async
 // sendiri; jangan pernah memberi ctx berumur pendek ke AsyncContext karena
 // pembatalannya menutup pembaca bersama untuk seluruh koneksi.
-func dial(ctx context.Context, cfg Config, name string) (*managedConn, error) {
+func dial(ctx context.Context, cfg Config, name string, lim *limiter) (*managedConn, error) {
 	dialCtx := ctx
 	if cfg.Timeout > 0 {
 		var cancel context.CancelFunc
@@ -118,21 +118,23 @@ func dial(ctx context.Context, cfg Config, name string) (*managedConn, error) {
 	client.Queue = cfg.Queue
 
 	errC := client.AsyncContext(context.Background())
-	conn := newManagedConn(name, client, errC, newRunner(client, cfg))
+	conn := newManagedConn(name, client, errC, newRunner(client, cfg, lim))
 	return conn, nil
 }
 
 // dialRetry mencoba login beberapa kali untuk gangguan transien. RouterOS 6
 // kadang menutup koneksi dengan EOF bila sesi API dibuat beruntun.
-func dialRetry(ctx context.Context, cfg Config, name string) (*managedConn, error) {
+func dialRetry(ctx context.Context, cfg Config, name string, lim *limiter) (*managedConn, error) {
 	var last error
 	for attempt := 0; attempt < 3; attempt++ {
-		conn, err := dial(ctx, cfg, name)
+		conn, err := dial(ctx, cfg, name, lim)
 		if err == nil {
 			return conn, nil
 		}
 		last = err
-		if !isTransientDialErr(err) || attempt == 2 {
+		if isLoginError(err) || !isTransientDialErr(err) || attempt == 2 {
+			// Kredensial salah tidak membaik dengan retry cepat; setiap
+			// percobaan menulis login gagal ke log router.
 			break
 		}
 		wait := time.Duration(150*(1<<attempt)) * time.Millisecond
@@ -141,6 +143,24 @@ func dialRetry(ctx context.Context, cfg Config, name string) (*managedConn, erro
 		}
 	}
 	return nil, last
+}
+
+// isLoginError melaporkan penolakan kredensial, yang tidak membaik dengan
+// retry cepat dan justru membanjiri log login router.
+func isLoginError(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := strings.ToLower(err.Error())
+	for _, s := range []string{
+		"invalid user name or password", "cannot log in", "login failed",
+		"not authorized", "invalid username or password",
+	} {
+		if strings.Contains(msg, s) {
+			return true
+		}
+	}
+	return false
 }
 
 func isTransientDialErr(err error) bool {
@@ -182,6 +202,9 @@ func (m *MikroTik) supervise(conn *managedConn) {
 				}
 			}
 			conn.markDown(err)
+			if m.limiter != nil {
+				m.limiter.streamsGone()
+			}
 			m.publishStatus()
 		}
 
@@ -209,12 +232,23 @@ func (m *MikroTik) reconnect(conn *managedConn) bool {
 		default:
 		}
 
-		fresh, err := dial(m.runCtx, m.cfg, conn.name)
+		fresh, err := dial(m.runCtx, m.cfg, conn.name, m.limiter)
 		if err != nil {
 			conn.markDown(err)
+			if m.limiter != nil {
+				m.limiter.streamsGone()
+			}
 			m.publishStatus()
 			if m.cfg.Logf != nil {
 				m.cfg.Logf("rosrun: %s reconnect failed: %v (retry in %s)", conn.name, err, backoff)
+			}
+			limit := maxBackoff
+			if isLoginError(err) {
+				// Auth backoff: jangan mencoba tiap detik dengan password salah.
+				if backoff < 30*time.Second {
+					backoff = 30 * time.Second
+				}
+				limit = 5 * time.Minute
 			}
 			wait := backoff
 			if wait > 20*time.Millisecond {
@@ -226,8 +260,8 @@ func (m *MikroTik) reconnect(conn *managedConn) bool {
 			case <-time.After(wait):
 			}
 			backoff *= 2
-			if backoff > maxBackoff {
-				backoff = maxBackoff
+			if backoff > limit {
+				backoff = limit
 			}
 			continue
 		}

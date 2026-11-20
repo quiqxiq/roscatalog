@@ -33,7 +33,7 @@ func TestParsePingRow(t *testing.T) {
 func TestStatusUsesNativePingRegardlessOfStream(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, func(c *Config) {
-		c.Stream = false // status tetap harus native stream
+		c.Poll = true // status tetap harus native stream
 		c.Status = StatusConfig{
 			Every:              time.Second,
 			Timeout:            5 * time.Second,

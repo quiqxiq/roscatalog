@@ -81,12 +81,22 @@ type Runner struct {
 	// Gate opsional, dipanggil sekali per command yang menuju router (satu
 	// kali per RunArgs, satu kali per stream). Cocok untuk limiter per router.
 	Gate Gate
+
+	// limiter membatasi command in-flight dan mencatat channel stream.
+	// Nil berarti tanpa batas (mis. Runner yang dibuat manual lewat New).
+	limiter *limiter
+
+	// Watchdog stream: channel yang tidak mengirim apa pun selama streamStale
+	// dibuka ulang. streamCheck adalah jarak pemeriksaan.
+	streamStale time.Duration
+	streamCheck time.Duration
+	streamEvery time.Duration
 }
 
 // New membungkus client yang sudah login dan menyalakan mode async
 // (wajib agar Run dan Listen bisa berjalan bersamaan).
 func New(c *routeros.Client) *Runner {
-	r := &Runner{c: c}
+	r := &Runner{c: c, streamStale: DefaultStreamStale, streamCheck: DefaultStreamCheck}
 	if !c.IsAsync() {
 		errC := c.Async()
 		go func() {
@@ -100,13 +110,17 @@ func New(c *routeros.Client) *Runner {
 
 // newRunner membangun Runner dari Config tanpa menyentuh mode async: koneksi
 // sudah diaktifkan oleh dial, jadi Runner hanya mewarisi setelan.
-func newRunner(c *routeros.Client, cfg Config) *Runner {
+func newRunner(c *routeros.Client, cfg Config, lim *limiter) *Runner {
 	return &Runner{
 		c:              c,
 		Logf:           cfg.Logf,
 		MaxBuffered:    cfg.MaxBuffered,
 		EmptySnapshots: cfg.EmptySnapshots,
 		Gate:           cfg.Gate,
+		limiter:        lim,
+		streamEvery:    cfg.StreamEvery,
+		streamStale:    cfg.StreamStale,
+		streamCheck:    cfg.StreamCheck,
 	}
 }
 
@@ -121,6 +135,20 @@ func (r *Runner) maxBuffered() int {
 		return r.MaxBuffered
 	}
 	return 1 << 16
+}
+
+func (r *Runner) staleEvery() time.Duration {
+	if r.streamStale > 0 {
+		return r.streamStale
+	}
+	return DefaultStreamStale
+}
+
+func (r *Runner) checkEvery() time.Duration {
+	if r.streamCheck > 0 {
+		return r.streamCheck
+	}
+	return DefaultStreamCheck
 }
 
 // ---------------------------------------------------------------------------
@@ -221,13 +249,18 @@ func (r *Runner) run(ctx context.Context, sentence []string) (*routeros.Reply, e
 	if len(sentence) == 0 {
 		return nil, errors.New("rosrun: empty sentence")
 	}
-	var release func()
+	var releaseGate func()
 	if r.Gate != nil {
 		var err error
-		release, err = r.Gate(ctx, sentence[0])
+		releaseGate, err = r.Gate(ctx, sentence[0])
 		if err != nil {
 			return nil, err
 		}
+	}
+	var releaseLim func()
+	if r.limiter != nil {
+		r.limiter.note(sentence[0])
+		releaseLim = r.limiter.acquire()
 	}
 
 	type result struct {
@@ -239,8 +272,11 @@ func (r *Runner) run(ctx context.Context, sentence []string) (*routeros.Reply, e
 		rep, err := r.c.RunArgs(sentence)
 		// Lepas slot setelah command benar-benar selesai di wire, bukan saat
 		// pemanggil menyerah karena ctx.
-		if release != nil {
-			release()
+		if releaseLim != nil {
+			releaseLim()
+		}
+		if releaseGate != nil {
+			releaseGate()
 		}
 		ch <- result{rep, err}
 	}()
@@ -345,87 +381,104 @@ func trim(row map[string]string, req ros.Request) map[string]string {
 // Poll: Go mengulang one-shot
 // ---------------------------------------------------------------------------
 
+// pollState menampung keadaan diff antar-siklus poll. Disimpan per subscription
+// agar satu scheduler bisa menjalankan banyak poll tanpa kehilangan baseline.
+type pollState struct {
+	prev         map[string]map[string]string
+	first        bool
+	fallbackUsed bool
+}
+
+func newPollState() *pollState { return &pollState{first: true} }
+
 func (r *Runner) poll(ctx context.Context, req ros.Request, emit func(Event) bool) error {
 	t := time.NewTicker(req.Every)
 	defer t.Stop()
-
-	sentence := req.Sentence
-	fallbackUsed := false
-	var prev map[string]map[string]string
-	first := true
-
+	st := newPollState()
 	for {
-		rep, err := r.run(ctx, sentence)
-		if err != nil {
-			var de *routeros.DeviceError
-			if first && !fallbackUsed && req.Fallback != nil && errors.As(err, &de) {
-				r.logf("rosrun: poll %s ditolak (%v); mengulang tanpa .proplist", sentence[0], err)
-				sentence, fallbackUsed = req.Fallback, true
-				continue
-			}
+		if err := r.pollOnce(ctx, req, st, emit); err != nil {
 			return err
 		}
-
-		switch {
-		case req.CountOnly:
-			if err := deliverResult(req, rep, emit); err != nil {
-				return err
-			}
-		case req.Diff:
-			cur := make(map[string]map[string]string, len(rep.Re))
-			var order []string
-			for _, s := range rep.Re {
-				row := trim(s.Map, req)
-				k := row[req.Key]
-				if _, dup := cur[k]; !dup {
-					order = append(order, k)
-				}
-				cur[k] = row
-			}
-			switch {
-			case first && req.Baseline:
-				// hanya baseline
-			case first:
-				if !emit(Event{Kind: KindSnapshot, Rows: orderedRows(cur, order)}) {
-					return nil
-				}
-			default:
-				for _, k := range order {
-					row := cur[k]
-					old, existed := prev[k]
-					switch {
-					case !existed:
-						if !emit(Event{Kind: KindAdded, Row: row}) {
-							return nil
-						}
-					case !reflect.DeepEqual(old, row):
-						if !emit(Event{Kind: KindChanged, Row: row}) {
-							return nil
-						}
-					}
-				}
-				for k, old := range prev {
-					if _, still := cur[k]; !still {
-						if !emit(Event{Kind: KindRemoved, Row: old}) {
-							return nil
-						}
-					}
-				}
-			}
-			prev = cur
-		default:
-			if err := deliverResult(req, rep, emit); err != nil {
-				return err
-			}
-		}
-		first = false
-
 		select {
 		case <-ctx.Done():
 			return nil
 		case <-t.C:
 		}
 	}
+}
+
+// pollOnce menjalankan satu siklus poll. Scheduler memanggil ini ketika
+// subscription sudah jatuh tempo.
+func (r *Runner) pollOnce(ctx context.Context, req ros.Request, st *pollState, emit func(Event) bool) error {
+	sentence := req.Sentence
+	if st.fallbackUsed && req.Fallback != nil {
+		sentence = req.Fallback
+	}
+	rep, err := r.run(ctx, sentence)
+	if err != nil {
+		var de *routeros.DeviceError
+		if st.first && !st.fallbackUsed && req.Fallback != nil && errors.As(err, &de) {
+			r.logf("rosrun: poll %s ditolak (%v); mengulang tanpa .proplist", sentence[0], err)
+			st.fallbackUsed = true
+			return nil
+		}
+		return err
+	}
+
+	switch {
+	case req.CountOnly:
+		if err := deliverResult(req, rep, emit); err != nil {
+			return err
+		}
+	case req.Diff:
+		cur := make(map[string]map[string]string, len(rep.Re))
+		var order []string
+		for _, s := range rep.Re {
+			row := trim(s.Map, req)
+			k := row[req.Key]
+			if _, dup := cur[k]; !dup {
+				order = append(order, k)
+			}
+			cur[k] = row
+		}
+		switch {
+		case st.first && req.Baseline:
+			// hanya baseline
+		case st.first:
+			if !emit(Event{Kind: KindSnapshot, Rows: orderedRows(cur, order)}) {
+				return nil
+			}
+		default:
+			for _, k := range order {
+				row := cur[k]
+				old, existed := st.prev[k]
+				switch {
+				case !existed:
+					if !emit(Event{Kind: KindAdded, Row: row}) {
+						return nil
+					}
+				case !reflect.DeepEqual(old, row):
+					if !emit(Event{Kind: KindChanged, Row: row}) {
+						return nil
+					}
+				}
+			}
+			for k, old := range st.prev {
+				if _, still := cur[k]; !still {
+					if !emit(Event{Kind: KindRemoved, Row: old}) {
+						return nil
+					}
+				}
+			}
+		}
+		st.prev = cur
+	default:
+		if err := deliverResult(req, rep, emit); err != nil {
+			return err
+		}
+	}
+	st.first = false
+	return nil
 }
 
 func orderedRows(m map[string]map[string]string, order []string) []map[string]string {
@@ -529,6 +582,10 @@ func (q *queue) pop(ctx context.Context, timeout time.Duration) (*proto.Sentence
 	}
 }
 
+// errStreamStale menandai channel yang berhenti mengirim. stream membuka
+// ulang channel itu; ini bukan error yang diteruskan ke konsumen.
+var errStreamStale = errors.New("rosrun: stream stale")
+
 func (r *Runner) stream(ctx context.Context, req ros.Request, emit func(Event) bool) error {
 	sentence := req.Sentence
 	fallbackUsed := false
@@ -544,6 +601,10 @@ func (r *Runner) stream(ctx context.Context, req ros.Request, emit func(Event) b
 		if release != nil {
 			defer release()
 		}
+	}
+	if r.limiter != nil {
+		r.limiter.note(sentence[0])
+		defer r.limiter.streamOpened()()
 	}
 
 	for {
@@ -564,6 +625,11 @@ func (r *Runner) stream(ctx context.Context, req ros.Request, emit func(Event) b
 		}
 		if q.overflowed() {
 			return fmt.Errorf("rosrun: antrean stream penuh (>%d kalimat); konsumen terlalu lambat", r.maxBuffered())
+		}
+		if errors.Is(cerr, errStreamStale) {
+			// Watchdog: channel diam terlalu lama. Buka ulang channel yang sama.
+			r.logf("rosrun: stream %s diam > %s; membuka ulang", sentence[0], r.staleEvery())
+			continue
 		}
 		if cerr != nil {
 			return cerr
@@ -610,10 +676,20 @@ func (q *queue) overflowed() bool {
 
 // consume membaca antrean sesuai Shape. got = ada data yang sudah diterima.
 func (r *Runner) consume(ctx context.Context, req ros.Request, q *queue, emit func(Event) bool) (got bool, err error) {
+	last := time.Now()
 	switch req.Shape {
 	case ros.ShapeRows:
 		for {
-			s, res := q.pop(ctx, 0)
+			s, res := q.pop(ctx, r.checkEvery())
+			if res == popGot {
+				last = time.Now()
+			}
+			if res == popTimeout {
+				if time.Since(last) >= r.staleEvery() {
+					return got, errStreamStale
+				}
+				continue
+			}
 			if res != popGot {
 				return got, nil
 			}
@@ -647,7 +723,16 @@ func (r *Runner) consume(ctx context.Context, req ros.Request, q *queue, emit fu
 			}
 		}
 		for {
-			s, res := q.pop(ctx, 0)
+			s, res := q.pop(ctx, r.checkEvery())
+			if res == popGot {
+				last = time.Now()
+			}
+			if res == popTimeout {
+				if time.Since(last) >= r.staleEvery() {
+					return got, errStreamStale
+				}
+				continue
+			}
 			if res != popGot {
 				return got, nil
 			}
@@ -711,6 +796,7 @@ func (r *Runner) consumeCycles(ctx context.Context, req ros.Request, q *queue, e
 		section  string
 		got      bool
 		wasEmpty bool
+		last     = time.Now()
 	)
 	flush := func() bool {
 		if len(cur) == 0 {
@@ -730,9 +816,18 @@ func (r *Runner) consumeCycles(ctx context.Context, req ros.Request, q *queue, e
 		case r.EmptySnapshots && !wasEmpty:
 			timeout = emptyAfter
 		}
+		if timeout == 0 && r.checkEvery() > 0 {
+			// Tanpa baris yang menunggu flush, tetap bangun berkala supaya
+			// channel yang diam bisa dideteksi.
+			timeout = r.checkEvery()
+		}
 		s, res := q.pop(ctx, timeout)
 		switch res {
 		case popTimeout:
+			if time.Since(last) >= r.staleEvery() {
+				flush()
+				return got, errStreamStale
+			}
 			if len(cur) > 0 {
 				if !flush() {
 					return got, nil
@@ -745,6 +840,7 @@ func (r *Runner) consumeCycles(ctx context.Context, req ros.Request, q *queue, e
 			}
 			continue
 		case popGot:
+			last = time.Now()
 		default:
 			flush()
 			return got, nil

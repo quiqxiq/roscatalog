@@ -324,6 +324,21 @@ Resource baru yang diambil dari `mikrotik_inspect/` tetap melewati kurasi
 hanya menjawab "command/argumen apa yang ada", bukan "kolom apa yang perlu
 ditampilkan".
 
+**Progres Fase 1 (command/action dulu):** sudah ditambahkan `ArgKind`
+(`ArgValue`/`ArgFlag`), `Action.Read`, `Action.Args`, `Action.SentenceWith`,
+`View.AllowedFlags`, `Params.Flags`, builder `ReadDo`/`PrintFlags`, validasi
+flag beserta konfliknya (`brief`/`detail`/`terse`, `follow`/`follow-only`,
+`stats`/`count-only`), package data `commands/`, serta `zz_catalog_enrich.go`
+yang mengisi flag `print` dan menambah aksi `print`, `comment`, `unset`,
+`reset`, `export` untuk 34 resource. `go test ./...` lolos.
+
+**Progres Fase 2 (mesin print & aksi):** `Params.Raw` (tanpa `=.proplist=`,
+`Request.Fields` dikosongkan supaya semua kolom dikembalikan) dan `Params.Only`
+(subset field, divalidasi) sudah bekerja di `Build`. Builder mendapat preset
+`Print`, `Brief`, `Detail`, `Stats`, `StatsDetail`. `Action.SentenceWith`
+dipakai untuk semua verb termasuk `print`. Test raw/only/preset ditambahkan;
+`go test ./...` lolos. Struct masih ditunda sampai Fase 3.
+
 ## 10. Generator struct dengan Python
 
 Keputusan: **boleh memakai Python**, dengan batasan tegas:
@@ -397,3 +412,30 @@ tulis dan resource baru). Laporan hasil generate dibandingkan dengan
   file `mikrotik_inspect/SOURCE.md` (cukup satu, yang penting tercatat).
 - `mikhmon.User` / `mikhmon.Profile` diganti atau dibungkus adapter dulu.
 - konflik `Raw` + `Only`/`BuildOf[T]`: abaikan atau error.
+
+---
+
+## 12. Status implementasi (penanganan koneksi)
+
+Sudah dikerjakan:
+
+- **Satu koneksi async default**; `Config.DualConn=true` adalah escape hatch
+  yang akan dihapus setelah satu rilis.
+- **Default realtime**: `Config.Poll` (default false) → stream; `Stream`
+  deprecated. `PlanFor` memilih stream lebih dulu.
+- **Limiter per router** (`MaxInFlight`, default 8) + statistik command/menu.
+- **Satu scheduler per sesi** untuk semua `DeliveryPoll`.
+- **Union proplist per menu**: subscriber berbeda field berbagi satu upstream;
+  tiap subscriber menerima hasil yang disaring ke field-nya sendiri.
+- **Lifecycle**: `Manager.Acquire/Release/Retain/Drop` + grace.
+- **Reconnect**: auth backoff, stream watchdog 10s/5s, level channel di-reset
+  saat koneksi putus.
+- **Helper struct opsional**: `FieldNames`, `Decode`, `DecodeAll`, `ArgsOf`,
+  `Params.Proplist`.
+
+Validasi:
+
+- `go test -race ./rosrun` lolos.
+- `go vet ./...` lolos.
+- Uji read-only ke CHR GNS3 `192.168.122.189:8728`: connect, stream+exec,
+  poll, union proplist, dan listen — semuanya lolos.

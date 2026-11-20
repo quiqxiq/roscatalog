@@ -72,6 +72,45 @@ func (r *Resource) UseServerProplist() *Resource { r.last().ServerProplist = tru
 // Hint mengisi catatan pada view terakhir.
 func (r *Resource) Hint(s string) *Resource { r.last().Note = s; return r }
 
+// PrintFlags mendeklarasikan flag print yang didukung view terakhir.
+// Sumbernya adalah /console/inspect; Params.Flags divalidasi terhadap daftar ini.
+func (r *Resource) PrintFlags(flags ...string) *Resource {
+	r.last().AllowedFlags = append([]string(nil), flags...)
+	return r
+}
+
+// Print menambah view oneshot print dengan flag tertentu. AllowedFlags diisi
+// dari flags yang diberikan; pemakai bisa menggantinya dengan PrintFlags.
+func (r *Resource) Print(name string, props []string, flags ...string) *Resource {
+	return r.add(View{
+		Name: name, Mode: ModeOneShot, Command: r.Path + "/print",
+		Flags:          append([]string(nil), flags...),
+		AllowedFlags:   append([]string(nil), flags...),
+		Proplist:       append([]string(nil), props...),
+		ServerProplist: len(props) > 0,
+		WithID:         !r.Singleton,
+		Key:            r.keyField(),
+	})
+}
+
+// Brief, Detail, Stats, dan StatsDetail adalah preset Print untuk varian print
+// yang paling sering dipakai.
+func (r *Resource) Brief(props ...string) *Resource {
+	return r.Print("brief", props, "brief")
+}
+
+func (r *Resource) Detail(props ...string) *Resource {
+	return r.Print("detail", props, "detail")
+}
+
+func (r *Resource) Stats(props ...string) *Resource {
+	return r.Print("stats", props, "stats")
+}
+
+func (r *Resource) StatsDetail(props ...string) *Resource {
+	return r.Print("stats-detail", props, "stats-detail")
+}
+
 // Named menambah view oneshot (print) dengan nama dan proplist tertentu.
 func (r *Resource) Named(name string, props ...string) *Resource {
 	return r.add(View{
@@ -166,6 +205,25 @@ func (r *Resource) Do(name string, sel Selector, req, opt []string, destructive 
 	return r.act(Action{
 		Name: name, Command: r.Path + "/" + name, Selector: sel,
 		Required: req, Optional: opt, Destructive: destructive, Note: note,
+	})
+}
+
+// ReadDo menambah perintah baca (print, get, find, ...) sebagai action.
+// flags adalah flag yang didukung perintah itu; ArgFlag otomatis ditambahkan.
+func (r *Resource) ReadDo(name string, flags, req, opt []string, note string) *Resource {
+	args := make([]Arg, 0, len(flags)+len(req)+len(opt))
+	for _, f := range flags {
+		args = append(args, Arg{Name: f, Kind: ArgFlag})
+	}
+	for _, p := range req {
+		args = append(args, Arg{Name: p})
+	}
+	for _, p := range opt {
+		args = append(args, Arg{Name: p})
+	}
+	return r.act(Action{
+		Name: name, Command: r.Path + "/" + name, Selector: SelNone,
+		Required: req, Optional: opt, Read: true, Args: args, Note: note,
 	})
 }
 

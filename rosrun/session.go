@@ -49,7 +49,8 @@ type MikroTik struct {
 
 	status statusTracker
 
-	cache *feedCache
+	cache   *feedCache
+	limiter *limiter
 }
 
 // Open memvalidasi cfg lalu membuka dua koneksi ke router. Bila koneksi kedua
@@ -60,23 +61,18 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	}
 	cfg = cfg.withDefaults()
 
-	cmd, err := dialRetry(ctx, cfg, "cmd")
+	lim := newLimiter(cfg.MaxInFlight)
+	main, err := dialRetry(ctx, cfg, "main", lim)
 	if err != nil {
-		return nil, err
-	}
-	feed, err := dialRetry(ctx, cfg, "feed")
-	if err != nil {
-		if c := cmd.get(); c != nil {
-			_ = c.Close()
-		}
 		return nil, err
 	}
 
 	runCtx, cancel := context.WithCancel(context.Background())
 	m := &MikroTik{
 		cfg:      cfg,
-		cmd:      cmd,
-		feed:     feed,
+		cmd:      main,
+		feed:     main,
+		limiter:  lim,
 		stopCh:   make(chan struct{}),
 		runCtx:   runCtx,
 		cancel:   cancel,
@@ -85,9 +81,23 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	}
 	m.cache = newFeedCache(m)
 
-	m.wg.Add(2)
-	go m.supervise(cmd)
-	go m.supervise(feed)
+	// Satu koneksi async adalah default (sama seperti MikroDash). Dua koneksi
+	// hanya bila diminta eksplisit, dan opsi itu akan dihapus setelah satu rilis.
+	m.wg.Add(1)
+	go m.supervise(main)
+	if cfg.DualConn {
+		feed, err := dialRetry(ctx, cfg, "feed", lim)
+		if err != nil {
+			if c := main.get(); c != nil {
+				_ = c.Close()
+			}
+			cancel()
+			return nil, err
+		}
+		m.feed = feed
+		m.wg.Add(1)
+		go m.supervise(feed)
+	}
 
 	m.startStatus()
 
@@ -375,13 +385,13 @@ func (m *MikroTik) pollEvery(res *ros.Resource, view string, ver ros.Version, pl
 	return every
 }
 
-// PlanFor memilih plan bawaan untuk sebuah view: stream bila Config.Stream
-// true dan view mendukungnya, selain itu poll. Plan eksplisit pemanggil tidak
-// pernah ditimpa.
+// PlanFor memilih plan bawaan untuk sebuah view. Default adalah STREAM
+// (realtime). Poll hanya bila Config.Poll true, atau view tidak punya jalur
+// stream. Plan eksplisit pemanggil tidak pernah ditimpa.
 func (m *MikroTik) PlanFor(res *ros.Resource, view string, ver ros.Version) ros.Plan {
-	wanted := ros.DeliveryPoll
-	if m.cfg.Stream {
-		wanted = ros.DeliveryStream
+	wanted := ros.DeliveryStream
+	if m.cfg.Poll {
+		wanted = ros.DeliveryPoll
 	}
 
 	allowed := res.Deliveries(view, ver)
@@ -422,6 +432,12 @@ type Stats struct {
 	FeedDown   bool
 	LastError  error
 	Uptime     time.Duration
+
+	// Instrumentasi per router.
+	InFlight     int
+	OpenStreams  int
+	Commands     int64
+	BusiestMenus []MenuCount
 }
 
 // Stats mengembalikan status sesi saat ini.
@@ -442,6 +458,11 @@ func (m *MikroTik) Stats() Stats {
 		LastError:  lastErr,
 		Uptime:     time.Since(m.openedAt),
 	}
+	ls := m.limiter.stats()
+	st.InFlight = ls.InFlight
+	st.OpenStreams = ls.OpenStreams
+	st.Commands = ls.Commands
+	st.BusiestMenus = ls.Menus
 	if !st.Open {
 		st.Uptime = 0
 	}
@@ -465,7 +486,11 @@ func (m *MikroTik) Close() error {
 		close(m.stopCh)
 
 		var errs []error
-		for _, conn := range []*managedConn{m.cmd, m.feed} {
+		conns := []*managedConn{m.cmd}
+		if m.feed != m.cmd {
+			conns = append(conns, m.feed)
+		}
+		for _, conn := range conns {
 			if c := conn.get(); c != nil {
 				if err := c.Close(); err != nil {
 					errs = append(errs, fmt.Errorf("rosrun: close %s connection: %w", conn.name, err))

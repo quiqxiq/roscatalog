@@ -69,7 +69,7 @@ func main() {
 			TLS:         *useTLS,
 			Insecure:    *insecure,
 			Timeout:     *timeout,
-			Stream:      i < len(routers)-1, // satu router sengaja poll-preferred
+			Poll:        i == len(routers)-1, // satu router sengaja poll-preferred
 			StreamEvery: *streamEvery,
 			PollEvery:   *pollEvery,
 			Status: rosrun.StatusConfig{
@@ -96,7 +96,7 @@ func main() {
 	// Status realtime semua router.
 	go consumeStatuses(ctx, mgr, counts)
 
-	// Otomatis mengikuti Config.Stream tiap router.
+	// Otomatis mengikuti Config.Poll tiap router.
 	live, _ := ros.Lookup("interface")
 	go consumeEvents("auto:"+live.ID, mustWatchAuto(ctx, mgr, live), counts)
 

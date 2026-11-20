@@ -328,6 +328,39 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		}
 	}
 
+	// Raw dan Only mengubah kalimat yang dikirim dan kolom yang disaring
+	// di klien. Keduanya tidak mengubah mode stream/poll.
+	if p.Raw {
+		pv.ServerProplist = false
+		pv.Proplist = nil
+		fieldSrc = nil
+	} else if len(p.Proplist) > 0 {
+		pv.Proplist = append([]string(nil), p.Proplist...)
+		fieldSrc = append([]string(nil), p.Proplist...)
+	} else if len(p.Only) > 0 {
+		allowed := make(map[string]bool, len(fieldSrc))
+		for _, f := range fieldSrc {
+			allowed[f] = true
+		}
+		for _, f := range p.Only {
+			if !allowed[f] {
+				return Request{}, fmt.Errorf("%s/%s: kolom %q tidak ada di daftar field",
+					r.ID, v.Name, f)
+			}
+		}
+		want := make(map[string]bool, len(p.Only))
+		for _, f := range p.Only {
+			want[f] = true
+		}
+		filtered := make([]string, 0, len(p.Only))
+		for _, f := range fieldSrc {
+			if want[f] {
+				filtered = append(filtered, f)
+			}
+		}
+		pv.Proplist, fieldSrc = filtered, filtered
+	}
+
 	sent, err := pv.Sentence(p2)
 	if err != nil {
 		return Request{}, err

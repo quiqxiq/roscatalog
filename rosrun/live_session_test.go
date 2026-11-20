@@ -93,6 +93,9 @@ func TestLiveSessionStreamAndExec(t *testing.T) {
 	if !ok {
 		t.Fatal("resource interface-monitor-traffic tidak ada")
 	}
+	if got := sess.PlanFor(mt, "run", ros.AnyVersion).Delivery; got != ros.DeliveryStream {
+		t.Fatalf("default delivery = %q, want stream", got)
+	}
 	mreq, err := mt.Build("run", ros.AnyVersion, ros.StreamEvery(time.Second), ros.Params{
 		Args: map[string]string{"interface": name},
 	})
@@ -157,6 +160,71 @@ func TestLiveSessionPoll(t *testing.T) {
 	case <-time.After(8 * time.Second):
 		t.Fatal("no snapshot from poll")
 	}
+}
+
+func TestLiveSessionUnionProplist(t *testing.T) {
+	sess, ctx := openLive(t)
+
+	res, ok := ros.Lookup("interface")
+	if !ok {
+		t.Fatal("resource interface tidak ada")
+	}
+	build := func(only ...string) ros.Request {
+		t.Helper()
+		req, err := res.Build("list", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{Only: only})
+		if err != nil {
+			t.Fatalf("build %v: %v", only, err)
+		}
+		return req
+	}
+
+	subA, err := sess.Subscribe(ctx, build("name"))
+	if err != nil {
+		t.Fatalf("subscribe A: %v", err)
+	}
+	defer subA.Close()
+	subB, err := sess.Subscribe(ctx, build("type"))
+	if err != nil {
+		t.Fatalf("subscribe B: %v", err)
+	}
+	defer subB.Close()
+
+	wait := func(sub *rosrun.Subscription, label string) {
+		t.Helper()
+		for {
+			select {
+			case ev, ok := <-sub.Events():
+				if !ok {
+					t.Fatalf("%s: channel closed", label)
+				}
+				if ev.Kind != rosrun.KindSnapshot || len(ev.Rows) == 0 {
+					continue
+				}
+				for _, row := range ev.Rows {
+					if label == "A" {
+						if _, has := row["type"]; has {
+							t.Fatalf("A menerima type: %v", row)
+						}
+					} else {
+						if _, has := row["name"]; has {
+							t.Fatalf("B menerima name: %v", row)
+						}
+					}
+				}
+				return
+			case <-time.After(8 * time.Second):
+				t.Fatalf("%s: tidak ada snapshot", label)
+			}
+		}
+	}
+	wait(subA, "A")
+	wait(subB, "B")
+
+	st := sess.Stats()
+	if st.Commands == 0 {
+		t.Fatal("statistik command tidak tercatat")
+	}
+	t.Logf("union ok: commands=%d inflight=%d", st.Commands, st.InFlight)
 }
 
 func TestLiveSessionListen(t *testing.T) {

@@ -175,6 +175,9 @@ serta tick scheduler Expire Monitor mode `X`/`N`. Detail workflow ada di
 ## Dokumen
 
 - `USAGE.md` — cara pakai, plan stream/poll, event, jebakan, verifikasi.
+- `ROADMAP.md` — rencana proplist opsional berbasis struct (raw vs proyeksi).
+- `mikrotik_inspect/SOURCE.md` — struct lengkap dari inspect + `print` router + katalog.
+- `fields/` — struct tersebut sebagai package Go, satu file per menu (ip, ppp, queue, ...).
 - `MIKHMON.md` — pemetaan command Mikhmon v4 dan contoh workflow.
 - `REFERENCE.md` — referensi lengkap yang di-generate dari katalog.
 - `goros/docs/` — desain, keputusan, riset, dan usage engine.

@@ -1,0 +1,4421 @@
+[
+  {
+    "id": "hotspot-active",
+    "path": "/ip/hotspot/active",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/active/print",
+        "proplist": [
+          "user",
+          "address",
+          "mac-address",
+          "server",
+          "login-by",
+          "uptime",
+          "session-time-left",
+          "idle-time",
+          "bytes-in",
+          "bytes-out",
+          "radius"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/ip/hotspot/active/print",
+        "proplist": [
+          "user",
+          "address",
+          "uptime",
+          "session-time-left",
+          "idle-time",
+          "bytes-in",
+          "bytes-out"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/active/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/hotspot/active/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/active/remove",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-cookie",
+    "path": "/ip/hotspot/cookie",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/cookie/print",
+        "proplist": [
+          "user",
+          "mac-address",
+          "domain",
+          "expires-in"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/cookie/remove",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-host",
+    "path": "/ip/hotspot/host",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/host/print",
+        "proplist": [
+          "mac-address",
+          "address",
+          "to-address",
+          "server",
+          "uptime",
+          "idle-time",
+          "found-by",
+          "authorized",
+          "bypassed",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/host/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "make-binding",
+        "command": "/ip/hotspot/host/make-binding",
+        "selector": "numbers",
+        "optional": [
+          "comment",
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hotspot-ip-binding",
+    "path": "/ip/hotspot/ip-binding",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/ip-binding/print",
+        "proplist": [
+          "mac-address",
+          "address",
+          "to-address",
+          "server",
+          "type",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/ip-binding/add",
+        "selector": "",
+        "optional": [
+          "mac-address",
+          "address",
+          "to-address",
+          "server",
+          "type",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/ip-binding/set",
+        "selector": ".id",
+        "optional": [
+          "mac-address",
+          "address",
+          "to-address",
+          "server",
+          "type",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/ip-binding/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/ip-binding/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/ip-binding/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-server",
+    "path": "/ip/hotspot",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/print",
+        "proplist": [
+          "name",
+          "interface",
+          "address-pool",
+          "profile",
+          "idle-timeout",
+          "keepalive-timeout",
+          "login-timeout",
+          "addresses-per-mac",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/add",
+        "selector": "",
+        "required": [
+          "name",
+          "interface"
+        ],
+        "optional": [
+          "address-pool",
+          "profile",
+          "idle-timeout",
+          "keepalive-timeout",
+          "login-timeout",
+          "addresses-per-mac",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "interface",
+          "address-pool",
+          "profile",
+          "idle-timeout",
+          "keepalive-timeout",
+          "login-timeout",
+          "addresses-per-mac",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-server-profile",
+    "path": "/ip/hotspot/profile",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/profile/print",
+        "proplist": [
+          "name",
+          "hotspot-address",
+          "dns-name",
+          "html-directory",
+          "login-by",
+          "use-radius",
+          "rate-limit",
+          "http-cookie-lifetime",
+          "install-hotspot-queue",
+          "mac-auth-mode",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/profile/add",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "hotspot-address",
+          "dns-name",
+          "html-directory",
+          "login-by",
+          "use-radius",
+          "rate-limit",
+          "http-cookie-lifetime",
+          "install-hotspot-queue",
+          "mac-auth-mode",
+          "radius-mac-format",
+          "smtp-server",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/profile/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "hotspot-address",
+          "dns-name",
+          "html-directory",
+          "login-by",
+          "use-radius",
+          "rate-limit",
+          "http-cookie-lifetime",
+          "install-hotspot-queue",
+          "mac-auth-mode",
+          "radius-mac-format",
+          "smtp-server",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/profile/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/profile/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/profile/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-user",
+    "path": "/ip/hotspot/user",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/user/print",
+        "proplist": [
+          "name",
+          "profile",
+          "server",
+          "mac-address",
+          "address",
+          "limit-uptime",
+          "limit-bytes-total",
+          "uptime",
+          "bytes-in",
+          "bytes-out",
+          "comment",
+          "disabled"
+        ]
+      },
+      {
+        "name": "voucher",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/user/print",
+        "proplist": [
+          "name",
+          "password",
+          "profile",
+          "limit-uptime",
+          "limit-bytes-total",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/user/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/hotspot/user/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/user/add",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "password",
+          "profile",
+          "server",
+          "address",
+          "mac-address",
+          "limit-uptime",
+          "limit-bytes-in",
+          "limit-bytes-out",
+          "limit-bytes-total",
+          "email",
+          "routes",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/user/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "password",
+          "profile",
+          "server",
+          "address",
+          "mac-address",
+          "limit-uptime",
+          "limit-bytes-in",
+          "limit-bytes-out",
+          "limit-bytes-total",
+          "email",
+          "routes",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/user/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/user/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/user/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "reset-counters",
+        "command": "/ip/hotspot/user/reset-counters",
+        "selector": "numbers"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-user-profile",
+    "path": "/ip/hotspot/user/profile",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/user/profile/print",
+        "proplist": [
+          "name",
+          "rate-limit",
+          "shared-users",
+          "session-timeout",
+          "idle-timeout",
+          "keepalive-timeout",
+          "status-autorefresh",
+          "address-pool",
+          "address-list",
+          "parent-queue",
+          "mac-cookie-timeout",
+          "add-mac-cookie",
+          "transparent-proxy",
+          "comment"
+        ]
+      },
+      {
+        "name": "detail",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/user/profile/print",
+        "proplist": [
+          "name",
+          "rate-limit",
+          "shared-users",
+          "session-timeout",
+          "idle-timeout",
+          "keepalive-timeout",
+          "status-autorefresh",
+          "address-pool",
+          "address-list",
+          "parent-queue",
+          "mac-cookie-timeout",
+          "add-mac-cookie",
+          "transparent-proxy",
+          "on-login",
+          "on-logout",
+          "insert-queue-before",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/user/profile/add",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "rate-limit",
+          "shared-users",
+          "session-timeout",
+          "idle-timeout",
+          "keepalive-timeout",
+          "status-autorefresh",
+          "address-pool",
+          "address-list",
+          "parent-queue",
+          "mac-cookie-timeout",
+          "add-mac-cookie",
+          "transparent-proxy",
+          "on-login",
+          "on-logout",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/user/profile/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "rate-limit",
+          "shared-users",
+          "session-timeout",
+          "idle-timeout",
+          "keepalive-timeout",
+          "status-autorefresh",
+          "address-pool",
+          "address-list",
+          "parent-queue",
+          "mac-cookie-timeout",
+          "add-mac-cookie",
+          "transparent-proxy",
+          "on-login",
+          "on-logout",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/user/profile/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/user/profile/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/user/profile/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "hotspot-walled-garden",
+    "path": "/ip/hotspot/walled-garden",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/walled-garden/print",
+        "proplist": [
+          "action",
+          "server",
+          "src-address",
+          "dst-address",
+          "dst-host",
+          "dst-port",
+          "path",
+          "method",
+          "hits",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/walled-garden/add",
+        "selector": "",
+        "optional": [
+          "action",
+          "server",
+          "src-address",
+          "dst-address",
+          "dst-host",
+          "dst-port",
+          "path",
+          "method",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/walled-garden/set",
+        "selector": ".id",
+        "optional": [
+          "action",
+          "server",
+          "src-address",
+          "dst-address",
+          "dst-host",
+          "dst-port",
+          "path",
+          "method",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/walled-garden/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/walled-garden/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/walled-garden/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "reset-counters",
+        "command": "/ip/hotspot/walled-garden/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/ip/hotspot/walled-garden/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "hotspot-walled-garden-ip",
+    "path": "/ip/hotspot/walled-garden/ip",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/hotspot/walled-garden/ip/print",
+        "proplist": [
+          "action",
+          "server",
+          "src-address",
+          "dst-address",
+          "dst-host",
+          "protocol",
+          "dst-port",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/hotspot/walled-garden/ip/add",
+        "selector": "",
+        "optional": [
+          "action",
+          "server",
+          "src-address",
+          "dst-address",
+          "dst-host",
+          "protocol",
+          "dst-port",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/hotspot/walled-garden/ip/set",
+        "selector": ".id",
+        "optional": [
+          "action",
+          "server",
+          "src-address",
+          "dst-address",
+          "dst-host",
+          "protocol",
+          "dst-port",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/hotspot/walled-garden/ip/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/hotspot/walled-garden/ip/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/hotspot/walled-garden/ip/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "mikhmon-sales",
+    "path": "/system/script",
+    "singleton": false,
+    "views": [
+      {
+        "name": "report",
+        "mode": "oneshot",
+        "command": "/system/script/print",
+        "proplist": [
+          "name",
+          "owner",
+          "source",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/system/script/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/system/script/add",
+        "selector": "",
+        "required": [
+          "name",
+          "source"
+        ],
+        "optional": [
+          "owner",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/system/script/remove",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ppp-aaa",
+    "path": "/ppp/aaa",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ppp/aaa/print",
+        "proplist": [
+          "use-radius",
+          "accounting",
+          "interim-update",
+          "use-circuit-id-in-nas-port-id"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/ppp/aaa/set",
+        "selector": "",
+        "optional": [
+          "use-radius",
+          "accounting",
+          "interim-update",
+          "use-circuit-id-in-nas-port-id",
+          "enable-ipv6-accounting"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ppp-active",
+    "path": "/ppp/active",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ppp/active/print",
+        "proplist": [
+          "name",
+          "service",
+          "caller-id",
+          "address",
+          "uptime",
+          "encoding",
+          "session-id",
+          "limit-bytes-in",
+          "limit-bytes-out",
+          "radius"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ppp/active/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ppp/active/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "remove",
+        "command": "/ppp/active/remove",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ppp-profile",
+    "path": "/ppp/profile",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ppp/profile/print",
+        "proplist": [
+          "name",
+          "local-address",
+          "remote-address",
+          "rate-limit",
+          "parent-queue",
+          "address-list",
+          "dns-server",
+          "only-one",
+          "use-compression",
+          "use-encryption",
+          "session-timeout",
+          "idle-timeout",
+          "change-tcp-mss",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ppp/profile/add",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "local-address",
+          "remote-address",
+          "rate-limit",
+          "parent-queue",
+          "address-list",
+          "dns-server",
+          "only-one",
+          "session-timeout",
+          "idle-timeout",
+          "change-tcp-mss",
+          "on-up",
+          "on-down",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ppp/profile/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "local-address",
+          "remote-address",
+          "rate-limit",
+          "parent-queue",
+          "address-list",
+          "dns-server",
+          "only-one",
+          "session-timeout",
+          "idle-timeout",
+          "change-tcp-mss",
+          "on-up",
+          "on-down",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ppp/profile/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ppp/profile/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ppp/profile/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ppp-secret",
+    "path": "/ppp/secret",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ppp/secret/print",
+        "proplist": [
+          "name",
+          "service",
+          "profile",
+          "caller-id",
+          "local-address",
+          "remote-address",
+          "limit-bytes-in",
+          "limit-bytes-out",
+          "last-logged-out",
+          "last-caller-id",
+          "last-disconnect-reason",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ppp/secret/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ppp/secret/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ppp/secret/add",
+        "selector": "",
+        "required": [
+          "name",
+          "password"
+        ],
+        "optional": [
+          "service",
+          "profile",
+          "caller-id",
+          "local-address",
+          "remote-address",
+          "routes",
+          "limit-bytes-in",
+          "limit-bytes-out",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ppp/secret/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "password",
+          "service",
+          "profile",
+          "caller-id",
+          "local-address",
+          "remote-address",
+          "routes",
+          "limit-bytes-in",
+          "limit-bytes-out",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ppp/secret/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ppp/secret/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ppp/secret/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "pppoe-server",
+    "path": "/interface/pppoe-server/server",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/pppoe-server/server/print",
+        "proplist": [
+          "service-name",
+          "interface",
+          "default-profile",
+          "authentication",
+          "keepalive-timeout",
+          "max-sessions",
+          "one-session-per-host",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/pppoe-server/server/add",
+        "selector": "",
+        "required": [
+          "service-name",
+          "interface"
+        ],
+        "optional": [
+          "default-profile",
+          "authentication",
+          "keepalive-timeout",
+          "max-sessions",
+          "one-session-per-host",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/pppoe-server/server/set",
+        "selector": ".id",
+        "optional": [
+          "service-name",
+          "interface",
+          "default-profile",
+          "authentication",
+          "keepalive-timeout",
+          "max-sessions",
+          "one-session-per-host",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/pppoe-server/server/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/pppoe-server/server/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/pppoe-server/server/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "radius",
+    "path": "/radius",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/radius/print",
+        "proplist": [
+          "service",
+          "address",
+          "authentication-port",
+          "accounting-port",
+          "timeout",
+          "realm",
+          "src-address",
+          "accounting-backup",
+          "status",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "monitor",
+        "mode": "native",
+        "command": "/radius/monitor",
+        "proplist": [
+          "pending",
+          "requests",
+          "accepts",
+          "rejects",
+          "resends",
+          "timeouts",
+          "bad-replies",
+          "last-request-rtt"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/radius/add",
+        "selector": "",
+        "required": [
+          "service",
+          "address",
+          "secret"
+        ],
+        "optional": [
+          "authentication-port",
+          "accounting-port",
+          "timeout",
+          "realm",
+          "src-address",
+          "accounting-backup",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/radius/set",
+        "selector": ".id",
+        "optional": [
+          "service",
+          "address",
+          "secret",
+          "authentication-port",
+          "accounting-port",
+          "timeout",
+          "realm",
+          "src-address",
+          "accounting-backup",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/radius/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/radius/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/radius/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "reset-counters",
+        "command": "/radius/reset-counters",
+        "selector": "numbers"
+      }
+    ]
+  },
+  {
+    "id": "radius-incoming",
+    "path": "/radius/incoming",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/radius/incoming/print",
+        "proplist": [
+          "accept",
+          "port"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/radius/incoming/set",
+        "selector": "",
+        "optional": [
+          "accept",
+          "port"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dhcp-client",
+    "path": "/ip/dhcp-client",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dhcp-client/print",
+        "proplist": [
+          "interface",
+          "status",
+          "address",
+          "gateway",
+          "dhcp-server",
+          "expires-after",
+          "add-default-route",
+          "use-peer-dns",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/dhcp-client/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/dhcp-client/add",
+        "selector": "",
+        "required": [
+          "interface"
+        ],
+        "optional": [
+          "add-default-route",
+          "use-peer-dns",
+          "use-peer-ntp",
+          "default-route-distance",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/dhcp-client/set",
+        "selector": ".id",
+        "optional": [
+          "interface",
+          "add-default-route",
+          "use-peer-dns",
+          "use-peer-ntp",
+          "default-route-distance",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/dhcp-client/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/dhcp-client/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/dhcp-client/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "release",
+        "command": "/ip/dhcp-client/release",
+        "selector": "numbers"
+      },
+      {
+        "name": "renew",
+        "command": "/ip/dhcp-client/renew",
+        "selector": "numbers"
+      }
+    ]
+  },
+  {
+    "id": "dhcp-lease",
+    "path": "/ip/dhcp-server/lease",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dhcp-server/lease/print",
+        "proplist": [
+          "address",
+          "mac-address",
+          "client-id",
+          "host-name",
+          "status",
+          "server",
+          "active-address",
+          "active-mac-address",
+          "expires-after",
+          "last-seen",
+          "dynamic",
+          "disabled",
+          "block-access",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/dhcp-server/lease/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/dhcp-server/lease/listen"
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/ip/dhcp-server/lease/print",
+        "proplist": [
+          "address",
+          "mac-address",
+          "host-name",
+          "status",
+          "expires-after",
+          "last-seen"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/dhcp-server/lease/add",
+        "selector": "",
+        "required": [
+          "address",
+          "mac-address"
+        ],
+        "optional": [
+          "server",
+          "client-id",
+          "comment",
+          "block-access",
+          "rate-limit"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/dhcp-server/lease/set",
+        "selector": ".id",
+        "optional": [
+          "address",
+          "mac-address",
+          "server",
+          "client-id",
+          "comment",
+          "block-access",
+          "rate-limit"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/dhcp-server/lease/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/dhcp-server/lease/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/dhcp-server/lease/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "make-static",
+        "command": "/ip/dhcp-server/lease/make-static",
+        "selector": "numbers"
+      },
+      {
+        "name": "check-status",
+        "command": "/ip/dhcp-server/lease/check-status",
+        "selector": "numbers"
+      }
+    ]
+  },
+  {
+    "id": "dhcp-server",
+    "path": "/ip/dhcp-server",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dhcp-server/print",
+        "proplist": [
+          "name",
+          "interface",
+          "lease-time",
+          "address-pool",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/dhcp-server/add",
+        "selector": "",
+        "required": [
+          "name",
+          "interface"
+        ],
+        "optional": [
+          "lease-time",
+          "address-pool",
+          "authoritative",
+          "use-radius",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/dhcp-server/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "interface",
+          "lease-time",
+          "address-pool",
+          "authoritative",
+          "use-radius",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/dhcp-server/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/dhcp-server/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/dhcp-server/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "dhcp-server-network",
+    "path": "/ip/dhcp-server/network",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dhcp-server/network/print",
+        "proplist": [
+          "address",
+          "gateway",
+          "dns-server",
+          "domain",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/dhcp-server/network/add",
+        "selector": "",
+        "required": [
+          "address"
+        ],
+        "optional": [
+          "gateway",
+          "dns-server",
+          "domain",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/dhcp-server/network/set",
+        "selector": ".id",
+        "optional": [
+          "address",
+          "gateway",
+          "dns-server",
+          "domain",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/dhcp-server/network/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/dhcp-server/network/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/dhcp-server/network/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ip-address",
+    "path": "/ip/address",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/address/print",
+        "proplist": [
+          "address",
+          "network",
+          "interface",
+          "disabled",
+          "dynamic",
+          "invalid",
+          "comment"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/address/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/address/add",
+        "selector": "",
+        "required": [
+          "address",
+          "interface"
+        ],
+        "optional": [
+          "network",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/address/set",
+        "selector": ".id",
+        "optional": [
+          "address",
+          "interface",
+          "network",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/address/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/address/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/address/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ip-arp",
+    "path": "/ip/arp",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/arp/print",
+        "proplist": [
+          "address",
+          "mac-address",
+          "interface",
+          "dynamic",
+          "disabled",
+          "published",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/arp/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/arp/add",
+        "selector": "",
+        "required": [
+          "address",
+          "mac-address",
+          "interface"
+        ],
+        "optional": [
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/arp/set",
+        "selector": ".id",
+        "optional": [
+          "address",
+          "mac-address",
+          "interface",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/arp/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/arp/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/arp/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ip-dns",
+    "path": "/ip/dns",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dns/print",
+        "proplist": [
+          "servers",
+          "dynamic-servers",
+          "allow-remote-requests",
+          "cache-size",
+          "cache-used"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/ip/dns/set",
+        "selector": "",
+        "optional": [
+          "servers",
+          "allow-remote-requests",
+          "cache-size",
+          "cache-max-ttl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ip-dns-cache",
+    "path": "/ip/dns/cache",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dns/cache/print",
+        "proplist": [
+          "name",
+          "type",
+          "data",
+          "ttl"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/dns/cache/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "flush",
+        "command": "/ip/dns/cache/flush",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "ip-dns-static",
+    "path": "/ip/dns/static",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/dns/static/print",
+        "proplist": [
+          "name",
+          "address",
+          "ttl",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/dns/static/add",
+        "selector": "",
+        "required": [
+          "name",
+          "address"
+        ],
+        "optional": [
+          "ttl",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/dns/static/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "address",
+          "ttl",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/dns/static/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/dns/static/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/dns/static/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ip-neighbor",
+    "path": "/ip/neighbor",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/neighbor/print",
+        "proplist": [
+          "interface",
+          "address",
+          "mac-address",
+          "identity",
+          "platform",
+          "version",
+          "board",
+          "age"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/neighbor/listen"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "ip-pool",
+    "path": "/ip/pool",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/pool/print",
+        "proplist": [
+          "name",
+          "ranges",
+          "next-pool",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/pool/add",
+        "selector": "",
+        "required": [
+          "name",
+          "ranges"
+        ],
+        "optional": [
+          "next-pool",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/pool/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "ranges",
+          "next-pool",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/pool/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/pool/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/pool/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ip-pool-used",
+    "path": "/ip/pool/used",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/pool/used/print",
+        "proplist": [
+          "pool",
+          "address",
+          "owner",
+          "info"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/pool/used/print"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "ip-route",
+    "path": "/ip/route",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/route/print",
+        "proplist": [
+          "dst-address",
+          "gateway",
+          "distance",
+          "scope",
+          "target-scope",
+          "routing-table",
+          "active",
+          "dynamic",
+          "disabled",
+          "comment"
+        ],
+        "version": "v7"
+      },
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/route/print",
+        "proplist": [
+          "dst-address",
+          "gateway",
+          "distance",
+          "scope",
+          "target-scope",
+          "routing-mark",
+          "active",
+          "dynamic",
+          "disabled",
+          "comment"
+        ],
+        "version": "v6"
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/route/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/route/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/route/add",
+        "selector": "",
+        "required": [
+          "dst-address",
+          "gateway"
+        ],
+        "optional": [
+          "distance",
+          "scope",
+          "target-scope",
+          "routing-table",
+          "routing-mark",
+          "check-gateway",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/route/set",
+        "selector": ".id",
+        "optional": [
+          "dst-address",
+          "gateway",
+          "distance",
+          "scope",
+          "target-scope",
+          "routing-table",
+          "routing-mark",
+          "check-gateway",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/route/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/route/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/route/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "fw-address-list",
+    "path": "/ip/firewall/address-list",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/firewall/address-list/print",
+        "proplist": [
+          "list",
+          "address",
+          "timeout",
+          "creation-time",
+          "dynamic",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/firewall/address-list/print"
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/ip/firewall/address-list/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/firewall/address-list/add",
+        "selector": "",
+        "required": [
+          "list",
+          "address"
+        ],
+        "optional": [
+          "timeout",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/firewall/address-list/set",
+        "selector": ".id",
+        "optional": [
+          "list",
+          "address",
+          "timeout",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/firewall/address-list/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/firewall/address-list/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/firewall/address-list/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "fw-connection",
+    "path": "/ip/firewall/connection",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/firewall/connection/print",
+        "proplist": [
+          "protocol",
+          "src-address",
+          "dst-address",
+          "reply-src-address",
+          "reply-dst-address",
+          "tcp-state",
+          "timeout",
+          "orig-bytes",
+          "repl-bytes"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/firewall/connection/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "remove",
+        "command": "/ip/firewall/connection/remove",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "fw-filter",
+    "path": "/ip/firewall/filter",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/firewall/filter/print",
+        "proplist": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "log",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/ip/firewall/filter/print",
+        "proplist": [
+          "chain",
+          "action",
+          "bytes",
+          "packets",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/firewall/filter/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/firewall/filter/add",
+        "selector": "",
+        "required": [
+          "chain",
+          "action"
+        ],
+        "optional": [
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/firewall/filter/set",
+        "selector": ".id",
+        "optional": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/firewall/filter/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/firewall/filter/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/firewall/filter/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "move",
+        "command": "/ip/firewall/filter/move",
+        "selector": "numbers",
+        "required": [
+          "destination"
+        ]
+      },
+      {
+        "name": "reset-counters",
+        "command": "/ip/firewall/filter/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/ip/firewall/filter/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "fw-mangle",
+    "path": "/ip/firewall/mangle",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/firewall/mangle/print",
+        "proplist": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "connection-mark",
+          "packet-mark",
+          "new-connection-mark",
+          "new-packet-mark",
+          "new-routing-mark",
+          "passthrough",
+          "log",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/ip/firewall/mangle/print",
+        "proplist": [
+          "chain",
+          "action",
+          "bytes",
+          "packets",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/firewall/mangle/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/firewall/mangle/add",
+        "selector": "",
+        "required": [
+          "chain",
+          "action"
+        ],
+        "optional": [
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "connection-mark",
+          "packet-mark",
+          "new-connection-mark",
+          "new-packet-mark",
+          "new-routing-mark",
+          "passthrough",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/firewall/mangle/set",
+        "selector": ".id",
+        "optional": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "connection-mark",
+          "packet-mark",
+          "new-connection-mark",
+          "new-packet-mark",
+          "new-routing-mark",
+          "passthrough",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/firewall/mangle/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/firewall/mangle/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/firewall/mangle/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "move",
+        "command": "/ip/firewall/mangle/move",
+        "selector": "numbers",
+        "required": [
+          "destination"
+        ]
+      },
+      {
+        "name": "reset-counters",
+        "command": "/ip/firewall/mangle/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/ip/firewall/mangle/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "fw-nat",
+    "path": "/ip/firewall/nat",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/firewall/nat/print",
+        "proplist": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "to-addresses",
+          "to-ports",
+          "log",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/ip/firewall/nat/print",
+        "proplist": [
+          "chain",
+          "action",
+          "bytes",
+          "packets",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/firewall/nat/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/firewall/nat/add",
+        "selector": "",
+        "required": [
+          "chain",
+          "action"
+        ],
+        "optional": [
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "to-addresses",
+          "to-ports",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/firewall/nat/set",
+        "selector": ".id",
+        "optional": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "to-addresses",
+          "to-ports",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/firewall/nat/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/firewall/nat/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/firewall/nat/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "move",
+        "command": "/ip/firewall/nat/move",
+        "selector": "numbers",
+        "required": [
+          "destination"
+        ]
+      },
+      {
+        "name": "reset-counters",
+        "command": "/ip/firewall/nat/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/ip/firewall/nat/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "fw-raw",
+    "path": "/ip/firewall/raw",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/firewall/raw/print",
+        "proplist": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "log",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/ip/firewall/raw/print",
+        "proplist": [
+          "chain",
+          "action",
+          "bytes",
+          "packets",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/ip/firewall/raw/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/ip/firewall/raw/add",
+        "selector": "",
+        "required": [
+          "chain",
+          "action"
+        ],
+        "optional": [
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/ip/firewall/raw/set",
+        "selector": ".id",
+        "optional": [
+          "chain",
+          "action",
+          "protocol",
+          "src-address",
+          "dst-address",
+          "src-port",
+          "dst-port",
+          "in-interface",
+          "out-interface",
+          "in-interface-list",
+          "out-interface-list",
+          "src-address-list",
+          "dst-address-list",
+          "connection-state",
+          "log",
+          "log-prefix",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/ip/firewall/raw/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/ip/firewall/raw/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/firewall/raw/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "move",
+        "command": "/ip/firewall/raw/move",
+        "selector": "numbers",
+        "required": [
+          "destination"
+        ]
+      },
+      {
+        "name": "reset-counters",
+        "command": "/ip/firewall/raw/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/ip/firewall/raw/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "queue-simple",
+    "path": "/queue/simple",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/queue/simple/print",
+        "proplist": [
+          "name",
+          "target",
+          "max-limit",
+          "limit-at",
+          "parent",
+          "priority",
+          "queue",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/queue/simple/print",
+        "proplist": [
+          "name",
+          "target",
+          "rate",
+          "packet-rate",
+          "bytes",
+          "packets",
+          "dropped",
+          "queued-bytes",
+          "queued-packets"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/queue/simple/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/queue/simple/add",
+        "selector": "",
+        "required": [
+          "name",
+          "target"
+        ],
+        "optional": [
+          "max-limit",
+          "limit-at",
+          "burst-limit",
+          "burst-threshold",
+          "burst-time",
+          "parent",
+          "priority",
+          "queue",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/queue/simple/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "target",
+          "max-limit",
+          "limit-at",
+          "burst-limit",
+          "burst-threshold",
+          "burst-time",
+          "parent",
+          "priority",
+          "queue",
+          "place-before",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/queue/simple/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/queue/simple/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/queue/simple/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "move",
+        "command": "/queue/simple/move",
+        "selector": "numbers",
+        "required": [
+          "destination"
+        ]
+      },
+      {
+        "name": "reset-counters",
+        "command": "/queue/simple/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/queue/simple/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "queue-tree",
+    "path": "/queue/tree",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/queue/tree/print",
+        "proplist": [
+          "name",
+          "parent",
+          "packet-mark",
+          "limit-at",
+          "max-limit",
+          "priority",
+          "queue",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/queue/tree/print",
+        "proplist": [
+          "name",
+          "parent",
+          "rate",
+          "packet-rate",
+          "bytes",
+          "packets",
+          "dropped",
+          "queued-packets"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/queue/tree/add",
+        "selector": "",
+        "required": [
+          "name",
+          "parent"
+        ],
+        "optional": [
+          "packet-mark",
+          "limit-at",
+          "max-limit",
+          "priority",
+          "queue",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/queue/tree/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "parent",
+          "packet-mark",
+          "limit-at",
+          "max-limit",
+          "priority",
+          "queue",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/queue/tree/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/queue/tree/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/queue/tree/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "reset-counters",
+        "command": "/queue/tree/reset-counters",
+        "selector": "numbers"
+      },
+      {
+        "name": "reset-counters-all",
+        "command": "/queue/tree/reset-counters-all",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "interface",
+    "path": "/interface",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/print",
+        "proplist": [
+          "name",
+          "type",
+          "mtu",
+          "actual-mtu",
+          "running",
+          "disabled",
+          "comment",
+          "last-link-up-time",
+          "last-link-down-time",
+          "link-downs"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/interface/print",
+        "proplist": [
+          "name",
+          "running",
+          "rx-byte",
+          "tx-byte",
+          "rx-packet",
+          "tx-packet",
+          "rx-drop",
+          "tx-drop",
+          "tx-queue-drop",
+          "rx-error",
+          "tx-error"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/interface/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/interface/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "mtu",
+          "comment"
+        ]
+      },
+      {
+        "name": "enable",
+        "command": "/interface/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "interface-bridge",
+    "path": "/interface/bridge",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/bridge/print",
+        "proplist": [
+          "name",
+          "protocol-mode",
+          "vlan-filtering",
+          "mtu",
+          "running",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/bridge/add",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "protocol-mode",
+          "vlan-filtering",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/bridge/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "protocol-mode",
+          "vlan-filtering",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/bridge/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/bridge/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/bridge/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "interface-bridge-host",
+    "path": "/interface/bridge/host",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/bridge/host/print",
+        "proplist": [
+          "mac-address",
+          "on-interface",
+          "bridge",
+          "vid",
+          "age",
+          "local"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "interface-bridge-port",
+    "path": "/interface/bridge/port",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/bridge/port/print",
+        "proplist": [
+          "interface",
+          "bridge",
+          "pvid",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/bridge/port/add",
+        "selector": "",
+        "required": [
+          "interface",
+          "bridge"
+        ],
+        "optional": [
+          "pvid",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/bridge/port/set",
+        "selector": ".id",
+        "optional": [
+          "interface",
+          "bridge",
+          "pvid",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/bridge/port/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/bridge/port/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/bridge/port/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "interface-ethernet",
+    "path": "/interface/ethernet",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/ethernet/print",
+        "proplist": [
+          "name",
+          "default-name",
+          "mac-address",
+          "mtu",
+          "l2mtu",
+          "speed",
+          "auto-negotiation",
+          "running",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "monitor",
+        "mode": "native",
+        "command": "/interface/ethernet/monitor",
+        "proplist": [
+          "name",
+          "status",
+          "rate",
+          "full-duplex",
+          "auto-negotiation",
+          "tx-flow-control",
+          "rx-flow-control",
+          "sfp-module-present",
+          "sfp-type",
+          "sfp-vendor-name",
+          "sfp-wavelength",
+          "sfp-temperature",
+          "sfp-supply-voltage",
+          "sfp-tx-bias-current",
+          "sfp-tx-power",
+          "sfp-rx-power"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/interface/ethernet/set",
+        "selector": ".id",
+        "optional": [
+          "mtu",
+          "speed",
+          "auto-negotiation",
+          "arp",
+          "advertise",
+          "tx-flow-control",
+          "rx-flow-control",
+          "comment"
+        ]
+      },
+      {
+        "name": "enable",
+        "command": "/interface/ethernet/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/ethernet/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "reset-counters",
+        "command": "/interface/ethernet/reset-counters",
+        "selector": "numbers"
+      }
+    ]
+  },
+  {
+    "id": "interface-list",
+    "path": "/interface/list",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/list/print",
+        "proplist": [
+          "name",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/list/add",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/list/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/list/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/list/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/list/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "interface-list-member",
+    "path": "/interface/list/member",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/list/member/print",
+        "proplist": [
+          "list",
+          "interface",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/list/member/add",
+        "selector": "",
+        "required": [
+          "list",
+          "interface"
+        ],
+        "optional": [
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/list/member/set",
+        "selector": ".id",
+        "optional": [
+          "list",
+          "interface",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/list/member/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/list/member/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/list/member/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "interface-monitor-traffic",
+    "path": "/interface/monitor-traffic",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/interface/monitor-traffic",
+        "proplist": [
+          "name",
+          "rx-bits-per-second",
+          "tx-bits-per-second",
+          "rx-packets-per-second",
+          "tx-packets-per-second",
+          "rx-drops-per-second",
+          "tx-drops-per-second",
+          "rx-errors-per-second",
+          "tx-errors-per-second",
+          "tx-queue-drops-per-second"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "interface-vlan",
+    "path": "/interface/vlan",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/vlan/print",
+        "proplist": [
+          "name",
+          "vlan-id",
+          "interface",
+          "mtu",
+          "running",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/vlan/add",
+        "selector": "",
+        "required": [
+          "name",
+          "vlan-id",
+          "interface"
+        ],
+        "optional": [
+          "mtu",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/vlan/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "vlan-id",
+          "interface",
+          "mtu",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/vlan/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/vlan/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/vlan/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "pppoe-client",
+    "path": "/interface/pppoe-client",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/interface/pppoe-client/print",
+        "proplist": [
+          "name",
+          "interface",
+          "user",
+          "service-name",
+          "running",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "monitor",
+        "mode": "native",
+        "command": "/interface/pppoe-client/monitor",
+        "proplist": [
+          "status",
+          "uptime",
+          "encoding",
+          "service-name",
+          "ac-name",
+          "local-address",
+          "remote-address"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/interface/pppoe-client/add",
+        "selector": "",
+        "required": [
+          "interface",
+          "user",
+          "password"
+        ],
+        "optional": [
+          "name",
+          "service-name",
+          "add-default-route",
+          "use-peer-dns",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/interface/pppoe-client/set",
+        "selector": ".id",
+        "optional": [
+          "interface",
+          "user",
+          "password",
+          "name",
+          "service-name",
+          "add-default-route",
+          "use-peer-dns",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/interface/pppoe-client/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/interface/pppoe-client/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/interface/pppoe-client/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "file",
+    "path": "/file",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/file/print",
+        "proplist": [
+          "name",
+          "type",
+          "size",
+          "creation-time"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/file/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "remove",
+        "command": "/file/remove",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "ip-service",
+    "path": "/ip/service",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/ip/service/print",
+        "proplist": [
+          "name",
+          "port",
+          "address",
+          "disabled"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/ip/service/set",
+        "selector": ".id",
+        "optional": [
+          "port",
+          "address"
+        ]
+      },
+      {
+        "name": "enable",
+        "command": "/ip/service/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/ip/service/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "log",
+    "path": "/log",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/log/print",
+        "proplist": [
+          "time",
+          "topics",
+          "message"
+        ]
+      },
+      {
+        "name": "tail",
+        "mode": "follow",
+        "command": "/log/print",
+        "proplist": [
+          "time",
+          "topics",
+          "message"
+        ]
+      },
+      {
+        "name": "tail-only",
+        "mode": "follow",
+        "command": "/log/print",
+        "proplist": [
+          "time",
+          "topics",
+          "message"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/log/listen"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "system-backup",
+    "path": "/system/backup",
+    "singleton": true,
+    "views": [],
+    "actions": [
+      {
+        "name": "save",
+        "command": "/system/backup/save",
+        "selector": "",
+        "optional": [
+          "name",
+          "password",
+          "dont-encrypt"
+        ]
+      },
+      {
+        "name": "load",
+        "command": "/system/backup/load",
+        "selector": "",
+        "required": [
+          "name"
+        ],
+        "optional": [
+          "password"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "system-clock",
+    "path": "/system/clock",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/clock/print",
+        "proplist": [
+          "time",
+          "date",
+          "time-zone-name",
+          "time-zone-autodetect"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/system/clock/set",
+        "selector": "",
+        "optional": [
+          "time",
+          "date",
+          "time-zone-name",
+          "time-zone-autodetect"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "system-export",
+    "path": "/export",
+    "singleton": true,
+    "views": [],
+    "actions": [
+      {
+        "name": "export",
+        "command": "/export/export",
+        "selector": "",
+        "optional": [
+          "file",
+          "compact",
+          "terse",
+          "verbose",
+          "hide-sensitive",
+          "show-sensitive"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "system-health",
+    "path": "/system/health",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/health/print",
+        "proplist": [
+          "name",
+          "value",
+          "type"
+        ],
+        "version": "v7"
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/system/health/print",
+        "proplist": [
+          "name",
+          "value",
+          "type"
+        ],
+        "version": "v7"
+      },
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/health/print",
+        "proplist": [
+          "voltage",
+          "temperature",
+          "cpu-temperature",
+          "power-consumption",
+          "fan1-speed",
+          "fan2-speed"
+        ],
+        "version": "v6"
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/system/health/print",
+        "proplist": [
+          "voltage",
+          "temperature",
+          "cpu-temperature",
+          "power-consumption",
+          "fan1-speed",
+          "fan2-speed"
+        ],
+        "version": "v6"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "system-identity",
+    "path": "/system/identity",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/identity/print",
+        "proplist": [
+          "name"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/system/identity/set",
+        "selector": "",
+        "optional": [
+          "name"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "system-package",
+    "path": "/system/package",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/package/print",
+        "proplist": [
+          "name",
+          "version",
+          "build-time",
+          "disabled",
+          "scheduled"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "enable",
+        "command": "/system/package/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/system/package/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "system-package-update",
+    "path": "/system/package/update",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/package/update/print",
+        "proplist": [
+          "channel",
+          "installed-version",
+          "latest-version",
+          "status"
+        ]
+      },
+      {
+        "name": "check",
+        "mode": "native",
+        "command": "/system/package/update/check-for-updates",
+        "proplist": [
+          "channel",
+          "installed-version",
+          "latest-version",
+          "status"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "set",
+        "command": "/system/package/update/set",
+        "selector": "",
+        "optional": [
+          "channel"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "system-power",
+    "path": "/system",
+    "singleton": true,
+    "views": [],
+    "actions": [
+      {
+        "name": "reboot",
+        "command": "/system/reboot",
+        "selector": ""
+      },
+      {
+        "name": "shutdown",
+        "command": "/system/shutdown",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "system-resource",
+    "path": "/system/resource",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/resource/print",
+        "proplist": [
+          "uptime",
+          "version",
+          "build-time",
+          "architecture-name",
+          "board-name",
+          "platform",
+          "cpu",
+          "cpu-count",
+          "cpu-frequency",
+          "cpu-load",
+          "free-memory",
+          "total-memory",
+          "free-hdd-space",
+          "total-hdd-space"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/system/resource/print",
+        "proplist": [
+          "uptime",
+          "cpu-load",
+          "free-memory",
+          "total-memory",
+          "free-hdd-space",
+          "total-hdd-space"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "system-resource-cpu",
+    "path": "/system/resource/cpu",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/resource/cpu/print",
+        "proplist": [
+          "cpu",
+          "load",
+          "irq",
+          "disk"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/system/resource/cpu/print",
+        "proplist": [
+          "cpu",
+          "load",
+          "irq",
+          "disk"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "system-routerboard",
+    "path": "/system/routerboard",
+    "singleton": true,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/routerboard/print",
+        "proplist": [
+          "routerboard",
+          "model",
+          "serial-number",
+          "firmware-type",
+          "factory-firmware",
+          "current-firmware",
+          "upgrade-firmware"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "upgrade",
+        "command": "/system/routerboard/upgrade",
+        "selector": ""
+      }
+    ]
+  },
+  {
+    "id": "system-scheduler",
+    "path": "/system/scheduler",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/scheduler/print",
+        "proplist": [
+          "name",
+          "start-date",
+          "start-time",
+          "interval",
+          "on-event",
+          "next-run",
+          "run-count",
+          "policy",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/system/scheduler/add",
+        "selector": "",
+        "required": [
+          "name",
+          "on-event"
+        ],
+        "optional": [
+          "start-date",
+          "start-time",
+          "interval",
+          "policy",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/system/scheduler/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "on-event",
+          "start-date",
+          "start-time",
+          "interval",
+          "policy",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/system/scheduler/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/system/scheduler/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/system/scheduler/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "system-script",
+    "path": "/system/script",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/system/script/print",
+        "proplist": [
+          "name",
+          "owner",
+          "policy",
+          "last-started",
+          "run-count",
+          "comment"
+        ]
+      },
+      {
+        "name": "detail",
+        "mode": "oneshot",
+        "command": "/system/script/print",
+        "proplist": [
+          "name",
+          "owner",
+          "policy",
+          "dont-require-permissions",
+          "last-started",
+          "run-count",
+          "source",
+          "comment"
+        ]
+      },
+      {
+        "name": "count",
+        "mode": "oneshot",
+        "command": "/system/script/print"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/system/script/add",
+        "selector": "",
+        "required": [
+          "name",
+          "source"
+        ],
+        "optional": [
+          "owner",
+          "policy",
+          "dont-require-permissions",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/system/script/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "source",
+          "owner",
+          "policy",
+          "dont-require-permissions",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/system/script/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/system/script/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/system/script/disable",
+        "selector": ".id"
+      },
+      {
+        "name": "run",
+        "command": "/system/script/run",
+        "selector": "number"
+      }
+    ]
+  },
+  {
+    "id": "user",
+    "path": "/user",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/user/print",
+        "proplist": [
+          "name",
+          "group",
+          "address",
+          "last-logged-in",
+          "disabled",
+          "comment"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/user/add",
+        "selector": "",
+        "required": [
+          "name",
+          "password",
+          "group"
+        ],
+        "optional": [
+          "address",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/user/set",
+        "selector": ".id",
+        "optional": [
+          "name",
+          "password",
+          "group",
+          "address",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/user/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/user/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/user/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "user-active",
+    "path": "/user/active",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/user/active/print",
+        "proplist": [
+          "name",
+          "when",
+          "address",
+          "via",
+          "group",
+          "radius"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/user/active/listen"
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tool-bandwidth-test",
+    "path": "/tool/bandwidth-test",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/tool/bandwidth-test",
+        "proplist": [
+          "status",
+          "duration",
+          "tx-current",
+          "tx-10-second-average",
+          "tx-total-average",
+          "rx-current",
+          "rx-10-second-average",
+          "rx-total-average",
+          "lost-packets",
+          "direction",
+          "connection-count",
+          "local-cpu-load",
+          "remote-cpu-load"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tool-fetch",
+    "path": "/tool/fetch",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/tool/fetch",
+        "proplist": [
+          "status",
+          "downloaded",
+          "total",
+          "duration"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tool-netwatch",
+    "path": "/tool/netwatch",
+    "singleton": false,
+    "views": [
+      {
+        "name": "list",
+        "mode": "oneshot",
+        "command": "/tool/netwatch/print",
+        "proplist": [
+          "host",
+          "type",
+          "interval",
+          "timeout",
+          "status",
+          "since",
+          "disabled",
+          "comment"
+        ]
+      },
+      {
+        "name": "live",
+        "mode": "interval",
+        "command": "/tool/netwatch/print",
+        "proplist": [
+          "host",
+          "status",
+          "since"
+        ]
+      },
+      {
+        "name": "events",
+        "mode": "listen",
+        "command": "/tool/netwatch/listen"
+      }
+    ],
+    "actions": [
+      {
+        "name": "add",
+        "command": "/tool/netwatch/add",
+        "selector": "",
+        "required": [
+          "host"
+        ],
+        "optional": [
+          "type",
+          "interval",
+          "timeout",
+          "up-script",
+          "down-script",
+          "comment"
+        ]
+      },
+      {
+        "name": "set",
+        "command": "/tool/netwatch/set",
+        "selector": ".id",
+        "optional": [
+          "host",
+          "type",
+          "interval",
+          "timeout",
+          "up-script",
+          "down-script",
+          "comment"
+        ]
+      },
+      {
+        "name": "remove",
+        "command": "/tool/netwatch/remove",
+        "selector": ".id"
+      },
+      {
+        "name": "enable",
+        "command": "/tool/netwatch/enable",
+        "selector": ".id"
+      },
+      {
+        "name": "disable",
+        "command": "/tool/netwatch/disable",
+        "selector": ".id"
+      }
+    ]
+  },
+  {
+    "id": "tool-ping",
+    "path": "/ping",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/ping",
+        "proplist": [
+          "seq",
+          "host",
+          "size",
+          "ttl",
+          "time",
+          "status",
+          "sent",
+          "received",
+          "packet-loss",
+          "min-rtt",
+          "avg-rtt",
+          "max-rtt"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tool-profile",
+    "path": "/tool/profile",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/tool/profile",
+        "proplist": [
+          "name",
+          "cpu",
+          "usage"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tool-torch",
+    "path": "/tool/torch",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/tool/torch",
+        "proplist": [
+          "src-address",
+          "dst-address",
+          "mac-protocol",
+          "ip-protocol",
+          "src-port",
+          "dst-port",
+          "vlan-id",
+          "tx",
+          "rx",
+          "tx-packets",
+          "rx-packets"
+        ]
+      }
+    ],
+    "actions": []
+  },
+  {
+    "id": "tool-traceroute",
+    "path": "/tool/traceroute",
+    "singleton": true,
+    "views": [
+      {
+        "name": "run",
+        "mode": "native",
+        "command": "/tool/traceroute",
+        "proplist": [
+          "address",
+          "loss",
+          "sent",
+          "last",
+          "avg",
+          "best",
+          "worst",
+          "std-dev",
+          "status"
+        ]
+      }
+    ],
+    "actions": []
+  }
+]

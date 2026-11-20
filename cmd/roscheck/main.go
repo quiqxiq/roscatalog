@@ -38,7 +38,6 @@ func main() {
 
 		resource = flag.String("resource", "", "ID resource katalog; kosong = uji koneksi")
 		view     = flag.String("view", "", "nama view; kosong = pilih otomatis")
-		ver      = flag.String("ver", "", "v6 atau v7")
 		once     = flag.Bool("once", false, "jalankan sekali, bukan stream/poll")
 		stream   = flag.Bool("stream", true, "preferensi stream (bawaan stream; false = poll)")
 		every    = flag.Duration("every", 5*time.Second, "interval stream atau jeda poll (1s..5s / 5s..30s)")
@@ -101,7 +100,7 @@ func main() {
 	}
 
 	if *once {
-		req, err := res.Build(viewName, ros.Version(*ver), ros.Once(), params)
+		req, err := res.Build(viewName, ros.Once(), params)
 		if err != nil {
 			log.Fatalf("build: %v", err)
 		}
@@ -109,12 +108,12 @@ func main() {
 		return
 	}
 
-	plan := sess.PlanFor(res, viewName, ros.Version(*ver))
+	plan := sess.PlanFor(res, viewName)
 	plan.Every = *every
-	if v, ok := res.View(viewName, ros.Version(*ver)); ok && v.Key != "" {
+	if v, ok := res.View(viewName); ok && v.Key != "" {
 		plan.Diff = true
 	}
-	req, err := res.Build(viewName, ros.Version(*ver), plan, params)
+	req, err := res.Build(viewName, plan, params)
 	if err != nil {
 		log.Fatalf("build: %v", err)
 	}
@@ -197,7 +196,7 @@ func runOnce(ctx context.Context, sess *rosrun.MikroTik, res *ros.Resource, req 
 
 func defaultView(res *ros.Resource) string {
 	for _, name := range []string{"list", "live", "run", "detail"} {
-		if _, ok := res.View(name, ros.AnyVersion); ok {
+		if _, ok := res.View(name); ok {
 			return name
 		}
 	}

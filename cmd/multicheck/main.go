@@ -101,14 +101,14 @@ func main() {
 	go consumeEvents("auto:"+live.ID, mustWatchAuto(ctx, mgr, live), counts)
 
 	// Stream interval + stats di semua router.
-	streamReq, err := live.Build("live", ros.AnyVersion, ros.StreamEvery(*streamEvery), ros.Params{})
+	streamReq, err := live.Build("live", ros.StreamEvery(*streamEvery), ros.Params{})
 	if err != nil {
 		log.Fatalf("build stream: %v", err)
 	}
 	go consumeEvents("interval", mustWatchAll(ctx, mgr, streamReq), counts)
 
 	// Poll terus-menerus di semua router, berjalan bersamaan dengan stream.
-	pollReq, err := live.Build("live", ros.AnyVersion, ros.Poll(*pollEvery), ros.Params{})
+	pollReq, err := live.Build("live", ros.Poll(*pollEvery), ros.Params{})
 	if err != nil {
 		log.Fatalf("build poll: %v", err)
 	}
@@ -116,7 +116,7 @@ func main() {
 
 	// Native monitor-traffic.
 	mt, _ := ros.Lookup("interface-monitor-traffic")
-	mtReq, err := mt.Build("run", ros.AnyVersion, ros.Stream(), ros.Params{
+	mtReq, err := mt.Build("run", ros.Stream(), ros.Params{
 		Args: map[string]string{"interface": *iface},
 	})
 	if err != nil {
@@ -126,13 +126,13 @@ func main() {
 
 	// Follow-only dan follow (buffer lama + entri baru).
 	lg, _ := ros.Lookup("log")
-	lgReq, err := lg.Build("tail-only", ros.AnyVersion, ros.Stream(), ros.Params{})
+	lgReq, err := lg.Build("tail-only", ros.Stream(), ros.Params{})
 	if err != nil {
 		log.Fatalf("build follow-only: %v", err)
 	}
 	go consumeEvents("follow-only", mustWatchAll(ctx, mgr, lgReq), counts)
 
-	tailReq, err := lg.Build("tail", ros.AnyVersion, ros.Stream(), ros.Params{})
+	tailReq, err := lg.Build("tail", ros.Stream(), ros.Params{})
 	if err != nil {
 		log.Fatalf("build follow: %v", err)
 	}
@@ -175,7 +175,7 @@ func mustWatchAll(ctx context.Context, mgr *rosrun.Manager, req ros.Request) <-c
 }
 
 func mustWatchAuto(ctx context.Context, mgr *rosrun.Manager, res *ros.Resource) <-chan rosrun.RouterEvent {
-	ch, err := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+	ch, err := mgr.WatchAutoAll(ctx, res, "live", ros.Plan{}, ros.Params{})
 	if err != nil {
 		log.Fatalf("WatchAutoAll: %v", err)
 	}

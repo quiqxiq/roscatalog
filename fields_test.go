@@ -80,7 +80,7 @@ func TestProplistOverrideWinsOverOnly(t *testing.T) {
 	if !ok {
 		t.Fatal("resource tidak ada")
 	}
-	req, err := res.Build("list", AnyVersion, Once(), Params{
+	req, err := res.Build("list", Once(), Params{
 		Only:     []string{"comment"},
 		Proplist: FieldNames[customRow](),
 	})
@@ -101,7 +101,7 @@ func TestRawWinsOverProplistAndOnly(t *testing.T) {
 	if !ok {
 		t.Fatal("resource tidak ada")
 	}
-	req, err := res.Build("list", AnyVersion, Once(), Params{
+	req, err := res.Build("list", Once(), Params{
 		Raw:      true,
 		Only:     []string{"address"},
 		Proplist: FieldNames[customRow](),

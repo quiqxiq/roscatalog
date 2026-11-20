@@ -147,7 +147,7 @@ func TestOnceUsesCommandConnection(t *testing.T) {
 	if !ok {
 		t.Fatal("resource hotspot-active tidak ada")
 	}
-	req, err := res.Build("list", ros.AnyVersion, ros.Once(), ros.Params{})
+	req, err := res.Build("list", ros.Once(), ros.Params{})
 	if err != nil {
 		t.Fatalf("build: %v", err)
 	}
@@ -165,7 +165,7 @@ func TestWatchPoll(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)
 
-	req := fastPoll(t, "hotspot-active", "list", ros.AnyVersion, 60*time.Millisecond, ros.Params{})
+	req := fastPoll(t, "hotspot-active", "list", 60*time.Millisecond, ros.Params{})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -218,7 +218,7 @@ func TestGateCalledPerCommand(t *testing.T) {
 	}
 
 	res, _ := ros.Lookup("hotspot-active")
-	req, _ := res.Build("list", ros.AnyVersion, ros.Once(), ros.Params{})
+	req, _ := res.Build("list", ros.Once(), ros.Params{})
 	if _, err := s.Once(ctx, req); err != nil {
 		t.Fatalf("once: %v", err)
 	}
@@ -269,7 +269,7 @@ func TestPlanFor(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			plan := tt.sess.PlanFor(live, tt.view, ros.AnyVersion)
+			plan := tt.sess.PlanFor(live, tt.view)
 			if plan.Delivery != tt.want {
 				t.Fatalf("delivery = %s, want %s", plan.Delivery, tt.want)
 			}

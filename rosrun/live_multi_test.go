@@ -89,14 +89,14 @@ func TestLiveMultiRouter(t *testing.T) {
 
 	// Stream/poll otomatis per router.
 	res, _ := ros.Lookup("interface")
-	auto, err := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+	auto, err := mgr.WatchAutoAll(ctx, res, "live", ros.Plan{}, ros.Params{})
 	if err != nil {
 		t.Fatalf("WatchAutoAll: %v", err)
 	}
 	collectRouters(t, auto, len(cfgs), 15*time.Second, "WatchAutoAll")
 
 	// Stream interval + stats eksplisit di semua router.
-	sreq, err := res.Build("live", ros.AnyVersion, ros.StreamEvery(time.Second), ros.Params{})
+	sreq, err := res.Build("live", ros.StreamEvery(time.Second), ros.Params{})
 	if err != nil {
 		t.Fatalf("build stream: %v", err)
 	}
@@ -107,7 +107,7 @@ func TestLiveMultiRouter(t *testing.T) {
 	collectRouters(t, streams, len(cfgs), 15*time.Second, "stream")
 
 	// Poll eksplisit di semua router, berjalan bersamaan dengan stream.
-	preq, err := res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
+	preq, err := res.Build("live", ros.Poll(5*time.Second), ros.Params{})
 	if err != nil {
 		t.Fatalf("build poll: %v", err)
 	}
@@ -119,7 +119,7 @@ func TestLiveMultiRouter(t *testing.T) {
 
 	// Native monitor-traffic.
 	mt, _ := ros.Lookup("interface-monitor-traffic")
-	mreq, err := mt.Build("run", ros.AnyVersion, ros.Stream(), ros.Params{
+	mreq, err := mt.Build("run", ros.Stream(), ros.Params{
 		Args: map[string]string{"interface": "ether1"},
 	})
 	if err != nil {

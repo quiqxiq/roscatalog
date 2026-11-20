@@ -30,7 +30,7 @@ func TestStructure(t *testing.T) {
 
 		seenView := map[string]bool{}
 		for _, v := range r.Views {
-			key := v.Name + "|" + string(v.Version)
+			key := v.Name
 			if v.Name == "" || seenView[key] {
 				t.Errorf("%s: nama view kosong/duplikat %q", r.ID, key)
 			}
@@ -109,13 +109,13 @@ func TestNoSensitiveInRoutineViews(t *testing.T) {
 }
 
 func TestViewSentences(t *testing.T) {
-	get := func(id, view string, ver Version) View {
+	get := func(id, view string) View {
 		t.Helper()
 		r, ok := Lookup(id)
 		if !ok {
 			t.Fatalf("resource %s tidak ada", id)
 		}
-		v, ok := r.View(view, ver)
+		v, ok := r.View(view)
 		if !ok {
 			t.Fatalf("%s: view %s tidak ada", id, view)
 		}
@@ -130,13 +130,13 @@ func TestViewSentences(t *testing.T) {
 	}{
 		{
 			"listen mentah (proplist diisi saat Build)",
-			get("hotspot-active", "events", AnyVersion),
+			get("hotspot-active", "events"),
 			Params{Tag: "t1"},
 			[]string{"/ip/hotspot/active/listen", ".tag=t1"},
 		},
 		{
 			"interval dengan query dan tag",
-			get("hotspot-active", "live", AnyVersion),
+			get("hotspot-active", "live"),
 			Params{Tag: "t2", Query: []Query{{Prop: "server", Value: "hs1"}}},
 			[]string{
 				"/ip/hotspot/active/print", "=interval=2s", "=stats=",
@@ -146,7 +146,7 @@ func TestViewSentences(t *testing.T) {
 		},
 		{
 			"interval stats milidetik",
-			get("interface", "live", AnyVersion),
+			get("interface", "live"),
 			Params{Interval: 2 * time.Second},
 			[]string{
 				"/interface/print", "=interval=2s", "=stats=",
@@ -155,13 +155,13 @@ func TestViewSentences(t *testing.T) {
 		},
 		{
 			"count-only dengan filter",
-			get("hotspot-user", "count", AnyVersion),
+			get("hotspot-user", "count"),
 			Params{Query: []Query{{Prop: "profile", Value: "1jam"}}},
 			[]string{"/ip/hotspot/user/print", "=count-only=", "?profile=1jam"},
 		},
 		{
 			"singleton tanpa .id",
-			get("system-resource", "live", AnyVersion),
+			get("system-resource", "live"),
 			Params{},
 			[]string{
 				"/system/resource/print", "=interval=1s",
@@ -170,7 +170,7 @@ func TestViewSentences(t *testing.T) {
 		},
 		{
 			"native monitor-traffic dengan once",
-			get("interface-monitor-traffic", "run", AnyVersion),
+			get("interface-monitor-traffic", "run"),
 			Params{Args: map[string]string{"interface": "ether1", "once": ""}},
 			[]string{
 				"/interface/monitor-traffic", "=interface=ether1", "=once=",
@@ -179,7 +179,7 @@ func TestViewSentences(t *testing.T) {
 		},
 		{
 			"native monitor ethernet",
-			get("interface-ethernet", "monitor", AnyVersion),
+			get("interface-ethernet", "monitor"),
 			Params{Args: map[string]string{"numbers": "sfp1", "interval": "1s"}},
 			[]string{
 				"/interface/ethernet/monitor", "=numbers=sfp1", "=interval=1s",
@@ -188,7 +188,7 @@ func TestViewSentences(t *testing.T) {
 		},
 		{
 			"follow-only",
-			get("log", "tail-only", AnyVersion),
+			get("log", "tail-only"),
 			Params{},
 			[]string{"/log/print", "=follow-only=", "=.proplist=.id,time,topics,message"},
 		},
@@ -207,7 +207,7 @@ func TestViewSentences(t *testing.T) {
 
 func TestViewSentenceErrors(t *testing.T) {
 	r, _ := Lookup("hotspot-active")
-	live, _ := r.View("live", AnyVersion)
+	live, _ := r.View("live")
 	if _, err := live.Sentence(Params{Interval: 100 * time.Millisecond}); err == nil {
 		t.Error("interval 100ms seharusnya ditolak")
 	}
@@ -216,7 +216,7 @@ func TestViewSentenceErrors(t *testing.T) {
 	}
 
 	ping, _ := Lookup("tool-ping")
-	pv, _ := ping.View("run", AnyVersion)
+	pv, _ := ping.View("run")
 	if _, err := pv.Sentence(Params{}); err == nil {
 		t.Error("ping tanpa address seharusnya ditolak")
 	}
@@ -262,25 +262,6 @@ func TestIntervalCounterViewsUseStats(t *testing.T) {
 				t.Errorf("%s/%s: counter tanpa =stats= (flags=%v)", r.ID, v.Name, v.Flags)
 			}
 		}
-	}
-}
-
-func TestVersionedViews(t *testing.T) {
-	r, _ := Lookup("system-health")
-	v7, ok := r.View("list", V7)
-	if !ok || v7.Proplist[0] != "name" {
-		t.Errorf("view v7 salah: %+v", v7)
-	}
-	v6, ok := r.View("list", V6)
-	if !ok || v6.Proplist[0] != "voltage" {
-		t.Errorf("view v6 salah: %+v", v6)
-	}
-	route, _ := Lookup("ip-route")
-	if v, _ := route.View("list", V7); !contains(v.Proplist, "routing-table") || contains(v.Proplist, "routing-mark") {
-		t.Errorf("ip-route v7 salah: %v", v.Proplist)
-	}
-	if v, _ := route.View("list", V6); !contains(v.Proplist, "routing-mark") || contains(v.Proplist, "routing-table") {
-		t.Errorf("ip-route v6 salah: %v", v.Proplist)
 	}
 }
 

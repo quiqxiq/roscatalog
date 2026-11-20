@@ -16,16 +16,16 @@ func TestPlanForDefaultsToStream(t *testing.T) {
 	if !ok {
 		t.Fatal("resource hotspot-active tidak ada")
 	}
-	if got := s.PlanFor(res, "live", ros.AnyVersion).Delivery; got != ros.DeliveryStream {
+	if got := s.PlanFor(res, "live").Delivery; got != ros.DeliveryStream {
 		t.Fatalf("PlanFor default = %q, want stream", got)
 	}
-	if got := s.PlanFor(res, "events", ros.AnyVersion).Delivery; got != ros.DeliveryEvents {
+	if got := s.PlanFor(res, "events").Delivery; got != ros.DeliveryEvents {
 		t.Fatalf("PlanFor events = %q, want events", got)
 	}
 
 	m2 := newMock(t)
 	s2 := openMock(t, m2, func(c *Config) { c.Poll = true })
-	if got := s2.PlanFor(res, "live", ros.AnyVersion).Delivery; got != ros.DeliveryPoll {
+	if got := s2.PlanFor(res, "live").Delivery; got != ros.DeliveryPoll {
 		t.Fatalf("PlanFor Poll=true = %q, want poll", got)
 	}
 }
@@ -85,9 +85,9 @@ func TestUnionProplistSharesOneUpstream(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	reqA := fastPoll(t, "hotspot-active", "list", ros.AnyVersion, 10*time.Millisecond,
+	reqA := fastPoll(t, "hotspot-active", "list", 10*time.Millisecond,
 		ros.Params{Only: []string{"address"}})
-	reqB := fastPoll(t, "hotspot-active", "list", ros.AnyVersion, 10*time.Millisecond,
+	reqB := fastPoll(t, "hotspot-active", "list", 10*time.Millisecond,
 		ros.Params{Only: []string{"user"}})
 
 	subA, err := s.Subscribe(ctx, reqA)
@@ -149,9 +149,9 @@ func TestListenNeverSendsProplistWithUnion(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	reqA := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Stream(),
+	reqA := build(t, "hotspot-active", "events", ros.Stream(),
 		ros.Params{Only: []string{"user"}})
-	reqB := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Stream(),
+	reqB := build(t, "hotspot-active", "events", ros.Stream(),
 		ros.Params{Only: []string{"address"}})
 
 	subA, err := s.Subscribe(ctx, reqA)
@@ -184,7 +184,7 @@ func TestListenIsNotReopenedOnSilence(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Events(), ros.Params{})
+	req := build(t, "hotspot-active", "events", ros.Events(), ros.Params{})
 	ch, err := s.Watch(ctx, req)
 	if err != nil {
 		t.Fatal(err)

@@ -48,7 +48,7 @@ func TestReconnectResumesWatch(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)
 
-	req := fastInterval(t, "hotspot-active", "live", ros.AnyVersion, 300*time.Millisecond, ros.Params{})
+	req := fastInterval(t, "hotspot-active", "live", 300*time.Millisecond, ros.Params{})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -93,7 +93,7 @@ func TestCloseEndsWatch(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)
 
-	req := fastInterval(t, "hotspot-active", "live", ros.AnyVersion, 300*time.Millisecond, ros.Params{})
+	req := fastInterval(t, "hotspot-active", "live", 300*time.Millisecond, ros.Params{})
 
 	ch, err := s.Watch(context.Background(), req)
 	if err != nil {

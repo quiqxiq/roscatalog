@@ -68,7 +68,7 @@ func TestCatalogEnrichment(t *testing.T) {
 	if !hasFlag(a.FlagNames(), "stats") && !hasFlag(a.FlagNames(), "detail") {
 		t.Fatalf("flag print tidak terisi: %v", a.FlagNames())
 	}
-	v, ok := r.View("list", AnyVersion)
+	v, ok := r.View("list")
 	if !ok {
 		t.Fatal("view list tidak ada")
 	}
@@ -85,7 +85,7 @@ func TestBuildRaw(t *testing.T) {
 	if !ok {
 		t.Fatal("resource ip-address tidak ada")
 	}
-	req, err := r.Build("list", AnyVersion, Once(), Params{Raw: true})
+	req, err := r.Build("list", Once(), Params{Raw: true})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -107,7 +107,7 @@ func TestBuildOnly(t *testing.T) {
 	if !ok {
 		t.Fatal("resource ip-address tidak ada")
 	}
-	req, err := r.Build("list", AnyVersion, Once(), Params{Only: []string{"address", "comment"}})
+	req, err := r.Build("list", Once(), Params{Only: []string{"address", "comment"}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,21 +123,21 @@ func TestBuildOnly(t *testing.T) {
 	if !reflect.DeepEqual(req.Fields, []string{"address", "comment"}) {
 		t.Fatalf("Fields salah: %v", req.Fields)
 	}
-	if _, err := r.Build("list", AnyVersion, Once(), Params{Only: []string{"bogus"}}); err == nil {
+	if _, err := r.Build("list", Once(), Params{Only: []string{"bogus"}}); err == nil {
 		t.Fatal("kolom asing harus ditolak")
 	}
 }
 
 func TestPrintPresets(t *testing.T) {
 	r := Table("x-test", GroupTools, "x", "/x").Stats("rx", "tx")
-	v, ok := r.View("stats", AnyVersion)
+	v, ok := r.View("stats")
 	if !ok {
 		t.Fatal("view stats tidak ada")
 	}
 	if v.Mode != ModeOneShot || !v.hasFlag("stats") {
 		t.Fatalf("preset stats salah: %+v", v)
 	}
-	req, err := r.Build("stats", AnyVersion, Once(), Params{})
+	req, err := r.Build("stats", Once(), Params{})
 	if err != nil {
 		t.Fatal(err)
 	}

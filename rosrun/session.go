@@ -314,12 +314,12 @@ func (m *MikroTik) emit(ctx context.Context, out chan<- Event, ev Event) bool {
 // WatchAuto memakai plan bawaan Config bila plan kosong, lalu memilih stream
 // atau poll. Bila router menolak stream sebelum ada data, ia beralih ke poll
 // dengan jeda yang setara (lihat Runner.WatchAuto).
-func (m *MikroTik) WatchAuto(ctx context.Context, res *ros.Resource, view string, ver ros.Version, plan ros.Plan, p ros.Params) (<-chan Event, error) {
+func (m *MikroTik) WatchAuto(ctx context.Context, res *ros.Resource, view string, plan ros.Plan, p ros.Params) (<-chan Event, error) {
 	if plan.Delivery == "" {
-		plan = m.PlanFor(res, view, ver)
+		plan = m.PlanFor(res, view)
 	}
 
-	req, err := res.Build(view, ver, plan, p)
+	req, err := res.Build(view, plan, p)
 	if err != nil {
 		return nil, err
 	}
@@ -332,7 +332,7 @@ func (m *MikroTik) WatchAuto(ctx context.Context, res *ros.Resource, view string
 		return nil, err
 	}
 
-	pollReq, pollErr := res.Build(view, ver, ros.Poll(m.pollEvery(res, view, ver, plan)), p)
+	pollReq, pollErr := res.Build(view, ros.Poll(m.pollEvery(res, view, plan)), p)
 
 	out := make(chan Event, 64)
 	go func() {
@@ -369,9 +369,9 @@ func (m *MikroTik) WatchAuto(ctx context.Context, res *ros.Resource, view string
 	return out, nil
 }
 
-func (m *MikroTik) pollEvery(res *ros.Resource, view string, ver ros.Version, plan ros.Plan) time.Duration {
+func (m *MikroTik) pollEvery(res *ros.Resource, view string, plan ros.Plan) time.Duration {
 	every := plan.Every
-	if v, ok := res.View(view, ver); ok && every < ros.MinPollEvery {
+	if v, ok := res.View(view); ok && every < ros.MinPollEvery {
 		every = v.Interval
 	}
 	if every < ros.MinPollEvery {
@@ -389,16 +389,16 @@ func (m *MikroTik) pollEvery(res *ros.Resource, view string, ver ros.Version, pl
 // PlanFor memilih plan bawaan untuk sebuah view. Default adalah STREAM
 // (realtime). Poll hanya bila Config.Poll true, atau view tidak punya jalur
 // stream. Plan eksplisit pemanggil tidak pernah ditimpa.
-func (m *MikroTik) PlanFor(res *ros.Resource, view string, ver ros.Version) ros.Plan {
+func (m *MikroTik) PlanFor(res *ros.Resource, view string) ros.Plan {
 	wanted := ros.DeliveryStream
-	if v, ok := res.View(view, ver); ok && v.Mode == ros.ModeListen {
+	if v, ok := res.View(view); ok && v.Mode == ros.ModeListen {
 		wanted = ros.DeliveryEvents
 	}
 	if m.cfg.Poll {
 		wanted = ros.DeliveryPoll
 	}
 
-	allowed := res.Deliveries(view, ver)
+	allowed := res.Deliveries(view)
 	chosen := wanted
 	found := false
 	for _, d := range allowed {

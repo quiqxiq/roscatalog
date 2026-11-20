@@ -719,7 +719,7 @@ func (t *tester) once(id, view string, q ...ros.Query) ([]map[string]string, err
 	if !ok {
 		return nil, fmt.Errorf("resource %s tidak ada", id)
 	}
-	req, err := r.Build(view, ros.AnyVersion, ros.Once(), ros.Params{Query: q})
+	req, err := r.Build(view, ros.Once(), ros.Params{Query: q})
 	if err != nil {
 		return nil, err
 	}

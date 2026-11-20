@@ -4,7 +4,7 @@
 //	  -resource hotspot-active -view live -delivery stream -every 1s
 //
 //	go run ./cmd/example -resource hotspot-active -view live -delivery poll -every 500ms -diff
-//	go run ./cmd/example -resource hotspot-active -view events -delivery stream -seed
+//	go run ./cmd/example -resource hotspot-active -view events -delivery events -seed
 //	go run ./cmd/example -resource interface-monitor-traffic -view run -arg interface=ether1
 //	go run ./cmd/example -resource hotspot-user -view count -delivery once -q profile=1jam
 package main
@@ -32,8 +32,7 @@ func main() {
 		pass     = flag.String("pass", "", "password API")
 		resource = flag.String("resource", "hotspot-active", "ID resource katalog")
 		view     = flag.String("view", "live", "nama view")
-		ver      = flag.String("ver", "", "v6 atau v7 (kosong = semua)")
-		delivery = flag.String("delivery", "", "once | stream | poll (kosong = bawaan view)")
+		delivery = flag.String("delivery", "", "once | stream | events | poll (kosong = bawaan view)")
 		every    = flag.Duration("every", 5*time.Second, "interval stream atau jeda poll (1s..5s / 5s..30s)")
 		diff     = flag.Bool("diff", false, "poll: keluarkan added/changed/removed")
 		seed     = flag.Bool("seed", false, "listen: ambil snapshot awal")
@@ -65,7 +64,7 @@ func main() {
 		log.Fatalf("resource %q tidak ada", *resource)
 	}
 	plan := ros.Plan{Delivery: ros.Delivery(*delivery), Every: *every, Diff: *diff, Seed: *seed}
-	req, err := res.Build(*view, ros.Version(*ver), plan, params)
+	req, err := res.Build(*view, plan, params)
 	if err != nil {
 		log.Fatal(err)
 	}

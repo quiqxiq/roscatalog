@@ -71,7 +71,6 @@ func main() {
 		addr     = flag.String("addr", "192.168.88.1:8728", "alamat API router")
 		user     = flag.String("user", "admin", "user API")
 		pass     = flag.String("pass", "", "password API")
-		ver      = flag.String("ver", "v7", "target RouterOS: v6, v7, atau kosong = semua")
 		resource = flag.String("resource", "", "batasi ke satu ID resource")
 		group    = flag.String("group", "", "batasi ke satu grup (hotspot, ip, ...)")
 		all      = flag.Bool("all", false, "tampilkan juga cek yang OK")
@@ -102,7 +101,7 @@ func main() {
 		return
 	}
 
-	checks := verify(ctx, c, *ver, *resource, *group, *timeout, *optional)
+	checks := verify(ctx, c, *resource, *group, *timeout, *optional)
 	sum := summarize(checks)
 
 	if *asJSON {
@@ -142,30 +141,7 @@ func splitCommand(cmd string) (path, verb string, ok bool) {
 	return cmd[:i], cmd[i+1:], true
 }
 
-// targetVersion menerjemahkan flag -ver.
-func targetVersion(s string) (ros.Version, error) {
-	switch strings.ToLower(strings.TrimSpace(s)) {
-	case "", "any", "all":
-		return ros.AnyVersion, nil
-	case "v6":
-		return ros.V6, nil
-	case "v7":
-		return ros.V7, nil
-	}
-	return "", fmt.Errorf("versi %q tidak dikenal (pakai v6, v7, atau kosong)", s)
-}
-
-// appliesToVersion melaporkan apakah view relevan untuk target.
-func appliesToVersion(v ros.View, target ros.Version) bool {
-	return target == ros.AnyVersion || v.Version == ros.AnyVersion || v.Version == target
-}
-
-func verify(ctx context.Context, c *routeros.Client, ver, resource, group string, timeout time.Duration, optional bool) []Check {
-	target, err := targetVersion(ver)
-	if err != nil {
-		fatalf("%v", err)
-	}
-
+func verify(ctx context.Context, c *routeros.Client, resource, group string, timeout time.Duration, optional bool) []Check {
 	var out []Check
 	for _, r := range ros.All() {
 		if resource != "" && r.ID != resource {
@@ -176,9 +152,6 @@ func verify(ctx context.Context, c *routeros.Client, ver, resource, group string
 		}
 
 		for _, v := range r.Views {
-			if !appliesToVersion(v, target) {
-				continue
-			}
 			out = append(out, checkView(ctx, c, r, v, timeout, optional))
 		}
 		for _, a := range r.Actions {

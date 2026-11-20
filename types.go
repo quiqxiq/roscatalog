@@ -73,15 +73,6 @@ const (
 	SelNumber  Selector = "number"  // =number=nama (system script run)
 )
 
-// Version membatasi view pada mayor RouterOS tertentu. Kosong = semua.
-type Version string
-
-const (
-	AnyVersion Version = ""
-	V6         Version = "v6"
-	V7         Version = "v7"
-)
-
 // ArgKind membedakan argumen bernilai (=name=value) dari flag (=name=).
 // Zero value ArgValue menjaga kompatibilitas dengan Arg lama.
 type ArgKind uint8
@@ -123,8 +114,7 @@ type View struct {
 	Key             string        // properti kunci baris (".id" untuk tabel); dipakai snapshot/diff
 	Interval        time.Duration // default untuk ModeInterval
 	SelfTerminating bool          // native: berhenti sendiri bila dibatasi count/duration/once
-	Version         Version
-	Heavy           bool // tabel besar: wajib pakai filter/proplist/count-only
+	Heavy           bool          // tabel besar: wajib pakai filter/proplist/count-only
 	Note            string
 }
 
@@ -163,23 +153,12 @@ type Resource struct {
 // Pencarian
 // ---------------------------------------------------------------------------
 
-// View mencari view menurut nama dan versi. Kecocokan versi persis didahulukan.
-func (r *Resource) View(name string, ver Version) (View, bool) {
-	var fallback *View
+// View mencari view menurut nama. Nama view unik di dalam satu resource.
+func (r *Resource) View(name string) (View, bool) {
 	for i := range r.Views {
-		v := &r.Views[i]
-		if v.Name != name {
-			continue
+		if r.Views[i].Name == name {
+			return r.Views[i], true
 		}
-		if v.Version == ver && ver != AnyVersion {
-			return *v, true
-		}
-		if v.Version == AnyVersion && fallback == nil {
-			fallback = v
-		}
-	}
-	if fallback != nil {
-		return *fallback, true
 	}
 	return View{}, false
 }
@@ -306,7 +285,7 @@ func validateFlags(command string, allowed, flags []string) error {
 	}
 	for _, f := range flags {
 		if !ok[f] {
-			return fmt.Errorf("%s: flag %q tidak didukung", command, f)
+			return fmt.Errorf("%w: %s: flag %q", ErrUnknownFlag, command, f)
 		}
 	}
 	return checkExclusive(flags)
@@ -341,7 +320,7 @@ func (v View) Sentence(p Params) ([]string, error) {
 		for _, a := range v.Args {
 			declared[a.Name] = true
 			if _, ok := p.Args[a.Name]; a.Required && !ok {
-				return nil, fmt.Errorf("%s: argumen wajib %q belum diisi", v.Command, a.Name)
+				return nil, fmt.Errorf("%w: %s: %q", ErrMissingArgument, v.Command, a.Name)
 			}
 		}
 		for _, k := range sortedKeys(p.Args) {
@@ -440,7 +419,7 @@ func (a Action) SentenceWith(selector string, flags []string, args map[string]st
 	w := []string{a.Command}
 	if a.Selector != SelNone {
 		if selector == "" {
-			return nil, fmt.Errorf("%s: selector (%s) wajib diisi", a.Command, a.Selector)
+			return nil, fmt.Errorf("%w: %s (%s)", ErrSelectorRequired, a.Command, a.Selector)
 		}
 		w = append(w, "="+string(a.Selector)+"="+selector)
 	}
@@ -452,7 +431,7 @@ func (a Action) SentenceWith(selector string, flags []string, args map[string]st
 	}
 	for _, r := range a.Required {
 		if _, ok := args[r]; !ok {
-			return nil, fmt.Errorf("%s: argumen wajib %q belum diisi", a.Command, r)
+			return nil, fmt.Errorf("%w: %s: %q", ErrMissingArgument, a.Command, r)
 		}
 	}
 	for _, k := range sortedKeys(args) {

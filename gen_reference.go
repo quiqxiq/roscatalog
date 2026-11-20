@@ -36,10 +36,7 @@ func codeList(items []string) string {
 }
 
 func deliveries(r *ros.Resource, v ros.View) string {
-	ds := r.Deliveries(v.Name, v.Version)
-	if len(ds) < 2 && v.Mode == ros.ModeListen {
-		ds = r.Deliveries(v.Name, ros.V7) // list bergantung versi
-	}
+	ds := r.Deliveries(v.Name)
 	out := make([]string, len(ds))
 	for i, d := range ds {
 		out[i] = string(d)
@@ -172,9 +169,6 @@ func main() {
 				fmt.Fprintf(w, "| View | Mode | Pengiriman | Command | Flag / argumen | Proplist |\n|---|---|---|---|---|---|\n")
 				for _, v := range r.Views {
 					name := v.Name
-					if v.Version != ros.AnyVersion {
-						name += " (" + string(v.Version) + ")"
-					}
 					if v.Heavy {
 						name += " ⚠"
 					}

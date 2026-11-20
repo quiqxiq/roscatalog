@@ -61,7 +61,7 @@ if err != nil {
 }
 defer sess.Close()
 
-req, _ := res.Build(view, ros.AnyVersion, sess.PlanFor(res, view, ros.AnyVersion), ros.Params{})
+req, _ := res.Build(view, sess.PlanFor(res, view), ros.Params{})
 events, _ := sess.Watch(ctx, req) // otomatis lanjut setelah reconnect
 ```
 
@@ -124,7 +124,7 @@ if err != nil {
 }
 defer mgr.Close()
 
-events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.Plan{}, ros.Params{})
 for ev := range events {
     fmt.Println(ev.RouterID, ev.Kind, ev.Row)
 }
@@ -183,20 +183,20 @@ untuk kompatibilitas.
 res, _ := ros.Lookup("hotspot-active")
 
 // Router mengirim snapshot penuh tiap 2 detik (termasuk stats pada view counter)
-req, _ := res.Build("live", ros.AnyVersion, ros.StreamEvery(2*time.Second), ros.Params{})
+req, _ := res.Build("live", ros.StreamEvery(2*time.Second), ros.Params{})
 events, _ := run.Watch(ctx, req)   // KindSnapshot per siklus
 
 // Padanan poll: Go memanggil print biasa tiap 5 detik
-req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
+req, _ = res.Build("live", ros.Poll(5*time.Second), ros.Params{})
 
 // Poll dengan diff: hanya perubahan yang keluar
-req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second).WithDiff(), ros.Params{})
+req, _ = res.Build("live", ros.Poll(5*time.Second).WithDiff(), ros.Params{})
 ```
 
 ### Listen dengan snapshot awal
 
 ```go
-req, _ := res.Build("events", ros.AnyVersion, ros.Events().WithSeed(), ros.Params{})
+req, _ := res.Build("events", ros.Events().WithSeed(), ros.Params{})
 events, _ := run.Watch(ctx, req)
 // KindSnapshot (keadaan awal), lalu KindAdded / KindChanged / KindRemoved
 ```
@@ -209,8 +209,8 @@ events, _ := run.Watch(ctx, req)
 mt, _ := ros.Lookup("interface-monitor-traffic")
 args := ros.Params{Args: map[string]string{"interface": "ether1,sfp1"}}
 
-req, _ := mt.Build("run", ros.AnyVersion, ros.Stream(), args)          // stream native
-req, _ = mt.Build("run", ros.AnyVersion, ros.Poll(5*time.Second), args) // monitor + =once= tiap 5 detik
+req, _ := mt.Build("run", ros.Stream(), args)          // stream native
+req, _ = mt.Build("run", ros.Poll(5*time.Second), args) // monitor + =once= tiap 5 detik
 // KindRow: satu baris per interface per update
 ```
 
@@ -220,19 +220,19 @@ Command tanpa `once` (ping, torch, bandwidth-test) hanya bisa stream; batasi den
 
 ```go
 lg, _ := ros.Lookup("log")
-req, _ := lg.Build("tail-only", ros.AnyVersion, ros.Stream(), ros.Params{})       // follow-only
-req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{}) // print + diff; hasil pertama hanya baseline
+req, _ := lg.Build("tail-only", ros.Stream(), ros.Params{})       // follow-only
+req, _ = lg.Build("tail-only", ros.Poll(5*time.Second), ros.Params{}) // print + diff; hasil pertama hanya baseline
 ```
 
 ### Sekali jalan, jumlah, dan filter
 
 ```go
 u, _ := ros.Lookup("hotspot-user")
-req, _ := u.Build("count", ros.AnyVersion, ros.Once(),
+req, _ := u.Build("count", ros.Once(),
     ros.Params{Query: []ros.Query{{Prop: "profile", Value: "1jam"}}})
 n, err := run.Count(ctx, req)
 
-req, _ = u.Build("list", ros.AnyVersion, ros.Once(), ros.Params{})
+req, _ = u.Build("list", ros.Once(), ros.Params{})
 rows, err := run.Once(ctx, req) // kolom sudah disaring ke Fields
 ```
 
@@ -251,7 +251,7 @@ _, err = run.Exec(ctx, sent)
 ### Stream dengan fallback otomatis ke poll
 
 ```go
-events, err := run.WatchAuto(ctx, res, "events", ros.AnyVersion,
+events, err := run.WatchAuto(ctx, res, "events",
     ros.Plan{Every: 5 * time.Second}, ros.Params{})
 ```
 
@@ -372,7 +372,7 @@ Status yang mungkin:
 | `ok` | path/verb dan atribut/field yang dideklarasikan ditemukan |
 | `warn` | sebagian field/flag opsional tidak ditemukan; periksa manual |
 | `drift` | atribut wajib yang dideklarasikan tidak ada di router |
-| `unknown` | inspect tidak bisa resolve (mis. `listen` API-only, v6, menu CHR, command root) |
+| `unknown` | inspect tidak bisa resolve (mis. `listen` API-only, menu CHR, command root) |
 | `error` | panggilan inspect gagal (jaringan/auth/timeout) |
 
 Default hanya memeriksa atribut wajib; `-optional` ikut memeriksa properti opsional (lebih berisik karena discovery atribut `add/set` di RouterOS tidak lengkap). `-strict` exit 1 hanya bila ada `drift`/`error`.
@@ -390,9 +390,8 @@ Batasan yang perlu diingat:
 
 - `/console/inspect` adalah **skema console**, bukan skema API. Verb API-only seperti `listen` tidak muncul; katalog tetap sumber kebenaran untuk stream.
 - Menu singleton (`system/resource`, `system/health`, `ip/dns`) sering tidak mengembalikan field lewat completion; verifier menandainya `unknown`, bukan `drift`.
-- RouterOS v6 tidak punya `/console/inspect`; verifier akan `unknown`.
 - Inspect tidak menangkap perilaku. Contoh nyata di CHR 7.24.6: `.proplist` pada `listen` menekan event `.dead=true`. Karena itu `Build` tidak mengirim `.proplist` untuk `ModeListen`; `rosrun` menyaring kolom di klien dan penghapusan tetap terdeteksi.
-- Hasil inspect bisa berbeda antar versi; simpan laporan JSON per versi sebagai golden schema di CI.
+- Hasil inspect bisa berbeda per rilis; simpan laporan JSON sebagai golden schema di CI bila pemakaian strict.
 
 ## 11. Workflow Mikhmon (`mikhmon/`)
 

@@ -1,9 +1,6 @@
 package roscatalog
 
-import (
-	"sort"
-	"time"
-)
+import "time"
 
 func (r *Resource) keyField() string {
 	if r.Singleton {
@@ -58,9 +55,6 @@ func (r *Resource) add(v View) *Resource {
 }
 
 func (r *Resource) last() *View { return &r.Views[len(r.Views)-1] }
-
-// For membatasi view terakhir ke satu mayor RouterOS.
-func (r *Resource) For(ver Version) *Resource { r.last().Version = ver; return r }
 
 // MarkHeavy menandai view terakhir sebagai tabel besar.
 func (r *Resource) MarkHeavy() *Resource { r.last().Heavy = true; return r }
@@ -278,21 +272,8 @@ var registry []*Resource
 
 func register(rs ...*Resource) { registry = append(registry, rs...) }
 
-// All mengembalikan semua resource, urut menurut grup lalu ID.
-func All() []*Resource {
-	out := append([]*Resource(nil), registry...)
-	rank := make(map[Group]int, len(GroupOrder))
-	for i, g := range GroupOrder {
-		rank[g] = i
-	}
-	sort.SliceStable(out, func(i, j int) bool {
-		if rank[out[i].Group] != rank[out[j].Group] {
-			return rank[out[i].Group] < rank[out[j].Group]
-		}
-		return out[i].ID < out[j].ID
-	})
-	return out
-}
+// All mengembalikan semua resource bawaan, urut menurut grup lalu ID.
+func All() []*Resource { return sortedResources(registry) }
 
 // Lookup mencari resource menurut ID.
 func Lookup(id string) (*Resource, bool) {

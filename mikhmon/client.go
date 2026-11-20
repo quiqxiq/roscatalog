@@ -377,7 +377,7 @@ func (c *Client) CountUsers(ctx context.Context, profile string) (int, error) {
 	if profile != "" {
 		q = append(q, ros.Query{Prop: "profile", Value: profile})
 	}
-	req, err := r.Build("count", ros.AnyVersion, ros.Once(), ros.Params{Query: q})
+	req, err := r.Build("count", ros.Once(), ros.Params{Query: q})
 	if err != nil {
 		return 0, err
 	}
@@ -390,7 +390,7 @@ func (c *Client) CountActive(ctx context.Context) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	req, err := r.Build("count", ros.AnyVersion, ros.Once(), ros.Params{})
+	req, err := r.Build("count", ros.Once(), ros.Params{})
 	if err != nil {
 		return 0, err
 	}
@@ -402,7 +402,7 @@ func (c *Client) once(ctx context.Context, id, view string, q []ros.Query) ([]ma
 	if err != nil {
 		return nil, err
 	}
-	req, err := r.Build(view, ros.AnyVersion, ros.Once(), ros.Params{Query: q})
+	req, err := r.Build(view, ros.Once(), ros.Params{Query: q})
 	if err != nil {
 		return nil, err
 	}

@@ -14,7 +14,6 @@ type viewOut struct {
 	Mode     string   `json:"mode"`
 	Command  string   `json:"command"`
 	Proplist []string `json:"proplist,omitempty"`
-	Version  string   `json:"version,omitempty"`
 }
 
 type actionOut struct {
@@ -44,7 +43,7 @@ func main() {
 		for _, v := range r.Views {
 			item.Views = append(item.Views, viewOut{
 				Name: v.Name, Mode: string(v.Mode), Command: v.Command,
-				Proplist: v.Proplist, Version: string(v.Version),
+				Proplist: v.Proplist,
 			})
 		}
 		for _, a := range r.Actions {

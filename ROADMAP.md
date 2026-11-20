@@ -12,8 +12,8 @@ Proyek ini adalah **library** yang harus:
 2. mudah digunakan — pemakai tidak perlu hafal nama kolom RouterOS sebagai teks;
 3. bisa disesuaikan — pemakai bisa memilih kolom yang mau diambil;
 4. **difokuskan ke RouterOS v7.9+** (karena `/console/inspect` baru ada di
-   v7.9), tetapi tetap bisa dipakai di versi di bawahnya lewat mekanisme
-   `Version` yang sudah ada; di v7 sendiri command cenderung stabil;
+   v7.9). Untuk pemakai dengan flota v6, jalan keluar tanpa `Version` pertama-
+   class: definisikan resource/view sendiri atau pakai `Raw`/`Params.Proplist`;
 5. tetap berisi **command yang biasa dan penting saja**, bukan seluruh command MikroTik.
 
 Perubahan yang direncanakan mendukung kelima poin itu tanpa mengubah tujuan

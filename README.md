@@ -65,7 +65,7 @@ if err != nil { log.Printf("partial: %v", err) }
 defer mgr.Close()
 
 res, _ := ros.Lookup("interface")
-events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.Plan{}, ros.Params{})
 for ev := range events { fmt.Println(ev.RouterID, ev.Kind) }
 for _, st := range mgr.Statuses() { fmt.Println(st.ID, st.State) }
 ```
@@ -114,7 +114,7 @@ go test ./rosrun -run TestLiveMultiRouter -v
 
 `rosverify` memakai `goros.Inspect` (`/console/inspect`) untuk memeriksa path,
 verb, argumen native, dan field `print`. Status `unknown` bukan error: `listen`
-adalah verb API-only, v6 tidak punya inspect, dan sebagian menu singleton tidak
+adalah verb API-only, dan sebagian menu singleton tidak
 mengembalikan field lewat completion.
 
 ## Paket `mikhmon`

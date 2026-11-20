@@ -46,7 +46,7 @@ func TestLiveListenRemoval(t *testing.T) {
 	if !ok {
 		t.Fatal("resource fw-address-list tidak ada")
 	}
-	req, err := res.Build("events", ros.AnyVersion, ros.Events(), ros.Params{})
+	req, err := res.Build("events", ros.Events(), ros.Params{})
 	if err != nil {
 		t.Fatalf("build: %v", err)
 	}

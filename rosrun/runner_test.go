@@ -10,13 +10,13 @@ import (
 	ros "example.com/roscatalog"
 )
 
-func build(t *testing.T, id, view string, ver ros.Version, plan ros.Plan, p ros.Params) ros.Request {
+func build(t *testing.T, id, view string, plan ros.Plan, p ros.Params) ros.Request {
 	t.Helper()
 	res, ok := ros.Lookup(id)
 	if !ok {
 		t.Fatalf("resource %s tidak ada", id)
 	}
-	req, err := res.Build(view, ver, plan, p)
+	req, err := res.Build(view, plan, p)
 	if err != nil {
 		t.Fatalf("Build %s/%s: %v", id, view, err)
 	}
@@ -25,18 +25,18 @@ func build(t *testing.T, id, view string, ver ros.Version, plan ros.Plan, p ros.
 
 // fastPoll membangun Request poll yang valid (5s) lalu mempercepat Every untuk
 // test. Batas 5s tetap berlaku untuk pemakai API; ini hanya jalur test.
-func fastPoll(t *testing.T, id, view string, ver ros.Version, every time.Duration, p ros.Params) ros.Request {
+func fastPoll(t *testing.T, id, view string, every time.Duration, p ros.Params) ros.Request {
 	t.Helper()
-	req := build(t, id, view, ver, ros.Poll(ros.MinPollEvery), p)
+	req := build(t, id, view, ros.Poll(ros.MinPollEvery), p)
 	req.Every = every
 	return req
 }
 
 // fastInterval membangun Request interval yang valid (1s) lalu mengganti
 // =interval= dan Every agar test tidak menunggu satu detik per siklus.
-func fastInterval(t *testing.T, id, view string, ver ros.Version, every time.Duration, p ros.Params) ros.Request {
+func fastInterval(t *testing.T, id, view string, every time.Duration, p ros.Params) ros.Request {
 	t.Helper()
-	req := build(t, id, view, ver, ros.StreamEvery(ros.MinPrintInterval), p)
+	req := build(t, id, view, ros.StreamEvery(ros.MinPrintInterval), p)
 	req.Every = every
 	rewriteInterval := func(words []string) {
 		for i, w := range words {
@@ -124,7 +124,7 @@ func TestOnceCountAndExec(t *testing.T) {
 	_, r := m.client()
 	ctx := context.Background()
 
-	n, err := r.Count(ctx, build(t, "hotspot-user", "count", ros.AnyVersion, ros.Once(),
+	n, err := r.Count(ctx, build(t, "hotspot-user", "count", ros.Once(),
 		ros.Params{Query: []ros.Query{{Prop: "profile", Value: "1jam"}}}))
 	if err != nil || n != 7 {
 		t.Fatalf("Count = %d, %v", n, err)
@@ -158,7 +158,7 @@ func TestOnceTrimsToFields(t *testing.T) {
 	m := newMock(t)
 	_, r := m.client()
 	// print one-shot hotspot-active; router mengirim "comment" yang tidak diminta
-	req := build(t, "hotspot-active", "list", ros.AnyVersion, ros.Once(), ros.Params{})
+	req := build(t, "hotspot-active", "list", ros.Once(), ros.Params{})
 	rows, err := r.Once(context.Background(), req)
 	if err != nil {
 		t.Fatal(err)
@@ -180,7 +180,7 @@ func TestPollDiff(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := fastPoll(t, "hotspot-active", "live", ros.AnyVersion, 60*time.Millisecond, ros.Params{})
+	req := fastPoll(t, "hotspot-active", "live", 60*time.Millisecond, ros.Params{})
 	req.Diff = true
 	ch, err := r.Watch(ctx, req)
 	if err != nil {
@@ -214,7 +214,7 @@ func TestPollNativeOnce(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := fastPoll(t, "interface-monitor-traffic", "run", ros.AnyVersion, 50*time.Millisecond,
+	req := fastPoll(t, "interface-monitor-traffic", "run", 50*time.Millisecond,
 		ros.Params{Args: map[string]string{"interface": "ether1"}})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 3)
@@ -243,7 +243,7 @@ func TestStreamIntervalGroupsSnapshots(t *testing.T) {
 	_, r := m.client()
 	ctx, cancel := context.WithCancel(context.Background())
 
-	req := fastInterval(t, "hotspot-active", "live", ros.AnyVersion, 200*time.Millisecond, ros.Params{})
+	req := fastInterval(t, "hotspot-active", "live", 200*time.Millisecond, ros.Params{})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 3)
 	for i, e := range evs {
@@ -283,7 +283,7 @@ func TestStreamListenWithSeed(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := build(t, "hotspot-active", "events", ros.AnyVersion, ros.Events().WithSeed(), ros.Params{})
+	req := build(t, "hotspot-active", "events", ros.Events().WithSeed(), ros.Params{})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 4)
 
@@ -319,7 +319,7 @@ func TestStreamNativeCancel(t *testing.T) {
 	_, r := m.client()
 	ctx, cancel := context.WithCancel(context.Background())
 
-	req := build(t, "interface-monitor-traffic", "run", ros.AnyVersion, ros.Stream(),
+	req := build(t, "interface-monitor-traffic", "run", ros.Stream(),
 		ros.Params{Args: map[string]string{"interface": "ether1,ether2"}})
 	ch, _ := r.Watch(ctx, req)
 	for _, e := range take(t, ch, 3) {
@@ -348,7 +348,7 @@ func TestProplistFallback(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := build(t, "log", "tail-only", ros.AnyVersion, ros.Stream(), ros.Params{})
+	req := build(t, "log", "tail-only", ros.Stream(), ros.Params{})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 3)
 	if evs[0].Kind != KindRow || evs[0].Row["message"] != "baris 1" {
@@ -443,7 +443,7 @@ func TestWatchAutoFallsBackToPoll(t *testing.T) {
 	defer cancel()
 
 	res, _ := ros.Lookup("hotspot-active")
-	ch, err := r.WatchAuto(ctx, res, "events", ros.AnyVersion, ros.Plan{Every: ros.MinPollEvery}, ros.Params{})
+	ch, err := r.WatchAuto(ctx, res, "events", ros.Plan{Every: ros.MinPollEvery}, ros.Params{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -474,7 +474,7 @@ func TestWatchAutoKeepsStreamWhenSupported(t *testing.T) {
 	_, r := m.client()
 	ctx, cancel := context.WithCancel(context.Background())
 	res, _ := ros.Lookup("hotspot-active")
-	ch, err := r.WatchAuto(ctx, res, "events", ros.AnyVersion, ros.Plan{Seed: true}, ros.Params{})
+	ch, err := r.WatchAuto(ctx, res, "events", ros.Plan{Seed: true}, ros.Params{})
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -13,11 +13,11 @@ import (
 // satu pun (mis. listen/follow tidak didukung di menu itu), otomatis beralih
 // ke poll. Jeda poll minimal ros.MinPollEvery dan maksimal ros.MaxPollEvery.
 // Poll dari view listen/follow memakai diff, jadi bentuk event tetap serupa.
-func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, ver ros.Version, plan ros.Plan, p ros.Params) (<-chan Event, error) {
+func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, plan ros.Plan, p ros.Params) (<-chan Event, error) {
 	if plan.Delivery == "" {
 		plan.Delivery = ros.DeliveryStream
 	}
-	req, err := res.Build(view, ver, plan, p)
+	req, err := res.Build(view, plan, p)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, 
 				var de *routeros.DeviceError
 				if errors.As(ev.Err, &de) {
 					every := plan.Every
-					if v, ok := res.View(view, ver); ok && every < ros.MinPollEvery {
+					if v, ok := res.View(view); ok && every < ros.MinPollEvery {
 						every = v.Interval
 					}
 					if every < ros.MinPollEvery {
@@ -56,7 +56,7 @@ func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, 
 					if every > ros.MaxPollEvery {
 						every = ros.MaxPollEvery
 					}
-					if preq, perr := res.Build(view, ver, ros.Poll(every), p); perr == nil {
+					if preq, perr := res.Build(view, ros.Poll(every), p); perr == nil {
 						r.logf("rosrun: stream %s/%s ditolak router (%v); beralih ke poll %s", res.ID, view, ev.Err, every)
 						if second, werr := r.Watch(ctx, preq); werr == nil {
 							forward(second)

@@ -11,17 +11,16 @@ func init() {
 			CRUD(P("address", "interface"), P("network", "comment")),
 
 		Table("ip-route", GroupIP, "Routing table (static/dinamis)", "/ip/route").
-			Describe("RouterOS 7 memakai routing-table, RouterOS 6 memakai routing-mark. "+
+			Describe("Baseline v7 memakai routing-table. RouterOS 6 memakai routing-mark; "+
+				"definisikan resource sendiri bila field itu dibutuhkan. "+
 				"Rute default aktif: ?dst-address=0.0.0.0/0 lalu cek active=true.").
 			Filter("dst-address", "gateway", "distance", "active", "dynamic", "disabled").
 			List("dst-address", "gateway", "distance", "scope", "target-scope", "routing-table",
-				"active", "dynamic", "disabled", "comment").For(V7).
-			List("dst-address", "gateway", "distance", "scope", "target-scope", "routing-mark",
-				"active", "dynamic", "disabled", "comment").For(V6).
+				"active", "dynamic", "disabled", "comment").
 			Count().
 			Events().
 			CRUD(P("dst-address", "gateway"), P("distance", "scope", "target-scope",
-				"routing-table", "routing-mark", "check-gateway", "comment")),
+				"routing-table", "check-gateway", "comment")),
 
 		Table("ip-pool", GroupIP, "IP pool", "/ip/pool").
 			Filter("name").

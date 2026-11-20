@@ -434,7 +434,7 @@ func (m *Manager) WatchAll(ctx context.Context, req ros.Request) (<-chan RouterE
 
 // WatchAutoAll seperti WatchAll, tetapi tiap router memilih stream/poll dari
 // Config.Stream-nya sendiri saat plan.Delivery kosong.
-func (m *Manager) WatchAutoAll(ctx context.Context, res *ros.Resource, view string, ver ros.Version, plan ros.Plan, p ros.Params) (<-chan RouterEvent, error) {
+func (m *Manager) WatchAutoAll(ctx context.Context, res *ros.Resource, view string, plan ros.Plan, p ros.Params) (<-chan RouterEvent, error) {
 	routers, err := m.snapshot()
 	if err != nil {
 		return nil, err
@@ -452,9 +452,9 @@ func (m *Manager) WatchAutoAll(ctx context.Context, res *ros.Resource, view stri
 			defer wg.Done()
 			rp := plan
 			if rp.Delivery == "" {
-				rp = r.PlanFor(res, view, ver)
+				rp = r.PlanFor(res, view)
 			}
-			ch, werr := r.WatchAuto(ctx, res, view, ver, rp, p)
+			ch, werr := r.WatchAuto(ctx, res, view, rp, p)
 			if werr != nil {
 				emitRouterEvent(ctx, out, r, Event{Kind: KindError, At: time.Now(), Err: werr})
 				return

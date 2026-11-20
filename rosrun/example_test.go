@@ -27,33 +27,33 @@ func Example_usage() {
 	res, _ := ros.Lookup("hotspot-active")
 
 	// stream interval 2s, poll 5s, poll + diff
-	req, _ := res.Build("live", ros.AnyVersion, ros.StreamEvery(2*time.Second), ros.Params{})
+	req, _ := res.Build("live", ros.StreamEvery(2*time.Second), ros.Params{})
 	events, _ := run.Watch(ctx, req)
 	_ = events
-	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
-	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second).WithDiff(), ros.Params{})
+	req, _ = res.Build("live", ros.Poll(5*time.Second), ros.Params{})
+	req, _ = res.Build("live", ros.Poll(5*time.Second).WithDiff(), ros.Params{})
 
 	// listen + seed
-	req, _ = res.Build("events", ros.AnyVersion, ros.Events().WithSeed(), ros.Params{})
+	req, _ = res.Build("events", ros.Events().WithSeed(), ros.Params{})
 
 	// native stream / poll
 	mt, _ := ros.Lookup("interface-monitor-traffic")
 	args := ros.Params{Args: map[string]string{"interface": "ether1,sfp1"}}
-	req, _ = mt.Build("run", ros.AnyVersion, ros.Stream(), args)
-	req, _ = mt.Build("run", ros.AnyVersion, ros.Poll(5*time.Second), args)
+	req, _ = mt.Build("run", ros.Stream(), args)
+	req, _ = mt.Build("run", ros.Poll(5*time.Second), args)
 
 	// log
 	lg, _ := ros.Lookup("log")
-	req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Stream(), ros.Params{})
-	req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
+	req, _ = lg.Build("tail-only", ros.Stream(), ros.Params{})
+	req, _ = lg.Build("tail-only", ros.Poll(5*time.Second), ros.Params{})
 
 	// once, count, filter
 	u, _ := ros.Lookup("hotspot-user")
-	req, _ = u.Build("count", ros.AnyVersion, ros.Once(),
+	req, _ = u.Build("count", ros.Once(),
 		ros.Params{Query: []ros.Query{{Prop: "profile", Value: "1jam"}}})
 	n, _ := run.Count(ctx, req)
 	_ = n
-	req, _ = u.Build("list", ros.AnyVersion, ros.Once(), ros.Params{})
+	req, _ = u.Build("list", ros.Once(), ros.Params{})
 	rows, _ := run.Once(ctx, req)
 	_ = rows
 
@@ -66,11 +66,11 @@ func Example_usage() {
 	_, _ = run.Exec(ctx, sent)
 
 	// fallback otomatis ke poll
-	ev, _ := run.WatchAuto(ctx, res, "events", ros.AnyVersion, ros.Plan{Every: time.Second}, ros.Params{})
+	ev, _ := run.WatchAuto(ctx, res, "events", ros.Plan{Every: time.Second}, ros.Params{})
 	_ = ev
 
 	// validasi proplist
-	req, _ = res.Build("list", ros.AnyVersion, ros.Once(), ros.Params{})
+	req, _ = res.Build("list", ros.Once(), ros.Params{})
 	rs, _ := run.Once(ctx, req)
 	if missing := ros.NeverSeen(req.Fields, rs); len(missing) > 0 {
 		log.Printf("%s: %v", res.ID, missing)

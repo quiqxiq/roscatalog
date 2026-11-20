@@ -130,8 +130,8 @@ func (r Request) Fingerprint() string {
 
 // Deliveries mengembalikan pengiriman yang valid untuk sebuah view; elemen
 // pertama adalah bawaan bila Plan.Delivery kosong.
-func (r *Resource) Deliveries(viewName string, ver Version) []Delivery {
-	v, ok := r.View(viewName, ver)
+func (r *Resource) Deliveries(viewName string) []Delivery {
+	v, ok := r.View(viewName)
 	if !ok {
 		return nil
 	}
@@ -148,7 +148,7 @@ func (r *Resource) Deliveries(viewName string, ver Version) []Delivery {
 		return out
 	case ModeListen:
 		out := []Delivery{DeliveryEvents}
-		if _, ok := r.View("list", ver); ok {
+		if _, ok := r.View("list"); ok {
 			out = append(out, DeliveryPoll)
 		}
 		return out
@@ -193,12 +193,12 @@ func cloneArgs(m map[string]string) map[string]string {
 }
 
 // Build menyusun Request untuk view dan Plan tertentu.
-func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Request, error) {
-	v, ok := r.View(viewName, ver)
+func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) {
+	v, ok := r.View(viewName)
 	if !ok {
-		return Request{}, fmt.Errorf("%s: view %q tidak ada", r.ID, viewName)
+		return Request{}, fmt.Errorf("%w: %s/%s", ErrViewNotFound, r.ID, viewName)
 	}
-	allowed := r.Deliveries(viewName, ver)
+	allowed := r.Deliveries(viewName)
 	d := plan.Delivery
 	if d == "" {
 		d = allowed[0]
@@ -210,7 +210,7 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		d = DeliveryEvents
 	}
 	if d == DeliveryEvents && v.Mode != ModeListen {
-		return Request{}, fmt.Errorf("%s/%s: pengiriman events hanya untuk view listen", r.ID, v.Name)
+		return Request{}, fmt.Errorf("%w: %s/%s: events hanya untuk view listen", ErrDeliveryUnsupported, r.ID, v.Name)
 	}
 	valid := false
 	for _, a := range allowed {
@@ -223,8 +223,8 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		for i, a := range allowed {
 			names[i] = string(a)
 		}
-		return Request{}, fmt.Errorf("%s/%s (%s): pengiriman %q tidak didukung; pilihan: %s",
-			r.ID, v.Name, v.Mode, d, strings.Join(names, ", "))
+		return Request{}, fmt.Errorf("%w: %s/%s (%s): %q; pilihan: %s",
+			ErrDeliveryUnsupported, r.ID, v.Name, v.Mode, d, strings.Join(names, ", "))
 	}
 	if d == DeliveryStream && plan.Every > 0 {
 		if plan.Every < MinPrintInterval || plan.Every > MaxPrintInterval {
@@ -275,7 +275,7 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 			req.Diff = true
 			req.Baseline = v.hasFlag("follow-only")
 		case ModeListen:
-			lv, _ := r.View("list", ver)
+			lv, _ := r.View("list")
 			pv, fieldSrc = lv, lv.Proplist
 			req.Shape, req.Diff, req.Key = ShapeSnapshot, true, lv.Key
 		}
@@ -321,7 +321,7 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 			req.Shape = ShapeRows
 		case ModeListen:
 			req.Shape = ShapeChanges
-			if lv, ok := r.View("list", ver); ok {
+			if lv, ok := r.View("list"); ok {
 				// Jangan kirim =.proplist= pada listen. Di RouterOS 7.24.6
 				// proplist menekan event .dead=true sehingga penghapusan item
 				// tidak terdeteksi. Kolom tetap disaring di klien lewat
@@ -334,15 +334,8 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 					}
 					req.Seed, req.SeedSentence = true, seed
 				}
-			} else {
-				for _, o := range r.Views {
-					if o.Name == "list" {
-						return Request{}, fmt.Errorf("%s: view list bergantung versi; sebutkan v6 atau v7", r.ID)
-					}
-				}
-				if plan.Seed {
-					return Request{}, fmt.Errorf("%s: Seed butuh view list", r.ID)
-				}
+			} else if plan.Seed {
+				return Request{}, fmt.Errorf("%s: Seed butuh view list", r.ID)
 			}
 		}
 	}
@@ -363,8 +356,8 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		}
 		for _, f := range p.Only {
 			if !allowed[f] {
-				return Request{}, fmt.Errorf("%s/%s: kolom %q tidak ada di daftar field",
-					r.ID, v.Name, f)
+				return Request{}, fmt.Errorf("%w: %s/%s: %q",
+					ErrUnknownColumn, r.ID, v.Name, f)
 			}
 		}
 		want := make(map[string]bool, len(p.Only))

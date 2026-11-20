@@ -185,7 +185,7 @@ func TestManagerWatchAutoAllUsesPerRouterStream(t *testing.T) {
 	res, _ := ros.Lookup("hotspot-active")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	ch, err := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+	ch, err := mgr.WatchAutoAll(ctx, res, "live", ros.Plan{}, ros.Params{})
 	if err != nil {
 		t.Fatalf("WatchAutoAll: %v", err)
 	}

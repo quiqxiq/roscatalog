@@ -97,14 +97,11 @@ func init() {
 			Live(time.Second, false, "cpu", "load", "irq", "disk"),
 
 		Single("system-health", GroupSystem, "Health (suhu, tegangan, fan)", "/system/health").
-			Describe("RouterOS 7 mengirim baris name/value/type; RouterOS 6 mengirim properti langsung. "+
+			Describe("Baseline v7 mengirim baris name/value/type. RouterOS 6 mengirim "+
+				"properti langsung; definisikan resource sendiri bila field itu dibutuhkan. "+
 				"Sensor yang tersedia bergantung model.").
-			List("name", "value", "type").For(V7).
-			Live(5*time.Second, false, "name", "value", "type").For(V7).
-			List("voltage", "temperature", "cpu-temperature", "power-consumption",
-				"fan1-speed", "fan2-speed").For(V6).
-			Live(5*time.Second, false, "voltage", "temperature", "cpu-temperature",
-				"power-consumption", "fan1-speed", "fan2-speed").For(V6),
+			List("name", "value", "type").
+			Live(5*time.Second, false, "name", "value", "type"),
 
 		Single("system-routerboard", GroupSystem, "RouterBOARD", "/system/routerboard").
 			List("routerboard", "model", "serial-number", "firmware-type", "factory-firmware",

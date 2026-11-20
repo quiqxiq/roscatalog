@@ -69,7 +69,7 @@ func TestLiveSessionStreamAndExec(t *testing.T) {
 	if !ok {
 		t.Fatal("resource interface tidak ada")
 	}
-	req, err := ifs.Build("list", ros.AnyVersion, ros.Once(), ros.Params{})
+	req, err := ifs.Build("list", ros.Once(), ros.Params{})
 	if err != nil {
 		t.Fatalf("build interface: %v", err)
 	}
@@ -93,10 +93,10 @@ func TestLiveSessionStreamAndExec(t *testing.T) {
 	if !ok {
 		t.Fatal("resource interface-monitor-traffic tidak ada")
 	}
-	if got := sess.PlanFor(mt, "run", ros.AnyVersion).Delivery; got != ros.DeliveryStream {
+	if got := sess.PlanFor(mt, "run").Delivery; got != ros.DeliveryStream {
 		t.Fatalf("default delivery = %q, want stream", got)
 	}
-	mreq, err := mt.Build("run", ros.AnyVersion, ros.StreamEvery(time.Second), ros.Params{
+	mreq, err := mt.Build("run", ros.StreamEvery(time.Second), ros.Params{
 		Args: map[string]string{"interface": name},
 	})
 	if err != nil {
@@ -138,7 +138,7 @@ func TestLiveSessionPoll(t *testing.T) {
 	if !ok {
 		t.Fatal("resource hotspot-active tidak ada")
 	}
-	req, err := active.Build("list", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
+	req, err := active.Build("list", ros.Poll(5*time.Second), ros.Params{})
 	if err != nil {
 		t.Fatalf("build: %v", err)
 	}
@@ -171,7 +171,7 @@ func TestLiveSessionUnionProplist(t *testing.T) {
 	}
 	build := func(only ...string) ros.Request {
 		t.Helper()
-		req, err := res.Build("list", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{Only: only})
+		req, err := res.Build("list", ros.Poll(5*time.Second), ros.Params{Only: only})
 		if err != nil {
 			t.Fatalf("build %v: %v", only, err)
 		}
@@ -234,7 +234,7 @@ func TestLiveSessionListen(t *testing.T) {
 	if !ok {
 		t.Fatal("resource fw-address-list tidak ada")
 	}
-	req, err := al.Build("events", ros.AnyVersion, ros.Events(), ros.Params{})
+	req, err := al.Build("events", ros.Events(), ros.Params{})
 	if err != nil {
 		t.Fatalf("build: %v", err)
 	}

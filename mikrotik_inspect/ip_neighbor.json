@@ -1,0 +1,332 @@
+{
+  "_type": "dir",
+  "discovery-settings": {
+    "_type": "dir",
+    "edit": {
+      "_type": "cmd",
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "add-dns-entries": {
+        "_type": "arg"
+      },
+      "add-dns-entries-suffix": {
+        "_type": "arg",
+        "desc": "string value, min length 1, max length 64"
+      },
+      "discover-interface-list": {
+        "_type": "arg"
+      },
+      "discover-interval": {
+        "_type": "arg",
+        "desc": "5s..9h6m7s    (time interval)"
+      },
+      "dying-gasp": {
+        "_type": "arg"
+      },
+      "lldp-mac-phy-config": {
+        "_type": "arg"
+      },
+      "lldp-max-frame-size": {
+        "_type": "arg"
+      },
+      "lldp-med": {
+        "_type": "arg"
+      },
+      "lldp-med-net-policy-vlan": {
+        "_type": "arg"
+      },
+      "lldp-vlan-info": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg",
+        "desc": "cdp|lldp|mndp[,Protocol*]"
+      }
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "lldp": {
+    "_type": "dir",
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "oid": {
+      "_type": "arg"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

@@ -36,13 +36,19 @@ stream lewat event `KindReconnecting`.
 
 ```go
 sess, err := rosrun.Open(ctx, rosrun.Config{
-    ID:        "router-3",             // hanya untuk log
-    Address:   "192.168.122.189:8728", // atau host + Port
-    Username:  "admin",
-    Password:  os.Getenv("ROUTEROS_PASS"),
-    Timeout:   10 * time.Second,
-    Stream:    true,          // preferensi bawaan: true=stream, false=poll
-    PollEvery: time.Second,
+    ID:          "router-3",             // hanya untuk log
+    Address:     "192.168.122.189:8728", // atau host + Port
+    Username:    "admin",
+    Password:    os.Getenv("ROUTEROS_PASS"),
+    Timeout:     10 * time.Second,
+    Stream:      true,                   // preferensi bawaan: true=stream, false=poll
+    StreamEvery: time.Second,            // 1s..5s untuk interval/native
+    PollEvery:   5 * time.Second,        // 5s..30s
+    Status: rosrun.StatusConfig{
+        Every:   time.Second,            // native /ping tanpa count/duration
+        Target:  "8.8.8.8",
+        Timeout: 15 * time.Second,
+    },
 })
 if err != nil {
     log.Fatal(err)
@@ -63,7 +69,8 @@ Yang perlu diingat:
 | Command tulis | Tidak diulang otomatis; `Exec` mengembalikan `ErrReconnecting` selama jeda. |
 | Setelah `Close` | Semua panggilan mengembalikan `ErrClosed`; stream ditutup. |
 | Limiter/audit | `Config.Gate` dipanggil sekali per command; `release` dipanggil setelah selesai. |
-| Status | `sess.Stats()` berisi epoch, jumlah reconnect, dan status kedua koneksi. |
+| Status | `sess.Stats()` berisi epoch, jumlah reconnect, dan status kedua koneksi. Status realtime: `sess.Status()` dan `sess.WatchStatus(ctx)`. |
+| Cache | `sess.Subscribe(ctx, req)` berbagi satu stream/poll per request dan menyajikan snapshot terakhir ke subscriber baru. |
 
 Untuk uji cepat ke router sungguhan:
 
@@ -73,6 +80,72 @@ go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
   -resource interface -view live -stream -every 1s -n 2
 ```
 
+### 1.2 Status realtime
+
+Status selalu memakai native stream `/ping` **tanpa `count`/`duration`**,
+terlepas dari `Config.Stream`. Target bawaan `8.8.8.8`, interval 1 detik.
+State: `connected`, `warning`, atau `error`.
+
+```go
+st := sess.Status()
+fmt.Println(st.State, st.Connected, st.Warnings, st.Ping.PacketLoss)
+
+for st := range sess.WatchStatus(ctx) {
+    fmt.Println(st.State, st.Warnings)
+}
+```
+
+Contoh warning: `TLS disabled: API traffic is plaintext`, packet loss melewati
+ambang, satu koneksi turun, atau sedang reconnect. Error bila kedua koneksi
+turun atau ping status melewati `Status.Timeout`.
+
+### 1.3 Banyak router sekaligus
+
+```go
+mgr, err := rosrun.OpenAll(ctx, []rosrun.Config{
+    {ID: "r60", Address: "192.168.122.60:8728", Username: "admin", Password: pass,
+        Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second},
+    {ID: "r26", Address: "192.168.122.26:8728", Username: "admin", Password: pass,
+        Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second},
+    {ID: "r189", Address: "192.168.122.189:8728", Username: "admin", Password: pass,
+        Stream: false, PollEvery: 5 * time.Second},
+})
+if err != nil {
+    log.Printf("sebagian router gagal: %v", err) // partial success
+}
+defer mgr.Close()
+
+events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+for ev := range events {
+    fmt.Println(ev.RouterID, ev.Kind, ev.Row)
+}
+```
+
+`OpenAll` membuka router secara paralel. Satu router gagal tidak menghentikan
+router lain; error dikembalikan sebagai `errors.Join`. `WatchAll` dan
+`WatchAutoAll` memberi `RouterID` pada setiap event. `Statuses()` dan
+`WatchStatuses(ctx)` menggabungkan status semua router.
+
+### 1.4 Cache dan shared feed
+
+```go
+sub, err := sess.Subscribe(ctx, req) // req harus Delivery stream/poll
+if err != nil { log.Fatal(err) }
+defer sub.Close()
+
+if ev, ok := sub.Latest(); ok {
+    // snapshot terakhir, bisa langsung dipakai dashboard
+}
+for ev := range sub.Events() {
+    // update realtime
+}
+```
+
+Subscriber pertama memulai stream/poll; subscriber berikutnya dengan
+`Request.Fingerprint()` yang sama berbagi upstream. Subscriber terakhir pergi
+membatalkan upstream, tetapi event terakhir disimpan sampai `Cache.TTL`
+(bawaan 5 detik). `Cache.MaxEntries` membatasi jumlah feed per router.
+
 ## 2. Stream atau poll
 
 `Plan` menentukan siapa yang menggerakkan pengiriman:
@@ -80,8 +153,8 @@ go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
 | Plan | Arti | Yang dikirim ke router |
 |---|---|---|
 | `ros.Stream()` | Router mengirim terus, interval bawaan view | `print =interval=`, `follow`, `/listen`, atau command native |
-| `ros.StreamEvery(500*time.Millisecond)` | Sama, dengan interval sendiri (>= 200 ms untuk print) | `=interval=500ms` |
-| `ros.Poll(300*time.Millisecond)` | Go mengulang one-shot tiap 300 ms (>= 50 ms) | `print` biasa, atau command + `=once=` |
+| `ros.StreamEvery(2*time.Second)` | Sama, dengan interval sendiri (1s..5s) | `=interval=2s` |
+| `ros.Poll(5*time.Second)` | Go mengulang one-shot tiap 5s (5s..30s) | `print` biasa, atau command + `=once=` |
 | `ros.Once()` | Satu kali | satu command |
 | tambahan `.WithDiff()` | Poll menghasilkan added/changed/removed | (sisi Go) |
 | tambahan `.WithSeed()` | Stream listen mulai dengan snapshot awal | `listen`, lalu `print` |
@@ -93,15 +166,15 @@ go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
 ```go
 res, _ := ros.Lookup("hotspot-active")
 
-// Router mengirim snapshot penuh tiap 500 ms
-req, _ := res.Build("live", ros.AnyVersion, ros.StreamEvery(500*time.Millisecond), ros.Params{})
+// Router mengirim snapshot penuh tiap 2 detik (termasuk stats pada view counter)
+req, _ := res.Build("live", ros.AnyVersion, ros.StreamEvery(2*time.Second), ros.Params{})
 events, _ := run.Watch(ctx, req)   // KindSnapshot per siklus
 
-// Padanan poll: Go memanggil print biasa tiap 300 ms
-req, _ = res.Build("live", ros.AnyVersion, ros.Poll(300*time.Millisecond), ros.Params{})
+// Padanan poll: Go memanggil print biasa tiap 5 detik
+req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
 
 // Poll dengan diff: hanya perubahan yang keluar
-req, _ = res.Build("live", ros.AnyVersion, ros.Poll(time.Second).WithDiff(), ros.Params{})
+req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second).WithDiff(), ros.Params{})
 ```
 
 ### Listen dengan snapshot awal
@@ -121,7 +194,7 @@ mt, _ := ros.Lookup("interface-monitor-traffic")
 args := ros.Params{Args: map[string]string{"interface": "ether1,sfp1"}}
 
 req, _ := mt.Build("run", ros.AnyVersion, ros.Stream(), args)          // stream native
-req, _ = mt.Build("run", ros.AnyVersion, ros.Poll(2*time.Second), args) // monitor + =once= tiap 2 detik
+req, _ = mt.Build("run", ros.AnyVersion, ros.Poll(5*time.Second), args) // monitor + =once= tiap 5 detik
 // KindRow: satu baris per interface per update
 ```
 
@@ -132,7 +205,7 @@ Command tanpa `once` (ping, torch, bandwidth-test) hanya bisa stream; batasi den
 ```go
 lg, _ := ros.Lookup("log")
 req, _ := lg.Build("tail-only", ros.AnyVersion, ros.Stream(), ros.Params{})       // follow-only
-req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Poll(time.Second), ros.Params{}) // print + diff; hasil pertama hanya baseline
+req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{}) // print + diff; hasil pertama hanya baseline
 ```
 
 ### Sekali jalan, jumlah, dan filter
@@ -163,7 +236,7 @@ _, err = run.Exec(ctx, sent)
 
 ```go
 events, err := run.WatchAuto(ctx, res, "events", ros.AnyVersion,
-    ros.Plan{Every: time.Second}, ros.Params{})
+    ros.Plan{Every: 5 * time.Second}, ros.Params{})
 ```
 
 Bila router menolak stream sebelum ada data (mis. `listen` tidak jalan di suatu menu), `WatchAuto` beralih ke poll dengan jeda yang sama dan diff, sehingga bentuk event tetap serupa.
@@ -188,7 +261,7 @@ Membatalkan `ctx` menutup channel tanpa `KindError` dan mengirim `/cancel` ke ro
 | Sesi aktif hotspot/PPPoE | `events` + Seed untuk login/logout, ditambah `live` untuk counter (uptime, bytes) |
 | Counter queue dan firewall | Stream interval 1 detik, atau Poll bila router lemah |
 | Log | `tail-only` stream |
-| Daftar voucher/pelanggan besar | Poll 30 sampai 60 detik, plus `count` untuk angka dashboard |
+| Daftar voucher/pelanggan besar | Poll 5 sampai 30 detik, plus `count` untuk angka dashboard |
 | ping/torch/bandwidth-test | Stream native dengan `count` atau `duration` |
 
 ## 5. Jebakan yang sudah ditangani `rosrun`
@@ -199,14 +272,18 @@ Semuanya diperiksa pada source goros/v4 (turunan go-routeros v3.0.1), dan yang p
 - **Varian `*Context` library mematikan pembaca bersama.** Saat ctx-nya dibatalkan ia memanggil `c.r.Cancel()` untuk semua command. `rosrun` memakai `RunArgs`/`ListenArgs` dan membatalkan stream lewat `ListenReply.Cancel()`.
 - **Jangan kirim `.tag`.** Library menetapkannya sendiri; biarkan `Params.Tag` kosong.
 - **Batas siklus `interval` tidak ditandai router.** `rosrun` memakai `.section` bila ada, kunci yang berulang, atau jeda tanpa baris. Tabel kosong tidak mengirim apa pun; set `run.EmptySnapshots = true` untuk snapshot kosong setelah 3x interval tanpa baris (ini inferensi).
-- **`.proplist` ditolak.** `Request.Fallback` berisi sentence yang sama tanpa `.proplist`; `rosrun` mengulang sekali bila router menolak di awal, dan tetap menyaring kolom di sisi klien.
+- **`.proplist` ditolak atau memutus koneksi.** `Request.Fallback` berisi sentence yang sama tanpa `.proplist`; `rosrun` mengulang sekali bila router menolak di awal, dan tetap menyaring kolom di sisi klien. `Once`/`Count` juga menunggu reconnect lalu mencoba sekali lagi bila koneksi putus di tengah command.
+- **Router menutup login beruntun dengan EOF.** Dial awal diulang untuk error transien; reconnect memakai backoff + jitter agar beberapa router tidak menyambung serentak.
 - **API tidak punya `where` dan regex.** `Params.Query` hanya kesamaan persis; filter prefix/regex di klien.
 
 ## 6. Banyak router dan WebSocket
 
+- Gunakan `rosrun.OpenAll` / `rosrun.Manager` untuk membuka banyak router sekaligus. Tiap router tetap punya dua koneksi dan supervisor reconnect sendiri.
+- `Manager.WatchAll` menjalankan Request yang sama di semua router; `Manager.WatchAutoAll` memakai `Config.Stream` masing-masing router. Kegagalan satu router menjadi `RouterEvent.KindError` dan tidak menghentikan router lain.
+- `Manager.Statuses()` / `Manager.WatchStatuses(ctx)` memberi status realtime per router.
 - Satu `routeros.Client` + satu `Runner` per router; `Watch` berkali-kali pada koneksi yang sama aman karena mode async.
-- Pola umum: satu `Watch` per feed (resource + view + Plan + Params), disebar ke banyak pelanggan WebSocket lewat hub; batalkan `ctx` feed saat pelanggan terakhir pergi.
-- Untuk menentukan Plan per tenant, simpan `Plan` bersama konfigurasi feed; `Build` menolak interval/poll di bawah batas sehingga router tidak terbebani.
+- Pola fan-out: `Subscribe`/`Manager.SubscribeAll` berbagi satu upstream per `Request.Fingerprint()` dan menyajikan `Latest()` ke pelanggan baru. Subscriber terakhir pergi → upstream dibatalkan; cache terakhir disimpan sampai `Cache.TTL`.
+- `Build` menolak interval di luar 1s..5s dan poll di luar 5s..30s.
 
 ## 7. Validasi terhadap router Anda
 
@@ -224,8 +301,10 @@ Properti kosong (mis. `comment` yang belum diisi) memang tidak dikirim router, j
 
 ## 8. Contoh dan tes
 
-- `go run ./cmd/example -resource hotspot-active -view live -delivery poll -every 500ms -diff` menjalankan view mana pun dari baris perintah.
+- `go run ./cmd/example -resource hotspot-active -view live -delivery poll -every 5s -diff` menjalankan view mana pun dari baris perintah.
+- `go run ./cmd/multicheck -router 192.168.122.60:8728 -router 192.168.122.26:8728 -router 192.168.122.189:8728 -user admin -pass secret -duration 20s` menguji status, stream, poll, native monitor, follow-only, dan `Exec` di semua router sekaligus.
 - `go test -race ./...` di root menjalankan tes katalog dan tes integrasi `rosrun` terhadap server RouterOS tiruan yang berbicara protokol kawat asli lewat klien goros/v4 sungguhan.
+- `ROUTEROS_LIVE_ADDRS=192.168.122.60:8728,192.168.122.26:8728,192.168.122.189:8728 ROUTEROS_LIVE_USER=admin ROUTEROS_LIVE_PASS=secret go test ./rosrun -run TestLiveMultiRouter -v` menguji banyak router sekaligus, termasuk status dan cache.
 - `ROUTEROS_LIVE_ADDR=192.168.88.1:8728 ROUTEROS_LIVE_USER=admin ROUTEROS_LIVE_PASS=secret go test ./rosrun -run TestLiveListenRemoval -v` menguji `listen` ke router sungguhan: membuat lalu menghapus satu entri address-list dan memastikan event `removed` (`.dead=true`) diterima tanpa `.proplist`.
 - `cd goros && go test ./...` menjalankan tes engine (sebagian tes lab butuh env `ROUTEROS_TEST_*`).
 - `go run ./cmd/rosverify ...` memverifikasi katalog ke router sungguhan lewat `/console/inspect` (§10).
@@ -241,8 +320,13 @@ go.mod                  # module example.com/roscatalog
 catalog_*.go            # data katalog (tanpa dependensi API)
 plan.go, types.go       # Build/Plan/Sentence
 rosrun/                 # adapter: satu-satunya yang mengimpor goros
+  session.go            # dua koneksi + reconnect
+  status.go             # native /ping status realtime
+  manager.go            # banyak router + fan-out
+  cache.go              # shared feed + snapshot cache
 mikhmon/                # overlay + workflow khusus Mikhmon
 cmd/example/            # CLI menjalankan satu view
+cmd/multicheck/         # uji banyak router: status/stream/poll/native
 cmd/rosverify/          # verifikasi/discovery via /console/inspect
 cmd/mikhmon-live/       # uji profile/voucher/sales/expire ke router
 goros/                  # module github.com/quiqxiq/goros/v4 (fork engine)

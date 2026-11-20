@@ -27,7 +27,7 @@ func liveConfig(t *testing.T) rosrun.Config {
 		Username:  user,
 		Password:  os.Getenv("ROUTEROS_LIVE_PASS"),
 		Timeout:   10 * time.Second,
-		PollEvery: time.Second,
+		PollEvery: 5 * time.Second,
 	}
 }
 
@@ -135,7 +135,7 @@ func TestLiveSessionPoll(t *testing.T) {
 	if !ok {
 		t.Fatal("resource hotspot-active tidak ada")
 	}
-	req, err := active.Build("list", ros.AnyVersion, ros.Poll(time.Second), ros.Params{})
+	req, err := active.Build("list", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
 	if err != nil {
 		t.Fatalf("build: %v", err)
 	}

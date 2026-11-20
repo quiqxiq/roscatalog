@@ -1,0 +1,2199 @@
+{
+  "source": "inspect.json",
+  "dibuat": "2026-11-20T03:49:58",
+  "split-depth": 2,
+  "total-sumber": {
+    "menus": 554,
+    "commands": 5134,
+    "args": 35657
+  },
+  "files": [
+    {
+      "file": "_root.json",
+      "path": "/",
+      "scope": "commands",
+      "node-type": null,
+      "menus": 0,
+      "commands": 55,
+      "args": 118
+    },
+    {
+      "file": "app__cmds.json",
+      "path": "/app",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 16,
+      "args": 93
+    },
+    {
+      "file": "app_network.json",
+      "path": "/app/network",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 4,
+      "args": 29
+    },
+    {
+      "file": "app_settings.json",
+      "path": "/app/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 35
+    },
+    {
+      "file": "caps-man__cmds.json",
+      "path": "/caps-man",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 1,
+      "args": 8
+    },
+    {
+      "file": "caps-man_aaa.json",
+      "path": "/caps-man/aaa",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 27
+    },
+    {
+      "file": "caps-man_access-list.json",
+      "path": "/caps-man/access-list",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 101
+    },
+    {
+      "file": "caps-man_actual-interface-configuration.json",
+      "path": "/caps-man/actual-interface-configuration",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 148
+    },
+    {
+      "file": "caps-man_channel.json",
+      "path": "/caps-man/channel",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 77
+    },
+    {
+      "file": "caps-man_configuration.json",
+      "path": "/caps-man/configuration",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 225
+    },
+    {
+      "file": "caps-man_datapath.json",
+      "path": "/caps-man/datapath",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 86
+    },
+    {
+      "file": "caps-man_interface.json",
+      "path": "/caps-man/interface",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 17,
+      "args": 266
+    },
+    {
+      "file": "caps-man_manager.json",
+      "path": "/caps-man/manager",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 18,
+      "args": 85
+    },
+    {
+      "file": "caps-man_provisioning.json",
+      "path": "/caps-man/provisioning",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 83
+    },
+    {
+      "file": "caps-man_radio.json",
+      "path": "/caps-man/radio",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 29
+    },
+    {
+      "file": "caps-man_rates.json",
+      "path": "/caps-man/rates",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 68
+    },
+    {
+      "file": "caps-man_registration-table.json",
+      "path": "/caps-man/registration-table",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 33
+    },
+    {
+      "file": "caps-man_remote-cap.json",
+      "path": "/caps-man/remote-cap",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 31
+    },
+    {
+      "file": "caps-man_security.json",
+      "path": "/caps-man/security",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 81
+    },
+    {
+      "file": "certificate__cmds.json",
+      "path": "/certificate",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 23,
+      "args": 164
+    },
+    {
+      "file": "certificate_builtin.json",
+      "path": "/certificate/builtin",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 26
+    },
+    {
+      "file": "certificate_crl.json",
+      "path": "/certificate/crl",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 41
+    },
+    {
+      "file": "certificate_scep-server.json",
+      "path": "/certificate/scep-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 33,
+      "args": 191
+    },
+    {
+      "file": "certificate_settings.json",
+      "path": "/certificate/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 27
+    },
+    {
+      "file": "console__cmds.json",
+      "path": "/console",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 15
+    },
+    {
+      "file": "console_settings.json",
+      "path": "/console/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 23
+    },
+    {
+      "file": "container__cmds.json",
+      "path": "/container",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 20,
+      "args": 218
+    },
+    {
+      "file": "container_config.json",
+      "path": "/container/config",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 34
+    },
+    {
+      "file": "container_envs.json",
+      "path": "/container/envs",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 59
+    },
+    {
+      "file": "container_layers.json",
+      "path": "/container/layers",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 26
+    },
+    {
+      "file": "container_log.json",
+      "path": "/container/log",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 25
+    },
+    {
+      "file": "container_mounts.json",
+      "path": "/container/mounts",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 62
+    },
+    {
+      "file": "disk__cmds.json",
+      "path": "/disk",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 28,
+      "args": 322
+    },
+    {
+      "file": "disk_btrfs.json",
+      "path": "/disk/btrfs",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 29,
+      "args": 153
+    },
+    {
+      "file": "disk_settings.json",
+      "path": "/disk/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 27
+    },
+    {
+      "file": "dude__cmds.json",
+      "path": "/dude",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 53
+    },
+    {
+      "file": "dude_agent.json",
+      "path": "/dude/agent",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 40
+    },
+    {
+      "file": "dude_device.json",
+      "path": "/dude/device",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 40
+    },
+    {
+      "file": "dude_device-type.json",
+      "path": "/dude/device-type",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 40
+    },
+    {
+      "file": "dude_notification.json",
+      "path": "/dude/notification",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 40
+    },
+    {
+      "file": "dude_probe.json",
+      "path": "/dude/probe",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 40
+    },
+    {
+      "file": "dude_ros.json",
+      "path": "/dude/ros",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 11,
+      "commands": 97,
+      "args": 652
+    },
+    {
+      "file": "dude_service.json",
+      "path": "/dude/service",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 40
+    },
+    {
+      "file": "dude_settings.json",
+      "path": "/dude/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 16
+    },
+    {
+      "file": "environment.json",
+      "path": "/environment",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 1,
+      "args": 0
+    },
+    {
+      "file": "file__cmds.json",
+      "path": "/file",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 14,
+      "args": 66
+    },
+    {
+      "file": "file_rsync-daemon.json",
+      "path": "/file/rsync-daemon",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 19
+    },
+    {
+      "file": "file_sync.json",
+      "path": "/file/sync",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 79
+    },
+    {
+      "file": "interface__cmds.json",
+      "path": "/interface",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 14,
+      "args": 68
+    },
+    {
+      "file": "interface_6to4.json",
+      "path": "/interface/6to4",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 80
+    },
+    {
+      "file": "interface_bonding.json",
+      "path": "/interface/bonding",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 15,
+      "args": 136
+    },
+    {
+      "file": "interface_bridge.json",
+      "path": "/interface/bridge",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 11,
+      "commands": 150,
+      "args": 1441
+    },
+    {
+      "file": "interface_detect-internet.json",
+      "path": "/interface/detect-internet",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 9,
+      "args": 53
+    },
+    {
+      "file": "interface_dot1x.json",
+      "path": "/interface/dot1x",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 34,
+      "args": 220
+    },
+    {
+      "file": "interface_eoip.json",
+      "path": "/interface/eoip",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 104
+    },
+    {
+      "file": "interface_eoipv6.json",
+      "path": "/interface/eoipv6",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 101
+    },
+    {
+      "file": "interface_ethernet.json",
+      "path": "/interface/ethernet",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 16,
+      "args": 121
+    },
+    {
+      "file": "interface_gre.json",
+      "path": "/interface/gre",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 83
+    },
+    {
+      "file": "interface_gre6.json",
+      "path": "/interface/gre6",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 80
+    },
+    {
+      "file": "interface_ipip.json",
+      "path": "/interface/ipip",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 83
+    },
+    {
+      "file": "interface_ipipv6.json",
+      "path": "/interface/ipipv6",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 80
+    },
+    {
+      "file": "interface_l2tp-client.json",
+      "path": "/interface/l2tp-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 131
+    },
+    {
+      "file": "interface_l2tp-ether.json",
+      "path": "/interface/l2tp-ether",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 124
+    },
+    {
+      "file": "interface_l2tp-server.json",
+      "path": "/interface/l2tp-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 19,
+      "args": 123
+    },
+    {
+      "file": "interface_list.json",
+      "path": "/interface/list",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 22,
+      "args": 110
+    },
+    {
+      "file": "interface_lte.json",
+      "path": "/interface/lte",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 45,
+      "args": 286
+    },
+    {
+      "file": "interface_macsec.json",
+      "path": "/interface/macsec",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 22,
+      "args": 129
+    },
+    {
+      "file": "interface_macvlan.json",
+      "path": "/interface/macvlan",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 80
+    },
+    {
+      "file": "interface_mesh.json",
+      "path": "/interface/mesh",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 28,
+      "args": 200
+    },
+    {
+      "file": "interface_ovpn-client.json",
+      "path": "/interface/ovpn-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 133
+    },
+    {
+      "file": "interface_ovpn-server.json",
+      "path": "/interface/ovpn-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 26,
+      "args": 199
+    },
+    {
+      "file": "interface_ppp-client.json",
+      "path": "/interface/ppp-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 18,
+      "args": 171
+    },
+    {
+      "file": "interface_ppp-server.json",
+      "path": "/interface/ppp-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 94
+    },
+    {
+      "file": "interface_pppoe-client.json",
+      "path": "/interface/pppoe-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 15,
+      "args": 121
+    },
+    {
+      "file": "interface_pppoe-server.json",
+      "path": "/interface/pppoe-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 25,
+      "args": 162
+    },
+    {
+      "file": "interface_pptp-client.json",
+      "path": "/interface/pptp-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 104
+    },
+    {
+      "file": "interface_pptp-server.json",
+      "path": "/interface/pptp-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 19,
+      "args": 98
+    },
+    {
+      "file": "interface_sstp-client.json",
+      "path": "/interface/sstp-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 131
+    },
+    {
+      "file": "interface_sstp-server.json",
+      "path": "/interface/sstp-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 19,
+      "args": 110
+    },
+    {
+      "file": "interface_veth.json",
+      "path": "/interface/veth",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 71
+    },
+    {
+      "file": "interface_vlan.json",
+      "path": "/interface/vlan",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 83
+    },
+    {
+      "file": "interface_vpls.json",
+      "path": "/interface/vpls",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 111
+    },
+    {
+      "file": "interface_vrrp.json",
+      "path": "/interface/vrrp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 117
+    },
+    {
+      "file": "interface_vxlan.json",
+      "path": "/interface/vxlan",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 28,
+      "args": 209
+    },
+    {
+      "file": "interface_wifi.json",
+      "path": "/interface/wifi",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 19,
+      "commands": 227,
+      "args": 2377
+    },
+    {
+      "file": "interface_wireguard.json",
+      "path": "/interface/wireguard",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 28,
+      "args": 177
+    },
+    {
+      "file": "interface_wireless.json",
+      "path": "/interface/wireless",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 16,
+      "commands": 171,
+      "args": 1574
+    },
+    {
+      "file": "iot__cmds.json",
+      "path": "/iot",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 1,
+      "args": 8
+    },
+    {
+      "file": "iot_bluetooth.json",
+      "path": "/iot/bluetooth",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 9,
+      "commands": 75,
+      "args": 440
+    },
+    {
+      "file": "iot_lora.json",
+      "path": "/iot/lora",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 7,
+      "commands": 68,
+      "args": 418
+    },
+    {
+      "file": "iot_modbus.json",
+      "path": "/iot/modbus",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 20,
+      "args": 109
+    },
+    {
+      "file": "iot_mqtt.json",
+      "path": "/iot/mqtt",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 31,
+      "args": 207
+    },
+    {
+      "file": "iot_wiliot.json",
+      "path": "/iot/wiliot",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 31,
+      "args": 173
+    },
+    {
+      "file": "ip__cmds.json",
+      "path": "/ip",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 2,
+      "args": 8
+    },
+    {
+      "file": "ip_address.json",
+      "path": "/ip/address",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 65
+    },
+    {
+      "file": "ip_arp.json",
+      "path": "/ip/arp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 62
+    },
+    {
+      "file": "ip_cloud.json",
+      "path": "/ip/cloud",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 13,
+      "args": 43
+    },
+    {
+      "file": "ip_dhcp-client.json",
+      "path": "/ip/dhcp-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 25,
+      "args": 150
+    },
+    {
+      "file": "ip_dhcp-relay.json",
+      "path": "/ip/dhcp-relay",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 85
+    },
+    {
+      "file": "ip_dhcp-server.json",
+      "path": "/ip/dhcp-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 7,
+      "commands": 91,
+      "args": 600
+    },
+    {
+      "file": "ip_dns.json",
+      "path": "/ip/dns",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 5,
+      "commands": 52,
+      "args": 329
+    },
+    {
+      "file": "ip_firewall.json",
+      "path": "/ip/firewall",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 10,
+      "commands": 122,
+      "args": 1440
+    },
+    {
+      "file": "ip_hotspot.json",
+      "path": "/ip/hotspot",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 10,
+      "commands": 112,
+      "args": 770
+    },
+    {
+      "file": "ip_ipsec.json",
+      "path": "/ip/ipsec",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 14,
+      "commands": 124,
+      "args": 771
+    },
+    {
+      "file": "ip_kid-control.json",
+      "path": "/ip/kid-control",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 26,
+      "args": 159
+    },
+    {
+      "file": "ip_media.json",
+      "path": "/ip/media",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 17,
+      "args": 79
+    },
+    {
+      "file": "ip_nat-pmp.json",
+      "path": "/ip/nat-pmp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 18,
+      "args": 75
+    },
+    {
+      "file": "ip_neighbor.json",
+      "path": "/ip/neighbor",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 13,
+      "args": 92
+    },
+    {
+      "file": "ip_packing.json",
+      "path": "/ip/packing",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 57
+    },
+    {
+      "file": "ip_pool.json",
+      "path": "/ip/pool",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 16,
+      "args": 91
+    },
+    {
+      "file": "ip_proxy.json",
+      "path": "/ip/proxy",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 8,
+      "commands": 79,
+      "args": 415
+    },
+    {
+      "file": "ip_reverse-proxy.json",
+      "path": "/ip/reverse-proxy",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 65
+    },
+    {
+      "file": "ip_route.json",
+      "path": "/ip/route",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 95
+    },
+    {
+      "file": "ip_service.json",
+      "path": "/ip/service",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 15,
+      "args": 95
+    },
+    {
+      "file": "ip_settings.json",
+      "path": "/ip/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 34
+    },
+    {
+      "file": "ip_smb.json",
+      "path": "/ip/smb",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 30,
+      "args": 153
+    },
+    {
+      "file": "ip_socks.json",
+      "path": "/ip/socks",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 38,
+      "args": 199
+    },
+    {
+      "file": "ip_socksify.json",
+      "path": "/ip/socksify",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 70
+    },
+    {
+      "file": "ip_ssh.json",
+      "path": "/ip/ssh",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 35
+    },
+    {
+      "file": "ip_tftp.json",
+      "path": "/ip/tftp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 19,
+      "args": 96
+    },
+    {
+      "file": "ip_traffic-flow.json",
+      "path": "/ip/traffic-flow",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 24,
+      "args": 195
+    },
+    {
+      "file": "ip_upnp.json",
+      "path": "/ip/upnp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 18,
+      "args": 79
+    },
+    {
+      "file": "ip_vrf.json",
+      "path": "/ip/vrf",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 58
+    },
+    {
+      "file": "ipv6__cmds.json",
+      "path": "/ipv6",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 2,
+      "args": 8
+    },
+    {
+      "file": "ipv6_address.json",
+      "path": "/ipv6/address",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 74
+    },
+    {
+      "file": "ipv6_dhcp-client.json",
+      "path": "/ipv6/dhcp-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 25,
+      "args": 171
+    },
+    {
+      "file": "ipv6_dhcp-relay.json",
+      "path": "/ipv6/dhcp-relay",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 28,
+      "args": 166
+    },
+    {
+      "file": "ipv6_dhcp-server.json",
+      "path": "/ipv6/dhcp-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 47,
+      "args": 303
+    },
+    {
+      "file": "ipv6_firewall.json",
+      "path": "/ipv6/firewall",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 6,
+      "commands": 81,
+      "args": 990
+    },
+    {
+      "file": "ipv6_nd.json",
+      "path": "/ipv6/nd",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 49,
+      "args": 270
+    },
+    {
+      "file": "ipv6_neighbor.json",
+      "path": "/ipv6/neighbor",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 59
+    },
+    {
+      "file": "ipv6_pool.json",
+      "path": "/ipv6/pool",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 13,
+      "args": 82
+    },
+    {
+      "file": "ipv6_route.json",
+      "path": "/ipv6/route",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 83
+    },
+    {
+      "file": "ipv6_settings.json",
+      "path": "/ipv6/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 30
+    },
+    {
+      "file": "log.json",
+      "path": "/log",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 30
+    },
+    {
+      "file": "mpls__cmds.json",
+      "path": "/mpls",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 1,
+      "args": 8
+    },
+    {
+      "file": "mpls_forwarding-table.json",
+      "path": "/mpls/forwarding-table",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 26
+    },
+    {
+      "file": "mpls_interface.json",
+      "path": "/mpls/interface",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 64
+    },
+    {
+      "file": "mpls_ldp.json",
+      "path": "/mpls/ldp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 6,
+      "commands": 93,
+      "args": 469
+    },
+    {
+      "file": "mpls_mangle.json",
+      "path": "/mpls/mangle",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 15,
+      "args": 65
+    },
+    {
+      "file": "mpls_settings.json",
+      "path": "/mpls/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 23
+    },
+    {
+      "file": "mpls_traffic-eng.json",
+      "path": "/mpls/traffic-eng",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 44,
+      "args": 316
+    },
+    {
+      "file": "openflow__cmds.json",
+      "path": "/openflow",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 77
+    },
+    {
+      "file": "openflow_flow.json",
+      "path": "/openflow/flow",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 27
+    },
+    {
+      "file": "openflow_group.json",
+      "path": "/openflow/group",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 28
+    },
+    {
+      "file": "openflow_meter.json",
+      "path": "/openflow/meter",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 28
+    },
+    {
+      "file": "openflow_port.json",
+      "path": "/openflow/port",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 61
+    },
+    {
+      "file": "port__cmds.json",
+      "path": "/port",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 8,
+      "args": 54
+    },
+    {
+      "file": "port_remote-access.json",
+      "path": "/port/remote-access",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 73
+    },
+    {
+      "file": "ppp__cmds.json",
+      "path": "/ppp",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 1,
+      "args": 8
+    },
+    {
+      "file": "ppp_aaa.json",
+      "path": "/ppp/aaa",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 27
+    },
+    {
+      "file": "ppp_active.json",
+      "path": "/ppp/active",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 29
+    },
+    {
+      "file": "ppp_l2tp-secret.json",
+      "path": "/ppp/l2tp-secret",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 52
+    },
+    {
+      "file": "ppp_profile.json",
+      "path": "/ppp/profile",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 155
+    },
+    {
+      "file": "ppp_secret.json",
+      "path": "/ppp/secret",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 89
+    },
+    {
+      "file": "queue__cmds.json",
+      "path": "/queue",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 2,
+      "args": 18
+    },
+    {
+      "file": "queue_interface.json",
+      "path": "/queue/interface",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 40
+    },
+    {
+      "file": "queue_simple.json",
+      "path": "/queue/simple",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 16,
+      "args": 127
+    },
+    {
+      "file": "queue_tree.json",
+      "path": "/queue/tree",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 89
+    },
+    {
+      "file": "queue_type.json",
+      "path": "/queue/type",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 190
+    },
+    {
+      "file": "radius__cmds.json",
+      "path": "/radius",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 15,
+      "args": 110
+    },
+    {
+      "file": "radius_incoming.json",
+      "path": "/radius/incoming",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 8,
+      "args": 33
+    },
+    {
+      "file": "routing__cmds.json",
+      "path": "/routing",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 2,
+      "args": 13
+    },
+    {
+      "file": "routing_bfd.json",
+      "path": "/routing/bfd",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 18,
+      "args": 111
+    },
+    {
+      "file": "routing_bgp.json",
+      "path": "/routing/bgp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 8,
+      "commands": 92,
+      "args": 804
+    },
+    {
+      "file": "routing_fantasy.json",
+      "path": "/routing/fantasy",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 91
+    },
+    {
+      "file": "routing_filter.json",
+      "path": "/routing/filter",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 7,
+      "commands": 89,
+      "args": 474
+    },
+    {
+      "file": "routing_gmp.json",
+      "path": "/routing/gmp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 63
+    },
+    {
+      "file": "routing_id.json",
+      "path": "/routing/id",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 64
+    },
+    {
+      "file": "routing_igmp-proxy.json",
+      "path": "/routing/igmp-proxy",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 29,
+      "args": 143
+    },
+    {
+      "file": "routing_isis.json",
+      "path": "/routing/isis",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 5,
+      "commands": 49,
+      "args": 432
+    },
+    {
+      "file": "routing_nexthop.json",
+      "path": "/routing/nexthop",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 29
+    },
+    {
+      "file": "routing_ospf.json",
+      "path": "/routing/ospf",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 8,
+      "commands": 89,
+      "args": 571
+    },
+    {
+      "file": "routing_pimsm.json",
+      "path": "/routing/pimsm",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 12,
+      "commands": 87,
+      "args": 540
+    },
+    {
+      "file": "routing_rip.json",
+      "path": "/routing/rip",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 6,
+      "commands": 53,
+      "args": 327
+    },
+    {
+      "file": "routing_route.json",
+      "path": "/routing/route",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 40
+    },
+    {
+      "file": "routing_rpki.json",
+      "path": "/routing/rpki",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 18,
+      "args": 108
+    },
+    {
+      "file": "routing_rule.json",
+      "path": "/routing/rule",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 85
+    },
+    {
+      "file": "routing_settings.json",
+      "path": "/routing/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 31
+    },
+    {
+      "file": "routing_stats.json",
+      "path": "/routing/stats",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 5,
+      "commands": 16,
+      "args": 127
+    },
+    {
+      "file": "routing_table.json",
+      "path": "/routing/table",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 57
+    },
+    {
+      "file": "safe-mode.json",
+      "path": "/safe-mode",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 17
+    },
+    {
+      "file": "snmp__cmds.json",
+      "path": "/snmp",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 42
+    },
+    {
+      "file": "snmp_community.json",
+      "path": "/snmp/community",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 78
+    },
+    {
+      "file": "special-login.json",
+      "path": "/special-login",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 54
+    },
+    {
+      "file": "system__cmds.json",
+      "path": "/system",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 13,
+      "args": 57
+    },
+    {
+      "file": "system_backup.json",
+      "path": "/system/backup",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 8,
+      "args": 70
+    },
+    {
+      "file": "system_clock.json",
+      "path": "/system/clock",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 12,
+      "args": 50
+    },
+    {
+      "file": "system_console.json",
+      "path": "/system/console",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 17,
+      "args": 75
+    },
+    {
+      "file": "system_default-configuration.json",
+      "path": "/system/default-configuration",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 12,
+      "args": 64
+    },
+    {
+      "file": "system_device-mode.json",
+      "path": "/system/device-mode",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 4,
+      "args": 50
+    },
+    {
+      "file": "system_gps.json",
+      "path": "/system/gps",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 42
+    },
+    {
+      "file": "system_health.json",
+      "path": "/system/health",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 20
+    },
+    {
+      "file": "system_history.json",
+      "path": "/system/history",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 25
+    },
+    {
+      "file": "system_identity.json",
+      "path": "/system/identity",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 20
+    },
+    {
+      "file": "system_keymat-provider.json",
+      "path": "/system/keymat-provider",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 82
+    },
+    {
+      "file": "system_leds.json",
+      "path": "/system/leds",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 17,
+      "args": 79
+    },
+    {
+      "file": "system_license.json",
+      "path": "/system/license",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 29
+    },
+    {
+      "file": "system_logging.json",
+      "path": "/system/logging",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 23,
+      "args": 183
+    },
+    {
+      "file": "system_note.json",
+      "path": "/system/note",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 24
+    },
+    {
+      "file": "system_ntp.json",
+      "path": "/system/ntp",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 37,
+      "args": 189
+    },
+    {
+      "file": "system_package.json",
+      "path": "/system/package",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 43,
+      "args": 216
+    },
+    {
+      "file": "system_regulatory.json",
+      "path": "/system/regulatory",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 3,
+      "args": 16
+    },
+    {
+      "file": "system_resource.json",
+      "path": "/system/resource",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 26,
+      "args": 153
+    },
+    {
+      "file": "system_rtrace.json",
+      "path": "/system/rtrace",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 16
+    },
+    {
+      "file": "system_scheduler.json",
+      "path": "/system/scheduler",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 73
+    },
+    {
+      "file": "system_script.json",
+      "path": "/system/script",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 2,
+      "commands": 28,
+      "args": 140
+    },
+    {
+      "file": "system_ups.json",
+      "path": "/system/ups",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 16,
+      "args": 87
+    },
+    {
+      "file": "system_watchdog.json",
+      "path": "/system/watchdog",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 35
+    },
+    {
+      "file": "task.json",
+      "path": "/task",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 8,
+      "args": 40
+    },
+    {
+      "file": "terminal.json",
+      "path": "/terminal",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 7
+    },
+    {
+      "file": "tool__cmds.json",
+      "path": "/tool",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 18,
+      "args": 210
+    },
+    {
+      "file": "tool_bandwidth-server.json",
+      "path": "/tool/bandwidth-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 10,
+      "args": 56
+    },
+    {
+      "file": "tool_calea.json",
+      "path": "/tool/calea",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 11,
+      "args": 78
+    },
+    {
+      "file": "tool_e-mail.json",
+      "path": "/tool/e-mail",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 47
+    },
+    {
+      "file": "tool_graphing.json",
+      "path": "/tool/graphing",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 42,
+      "args": 198
+    },
+    {
+      "file": "tool_mac-server.json",
+      "path": "/tool/mac-server",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 24,
+      "args": 93
+    },
+    {
+      "file": "tool_netinstall.json",
+      "path": "/tool/netinstall",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 3,
+      "commands": 30,
+      "args": 184
+    },
+    {
+      "file": "tool_netwatch.json",
+      "path": "/tool/netwatch",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 13,
+      "args": 155
+    },
+    {
+      "file": "tool_romon.json",
+      "path": "/tool/romon",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 21,
+      "args": 103
+    },
+    {
+      "file": "tool_sms.json",
+      "path": "/tool/sms",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 11,
+      "args": 71
+    },
+    {
+      "file": "tool_sniffer.json",
+      "path": "/tool/sniffer",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 4,
+      "commands": 22,
+      "args": 232
+    },
+    {
+      "file": "tool_traffic-generator.json",
+      "path": "/tool/traffic-generator",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 9,
+      "commands": 68,
+      "args": 569
+    },
+    {
+      "file": "tool_traffic-monitor.json",
+      "path": "/tool/traffic-monitor",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 12,
+      "args": 68
+    },
+    {
+      "file": "tr069-client.json",
+      "path": "/tr069-client",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 7,
+      "args": 42
+    },
+    {
+      "file": "user__cmds.json",
+      "path": "/user",
+      "scope": "commands",
+      "node-type": "path",
+      "menus": 0,
+      "commands": 14,
+      "args": 70
+    },
+    {
+      "file": "user_aaa.json",
+      "path": "/user/aaa",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 27
+    },
+    {
+      "file": "user_active.json",
+      "path": "/user/active",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 5,
+      "args": 28
+    },
+    {
+      "file": "user_group.json",
+      "path": "/user/group",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 54
+    },
+    {
+      "file": "user_settings.json",
+      "path": "/user/settings",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 21
+    },
+    {
+      "file": "user_ssh-keys.json",
+      "path": "/user/ssh-keys",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 12,
+      "args": 67
+    },
+    {
+      "file": "user-manager__cmds.json",
+      "path": "/user-manager",
+      "scope": "commands",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 8,
+      "args": 43
+    },
+    {
+      "file": "user-manager_advanced.json",
+      "path": "/user-manager/advanced",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 34
+    },
+    {
+      "file": "user-manager_attribute.json",
+      "path": "/user-manager/attribute",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 55
+    },
+    {
+      "file": "user-manager_database.json",
+      "path": "/user-manager/database",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 24
+    },
+    {
+      "file": "user-manager_limitation.json",
+      "path": "/user-manager/limitation",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 98
+    },
+    {
+      "file": "user-manager_payment.json",
+      "path": "/user-manager/payment",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 8,
+      "args": 58
+    },
+    {
+      "file": "user-manager_profile.json",
+      "path": "/user-manager/profile",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 62
+    },
+    {
+      "file": "user-manager_profile-limitation.json",
+      "path": "/user-manager/profile-limitation",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 10,
+      "args": 59
+    },
+    {
+      "file": "user-manager_router.json",
+      "path": "/user-manager/router",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 14,
+      "args": 77
+    },
+    {
+      "file": "user-manager_session.json",
+      "path": "/user-manager/session",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 6,
+      "args": 28
+    },
+    {
+      "file": "user-manager_user.json",
+      "path": "/user-manager/user",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 1,
+      "commands": 25,
+      "args": 152
+    },
+    {
+      "file": "user-manager_user-profile.json",
+      "path": "/user-manager/user-profile",
+      "scope": "menu",
+      "node-type": "dir",
+      "menus": 0,
+      "commands": 9,
+      "args": 43
+    }
+  ]
+}

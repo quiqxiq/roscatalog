@@ -1,0 +1,746 @@
+{
+  "_type": "path",
+  "bandwidth-test": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "connection-count": {
+      "_type": "arg"
+    },
+    "direction": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "local-tx-speed": {
+      "_type": "arg"
+    },
+    "local-udp-tx-size": {
+      "_type": "arg"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "protocol": {
+      "_type": "arg"
+    },
+    "random-data": {
+      "_type": "arg"
+    },
+    "remote-tx-speed": {
+      "_type": "arg"
+    },
+    "remote-udp-tx-size": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "dns-update": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "dns-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "key": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "key-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "ttl": {
+      "_type": "arg"
+    },
+    "zone": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "fetch": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "ascii": {
+      "_type": "arg"
+    },
+    "certificate": {
+      "_type": "arg"
+    },
+    "check-certificate": {
+      "_type": "arg"
+    },
+    "dst-path": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "host": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "http-auth-scheme": {
+      "_type": "arg"
+    },
+    "http-content-encoding": {
+      "_type": "arg"
+    },
+    "http-data": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "http-header-field": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "http-max-redirect-count": {
+      "_type": "arg"
+    },
+    "http-method": {
+      "_type": "arg"
+    },
+    "http-percent-encoding": {
+      "_type": "arg"
+    },
+    "http-version": {
+      "_type": "arg"
+    },
+    "idle-timeout": {
+      "_type": "arg"
+    },
+    "ip-type": {
+      "_type": "arg"
+    },
+    "keep-result": {
+      "_type": "arg"
+    },
+    "mode": {
+      "_type": "arg"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "output": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "src-address": {
+      "_type": "arg"
+    },
+    "src-path": {
+      "_type": "arg"
+    },
+    "upload": {
+      "_type": "arg"
+    },
+    "url": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "flood-ping": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "count": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "size": {
+      "_type": "arg"
+    },
+    "timeout": {
+      "_type": "arg",
+      "desc": "10ms..5s    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "ip-scan": {
+    "_type": "cmd",
+    "address-range": {
+      "_type": "arg",
+      "desc": "A.B.C.D[-A.B.C.D |0..32 |/A.B.C.D ]    (IP address range)"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "mac-scan": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "mac-telnet": {
+    "_type": "cmd",
+    "host": {
+      "_type": "arg"
+    },
+    "interface": {
+      "_type": "arg"
+    }
+  },
+  "ping": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "arp-ping": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "count": {
+      "_type": "arg"
+    },
+    "do-not-fragment": {
+      "_type": "arg"
+    },
+    "dscp": {
+      "_type": "arg"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "10ms..5s    (time interval)"
+    },
+    "nd-ping": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "size": {
+      "_type": "arg"
+    },
+    "src-address": {
+      "_type": "arg"
+    },
+    "ttl": {
+      "_type": "arg"
+    },
+    "vrf": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "ping-speed": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "first-ping-size": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "second-ping-size": {
+      "_type": "arg"
+    },
+    "time-between-pings": {
+      "_type": "arg",
+      "desc": "0s..8m20s    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "profile": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "snmp-get": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "authentication-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "authentication-protocol": {
+      "_type": "arg"
+    },
+    "community": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "encryption-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "encryption-protocol": {
+      "_type": "arg"
+    },
+    "next": {
+      "_type": "arg"
+    },
+    "oid": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "security": {
+      "_type": "arg"
+    },
+    "tries": {
+      "_type": "arg"
+    },
+    "try-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "version": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "snmp-walk": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "authentication-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "authentication-protocol": {
+      "_type": "arg"
+    },
+    "community": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "encryption-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "encryption-protocol": {
+      "_type": "arg"
+    },
+    "oid": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "security": {
+      "_type": "arg"
+    },
+    "tries": {
+      "_type": "arg"
+    },
+    "try-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "version": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "speed-test": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "connection-count": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "test-duration": {
+      "_type": "arg",
+      "desc": "5s..7101w3d6h28m15s    (time interval)"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "torch": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "cpu": {
+      "_type": "arg"
+    },
+    "dscp": {
+      "_type": "arg"
+    },
+    "dst-address": {
+      "_type": "arg"
+    },
+    "dst-address6": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "ip-protocol": {
+      "_type": "arg"
+    },
+    "mac-protocol": {
+      "_type": "arg"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "src-address": {
+      "_type": "arg"
+    },
+    "src-address6": {
+      "_type": "arg"
+    },
+    "vlan-id": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "traceroute": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "count": {
+      "_type": "arg"
+    },
+    "do-not-fragment": {
+      "_type": "arg"
+    },
+    "dscp": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "max-hops": {
+      "_type": "arg"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "protocol": {
+      "_type": "arg"
+    },
+    "size": {
+      "_type": "arg"
+    },
+    "src-address": {
+      "_type": "arg"
+    },
+    "timeout": {
+      "_type": "arg",
+      "desc": "10ms..3s    (time interval)"
+    },
+    "use-dns": {
+      "_type": "arg"
+    },
+    "vrf": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "wol": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "recursive-print": {
+    "_type": "cmd"
+  }
+}

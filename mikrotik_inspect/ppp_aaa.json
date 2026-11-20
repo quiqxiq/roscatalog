@@ -1,0 +1,105 @@
+{
+  "_type": "dir",
+  "edit": {
+    "_type": "cmd",
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "accounting": {
+      "_type": "arg"
+    },
+    "enable-ipv6-accounting": {
+      "_type": "arg"
+    },
+    "interim-update": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "use-circuit-id-in-nas-port-id": {
+      "_type": "arg"
+    },
+    "use-radius": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "accounting": {
+      "_type": "arg"
+    },
+    "enable-ipv6-accounting": {
+      "_type": "arg"
+    },
+    "interim-update": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "use-circuit-id-in-nas-port-id": {
+      "_type": "arg"
+    },
+    "use-radius": {
+      "_type": "arg"
+    }
+  }
+}

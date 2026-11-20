@@ -1,0 +1,1757 @@
+{
+  "_type": "dir",
+  "chain": {
+    "_type": "dir",
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    }
+  },
+  "community-ext-list": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "community-large-list": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "community-list": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "communities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "filter-wizard": {
+    "_type": "cmd",
+    "action": {
+      "_type": "arg"
+    },
+    "afi": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "bgp-as-path": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "bgp-as-path-length": {
+      "_type": "arg"
+    },
+    "bgp-atomic-aggregate": {
+      "_type": "arg"
+    },
+    "bgp-communities": {
+      "_type": "arg"
+    },
+    "bgp-communities-list-name": {
+      "_type": "arg"
+    },
+    "bgp-communities-match": {
+      "_type": "arg"
+    },
+    "bgp-ext-communities": {
+      "_type": "arg"
+    },
+    "bgp-ext-communities-list-name": {
+      "_type": "arg"
+    },
+    "bgp-ext-communities-match": {
+      "_type": "arg"
+    },
+    "bgp-large-communities": {
+      "_type": "arg"
+    },
+    "bgp-large-communities-list-name": {
+      "_type": "arg"
+    },
+    "bgp-large-communities-match": {
+      "_type": "arg"
+    },
+    "bgp-local-origin": {
+      "_type": "arg"
+    },
+    "bgp-local-pref": {
+      "_type": "arg"
+    },
+    "bgp-med": {
+      "_type": "arg"
+    },
+    "bgp-origin": {
+      "_type": "arg"
+    },
+    "bgp-out-med": {
+      "_type": "arg"
+    },
+    "bgp-weight": {
+      "_type": "arg"
+    },
+    "blackhole": {
+      "_type": "arg"
+    },
+    "chain": {
+      "_type": "arg"
+    },
+    "distance": {
+      "_type": "arg"
+    },
+    "dst": {
+      "_type": "arg"
+    },
+    "dst-len": {
+      "_type": "arg"
+    },
+    "gateway": {
+      "_type": "arg"
+    },
+    "jump-target-chain": {
+      "_type": "arg"
+    },
+    "match-chain": {
+      "_type": "arg"
+    },
+    "ospf-metric": {
+      "_type": "arg"
+    },
+    "ospf-type": {
+      "_type": "arg"
+    },
+    "protocol": {
+      "_type": "arg"
+    },
+    "routing-table": {
+      "_type": "arg"
+    },
+    "rpki": {
+      "_type": "arg"
+    },
+    "rpki-verify": {
+      "_type": "arg"
+    },
+    "scope": {
+      "_type": "arg"
+    },
+    "scope-target": {
+      "_type": "arg"
+    },
+    "set-bgp-communities": {
+      "_type": "arg"
+    },
+    "set-bgp-communities-list": {
+      "_type": "arg"
+    },
+    "set-bgp-ext-communities": {
+      "_type": "arg"
+    },
+    "set-bgp-large-communities": {
+      "_type": "arg"
+    },
+    "set-bgp-local-pref": {
+      "_type": "arg"
+    },
+    "set-bgp-med": {
+      "_type": "arg"
+    },
+    "set-bgp-out-med": {
+      "_type": "arg"
+    },
+    "set-bgp-weight": {
+      "_type": "arg"
+    },
+    "set-blackhole": {
+      "_type": "arg"
+    },
+    "set-comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "set-distance": {
+      "_type": "arg"
+    },
+    "set-gateway": {
+      "_type": "arg"
+    },
+    "set-gw-check": {
+      "_type": "arg"
+    },
+    "set-scope": {
+      "_type": "arg"
+    },
+    "set-scope-target": {
+      "_type": "arg"
+    },
+    "set-use-te-nexthop": {
+      "_type": "arg"
+    },
+    "use-te-nexthop": {
+      "_type": "arg"
+    }
+  },
+  "num-list": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "range": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "range": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "range": {
+        "_type": "arg"
+      }
+    }
+  },
+  "rule": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "rule": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg"
+      },
+      "on-event": {
+        "_type": "arg"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "rule": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "rule": {
+        "_type": "arg"
+      }
+    }
+  },
+  "select-rule": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "do-group-num": {
+        "_type": "arg"
+      },
+      "do-group-prfx": {
+        "_type": "arg"
+      },
+      "do-jump": {
+        "_type": "arg"
+      },
+      "do-select-num": {
+        "_type": "arg"
+      },
+      "do-select-prfx": {
+        "_type": "arg"
+      },
+      "do-take": {
+        "_type": "arg"
+      },
+      "do-where": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "do-group-num": {
+        "_type": "arg"
+      },
+      "do-group-prfx": {
+        "_type": "arg"
+      },
+      "do-jump": {
+        "_type": "arg"
+      },
+      "do-select-num": {
+        "_type": "arg"
+      },
+      "do-select-prfx": {
+        "_type": "arg"
+      },
+      "do-take": {
+        "_type": "arg"
+      },
+      "do-where": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "do-group-num": {
+        "_type": "arg"
+      },
+      "do-group-prfx": {
+        "_type": "arg"
+      },
+      "do-jump": {
+        "_type": "arg"
+      },
+      "do-select-num": {
+        "_type": "arg"
+      },
+      "do-select-prfx": {
+        "_type": "arg"
+      },
+      "do-take": {
+        "_type": "arg"
+      },
+      "do-where": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "sync": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    }
+  },
+  "test-as-path-regexp": {
+    "_type": "cmd",
+    "as-path": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "regexp": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  }
+}

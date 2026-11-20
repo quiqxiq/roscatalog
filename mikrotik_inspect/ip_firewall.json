@@ -1,0 +1,4821 @@
+{
+  "_type": "dir",
+  "address-list": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "timeout": {
+        "_type": "arg",
+        "desc": "0s..35w3d13h13m56s    (time interval)"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "timeout": {
+        "_type": "arg",
+        "desc": "0s..35w3d13h13m56s    (time interval)"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "list": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "timeout": {
+        "_type": "arg",
+        "desc": "0s..35w3d13h13m56s    (time interval)"
+      }
+    }
+  },
+  "calea": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "sniff-id": {
+        "_type": "arg"
+      },
+      "sniff-target": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "sniff-target-port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "filter": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "sniff-id": {
+        "_type": "arg"
+      },
+      "sniff-target": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "sniff-target-port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters-all": {
+      "_type": "cmd"
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "sniff-id": {
+        "_type": "arg"
+      },
+      "sniff-target": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "sniff-target-port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "connection": {
+    "_type": "dir",
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "tracking": {
+      "_type": "dir",
+      "edit": {
+        "_type": "cmd",
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "export": {
+        "_type": "cmd",
+        "compact": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "hide-sensitive": {
+          "_type": "arg"
+        },
+        "path": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "verbose": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "as-value": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "oid": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "enabled": {
+          "_type": "arg"
+        },
+        "generic-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "icmp-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "liberal-tcp-tracking": {
+          "_type": "arg"
+        },
+        "loose-tcp-tracking": {
+          "_type": "arg"
+        },
+        "tcp-close-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-close-wait-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-established-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-fin-wait-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-last-ack-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-max-retrans-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-syn-received-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-syn-sent-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-time-wait-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "tcp-unacked-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "udp-stream-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        },
+        "udp-timeout": {
+          "_type": "arg",
+          "desc": "time interval"
+        }
+      }
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "filter": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-nat-state": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-state": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "p2p": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "reject-with": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "all": {
+        "_type": "arg"
+      },
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "static": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-nat-state": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-state": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "p2p": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "reject-with": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters-all": {
+      "_type": "cmd"
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-nat-state": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-state": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "p2p": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "reject-with": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "layer7-protocol": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    }
+  },
+  "mangle": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-nat-state": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-state": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "new-connection-mark": {
+        "_type": "arg"
+      },
+      "new-dscp": {
+        "_type": "arg"
+      },
+      "new-mss": {
+        "_type": "arg"
+      },
+      "new-packet-mark": {
+        "_type": "arg"
+      },
+      "new-priority": {
+        "_type": "arg"
+      },
+      "new-routing-mark": {
+        "_type": "arg"
+      },
+      "new-ttl": {
+        "_type": "arg"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "p2p": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "passthrough": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "route-dst": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "sniff-id": {
+        "_type": "arg"
+      },
+      "sniff-target": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "sniff-target-port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "all": {
+        "_type": "arg"
+      },
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "static": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-nat-state": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-state": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "new-connection-mark": {
+        "_type": "arg"
+      },
+      "new-dscp": {
+        "_type": "arg"
+      },
+      "new-mss": {
+        "_type": "arg"
+      },
+      "new-packet-mark": {
+        "_type": "arg"
+      },
+      "new-priority": {
+        "_type": "arg"
+      },
+      "new-routing-mark": {
+        "_type": "arg"
+      },
+      "new-ttl": {
+        "_type": "arg"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "p2p": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "passthrough": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "route-dst": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "sniff-id": {
+        "_type": "arg"
+      },
+      "sniff-target": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "sniff-target-port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters-all": {
+      "_type": "cmd"
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-nat-state": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-state": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "new-connection-mark": {
+        "_type": "arg"
+      },
+      "new-dscp": {
+        "_type": "arg"
+      },
+      "new-mss": {
+        "_type": "arg"
+      },
+      "new-packet-mark": {
+        "_type": "arg"
+      },
+      "new-priority": {
+        "_type": "arg"
+      },
+      "new-routing-mark": {
+        "_type": "arg"
+      },
+      "new-ttl": {
+        "_type": "arg"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "p2p": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "passthrough": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "route-dst": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "sniff-id": {
+        "_type": "arg"
+      },
+      "sniff-target": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "sniff-target-port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "nat": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "randomise-ports": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "same-not-by-dst": {
+        "_type": "arg"
+      },
+      "socks5-port": {
+        "_type": "arg"
+      },
+      "socks5-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "socksify-service": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "to-addresses": {
+        "_type": "arg",
+        "desc": "A.B.C.D[-A.B.C.D |0..32 |/A.B.C.D ]    (IP address range)"
+      },
+      "to-ports": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "all": {
+        "_type": "arg"
+      },
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "static": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "randomise-ports": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "same-not-by-dst": {
+        "_type": "arg"
+      },
+      "socks5-port": {
+        "_type": "arg"
+      },
+      "socks5-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "socksify-service": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "to-addresses": {
+        "_type": "arg",
+        "desc": "A.B.C.D[-A.B.C.D |0..32 |/A.B.C.D ]    (IP address range)"
+      },
+      "to-ports": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters-all": {
+      "_type": "cmd"
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-bytes": {
+        "_type": "arg"
+      },
+      "connection-limit": {
+        "_type": "arg"
+      },
+      "connection-mark": {
+        "_type": "arg"
+      },
+      "connection-rate": {
+        "_type": "arg"
+      },
+      "connection-type": {
+        "_type": "arg"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "layer7-protocol": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "randomise-ports": {
+        "_type": "arg"
+      },
+      "realm": {
+        "_type": "arg"
+      },
+      "routing-mark": {
+        "_type": "arg"
+      },
+      "same-not-by-dst": {
+        "_type": "arg"
+      },
+      "socks5-port": {
+        "_type": "arg"
+      },
+      "socks5-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "socksify-service": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "to-addresses": {
+        "_type": "arg",
+        "desc": "A.B.C.D[-A.B.C.D |0..32 |/A.B.C.D ]    (IP address range)"
+      },
+      "to-ports": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "raw": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "all": {
+        "_type": "arg"
+      },
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "dynamic": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "static": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset-counters-all": {
+      "_type": "cmd"
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-list": {
+        "_type": "arg"
+      },
+      "address-list-timeout": {
+        "_type": "arg"
+      },
+      "chain": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "content": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dscp": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-list": {
+        "_type": "arg"
+      },
+      "dst-address-type": {
+        "_type": "arg"
+      },
+      "dst-limit": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "fragment": {
+        "_type": "arg"
+      },
+      "hotspot": {
+        "_type": "arg"
+      },
+      "icmp-options": {
+        "_type": "arg"
+      },
+      "in-bridge-port": {
+        "_type": "arg"
+      },
+      "in-bridge-port-list": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "in-interface-list": {
+        "_type": "arg"
+      },
+      "ingress-priority": {
+        "_type": "arg"
+      },
+      "ipsec-policy": {
+        "_type": "arg"
+      },
+      "ipv4-options": {
+        "_type": "arg"
+      },
+      "jump-target": {
+        "_type": "arg"
+      },
+      "limit": {
+        "_type": "arg"
+      },
+      "log": {
+        "_type": "arg"
+      },
+      "log-prefix": {
+        "_type": "arg",
+        "desc": "string value, max length 31"
+      },
+      "nth": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "out-bridge-port": {
+        "_type": "arg"
+      },
+      "out-bridge-port-list": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "out-interface-list": {
+        "_type": "arg"
+      },
+      "packet-mark": {
+        "_type": "arg"
+      },
+      "packet-size": {
+        "_type": "arg"
+      },
+      "per-connection-classifier": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "psd": {
+        "_type": "arg"
+      },
+      "random": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-list": {
+        "_type": "arg"
+      },
+      "src-address-type": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-mss": {
+        "_type": "arg"
+      },
+      "time": {
+        "_type": "arg"
+      },
+      "tls-host": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "service-port": {
+    "_type": "dir",
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "disabled": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "ports": {
+        "_type": "arg"
+      },
+      "sip-direct-media": {
+        "_type": "arg"
+      },
+      "sip-timeout": {
+        "_type": "arg",
+        "desc": "time interval"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "disabled": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "ports": {
+        "_type": "arg"
+      },
+      "sip-direct-media": {
+        "_type": "arg"
+      },
+      "sip-timeout": {
+        "_type": "arg",
+        "desc": "time interval"
+      }
+    }
+  }
+}

@@ -1,0 +1,443 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "ac-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "add-default-route": {
+      "_type": "arg"
+    },
+    "allow": {
+      "_type": "arg",
+      "desc": "pap|chap|mschap1|mschap2[,Allow*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "default-route-distance": {
+      "_type": "arg"
+    },
+    "dial-on-demand": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "host-uniq": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "keepalive-timeout": {
+      "_type": "arg"
+    },
+    "max-mru": {
+      "_type": "arg"
+    },
+    "max-mtu": {
+      "_type": "arg"
+    },
+    "mrru": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "profile": {
+      "_type": "arg"
+    },
+    "service-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "use-peer-dns": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "monitor": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "ac-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "add-default-route": {
+      "_type": "arg"
+    },
+    "allow": {
+      "_type": "arg",
+      "desc": "pap|chap|mschap1|mschap2[,Allow*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "default-route-distance": {
+      "_type": "arg"
+    },
+    "dial-on-demand": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "host-uniq": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "keepalive-timeout": {
+      "_type": "arg"
+    },
+    "max-mru": {
+      "_type": "arg"
+    },
+    "max-mtu": {
+      "_type": "arg"
+    },
+    "mrru": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "profile": {
+      "_type": "arg"
+    },
+    "service-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "use-peer-dns": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "scan": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "ac-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "add-default-route": {
+      "_type": "arg"
+    },
+    "allow": {
+      "_type": "arg",
+      "desc": "pap|chap|mschap1|mschap2[,Allow*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "default-route-distance": {
+      "_type": "arg"
+    },
+    "dial-on-demand": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "host-uniq": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "keepalive-timeout": {
+      "_type": "arg"
+    },
+    "max-mru": {
+      "_type": "arg"
+    },
+    "max-mtu": {
+      "_type": "arg"
+    },
+    "mrru": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "profile": {
+      "_type": "arg"
+    },
+    "service-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "use-peer-dns": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

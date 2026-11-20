@@ -1,0 +1,534 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "address-list": {
+      "_type": "arg"
+    },
+    "bridge": {
+      "_type": "arg"
+    },
+    "bridge-horizon": {
+      "_type": "arg"
+    },
+    "bridge-learning": {
+      "_type": "arg"
+    },
+    "bridge-path-cost": {
+      "_type": "arg"
+    },
+    "bridge-port-priority": {
+      "_type": "arg"
+    },
+    "bridge-port-trusted": {
+      "_type": "arg"
+    },
+    "bridge-port-vid": {
+      "_type": "arg"
+    },
+    "change-tcp-mss": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "dhcpv6-lease-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "dhcpv6-pd-pool": {
+      "_type": "arg"
+    },
+    "dhcpv6-use-radius": {
+      "_type": "arg"
+    },
+    "dns-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "idle-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "incoming-filter": {
+      "_type": "arg"
+    },
+    "insert-queue-before": {
+      "_type": "arg"
+    },
+    "interface-list": {
+      "_type": "arg"
+    },
+    "local-address": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "on-down": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "on-up": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "only-one": {
+      "_type": "arg"
+    },
+    "outgoing-filter": {
+      "_type": "arg"
+    },
+    "parent-queue": {
+      "_type": "arg"
+    },
+    "queue-type": {
+      "_type": "arg"
+    },
+    "rate-limit": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "remote-address": {
+      "_type": "arg"
+    },
+    "remote-ipv6-prefix-pool": {
+      "_type": "arg"
+    },
+    "remote-ipv6-prefix-reuse": {
+      "_type": "arg"
+    },
+    "session-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "use-compression": {
+      "_type": "arg"
+    },
+    "use-encryption": {
+      "_type": "arg"
+    },
+    "use-ipv6": {
+      "_type": "arg"
+    },
+    "use-mpls": {
+      "_type": "arg"
+    },
+    "use-upnp": {
+      "_type": "arg"
+    },
+    "wins-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "address-list": {
+      "_type": "arg"
+    },
+    "bridge": {
+      "_type": "arg"
+    },
+    "bridge-horizon": {
+      "_type": "arg"
+    },
+    "bridge-learning": {
+      "_type": "arg"
+    },
+    "bridge-path-cost": {
+      "_type": "arg"
+    },
+    "bridge-port-priority": {
+      "_type": "arg"
+    },
+    "bridge-port-trusted": {
+      "_type": "arg"
+    },
+    "bridge-port-vid": {
+      "_type": "arg"
+    },
+    "change-tcp-mss": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "dhcpv6-lease-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "dhcpv6-pd-pool": {
+      "_type": "arg"
+    },
+    "dhcpv6-use-radius": {
+      "_type": "arg"
+    },
+    "dns-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "idle-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "incoming-filter": {
+      "_type": "arg"
+    },
+    "insert-queue-before": {
+      "_type": "arg"
+    },
+    "interface-list": {
+      "_type": "arg"
+    },
+    "local-address": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "on-down": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "on-up": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "only-one": {
+      "_type": "arg"
+    },
+    "outgoing-filter": {
+      "_type": "arg"
+    },
+    "parent-queue": {
+      "_type": "arg"
+    },
+    "queue-type": {
+      "_type": "arg"
+    },
+    "rate-limit": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "remote-address": {
+      "_type": "arg"
+    },
+    "remote-ipv6-prefix-pool": {
+      "_type": "arg"
+    },
+    "remote-ipv6-prefix-reuse": {
+      "_type": "arg"
+    },
+    "session-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "use-compression": {
+      "_type": "arg"
+    },
+    "use-encryption": {
+      "_type": "arg"
+    },
+    "use-ipv6": {
+      "_type": "arg"
+    },
+    "use-mpls": {
+      "_type": "arg"
+    },
+    "use-upnp": {
+      "_type": "arg"
+    },
+    "wins-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "address-list": {
+      "_type": "arg"
+    },
+    "bridge": {
+      "_type": "arg"
+    },
+    "bridge-horizon": {
+      "_type": "arg"
+    },
+    "bridge-learning": {
+      "_type": "arg"
+    },
+    "bridge-path-cost": {
+      "_type": "arg"
+    },
+    "bridge-port-priority": {
+      "_type": "arg"
+    },
+    "bridge-port-trusted": {
+      "_type": "arg"
+    },
+    "bridge-port-vid": {
+      "_type": "arg"
+    },
+    "change-tcp-mss": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "dhcpv6-lease-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "dhcpv6-pd-pool": {
+      "_type": "arg"
+    },
+    "dhcpv6-use-radius": {
+      "_type": "arg"
+    },
+    "dns-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "idle-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "incoming-filter": {
+      "_type": "arg"
+    },
+    "insert-queue-before": {
+      "_type": "arg"
+    },
+    "interface-list": {
+      "_type": "arg"
+    },
+    "local-address": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "on-down": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "on-up": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "only-one": {
+      "_type": "arg"
+    },
+    "outgoing-filter": {
+      "_type": "arg"
+    },
+    "parent-queue": {
+      "_type": "arg"
+    },
+    "queue-type": {
+      "_type": "arg"
+    },
+    "rate-limit": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "remote-address": {
+      "_type": "arg"
+    },
+    "remote-ipv6-prefix-pool": {
+      "_type": "arg"
+    },
+    "remote-ipv6-prefix-reuse": {
+      "_type": "arg"
+    },
+    "session-timeout": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "use-compression": {
+      "_type": "arg"
+    },
+    "use-encryption": {
+      "_type": "arg"
+    },
+    "use-ipv6": {
+      "_type": "arg"
+    },
+    "use-mpls": {
+      "_type": "arg"
+    },
+    "use-upnp": {
+      "_type": "arg"
+    },
+    "wins-server": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

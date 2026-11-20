@@ -1,0 +1,2842 @@
+{
+  "_type": "dir",
+  "advertisements": {
+    "_type": "dir",
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    }
+  },
+  "connection": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg",
+        "desc": "ip|ipv6|l2vpn|l2vpn-cisco|vpnv4|vpnv6|evpn[,Afi*]"
+      },
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cisco-vpls-nlri-len-fmt": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hold-time": {
+        "_type": "arg"
+      },
+      "input.accept-communities": {
+        "_type": "arg"
+      },
+      "input.accept-ext-communities": {
+        "_type": "arg"
+      },
+      "input.accept-large-communities": {
+        "_type": "arg"
+      },
+      "input.accept-nlri": {
+        "_type": "arg"
+      },
+      "input.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,InputAddPath*]"
+      },
+      "input.affinity": {
+        "_type": "arg"
+      },
+      "input.allow-as": {
+        "_type": "arg"
+      },
+      "input.attr-error-handling": {
+        "_type": "arg"
+      },
+      "input.filter": {
+        "_type": "arg"
+      },
+      "input.filter-communities": {
+        "_type": "arg"
+      },
+      "input.filter-ext-communities": {
+        "_type": "arg"
+      },
+      "input.filter-large-communities": {
+        "_type": "arg"
+      },
+      "input.filter-nlri": {
+        "_type": "arg"
+      },
+      "input.filter-unknown": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv4": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv6": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "keepalive-time": {
+        "_type": "arg",
+        "desc": "1s..30m    (time interval)"
+      },
+      "listen": {
+        "_type": "arg"
+      },
+      "local.address": {
+        "_type": "arg"
+      },
+      "local.port": {
+        "_type": "arg"
+      },
+      "local.role": {
+        "_type": "arg"
+      },
+      "local.ttl": {
+        "_type": "arg"
+      },
+      "multihop": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nexthop-choice": {
+        "_type": "arg"
+      },
+      "output.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,OutputAddPath*]"
+      },
+      "output.affinity": {
+        "_type": "arg"
+      },
+      "output.as-override": {
+        "_type": "arg"
+      },
+      "output.default-originate": {
+        "_type": "arg"
+      },
+      "output.default-prepend": {
+        "_type": "arg"
+      },
+      "output.filter-chain": {
+        "_type": "arg"
+      },
+      "output.filter-select": {
+        "_type": "arg"
+      },
+      "output.keep-sent-attributes": {
+        "_type": "arg"
+      },
+      "output.network": {
+        "_type": "arg"
+      },
+      "output.network-blackhole": {
+        "_type": "arg"
+      },
+      "output.no-client-to-client-reflection": {
+        "_type": "arg"
+      },
+      "output.no-early-cut": {
+        "_type": "arg"
+      },
+      "output.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,OutputRedistribute*]"
+      },
+      "output.remove-private-as": {
+        "_type": "arg"
+      },
+      "remote.address": {
+        "_type": "arg"
+      },
+      "remote.allowed-as": {
+        "_type": "arg"
+      },
+      "remote.as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "remote.port": {
+        "_type": "arg"
+      },
+      "remote.ttl": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "tcp-md5-key": {
+        "_type": "arg",
+        "desc": "string value, max length 80"
+      },
+      "templates": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg",
+        "desc": "ip|ipv6|l2vpn|l2vpn-cisco|vpnv4|vpnv6|evpn[,Afi*]"
+      },
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cisco-vpls-nlri-len-fmt": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hold-time": {
+        "_type": "arg"
+      },
+      "input.accept-communities": {
+        "_type": "arg"
+      },
+      "input.accept-ext-communities": {
+        "_type": "arg"
+      },
+      "input.accept-large-communities": {
+        "_type": "arg"
+      },
+      "input.accept-nlri": {
+        "_type": "arg"
+      },
+      "input.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,InputAddPath*]"
+      },
+      "input.affinity": {
+        "_type": "arg"
+      },
+      "input.allow-as": {
+        "_type": "arg"
+      },
+      "input.attr-error-handling": {
+        "_type": "arg"
+      },
+      "input.filter": {
+        "_type": "arg"
+      },
+      "input.filter-communities": {
+        "_type": "arg"
+      },
+      "input.filter-ext-communities": {
+        "_type": "arg"
+      },
+      "input.filter-large-communities": {
+        "_type": "arg"
+      },
+      "input.filter-nlri": {
+        "_type": "arg"
+      },
+      "input.filter-unknown": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv4": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv6": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "keepalive-time": {
+        "_type": "arg",
+        "desc": "1s..30m    (time interval)"
+      },
+      "listen": {
+        "_type": "arg"
+      },
+      "local.address": {
+        "_type": "arg"
+      },
+      "local.port": {
+        "_type": "arg"
+      },
+      "local.role": {
+        "_type": "arg"
+      },
+      "local.ttl": {
+        "_type": "arg"
+      },
+      "multihop": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nexthop-choice": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "output.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,OutputAddPath*]"
+      },
+      "output.affinity": {
+        "_type": "arg"
+      },
+      "output.as-override": {
+        "_type": "arg"
+      },
+      "output.default-originate": {
+        "_type": "arg"
+      },
+      "output.default-prepend": {
+        "_type": "arg"
+      },
+      "output.filter-chain": {
+        "_type": "arg"
+      },
+      "output.filter-select": {
+        "_type": "arg"
+      },
+      "output.keep-sent-attributes": {
+        "_type": "arg"
+      },
+      "output.network": {
+        "_type": "arg"
+      },
+      "output.network-blackhole": {
+        "_type": "arg"
+      },
+      "output.no-client-to-client-reflection": {
+        "_type": "arg"
+      },
+      "output.no-early-cut": {
+        "_type": "arg"
+      },
+      "output.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,OutputRedistribute*]"
+      },
+      "output.remove-private-as": {
+        "_type": "arg"
+      },
+      "remote.address": {
+        "_type": "arg"
+      },
+      "remote.allowed-as": {
+        "_type": "arg"
+      },
+      "remote.as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "remote.port": {
+        "_type": "arg"
+      },
+      "remote.ttl": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "tcp-md5-key": {
+        "_type": "arg",
+        "desc": "string value, max length 80"
+      },
+      "templates": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg",
+        "desc": "ip|ipv6|l2vpn|l2vpn-cisco|vpnv4|vpnv6|evpn[,Afi*]"
+      },
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cisco-vpls-nlri-len-fmt": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hold-time": {
+        "_type": "arg"
+      },
+      "input.accept-communities": {
+        "_type": "arg"
+      },
+      "input.accept-ext-communities": {
+        "_type": "arg"
+      },
+      "input.accept-large-communities": {
+        "_type": "arg"
+      },
+      "input.accept-nlri": {
+        "_type": "arg"
+      },
+      "input.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,InputAddPath*]"
+      },
+      "input.affinity": {
+        "_type": "arg"
+      },
+      "input.allow-as": {
+        "_type": "arg"
+      },
+      "input.attr-error-handling": {
+        "_type": "arg"
+      },
+      "input.filter": {
+        "_type": "arg"
+      },
+      "input.filter-communities": {
+        "_type": "arg"
+      },
+      "input.filter-ext-communities": {
+        "_type": "arg"
+      },
+      "input.filter-large-communities": {
+        "_type": "arg"
+      },
+      "input.filter-nlri": {
+        "_type": "arg"
+      },
+      "input.filter-unknown": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv4": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv6": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "keepalive-time": {
+        "_type": "arg",
+        "desc": "1s..30m    (time interval)"
+      },
+      "listen": {
+        "_type": "arg"
+      },
+      "local.address": {
+        "_type": "arg"
+      },
+      "local.port": {
+        "_type": "arg"
+      },
+      "local.role": {
+        "_type": "arg"
+      },
+      "local.ttl": {
+        "_type": "arg"
+      },
+      "multihop": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nexthop-choice": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "output.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,OutputAddPath*]"
+      },
+      "output.affinity": {
+        "_type": "arg"
+      },
+      "output.as-override": {
+        "_type": "arg"
+      },
+      "output.default-originate": {
+        "_type": "arg"
+      },
+      "output.default-prepend": {
+        "_type": "arg"
+      },
+      "output.filter-chain": {
+        "_type": "arg"
+      },
+      "output.filter-select": {
+        "_type": "arg"
+      },
+      "output.keep-sent-attributes": {
+        "_type": "arg"
+      },
+      "output.network": {
+        "_type": "arg"
+      },
+      "output.network-blackhole": {
+        "_type": "arg"
+      },
+      "output.no-client-to-client-reflection": {
+        "_type": "arg"
+      },
+      "output.no-early-cut": {
+        "_type": "arg"
+      },
+      "output.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,OutputRedistribute*]"
+      },
+      "output.remove-private-as": {
+        "_type": "arg"
+      },
+      "remote.address": {
+        "_type": "arg"
+      },
+      "remote.allowed-as": {
+        "_type": "arg"
+      },
+      "remote.as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "remote.port": {
+        "_type": "arg"
+      },
+      "remote.ttl": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "tcp-md5-key": {
+        "_type": "arg",
+        "desc": "string value, max length 80"
+      },
+      "templates": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "evpn": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export.route-targets": {
+        "_type": "arg"
+      },
+      "import.route-targets": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "rd": {
+        "_type": "arg"
+      },
+      "vni": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export.route-targets": {
+        "_type": "arg"
+      },
+      "import.route-targets": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "rd": {
+        "_type": "arg"
+      },
+      "vni": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export.route-targets": {
+        "_type": "arg"
+      },
+      "import.route-targets": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "rd": {
+        "_type": "arg"
+      },
+      "vni": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "instance": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cluster-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "ignore-as-path-len": {
+        "_type": "arg"
+      },
+      "multipath": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "router-id": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cluster-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "ignore-as-path-len": {
+        "_type": "arg"
+      },
+      "multipath": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "router-id": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cluster-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "ignore-as-path-len": {
+        "_type": "arg"
+      },
+      "multipath": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "router-id": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "session": {
+    "_type": "dir",
+    "clear": {
+      "_type": "cmd",
+      "flag": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "dump-saved-advertisements": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "refresh": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "resend": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "stop": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "template": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg",
+        "desc": "ip|ipv6|l2vpn|l2vpn-cisco|vpnv4|vpnv6|evpn[,Afi*]"
+      },
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cisco-vpls-nlri-len-fmt": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hold-time": {
+        "_type": "arg"
+      },
+      "input.accept-communities": {
+        "_type": "arg"
+      },
+      "input.accept-ext-communities": {
+        "_type": "arg"
+      },
+      "input.accept-large-communities": {
+        "_type": "arg"
+      },
+      "input.accept-nlri": {
+        "_type": "arg"
+      },
+      "input.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,InputAddPath*]"
+      },
+      "input.affinity": {
+        "_type": "arg"
+      },
+      "input.allow-as": {
+        "_type": "arg"
+      },
+      "input.attr-error-handling": {
+        "_type": "arg"
+      },
+      "input.filter": {
+        "_type": "arg"
+      },
+      "input.filter-communities": {
+        "_type": "arg"
+      },
+      "input.filter-ext-communities": {
+        "_type": "arg"
+      },
+      "input.filter-large-communities": {
+        "_type": "arg"
+      },
+      "input.filter-nlri": {
+        "_type": "arg"
+      },
+      "input.filter-unknown": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv4": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv6": {
+        "_type": "arg"
+      },
+      "keepalive-time": {
+        "_type": "arg",
+        "desc": "1s..30m    (time interval)"
+      },
+      "multihop": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nexthop-choice": {
+        "_type": "arg"
+      },
+      "output.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,OutputAddPath*]"
+      },
+      "output.affinity": {
+        "_type": "arg"
+      },
+      "output.as-override": {
+        "_type": "arg"
+      },
+      "output.default-originate": {
+        "_type": "arg"
+      },
+      "output.default-prepend": {
+        "_type": "arg"
+      },
+      "output.filter-chain": {
+        "_type": "arg"
+      },
+      "output.filter-select": {
+        "_type": "arg"
+      },
+      "output.keep-sent-attributes": {
+        "_type": "arg"
+      },
+      "output.network": {
+        "_type": "arg"
+      },
+      "output.network-blackhole": {
+        "_type": "arg"
+      },
+      "output.no-client-to-client-reflection": {
+        "_type": "arg"
+      },
+      "output.no-early-cut": {
+        "_type": "arg"
+      },
+      "output.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,OutputRedistribute*]"
+      },
+      "output.remove-private-as": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "templates": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg",
+        "desc": "see documentation"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg",
+        "desc": "ip|ipv6|l2vpn|l2vpn-cisco|vpnv4|vpnv6|evpn[,Afi*]"
+      },
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cisco-vpls-nlri-len-fmt": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hold-time": {
+        "_type": "arg"
+      },
+      "input.accept-communities": {
+        "_type": "arg"
+      },
+      "input.accept-ext-communities": {
+        "_type": "arg"
+      },
+      "input.accept-large-communities": {
+        "_type": "arg"
+      },
+      "input.accept-nlri": {
+        "_type": "arg"
+      },
+      "input.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,InputAddPath*]"
+      },
+      "input.affinity": {
+        "_type": "arg"
+      },
+      "input.allow-as": {
+        "_type": "arg"
+      },
+      "input.attr-error-handling": {
+        "_type": "arg"
+      },
+      "input.filter": {
+        "_type": "arg"
+      },
+      "input.filter-communities": {
+        "_type": "arg"
+      },
+      "input.filter-ext-communities": {
+        "_type": "arg"
+      },
+      "input.filter-large-communities": {
+        "_type": "arg"
+      },
+      "input.filter-nlri": {
+        "_type": "arg"
+      },
+      "input.filter-unknown": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv4": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv6": {
+        "_type": "arg"
+      },
+      "keepalive-time": {
+        "_type": "arg",
+        "desc": "1s..30m    (time interval)"
+      },
+      "multihop": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nexthop-choice": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      },
+      "output.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,OutputAddPath*]"
+      },
+      "output.affinity": {
+        "_type": "arg"
+      },
+      "output.as-override": {
+        "_type": "arg"
+      },
+      "output.default-originate": {
+        "_type": "arg"
+      },
+      "output.default-prepend": {
+        "_type": "arg"
+      },
+      "output.filter-chain": {
+        "_type": "arg"
+      },
+      "output.filter-select": {
+        "_type": "arg"
+      },
+      "output.keep-sent-attributes": {
+        "_type": "arg"
+      },
+      "output.network": {
+        "_type": "arg"
+      },
+      "output.network-blackhole": {
+        "_type": "arg"
+      },
+      "output.no-client-to-client-reflection": {
+        "_type": "arg"
+      },
+      "output.no-early-cut": {
+        "_type": "arg"
+      },
+      "output.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,OutputRedistribute*]"
+      },
+      "output.remove-private-as": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "templates": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "afi": {
+        "_type": "arg",
+        "desc": "ip|ipv6|l2vpn|l2vpn-cisco|vpnv4|vpnv6|evpn[,Afi*]"
+      },
+      "as": {
+        "_type": "arg",
+        "desc": "0..4294967295"
+      },
+      "cisco-vpls-nlri-len-fmt": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hold-time": {
+        "_type": "arg"
+      },
+      "input.accept-communities": {
+        "_type": "arg"
+      },
+      "input.accept-ext-communities": {
+        "_type": "arg"
+      },
+      "input.accept-large-communities": {
+        "_type": "arg"
+      },
+      "input.accept-nlri": {
+        "_type": "arg"
+      },
+      "input.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,InputAddPath*]"
+      },
+      "input.affinity": {
+        "_type": "arg"
+      },
+      "input.allow-as": {
+        "_type": "arg"
+      },
+      "input.attr-error-handling": {
+        "_type": "arg"
+      },
+      "input.filter": {
+        "_type": "arg"
+      },
+      "input.filter-communities": {
+        "_type": "arg"
+      },
+      "input.filter-ext-communities": {
+        "_type": "arg"
+      },
+      "input.filter-large-communities": {
+        "_type": "arg"
+      },
+      "input.filter-nlri": {
+        "_type": "arg"
+      },
+      "input.filter-unknown": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv4": {
+        "_type": "arg"
+      },
+      "input.limit-process-routes-ipv6": {
+        "_type": "arg"
+      },
+      "keepalive-time": {
+        "_type": "arg",
+        "desc": "1s..30m    (time interval)"
+      },
+      "multihop": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nexthop-choice": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      },
+      "output.add-path": {
+        "_type": "arg",
+        "desc": "ip|ipv6[,OutputAddPath*]"
+      },
+      "output.affinity": {
+        "_type": "arg"
+      },
+      "output.as-override": {
+        "_type": "arg"
+      },
+      "output.default-originate": {
+        "_type": "arg"
+      },
+      "output.default-prepend": {
+        "_type": "arg"
+      },
+      "output.filter-chain": {
+        "_type": "arg"
+      },
+      "output.filter-select": {
+        "_type": "arg"
+      },
+      "output.keep-sent-attributes": {
+        "_type": "arg"
+      },
+      "output.network": {
+        "_type": "arg"
+      },
+      "output.network-blackhole": {
+        "_type": "arg"
+      },
+      "output.no-client-to-client-reflection": {
+        "_type": "arg"
+      },
+      "output.no-early-cut": {
+        "_type": "arg"
+      },
+      "output.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,OutputRedistribute*]"
+      },
+      "output.remove-private-as": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "save-to": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "templates": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg",
+        "desc": "see documentation"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "vpls": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "bridge": {
+        "_type": "arg"
+      },
+      "bridge-cost": {
+        "_type": "arg"
+      },
+      "bridge-horizon": {
+        "_type": "arg"
+      },
+      "bridge-pvid": {
+        "_type": "arg"
+      },
+      "cisco-id": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export-route-targets": {
+        "_type": "arg"
+      },
+      "import-route-targets": {
+        "_type": "arg"
+      },
+      "interface-list": {
+        "_type": "arg"
+      },
+      "local-pref": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "pw-control-word": {
+        "_type": "arg"
+      },
+      "pw-l2mtu": {
+        "_type": "arg"
+      },
+      "pw-type": {
+        "_type": "arg"
+      },
+      "rd": {
+        "_type": "arg"
+      },
+      "site-id": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "debug": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "bridge": {
+        "_type": "arg"
+      },
+      "bridge-cost": {
+        "_type": "arg"
+      },
+      "bridge-horizon": {
+        "_type": "arg"
+      },
+      "bridge-pvid": {
+        "_type": "arg"
+      },
+      "cisco-id": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export-route-targets": {
+        "_type": "arg"
+      },
+      "import-route-targets": {
+        "_type": "arg"
+      },
+      "interface-list": {
+        "_type": "arg"
+      },
+      "local-pref": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "pw-control-word": {
+        "_type": "arg"
+      },
+      "pw-l2mtu": {
+        "_type": "arg"
+      },
+      "pw-type": {
+        "_type": "arg"
+      },
+      "rd": {
+        "_type": "arg"
+      },
+      "site-id": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "bridge": {
+        "_type": "arg"
+      },
+      "bridge-cost": {
+        "_type": "arg"
+      },
+      "bridge-horizon": {
+        "_type": "arg"
+      },
+      "bridge-pvid": {
+        "_type": "arg"
+      },
+      "cisco-id": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export-route-targets": {
+        "_type": "arg"
+      },
+      "import-route-targets": {
+        "_type": "arg"
+      },
+      "interface-list": {
+        "_type": "arg"
+      },
+      "local-pref": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "pw-control-word": {
+        "_type": "arg"
+      },
+      "pw-l2mtu": {
+        "_type": "arg"
+      },
+      "pw-type": {
+        "_type": "arg"
+      },
+      "rd": {
+        "_type": "arg"
+      },
+      "site-id": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "vpn": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export.filter-chain": {
+        "_type": "arg"
+      },
+      "export.filter-select": {
+        "_type": "arg"
+      },
+      "export.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|slaac[,ExportRedistribute*]"
+      },
+      "export.route-targets": {
+        "_type": "arg"
+      },
+      "import.filter-chain": {
+        "_type": "arg"
+      },
+      "import.route-targets": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "label-allocation-policy": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "route-distinguisher": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export.filter-chain": {
+        "_type": "arg"
+      },
+      "export.filter-select": {
+        "_type": "arg"
+      },
+      "export.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|slaac[,ExportRedistribute*]"
+      },
+      "export.route-targets": {
+        "_type": "arg"
+      },
+      "import.filter-chain": {
+        "_type": "arg"
+      },
+      "import.route-targets": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "label-allocation-policy": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "route-distinguisher": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "export.filter-chain": {
+        "_type": "arg"
+      },
+      "export.filter-select": {
+        "_type": "arg"
+      },
+      "export.redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|slaac[,ExportRedistribute*]"
+      },
+      "export.route-targets": {
+        "_type": "arg"
+      },
+      "import.filter-chain": {
+        "_type": "arg"
+      },
+      "import.route-targets": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "label-allocation-policy": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "route-distinguisher": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  }
+}

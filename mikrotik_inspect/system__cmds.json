@@ -1,0 +1,226 @@
+{
+  "_type": "path",
+  "check-disk": {
+    "_type": "cmd"
+  },
+  "check-installation": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reboot": {
+    "_type": "cmd"
+  },
+  "reset-configuration": {
+    "_type": "cmd",
+    "caps-mode": {
+      "_type": "arg"
+    },
+    "force-v6-to-v7-configuration-upgrade": {
+      "_type": "arg"
+    },
+    "keep-apps": {
+      "_type": "arg"
+    },
+    "keep-users": {
+      "_type": "arg"
+    },
+    "no-defaults": {
+      "_type": "arg"
+    },
+    "run-after-reset": {
+      "_type": "arg"
+    },
+    "shutdown": {
+      "_type": "arg"
+    },
+    "skip-backup": {
+      "_type": "arg"
+    }
+  },
+  "serial-terminal": {
+    "_type": "cmd",
+    "channel": {
+      "_type": "arg"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "write": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "shell": {
+    "_type": "cmd"
+  },
+  "shutdown": {
+    "_type": "cmd"
+  },
+  "ssh": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "command": {
+      "_type": "arg"
+    },
+    "output-to-file": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "src-address": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "vrf": {
+      "_type": "arg"
+    }
+  },
+  "ssh-exec": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "command": {
+      "_type": "arg"
+    },
+    "output-to-file": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "src-address": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "vrf": {
+      "_type": "arg"
+    }
+  },
+  "sup-output": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "output-width": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "telnet": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "vrf": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "recursive-print": {
+    "_type": "cmd"
+  }
+}

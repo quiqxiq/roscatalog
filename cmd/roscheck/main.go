@@ -41,7 +41,7 @@ func main() {
 		ver      = flag.String("ver", "", "v6 atau v7")
 		once     = flag.Bool("once", false, "jalankan sekali, bukan stream/poll")
 		stream   = flag.Bool("stream", false, "preferensi stream (bawaan poll)")
-		every    = flag.Duration("every", time.Second, "interval stream atau jeda poll")
+		every    = flag.Duration("every", 5*time.Second, "interval stream atau jeda poll (1s..5s / 5s..30s)")
 		count    = flag.Int("n", 3, "jumlah event sebelum berhenti (0 = sampai Ctrl+C)")
 
 		timeout = flag.Duration("timeout", 10*time.Second, "batas dial+login")
@@ -111,7 +111,9 @@ func main() {
 
 	plan := sess.PlanFor(res, viewName, ros.Version(*ver))
 	plan.Every = *every
-	plan.Diff = true
+	if v, ok := res.View(viewName, ros.Version(*ver)); ok && v.Key != "" {
+		plan.Diff = true
+	}
 	req, err := res.Build(viewName, ros.Version(*ver), plan, params)
 	if err != nil {
 		log.Fatalf("build: %v", err)
@@ -169,6 +171,16 @@ func checkConnect(ctx context.Context, sess *rosrun.MikroTik) {
 	st := sess.Stats()
 	log.Printf("stats: epoch=%d reconnects=%d cmdDown=%v feedDown=%v uptime=%s",
 		st.Epoch, st.Reconnects, st.CmdDown, st.FeedDown, st.Uptime.Round(time.Millisecond))
+
+	// Beri monitor status kesempatan menerima probe pertama.
+	deadline := time.Now().Add(2 * time.Second)
+	for time.Now().Before(deadline) && sess.Status().Ping.Received == 0 {
+		time.Sleep(100 * time.Millisecond)
+	}
+
+	sst := sess.Status()
+	log.Printf("status: state=%s connected=%v target=%s rtt=%s loss=%.1f%% warnings=%v",
+		sst.State, sst.Connected, sst.Target, sst.Ping.LastRTT, sst.Ping.PacketLoss, sst.Warnings)
 }
 
 func runOnce(ctx context.Context, sess *rosrun.MikroTik, res *ros.Resource, req ros.Request) {

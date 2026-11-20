@@ -1,0 +1,261 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "basic": {
+      "_type": "arg",
+      "desc": "1Mbps|2Mbps|5.5Mbps|11Mbps|6Mbps|9Mbps|12Mbps|18Mbps|24Mbps|36Mbps|48Mbps|54Mbps[,Basic*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "ht-basic-mcs": {
+      "_type": "arg",
+      "desc": "mcs-0|mcs-1|mcs-2|mcs-3|mcs-4|mcs-5|mcs-6|mcs-7|mcs-8|mcs-9|mcs-10|mcs-11|mcs-12|mcs-13|mcs-14|mcs-15|mcs-16|mcs-17|mcs-18|mcs-19|mcs-20|mcs-21|mcs-22|mcs-23[,HtBasicMcs*]"
+    },
+    "ht-supported-mcs": {
+      "_type": "arg",
+      "desc": "mcs-0|mcs-1|mcs-2|mcs-3|mcs-4|mcs-5|mcs-6|mcs-7|mcs-8|mcs-9|mcs-10|mcs-11|mcs-12|mcs-13|mcs-14|mcs-15|mcs-16|mcs-17|mcs-18|mcs-19|mcs-20|mcs-21|mcs-22|mcs-23[,HtSupportedMcs*]"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "supported": {
+      "_type": "arg",
+      "desc": "1Mbps|2Mbps|5.5Mbps|11Mbps|6Mbps|9Mbps|12Mbps|18Mbps|24Mbps|36Mbps|48Mbps|54Mbps[,Supported*]"
+    },
+    "vht-basic-mcs": {
+      "_type": "arg"
+    },
+    "vht-supported-mcs": {
+      "_type": "arg"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "basic": {
+      "_type": "arg",
+      "desc": "1Mbps|2Mbps|5.5Mbps|11Mbps|6Mbps|9Mbps|12Mbps|18Mbps|24Mbps|36Mbps|48Mbps|54Mbps[,Basic*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "ht-basic-mcs": {
+      "_type": "arg",
+      "desc": "mcs-0|mcs-1|mcs-2|mcs-3|mcs-4|mcs-5|mcs-6|mcs-7|mcs-8|mcs-9|mcs-10|mcs-11|mcs-12|mcs-13|mcs-14|mcs-15|mcs-16|mcs-17|mcs-18|mcs-19|mcs-20|mcs-21|mcs-22|mcs-23[,HtBasicMcs*]"
+    },
+    "ht-supported-mcs": {
+      "_type": "arg",
+      "desc": "mcs-0|mcs-1|mcs-2|mcs-3|mcs-4|mcs-5|mcs-6|mcs-7|mcs-8|mcs-9|mcs-10|mcs-11|mcs-12|mcs-13|mcs-14|mcs-15|mcs-16|mcs-17|mcs-18|mcs-19|mcs-20|mcs-21|mcs-22|mcs-23[,HtSupportedMcs*]"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "supported": {
+      "_type": "arg",
+      "desc": "1Mbps|2Mbps|5.5Mbps|11Mbps|6Mbps|9Mbps|12Mbps|18Mbps|24Mbps|36Mbps|48Mbps|54Mbps[,Supported*]"
+    },
+    "vht-basic-mcs": {
+      "_type": "arg"
+    },
+    "vht-supported-mcs": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "basic": {
+      "_type": "arg",
+      "desc": "1Mbps|2Mbps|5.5Mbps|11Mbps|6Mbps|9Mbps|12Mbps|18Mbps|24Mbps|36Mbps|48Mbps|54Mbps[,Basic*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "ht-basic-mcs": {
+      "_type": "arg",
+      "desc": "mcs-0|mcs-1|mcs-2|mcs-3|mcs-4|mcs-5|mcs-6|mcs-7|mcs-8|mcs-9|mcs-10|mcs-11|mcs-12|mcs-13|mcs-14|mcs-15|mcs-16|mcs-17|mcs-18|mcs-19|mcs-20|mcs-21|mcs-22|mcs-23[,HtBasicMcs*]"
+    },
+    "ht-supported-mcs": {
+      "_type": "arg",
+      "desc": "mcs-0|mcs-1|mcs-2|mcs-3|mcs-4|mcs-5|mcs-6|mcs-7|mcs-8|mcs-9|mcs-10|mcs-11|mcs-12|mcs-13|mcs-14|mcs-15|mcs-16|mcs-17|mcs-18|mcs-19|mcs-20|mcs-21|mcs-22|mcs-23[,HtSupportedMcs*]"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "supported": {
+      "_type": "arg",
+      "desc": "1Mbps|2Mbps|5.5Mbps|11Mbps|6Mbps|9Mbps|12Mbps|18Mbps|24Mbps|36Mbps|48Mbps|54Mbps[,Supported*]"
+    },
+    "vht-basic-mcs": {
+      "_type": "arg"
+    },
+    "vht-supported-mcs": {
+      "_type": "arg"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

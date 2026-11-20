@@ -1,0 +1,133 @@
+{
+  "_type": "dir",
+  "edit": {
+    "_type": "cmd",
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "app-store-urls": {
+      "_type": "arg",
+      "desc": "string value, min length 1"
+    },
+    "auto-update": {
+      "_type": "arg"
+    },
+    "disk": {
+      "_type": "arg"
+    },
+    "download-path": {
+      "_type": "arg"
+    },
+    "lan-bridge": {
+      "_type": "arg"
+    },
+    "media-path": {
+      "_type": "arg"
+    },
+    "registry-mirrors": {
+      "_type": "arg",
+      "desc": "string value, min length 1"
+    },
+    "router-ip": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "show-in-webfig": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "app-store-urls": {
+      "_type": "arg",
+      "desc": "string value, min length 1"
+    },
+    "auto-update": {
+      "_type": "arg"
+    },
+    "disk": {
+      "_type": "arg"
+    },
+    "download-path": {
+      "_type": "arg"
+    },
+    "lan-bridge": {
+      "_type": "arg"
+    },
+    "media-path": {
+      "_type": "arg"
+    },
+    "registry-mirrors": {
+      "_type": "arg",
+      "desc": "string value, min length 1"
+    },
+    "router-ip": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "show-in-webfig": {
+      "_type": "arg"
+    }
+  }
+}

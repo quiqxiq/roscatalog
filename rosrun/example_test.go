@@ -26,12 +26,12 @@ func Example_usage() {
 
 	res, _ := ros.Lookup("hotspot-active")
 
-	// stream interval 500ms, poll 300ms, poll + diff
-	req, _ := res.Build("live", ros.AnyVersion, ros.StreamEvery(500*time.Millisecond), ros.Params{})
+	// stream interval 2s, poll 5s, poll + diff
+	req, _ := res.Build("live", ros.AnyVersion, ros.StreamEvery(2*time.Second), ros.Params{})
 	events, _ := run.Watch(ctx, req)
 	_ = events
-	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(300*time.Millisecond), ros.Params{})
-	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(time.Second).WithDiff(), ros.Params{})
+	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
+	req, _ = res.Build("live", ros.AnyVersion, ros.Poll(5*time.Second).WithDiff(), ros.Params{})
 
 	// listen + seed
 	req, _ = res.Build("events", ros.AnyVersion, ros.Stream().WithSeed(), ros.Params{})
@@ -40,12 +40,12 @@ func Example_usage() {
 	mt, _ := ros.Lookup("interface-monitor-traffic")
 	args := ros.Params{Args: map[string]string{"interface": "ether1,sfp1"}}
 	req, _ = mt.Build("run", ros.AnyVersion, ros.Stream(), args)
-	req, _ = mt.Build("run", ros.AnyVersion, ros.Poll(2*time.Second), args)
+	req, _ = mt.Build("run", ros.AnyVersion, ros.Poll(5*time.Second), args)
 
 	// log
 	lg, _ := ros.Lookup("log")
 	req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Stream(), ros.Params{})
-	req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Poll(time.Second), ros.Params{})
+	req, _ = lg.Build("tail-only", ros.AnyVersion, ros.Poll(5*time.Second), ros.Params{})
 
 	// once, count, filter
 	u, _ := ros.Lookup("hotspot-user")

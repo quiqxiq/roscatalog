@@ -46,6 +46,10 @@ type MikroTik struct {
 	epochs     *epochSignal
 	reconnects atomic.Int64
 	openedAt   time.Time
+
+	status statusTracker
+
+	cache *feedCache
 }
 
 // Open memvalidasi cfg lalu membuka dua koneksi ke router. Bila koneksi kedua
@@ -56,11 +60,11 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	}
 	cfg = cfg.withDefaults()
 
-	cmd, err := dial(ctx, cfg, "cmd")
+	cmd, err := dialRetry(ctx, cfg, "cmd")
 	if err != nil {
 		return nil, err
 	}
-	feed, err := dial(ctx, cfg, "feed")
+	feed, err := dialRetry(ctx, cfg, "feed")
 	if err != nil {
 		if c := cmd.get(); c != nil {
 			_ = c.Close()
@@ -79,10 +83,13 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 		epochs:   newEpochSignal(),
 		openedAt: time.Now(),
 	}
+	m.cache = newFeedCache(m)
 
 	m.wg.Add(2)
 	go m.supervise(cmd)
 	go m.supervise(feed)
+
+	m.startStatus()
 
 	return m, nil
 }
@@ -119,12 +126,27 @@ func (m *MikroTik) Exec(ctx context.Context, sentence []string) (string, error) 
 	return m.cmd.run().Exec(ctx, sentence)
 }
 
-// Once menjalankan satu Request mode once.
+// Once menjalankan satu Request mode once. Bila koneksi command putus di
+// tengah jalan, Once menunggu reconnect lalu mencoba sekali lagi; retry kedua
+// memakai Fallback tanpa .proplist bila tersedia (beberapa versi RouterOS
+// menutup koneksi untuk proplist pada menu tertentu).
 func (m *MikroTik) Once(ctx context.Context, req ros.Request) ([]map[string]string, error) {
 	if err := m.ready(m.cmd); err != nil {
 		return nil, err
 	}
-	return m.cmd.run().Once(ctx, req)
+	epoch := m.epochs.current()
+	rows, err := m.cmd.run().Once(ctx, req)
+	if err == nil || !isTransientDialErr(err) {
+		return rows, err
+	}
+	if !m.epochs.wait(ctx, epoch, m.stopCh) || !m.waitCmdUp(ctx, epoch) {
+		return nil, err
+	}
+	retry := req
+	if len(req.Fallback) > 0 {
+		retry.Sentence, retry.Fallback = req.Fallback, nil
+	}
+	return m.cmd.run().Once(ctx, retry)
 }
 
 // Count menjalankan Request count-only.
@@ -132,7 +154,32 @@ func (m *MikroTik) Count(ctx context.Context, req ros.Request) (int, error) {
 	if err := m.ready(m.cmd); err != nil {
 		return 0, err
 	}
+	epoch := m.epochs.current()
+	n, err := m.cmd.run().Count(ctx, req)
+	if err == nil || !isTransientDialErr(err) {
+		return n, err
+	}
+	if !m.epochs.wait(ctx, epoch, m.stopCh) || !m.waitCmdUp(ctx, epoch) {
+		return 0, err
+	}
 	return m.cmd.run().Count(ctx, req)
+}
+
+// waitCmdUp menunggu sampai koneksi command benar-benar up. Epoch dipakai
+// karena reconnect feed juga menaikkannya.
+func (m *MikroTik) waitCmdUp(ctx context.Context, epoch uint64) bool {
+	for {
+		if m.closed.Load() {
+			return false
+		}
+		if !m.cmd.isDown() {
+			return true
+		}
+		if !m.epochs.wait(ctx, epoch, m.stopCh) {
+			return false
+		}
+		epoch = m.epochs.current()
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -211,10 +258,32 @@ func (m *MikroTik) forward(ctx context.Context, cancel context.CancelFunc, req r
 			return
 		}
 
-		next, err := m.feed.run().Watch(ctx, req)
-		if err != nil {
-			_ = m.emit(ctx, out, Event{Kind: KindError, At: time.Now(), Err: err})
-			return
+		// Epoch naik saat salah satu koneksi pulih. Stream hanya boleh
+		// dimulai di feed yang benar-benar sudah up.
+		var next <-chan Event
+		for {
+			if m.feed.isDown() {
+				if !m.epochs.wait(ctx, m.epochs.current(), m.stopCh) {
+					return
+				}
+				continue
+			}
+			n, err := m.feed.run().Watch(ctx, req)
+			if err == nil {
+				next = n
+				break
+			}
+			if ctx.Err() != nil || m.closed.Load() {
+				return
+			}
+			if !shouldReconnect(err) {
+				_ = m.emit(ctx, out, Event{Kind: KindError, At: time.Now(), Err: err})
+				return
+			}
+			// Feed masih transien; tunggu epoch berikutnya.
+			if !m.epochs.wait(ctx, m.epochs.current(), m.stopCh) {
+				return
+			}
 		}
 		ch = next
 	}
@@ -300,6 +369,9 @@ func (m *MikroTik) pollEvery(res *ros.Resource, view string, ver ros.Version, pl
 	if every < ros.MinPollEvery {
 		every = ros.MinPollEvery
 	}
+	if every > ros.MaxPollEvery {
+		every = ros.MaxPollEvery
+	}
 	return every
 }
 
@@ -326,8 +398,11 @@ func (m *MikroTik) PlanFor(res *ros.Resource, view string, ver ros.Version) ros.
 	}
 
 	plan := ros.Plan{Delivery: chosen}
-	if chosen == ros.DeliveryPoll {
+	switch chosen {
+	case ros.DeliveryPoll:
 		plan.Every = m.cfg.PollEvery
+	case ros.DeliveryStream:
+		plan.Every = m.cfg.StreamEvery
 	}
 	return plan
 }
@@ -381,6 +456,11 @@ func (m *MikroTik) Epoch() uint64 { return m.epochs.current() }
 func (m *MikroTik) Close() error {
 	m.closeOnce.Do(func() {
 		m.closed.Store(true)
+		// Terbitkan status error terakhir sebelum channel watcher ditutup.
+		m.publishStatus()
+		if m.cache != nil {
+			m.cache.close()
+		}
 		m.cancel()
 		close(m.stopCh)
 

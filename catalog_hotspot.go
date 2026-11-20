@@ -72,7 +72,7 @@ func init() {
 			Filter("user", "server", "address", "mac-address", "login-by").
 			List("user", "address", "mac-address", "server", "login-by", "uptime",
 				"session-time-left", "idle-time", "bytes-in", "bytes-out", "radius").
-			Live(2*time.Second, false, "user", "address", "uptime", "session-time-left",
+			Live(2*time.Second, true, "user", "address", "uptime", "session-time-left",
 				"idle-time", "bytes-in", "bytes-out").
 			Hint("snapshot penuh tiap siklus; naikkan interval bila sesi ribuan").
 			Count().

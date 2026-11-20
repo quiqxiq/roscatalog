@@ -1,0 +1,508 @@
+{
+  "_type": "dir",
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "channel.band": {
+      "_type": "arg"
+    },
+    "channel.control-channel-width": {
+      "_type": "arg"
+    },
+    "channel.extension-channel": {
+      "_type": "arg"
+    },
+    "channel.frequency": {
+      "_type": "arg"
+    },
+    "channel.reselect-interval": {
+      "_type": "arg",
+      "desc": "1s..42w6d    (time interval)"
+    },
+    "channel.save-selected": {
+      "_type": "arg"
+    },
+    "channel.secondary-frequency": {
+      "_type": "arg"
+    },
+    "channel.skip-dfs-channels": {
+      "_type": "arg"
+    },
+    "channel.tx-power": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "configuration.country": {
+      "_type": "arg"
+    },
+    "configuration.disconnect-timeout": {
+      "_type": "arg",
+      "desc": "0s..15s    (time interval)"
+    },
+    "configuration.distance": {
+      "_type": "arg"
+    },
+    "configuration.frame-lifetime": {
+      "_type": "arg",
+      "desc": "0s..15s    (time interval)"
+    },
+    "configuration.guard-interval": {
+      "_type": "arg"
+    },
+    "configuration.hide-ssid": {
+      "_type": "arg"
+    },
+    "configuration.hw-protection-mode": {
+      "_type": "arg"
+    },
+    "configuration.hw-retries": {
+      "_type": "arg"
+    },
+    "configuration.installation": {
+      "_type": "arg"
+    },
+    "configuration.keepalive-frames": {
+      "_type": "arg"
+    },
+    "configuration.load-balancing-group": {
+      "_type": "arg"
+    },
+    "configuration.max-sta-count": {
+      "_type": "arg"
+    },
+    "configuration.mode": {
+      "_type": "arg"
+    },
+    "configuration.multicast-helper": {
+      "_type": "arg"
+    },
+    "configuration.rx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3[,ConfigurationRxChains*]"
+    },
+    "configuration.ssid": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "configuration.tx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3[,ConfigurationTxChains*]"
+    },
+    "datapath.bridge": {
+      "_type": "arg"
+    },
+    "datapath.bridge-cost": {
+      "_type": "arg"
+    },
+    "datapath.bridge-horizon": {
+      "_type": "arg"
+    },
+    "datapath.client-to-client-forwarding": {
+      "_type": "arg"
+    },
+    "datapath.interface-list": {
+      "_type": "arg"
+    },
+    "datapath.local-forwarding": {
+      "_type": "arg"
+    },
+    "datapath.openflow-switch": {
+      "_type": "arg"
+    },
+    "datapath.vlan-id": {
+      "_type": "arg"
+    },
+    "datapath.vlan-mode": {
+      "_type": "arg"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "master-interface": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "radio-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "security.authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa-eap|wpa2-eap[,SecurityAuthenticationTypes*]"
+    },
+    "security.disable-pmkid": {
+      "_type": "arg"
+    },
+    "security.eap-methods": {
+      "_type": "arg"
+    },
+    "security.eap-radius-accounting": {
+      "_type": "arg"
+    },
+    "security.encryption": {
+      "_type": "arg",
+      "desc": "aes-ccm|tkip[,SecurityEncryption*]"
+    },
+    "security.group-encryption": {
+      "_type": "arg"
+    },
+    "security.group-key-update": {
+      "_type": "arg",
+      "desc": "30s..1d    (time interval)"
+    },
+    "security.passphrase": {
+      "_type": "arg",
+      "desc": "string value, min length 8, max length 63"
+    },
+    "security.tls-certificate": {
+      "_type": "arg"
+    },
+    "security.tls-mode": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "channel.band": {
+      "_type": "arg"
+    },
+    "channel.control-channel-width": {
+      "_type": "arg"
+    },
+    "channel.extension-channel": {
+      "_type": "arg"
+    },
+    "channel.frequency": {
+      "_type": "arg"
+    },
+    "channel.reselect-interval": {
+      "_type": "arg",
+      "desc": "1s..42w6d    (time interval)"
+    },
+    "channel.save-selected": {
+      "_type": "arg"
+    },
+    "channel.secondary-frequency": {
+      "_type": "arg"
+    },
+    "channel.skip-dfs-channels": {
+      "_type": "arg"
+    },
+    "channel.tx-power": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "configuration.country": {
+      "_type": "arg"
+    },
+    "configuration.disconnect-timeout": {
+      "_type": "arg",
+      "desc": "0s..15s    (time interval)"
+    },
+    "configuration.distance": {
+      "_type": "arg"
+    },
+    "configuration.frame-lifetime": {
+      "_type": "arg",
+      "desc": "0s..15s    (time interval)"
+    },
+    "configuration.guard-interval": {
+      "_type": "arg"
+    },
+    "configuration.hide-ssid": {
+      "_type": "arg"
+    },
+    "configuration.hw-protection-mode": {
+      "_type": "arg"
+    },
+    "configuration.hw-retries": {
+      "_type": "arg"
+    },
+    "configuration.installation": {
+      "_type": "arg"
+    },
+    "configuration.keepalive-frames": {
+      "_type": "arg"
+    },
+    "configuration.load-balancing-group": {
+      "_type": "arg"
+    },
+    "configuration.max-sta-count": {
+      "_type": "arg"
+    },
+    "configuration.mode": {
+      "_type": "arg"
+    },
+    "configuration.multicast-helper": {
+      "_type": "arg"
+    },
+    "configuration.rx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3[,ConfigurationRxChains*]"
+    },
+    "configuration.ssid": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "configuration.tx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3[,ConfigurationTxChains*]"
+    },
+    "datapath.bridge": {
+      "_type": "arg"
+    },
+    "datapath.bridge-cost": {
+      "_type": "arg"
+    },
+    "datapath.bridge-horizon": {
+      "_type": "arg"
+    },
+    "datapath.client-to-client-forwarding": {
+      "_type": "arg"
+    },
+    "datapath.interface-list": {
+      "_type": "arg"
+    },
+    "datapath.local-forwarding": {
+      "_type": "arg"
+    },
+    "datapath.openflow-switch": {
+      "_type": "arg"
+    },
+    "datapath.vlan-id": {
+      "_type": "arg"
+    },
+    "datapath.vlan-mode": {
+      "_type": "arg"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "master-interface": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "radio-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "security.authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa-eap|wpa2-eap[,SecurityAuthenticationTypes*]"
+    },
+    "security.disable-pmkid": {
+      "_type": "arg"
+    },
+    "security.eap-methods": {
+      "_type": "arg"
+    },
+    "security.eap-radius-accounting": {
+      "_type": "arg"
+    },
+    "security.encryption": {
+      "_type": "arg",
+      "desc": "aes-ccm|tkip[,SecurityEncryption*]"
+    },
+    "security.group-encryption": {
+      "_type": "arg"
+    },
+    "security.group-key-update": {
+      "_type": "arg",
+      "desc": "30s..1d    (time interval)"
+    },
+    "security.passphrase": {
+      "_type": "arg",
+      "desc": "string value, min length 8, max length 63"
+    },
+    "security.tls-certificate": {
+      "_type": "arg"
+    },
+    "security.tls-mode": {
+      "_type": "arg"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

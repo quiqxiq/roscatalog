@@ -123,7 +123,7 @@ func main() {
 	fmt.Fprintf(w, "| `native` | command tanpa `once` (opsional `=interval=`) | command + `=once=` tiap Every (hanya bila command punya `once`) |\n")
 	fmt.Fprintf(w, "| `follow` | `print =follow=` / `=follow-only=` | `print` tiap Every + diff (`follow-only`: hasil pertama hanya baseline) |\n")
 	fmt.Fprintf(w, "| `listen` | `/listen` (opsional Seed: print awal) | `print` view list tiap Every + diff |\n\n")
-	fmt.Fprintf(w, "Pilih **stream** untuk data yang sering berubah dengan latensi rendah. Pilih **poll** bila feed banyak, router lemah, jeda perlu diatur per klien/tenant, atau agar tidak menahan stream terbuka di router. Batas: interval stream >= %s, jeda poll >= %s.\n\n", ros.MinPrintInterval, ros.MinPollEvery)
+	fmt.Fprintf(w, "Pilih **stream** untuk data yang sering berubah dengan latensi rendah. Pilih **poll** bila feed banyak, router lemah, jeda perlu diatur per klien/tenant, atau agar tidak menahan stream terbuka di router. Batas proyek: interval stream %s..%s, jeda poll %s..%s.\n\n", ros.MinPrintInterval, ros.MaxPrintInterval, ros.MinPollEvery, ros.MaxPollEvery)
 
 	fmt.Fprintf(w, "Keterangan kolom dan tanda:\n\n")
 	fmt.Fprintf(w, "- **Pengiriman** = pilihan `Plan` yang valid untuk view itu; yang pertama adalah bawaan.\n")

@@ -3,7 +3,12 @@ package rosrun
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
+	"io"
+	"math/rand/v2"
+	"net"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -69,6 +74,9 @@ func (c *managedConn) markDown(err error) {
 
 func (c *managedConn) markUp() {
 	c.down.Store(false)
+	c.errMu.Lock()
+	c.lastErr = nil
+	c.errMu.Unlock()
 }
 
 func (c *managedConn) isDown() bool { return c.down.Load() }
@@ -114,6 +122,47 @@ func dial(ctx context.Context, cfg Config, name string) (*managedConn, error) {
 	return conn, nil
 }
 
+// dialRetry mencoba login beberapa kali untuk gangguan transien. RouterOS 6
+// kadang menutup koneksi dengan EOF bila sesi API dibuat beruntun.
+func dialRetry(ctx context.Context, cfg Config, name string) (*managedConn, error) {
+	var last error
+	for attempt := 0; attempt < 3; attempt++ {
+		conn, err := dial(ctx, cfg, name)
+		if err == nil {
+			return conn, nil
+		}
+		last = err
+		if !isTransientDialErr(err) || attempt == 2 {
+			break
+		}
+		wait := time.Duration(150*(1<<attempt)) * time.Millisecond
+		if !sleepContext(ctx, wait) {
+			break
+		}
+	}
+	return nil, last
+}
+
+func isTransientDialErr(err error) bool {
+	if err == nil {
+		return false
+	}
+	if errors.Is(err, io.EOF) || errors.Is(err, net.ErrClosed) {
+		return true
+	}
+	var ne net.Error
+	if errors.As(err, &ne) && ne.Timeout() {
+		return true
+	}
+	msg := strings.ToLower(err.Error())
+	for _, s := range []string{"connection reset", "broken pipe", "connection refused", "eof", "i/o timeout"} {
+		if strings.Contains(msg, s) {
+			return true
+		}
+	}
+	return false
+}
+
 // supervise menunggu koneksi mati lalu menggantinya. Satu supervisor per
 // koneksi (cmd dan feed).
 func (m *MikroTik) supervise(conn *managedConn) {
@@ -133,6 +182,7 @@ func (m *MikroTik) supervise(conn *managedConn) {
 				}
 			}
 			conn.markDown(err)
+			m.publishStatus()
 		}
 
 		if !m.reconnect(conn) {
@@ -162,13 +212,18 @@ func (m *MikroTik) reconnect(conn *managedConn) bool {
 		fresh, err := dial(m.runCtx, m.cfg, conn.name)
 		if err != nil {
 			conn.markDown(err)
+			m.publishStatus()
 			if m.cfg.Logf != nil {
 				m.cfg.Logf("rosrun: %s reconnect failed: %v (retry in %s)", conn.name, err, backoff)
+			}
+			wait := backoff
+			if wait > 20*time.Millisecond {
+				wait += time.Duration(rand.Int64N(int64(wait / 4)))
 			}
 			select {
 			case <-m.stopCh:
 				return false
-			case <-time.After(backoff):
+			case <-time.After(wait):
 			}
 			backoff *= 2
 			if backoff > maxBackoff {
@@ -181,6 +236,7 @@ func (m *MikroTik) reconnect(conn *managedConn) bool {
 		conn.markUp()
 		m.reconnects.Add(1)
 		m.epochs.bump()
+		m.publishStatus()
 		if m.cfg.Logf != nil {
 			m.cfg.Logf("rosrun: %s reconnected (epoch %d)", conn.name, m.epochs.current())
 		}

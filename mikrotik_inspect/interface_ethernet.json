@@ -1,0 +1,447 @@
+{
+  "_type": "dir",
+  "blink": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "cable-test": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "monitor": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "stats": {
+      "_type": "arg"
+    },
+    "stats-detail": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "advertise": {
+      "_type": "arg"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "auto-negotiation": {
+      "_type": "arg"
+    },
+    "cable-settings": {
+      "_type": "arg"
+    },
+    "combo-mode": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "fec-mode": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "loop-protect": {
+      "_type": "arg"
+    },
+    "loop-protect-disable-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "loop-protect-send-interval": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "mdix-enable": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "orig-mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "rx-flow-control": {
+      "_type": "arg"
+    },
+    "sfp-ignore-rx-los": {
+      "_type": "arg"
+    },
+    "sfp-rate-select": {
+      "_type": "arg"
+    },
+    "sfp-shutdown-temperature": {
+      "_type": "arg"
+    },
+    "speed": {
+      "_type": "arg"
+    },
+    "tx-flow-control": {
+      "_type": "arg"
+    }
+  },
+  "reset-counters": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "reset-mac-address": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "advertise": {
+      "_type": "arg"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "auto-negotiation": {
+      "_type": "arg"
+    },
+    "cable-settings": {
+      "_type": "arg"
+    },
+    "combo-mode": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "fec-mode": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "loop-protect": {
+      "_type": "arg"
+    },
+    "loop-protect-disable-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "loop-protect-send-interval": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "mdix-enable": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "orig-mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "rx-flow-control": {
+      "_type": "arg"
+    },
+    "sfp-ignore-rx-los": {
+      "_type": "arg"
+    },
+    "sfp-rate-select": {
+      "_type": "arg"
+    },
+    "sfp-shutdown-temperature": {
+      "_type": "arg"
+    },
+    "speed": {
+      "_type": "arg"
+    },
+    "tx-flow-control": {
+      "_type": "arg"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

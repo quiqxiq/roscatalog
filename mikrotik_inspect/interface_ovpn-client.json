@@ -1,0 +1,471 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "add-default-route": {
+      "_type": "arg"
+    },
+    "auth": {
+      "_type": "arg"
+    },
+    "certificate": {
+      "_type": "arg"
+    },
+    "cipher": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "connect-to": {
+      "_type": "arg"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "disconnect-notify": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "max-mtu": {
+      "_type": "arg"
+    },
+    "mode": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value, max length 1000"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "profile": {
+      "_type": "arg"
+    },
+    "protocol": {
+      "_type": "arg"
+    },
+    "route-nopull": {
+      "_type": "arg"
+    },
+    "tls-version": {
+      "_type": "arg"
+    },
+    "use-peer-dns": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "verify-server-certificate": {
+      "_type": "arg"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "import-ovpn-configuration": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "file-name": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "key-passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "ovpn-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "ovpn-user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "skip-cert-import": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "monitor": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "add-default-route": {
+      "_type": "arg"
+    },
+    "auth": {
+      "_type": "arg"
+    },
+    "certificate": {
+      "_type": "arg"
+    },
+    "cipher": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "connect-to": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "disconnect-notify": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "max-mtu": {
+      "_type": "arg"
+    },
+    "mode": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value, max length 1000"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "profile": {
+      "_type": "arg"
+    },
+    "protocol": {
+      "_type": "arg"
+    },
+    "route-nopull": {
+      "_type": "arg"
+    },
+    "tls-version": {
+      "_type": "arg"
+    },
+    "use-peer-dns": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "verify-server-certificate": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "add-default-route": {
+      "_type": "arg"
+    },
+    "auth": {
+      "_type": "arg"
+    },
+    "certificate": {
+      "_type": "arg"
+    },
+    "cipher": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "connect-to": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "disconnect-notify": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "max-mtu": {
+      "_type": "arg"
+    },
+    "mode": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "password": {
+      "_type": "arg",
+      "desc": "string value, max length 1000"
+    },
+    "port": {
+      "_type": "arg"
+    },
+    "profile": {
+      "_type": "arg"
+    },
+    "protocol": {
+      "_type": "arg"
+    },
+    "route-nopull": {
+      "_type": "arg"
+    },
+    "tls-version": {
+      "_type": "arg"
+    },
+    "use-peer-dns": {
+      "_type": "arg"
+    },
+    "user": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "verify-server-certificate": {
+      "_type": "arg"
+    }
+  }
+}

@@ -3,7 +3,6 @@ package rosrun
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/quiqxiq/goros/v4"
 
@@ -12,7 +11,7 @@ import (
 
 // WatchAuto seperti Watch tetapi bila stream ditolak router sebelum ada data
 // satu pun (mis. listen/follow tidak didukung di menu itu), otomatis beralih
-// ke poll dengan jeda yang sama (Plan.Every, atau interval bawaan view, atau 1s).
+// ke poll. Jeda poll minimal ros.MinPollEvery dan maksimal ros.MaxPollEvery.
 // Poll dari view listen/follow memakai diff, jadi bentuk event tetap serupa.
 func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, ver ros.Version, plan ros.Plan, p ros.Params) (<-chan Event, error) {
 	if plan.Delivery == "" {
@@ -52,7 +51,10 @@ func (r *Runner) WatchAuto(ctx context.Context, res *ros.Resource, view string, 
 						every = v.Interval
 					}
 					if every < ros.MinPollEvery {
-						every = time.Second
+						every = ros.MinPollEvery
+					}
+					if every > ros.MaxPollEvery {
+						every = ros.MaxPollEvery
 					}
 					if preq, perr := res.Build(view, ver, ros.Poll(every), p); perr == nil {
 						r.logf("rosrun: stream %s/%s ditolak router (%v); beralih ke poll %s", res.ID, view, ev.Err, every)

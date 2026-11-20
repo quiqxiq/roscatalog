@@ -25,7 +25,7 @@ func TestBuildInterval(t *testing.T) {
 
 	// Stream bawaan: interval dari katalog.
 	req := mustBuild(t, "hotspot-active", "live", AnyVersion, Stream(), Params{})
-	want := []string{"/ip/hotspot/active/print", "=interval=2s", props}
+	want := []string{"/ip/hotspot/active/print", "=interval=2s", "=stats=", props}
 	if !reflect.DeepEqual(req.Sentence, want) || req.Shape != ShapeSnapshot || req.Delivery != DeliveryStream || req.Mode != ModeInterval {
 		t.Errorf("stream bawaan: %+v", req)
 	}
@@ -33,35 +33,35 @@ func TestBuildInterval(t *testing.T) {
 		t.Errorf("every/key: %v %q", req.Every, req.Key)
 	}
 	// Fallback tanpa proplist.
-	if !reflect.DeepEqual(req.Fallback, []string{"/ip/hotspot/active/print", "=interval=2s"}) {
+	if !reflect.DeepEqual(req.Fallback, []string{"/ip/hotspot/active/print", "=interval=2s", "=stats="}) {
 		t.Errorf("fallback: %q", req.Fallback)
 	}
 	if !reflect.DeepEqual(req.Fields, []string{"user", "address", "uptime", "session-time-left", "idle-time", "bytes-in", "bytes-out"}) {
 		t.Errorf("fields: %q", req.Fields)
 	}
 
-	// Stream dengan interval ms.
-	req = mustBuild(t, "hotspot-active", "live", AnyVersion, StreamEvery(500*time.Millisecond), Params{})
-	if req.Sentence[1] != "=interval=500ms" || req.Every != 500*time.Millisecond {
-		t.Errorf("interval 500ms: %q", req.Sentence)
+	// Stream dengan interval 2 detik.
+	req = mustBuild(t, "hotspot-active", "live", AnyVersion, StreamEvery(2*time.Second), Params{})
+	if req.Sentence[1] != "=interval=2s" || req.Every != 2*time.Second {
+		t.Errorf("interval 2s: %q", req.Sentence)
 	}
 
 	// Poll: one-shot tanpa interval, diulang Go.
-	req = mustBuild(t, "hotspot-active", "live", AnyVersion, Poll(300*time.Millisecond), Params{})
-	want = []string{"/ip/hotspot/active/print", props}
+	req = mustBuild(t, "hotspot-active", "live", AnyVersion, Poll(5*time.Second), Params{})
+	want = []string{"/ip/hotspot/active/print", "=stats=", props}
 	if !reflect.DeepEqual(req.Sentence, want) || req.Delivery != DeliveryPoll || req.Mode != ModeOneShot ||
-		req.Every != 300*time.Millisecond || req.Diff || req.Shape != ShapeSnapshot {
+		req.Every != 5*time.Second || req.Diff || req.Shape != ShapeSnapshot {
 		t.Errorf("poll: %+v", req)
 	}
 	// Poll + diff.
-	req = mustBuild(t, "hotspot-active", "live", AnyVersion, Poll(time.Second).WithDiff(), Params{})
+	req = mustBuild(t, "hotspot-active", "live", AnyVersion, Poll(5*time.Second).WithDiff(), Params{})
 	if !req.Diff {
 		t.Error("diff tidak terbawa")
 	}
 
 	// stats ikut terbawa ke poll.
-	req = mustBuild(t, "interface", "live", AnyVersion, Poll(time.Second), Params{})
-	if !contains(req.Sentence, "=stats=") || contains(req.Sentence, "=interval=1s") {
+	req = mustBuild(t, "interface", "live", AnyVersion, Poll(5*time.Second), Params{})
+	if !contains(req.Sentence, "=stats=") || contains(req.Sentence, "=interval=") {
 		t.Errorf("poll stats: %q", req.Sentence)
 	}
 }
@@ -78,7 +78,7 @@ func TestBuildNative(t *testing.T) {
 	}
 
 	// Poll native = command yang sama dengan =once=.
-	req = mustBuild(t, "interface-monitor-traffic", "run", AnyVersion, Poll(500*time.Millisecond),
+	req = mustBuild(t, "interface-monitor-traffic", "run", AnyVersion, Poll(5*time.Second),
 		Params{Args: map[string]string{"interface": "ether1,ether2"}})
 	if !contains(req.Sentence, "=once=") || req.Delivery != DeliveryPoll || req.Mode != ModeNative {
 		t.Errorf("native poll: %+v", req)
@@ -91,23 +91,23 @@ func TestBuildNative(t *testing.T) {
 		t.Errorf("native once: %+v", req)
 	}
 
-	// Stream native dengan interval ms (monitor menerima interval).
-	req = mustBuild(t, "interface-ethernet", "monitor", AnyVersion, StreamEvery(250*time.Millisecond),
+	// Stream native dengan interval (monitor menerima interval).
+	req = mustBuild(t, "interface-ethernet", "monitor", AnyVersion, StreamEvery(2*time.Second),
 		Params{Args: map[string]string{"numbers": "sfp1"}})
-	if !contains(req.Sentence, "=interval=250ms") {
+	if !contains(req.Sentence, "=interval=2s") {
 		t.Errorf("native interval: %q", req.Sentence)
 	}
 
 	// Argumen yang tidak dimutasi: Params.Args milik pemanggil tetap utuh.
 	args := map[string]string{"interface": "ether1"}
-	mustBuild(t, "interface-monitor-traffic", "run", AnyVersion, Poll(time.Second), Params{Args: args})
+	mustBuild(t, "interface-monitor-traffic", "run", AnyVersion, Poll(5*time.Second), Params{Args: args})
 	if len(args) != 1 {
 		t.Errorf("Params.Args termutasi: %v", args)
 	}
 
 	// ping tidak punya once: poll ditolak, stream boleh.
 	r, _ := Lookup("tool-ping")
-	if _, err := r.Build("run", AnyVersion, Poll(time.Second), Params{Args: map[string]string{"address": "1.1.1.1"}}); err == nil {
+	if _, err := r.Build("run", AnyVersion, Poll(5*time.Second), Params{Args: map[string]string{"address": "1.1.1.1"}}); err == nil {
 		t.Error("poll ping seharusnya ditolak")
 	}
 	req = mustBuild(t, "tool-ping", "run", AnyVersion, Stream(), Params{Args: map[string]string{"address": "1.1.1.1", "count": "5"}})
@@ -145,7 +145,7 @@ func TestBuildListen(t *testing.T) {
 	}
 
 	// Poll listen = list berulang + diff.
-	req = mustBuild(t, "hotspot-active", "events", AnyVersion, Poll(time.Second), Params{})
+	req = mustBuild(t, "hotspot-active", "events", AnyVersion, Poll(5*time.Second), Params{})
 	if req.Sentence[0] != "/ip/hotspot/active/print" || !req.Diff || req.Mode != ModeOneShot {
 		t.Errorf("poll listen: %+v", req)
 	}
@@ -171,11 +171,11 @@ func TestBuildFollow(t *testing.T) {
 		t.Errorf("follow-only stream: %+v", req)
 	}
 
-	req = mustBuild(t, "log", "tail-only", AnyVersion, Poll(500*time.Millisecond), Params{})
+	req = mustBuild(t, "log", "tail-only", AnyVersion, Poll(5*time.Second), Params{})
 	if contains(req.Sentence, "=follow-only=") || !req.Baseline || !req.Diff {
 		t.Errorf("follow-only poll: %+v", req)
 	}
-	req = mustBuild(t, "log", "tail", AnyVersion, Poll(500*time.Millisecond), Params{})
+	req = mustBuild(t, "log", "tail", AnyVersion, Poll(5*time.Second), Params{})
 	if req.Baseline || !req.Diff {
 		t.Errorf("follow poll: %+v", req)
 	}
@@ -190,7 +190,7 @@ func TestBuildOneShotAndErrors(t *testing.T) {
 	if !req.CountOnly || req.Sentence[len(req.Sentence)-1] != "?profile=1jam" {
 		t.Errorf("count: %+v", req)
 	}
-	req = mustBuild(t, "hotspot-user", "list", AnyVersion, Poll(time.Second), Params{})
+	req = mustBuild(t, "hotspot-user", "list", AnyVersion, Poll(5*time.Second), Params{})
 	if req.Delivery != DeliveryPoll {
 		t.Errorf("poll oneshot: %+v", req)
 	}
@@ -202,12 +202,35 @@ func TestBuildOneShotAndErrors(t *testing.T) {
 	if _, err := r.Build("list", AnyVersion, Poll(10*time.Millisecond), Params{}); err == nil {
 		t.Error("poll 10ms seharusnya ditolak")
 	}
+	if _, err := r.Build("list", AnyVersion, Poll(31*time.Second), Params{}); err == nil {
+		t.Error("poll 31s seharusnya ditolak")
+	}
 	if _, err := r.Build("tidak-ada", AnyVersion, Once(), Params{}); err == nil {
 		t.Error("view tidak ada seharusnya ditolak")
 	}
 	live, _ := Lookup("hotspot-active")
 	if _, err := live.Build("live", AnyVersion, StreamEvery(100*time.Millisecond), Params{}); err == nil {
 		t.Error("interval 100ms seharusnya ditolak")
+	}
+	if _, err := live.Build("live", AnyVersion, StreamEvery(6*time.Second), Params{}); err == nil {
+		t.Error("interval 6s seharusnya ditolak")
+	}
+}
+
+func TestRequestFingerprint(t *testing.T) {
+	a := mustBuild(t, "hotspot-active", "live", AnyVersion, Stream(), Params{})
+	b := mustBuild(t, "hotspot-active", "live", AnyVersion, Stream(), Params{})
+	if a.Fingerprint() != b.Fingerprint() {
+		t.Error("fingerprint tidak stabil untuk Request yang sama")
+	}
+	c := mustBuild(t, "hotspot-active", "live", AnyVersion, Stream(),
+		Params{Query: []Query{{Prop: "server", Value: "hs1"}}})
+	if a.Fingerprint() == c.Fingerprint() {
+		t.Error("query berbeda berbagi fingerprint")
+	}
+	d := mustBuild(t, "hotspot-active", "live", AnyVersion, Poll(5*time.Second), Params{})
+	if a.Fingerprint() == d.Fingerprint() {
+		t.Error("stream dan poll berbagi fingerprint")
 	}
 }
 

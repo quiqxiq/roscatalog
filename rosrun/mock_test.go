@@ -41,7 +41,9 @@ type mock struct {
 	rejectPaths    map[string]bool // path -> selalu ditolak (mis. listen tidak didukung)
 	printCalls     int32           // jumlah print one-shot hotspot-active
 	streamsActive  int32
-	accepted       int // jumlah koneksi yang pernah diterima
+	accepted       int         // jumlah koneksi yang pernah diterima
+	pingFail       atomic.Bool // /ping: semua probe timeout
+	pingLoss       atomic.Bool // /ping: setiap probe kedua timeout
 }
 
 func newMock(t *testing.T) *mock {
@@ -374,6 +376,55 @@ func (m *mock) handle(w proto.Writer, c cmd) {
 			return
 		}
 		m.stream(w, c, 15*time.Millisecond, func(i int) {
+			m.send(w, c.tag, "!re", project(c, row))
+		})
+
+	case "/ping":
+		address := c.attrs["address"]
+		if address == "" {
+			m.send(w, c.tag, "!trap", map[string]string{"message": "address required"})
+			m.send(w, c.tag, "!done", nil)
+			return
+		}
+		every := time.Second
+		if iv := c.attrs["interval"]; iv != "" {
+			d, err := time.ParseDuration(iv)
+			if err != nil || d < 10*time.Millisecond || d > 5*time.Second {
+				m.send(w, c.tag, "!trap", map[string]string{"message": "value of interval is out of range (00:00:00.010 .. 00:00:05)"})
+				m.send(w, c.tag, "!done", nil)
+				return
+			}
+			every = d
+		}
+		if c.has("count") {
+			// Mock tidak memodelkan count; anggap self-terminating setelah 1 baris.
+			m.send(w, c.tag, "!re", project(c, map[string]string{
+				"seq": "0", "host": address, "sent": "1", "received": "1",
+				"packet-loss": "0", "time": "10ms", "min-rtt": "10ms",
+				"avg-rtt": "10ms", "max-rtt": "10ms", "ttl": "64", "size": "56",
+			}))
+			m.send(w, c.tag, "!done", nil)
+			return
+		}
+		m.stream(w, c, every, func(i int) {
+			row := map[string]string{"host": address, "seq": fmt.Sprint(i)}
+			fail := m.pingFail.Load() || (m.pingLoss.Load() && i%2 == 1)
+			if fail {
+				row["sent"] = fmt.Sprint(i + 1)
+				row["received"] = "0"
+				row["packet-loss"] = "100"
+				row["status"] = "timeout"
+			} else {
+				row["sent"] = fmt.Sprint(i + 1)
+				row["received"] = fmt.Sprint(i + 1)
+				row["packet-loss"] = "0"
+				row["time"] = "10ms"
+				row["min-rtt"] = "10ms"
+				row["avg-rtt"] = "10ms"
+				row["max-rtt"] = "10ms"
+				row["ttl"] = "64"
+				row["size"] = "56"
+			}
 			m.send(w, c.tag, "!re", project(c, row))
 		})
 

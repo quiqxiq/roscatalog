@@ -1,0 +1,621 @@
+{
+  "_type": "dir",
+  "acme-renew": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "add": {
+    "_type": "cmd",
+    "common-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "country": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "days-valid": {
+      "_type": "arg"
+    },
+    "digest-algorithm": {
+      "_type": "arg"
+    },
+    "key-size": {
+      "_type": "arg"
+    },
+    "key-usage": {
+      "_type": "arg",
+      "desc": "digital-signature|content-commitment|key-encipherment|data-encipherment|key-agreement|key-cert-sign|crl-sign|encipher-only|decipher-only|tls-server|tls-client|code-sign|email-protect|timestamp|ocsp-sign|dvcs[,KeyUsage*]"
+    },
+    "locality": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "organization": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "state": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "subject-alt-name": {
+      "_type": "arg"
+    },
+    "trust-store": {
+      "_type": "arg"
+    },
+    "trusted": {
+      "_type": "arg"
+    },
+    "unit": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "add-acme": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "directory-url": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "domain-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "eab-key-b64": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "eab-kid": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "add-scep": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "ca-identity": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "challenge-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "on-smart-card": {
+      "_type": "arg"
+    },
+    "refresh": {
+      "_type": "arg"
+    },
+    "scep-url": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "template": {
+      "_type": "arg"
+    }
+  },
+  "card-reinstall": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "pin": {
+      "_type": "arg",
+      "desc": "string value, max length 20"
+    }
+  },
+  "card-verify": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "pin": {
+      "_type": "arg",
+      "desc": "string value, max length 20"
+    }
+  },
+  "create-certificate-request": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "challenge-passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "key-passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "template": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable-ssl-certificate": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "directory-url": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "dns-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "eab-hmac-key": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "eab-kid": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "reset-private-key": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "export-certificate": {
+    "_type": "cmd",
+    "export-passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "file-name": {
+      "_type": "arg"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "type": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "import": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "file-name": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "no-key-export": {
+      "_type": "arg"
+    },
+    "passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "trust-store": {
+      "_type": "arg"
+    },
+    "trusted": {
+      "_type": "arg"
+    }
+  },
+  "issued-revoke": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "active": {
+      "_type": "arg"
+    },
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "inactive": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "common-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "country": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "days-valid": {
+      "_type": "arg"
+    },
+    "digest-algorithm": {
+      "_type": "arg"
+    },
+    "key-size": {
+      "_type": "arg"
+    },
+    "key-usage": {
+      "_type": "arg",
+      "desc": "digital-signature|content-commitment|key-encipherment|data-encipherment|key-agreement|key-cert-sign|crl-sign|encipher-only|decipher-only|tls-server|tls-client|code-sign|email-protect|timestamp|ocsp-sign|dvcs[,KeyUsage*]"
+    },
+    "locality": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "organization": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "state": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "subject-alt-name": {
+      "_type": "arg"
+    },
+    "trust-store": {
+      "_type": "arg"
+    },
+    "trusted": {
+      "_type": "arg"
+    },
+    "unit": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "scep-renew": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "common-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "country": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "days-valid": {
+      "_type": "arg"
+    },
+    "digest-algorithm": {
+      "_type": "arg"
+    },
+    "key-size": {
+      "_type": "arg"
+    },
+    "key-usage": {
+      "_type": "arg",
+      "desc": "digital-signature|content-commitment|key-encipherment|data-encipherment|key-agreement|key-cert-sign|crl-sign|encipher-only|decipher-only|tls-server|tls-client|code-sign|email-protect|timestamp|ocsp-sign|dvcs[,KeyUsage*]"
+    },
+    "locality": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "organization": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "state": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "subject-alt-name": {
+      "_type": "arg"
+    },
+    "trust-store": {
+      "_type": "arg"
+    },
+    "trusted": {
+      "_type": "arg"
+    },
+    "unit": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "sign": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "ca": {
+      "_type": "arg"
+    },
+    "ca-crl-host": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "ca-on-smart-card": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "sign-certificate-request": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "ca": {
+      "_type": "arg"
+    },
+    "days-valid": {
+      "_type": "arg"
+    },
+    "digest-algorithm": {
+      "_type": "arg"
+    },
+    "file-name": {
+      "_type": "arg"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

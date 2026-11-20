@@ -1,0 +1,8425 @@
+{
+  "_type": "dir",
+  "aaa": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "called-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "calling-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interim-update": {
+        "_type": "arg"
+      },
+      "mac-caching": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nas-identifier": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "password-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "username-format": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "called-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "calling-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interim-update": {
+        "_type": "arg"
+      },
+      "mac-caching": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nas-identifier": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "password-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "username-format": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "called-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "calling-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interim-update": {
+        "_type": "arg"
+      },
+      "mac-caching": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "nas-identifier": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "password-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "username-format": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "access-list": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "allow-signal-out-of-range": {
+        "_type": "arg"
+      },
+      "client-isolation": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "days": {
+        "_type": "arg",
+        "desc": "sun|mon|tue|wed|thu|fri|sat[,Days*]"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "mac-address": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "mac-address-mask": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "radius-accounting": {
+        "_type": "arg"
+      },
+      "signal-range": {
+        "_type": "arg"
+      },
+      "ssid-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "time": {
+        "_type": "arg",
+        "desc": "0s..1d    (time interval)"
+      },
+      "vlan-id": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "allow-signal-out-of-range": {
+        "_type": "arg"
+      },
+      "client-isolation": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "days": {
+        "_type": "arg",
+        "desc": "sun|mon|tue|wed|thu|fri|sat[,Days*]"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "mac-address": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "mac-address-mask": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "radius-accounting": {
+        "_type": "arg"
+      },
+      "signal-range": {
+        "_type": "arg"
+      },
+      "ssid-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "time": {
+        "_type": "arg",
+        "desc": "0s..1d    (time interval)"
+      },
+      "vlan-id": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "allow-signal-out-of-range": {
+        "_type": "arg"
+      },
+      "client-isolation": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "days": {
+        "_type": "arg",
+        "desc": "sun|mon|tue|wed|thu|fri|sat[,Days*]"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "mac-address": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "mac-address-mask": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "radius-accounting": {
+        "_type": "arg"
+      },
+      "signal-range": {
+        "_type": "arg"
+      },
+      "ssid-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "time": {
+        "_type": "arg",
+        "desc": "0s..1d    (time interval)"
+      },
+      "vlan-id": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "add": {
+    "_type": "cmd",
+    "aaa": {
+      "_type": "arg"
+    },
+    "aaa.called-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.calling-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.interim-update": {
+      "_type": "arg"
+    },
+    "aaa.mac-caching": {
+      "_type": "arg"
+    },
+    "aaa.nas-identifier": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.password-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.username-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "channel": {
+      "_type": "arg"
+    },
+    "channel.afc": {
+      "_type": "arg"
+    },
+    "channel.band": {
+      "_type": "arg"
+    },
+    "channel.deprioritize-unii-3-4": {
+      "_type": "arg"
+    },
+    "channel.frequency": {
+      "_type": "arg"
+    },
+    "channel.preamble-puncturing": {
+      "_type": "arg"
+    },
+    "channel.reselect-interval": {
+      "_type": "arg",
+      "desc": "1s..42w6d    (time interval)"
+    },
+    "channel.reselect-time": {
+      "_type": "arg"
+    },
+    "channel.secondary-frequency": {
+      "_type": "arg"
+    },
+    "channel.skip-dfs-channels": {
+      "_type": "arg"
+    },
+    "channel.width": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "configuration": {
+      "_type": "arg"
+    },
+    "configuration.antenna-gain": {
+      "_type": "arg"
+    },
+    "configuration.beacon-interval": {
+      "_type": "arg",
+      "desc": "100ms..1s    (time interval)"
+    },
+    "configuration.chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3|4|5|6|7[,ConfigurationChains*]"
+    },
+    "configuration.country": {
+      "_type": "arg"
+    },
+    "configuration.distance": {
+      "_type": "arg"
+    },
+    "configuration.dtim-period": {
+      "_type": "arg"
+    },
+    "configuration.hide-ssid": {
+      "_type": "arg"
+    },
+    "configuration.hw-protection-mode": {
+      "_type": "arg"
+    },
+    "configuration.installation": {
+      "_type": "arg"
+    },
+    "configuration.manager": {
+      "_type": "arg"
+    },
+    "configuration.max-clients": {
+      "_type": "arg"
+    },
+    "configuration.mode": {
+      "_type": "arg"
+    },
+    "configuration.multicast-enhance": {
+      "_type": "arg"
+    },
+    "configuration.qos-classifier": {
+      "_type": "arg"
+    },
+    "configuration.ssid": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "configuration.station-roaming": {
+      "_type": "arg"
+    },
+    "configuration.tx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3|4|5|6|7[,ConfigurationTxChains*]"
+    },
+    "configuration.tx-power": {
+      "_type": "arg"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "datapath": {
+      "_type": "arg"
+    },
+    "datapath.bridge": {
+      "_type": "arg"
+    },
+    "datapath.bridge-cost": {
+      "_type": "arg"
+    },
+    "datapath.bridge-horizon": {
+      "_type": "arg"
+    },
+    "datapath.client-isolation": {
+      "_type": "arg"
+    },
+    "datapath.interface-list": {
+      "_type": "arg"
+    },
+    "datapath.openflow-switch": {
+      "_type": "arg"
+    },
+    "datapath.traffic-processing": {
+      "_type": "arg"
+    },
+    "datapath.vlan-id": {
+      "_type": "arg"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "interworking": {
+      "_type": "arg"
+    },
+    "interworking.3gpp-info": {
+      "_type": "arg",
+      "desc": "string value, min length 3, max length 3"
+    },
+    "interworking.3gpp-info-raw": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interworking.authentication-types": {
+      "_type": "arg"
+    },
+    "interworking.connection-capabilities": {
+      "_type": "arg"
+    },
+    "interworking.domain-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.esr": {
+      "_type": "arg"
+    },
+    "interworking.hessid": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "interworking.hotspot20": {
+      "_type": "arg"
+    },
+    "interworking.hotspot20-dgaf": {
+      "_type": "arg"
+    },
+    "interworking.internet": {
+      "_type": "arg"
+    },
+    "interworking.ipv4-availability": {
+      "_type": "arg"
+    },
+    "interworking.ipv6-availability": {
+      "_type": "arg"
+    },
+    "interworking.network-type": {
+      "_type": "arg"
+    },
+    "interworking.operational-classes": {
+      "_type": "arg"
+    },
+    "interworking.operator-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.realms": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.realms-raw": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interworking.roaming-ois": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.uesa": {
+      "_type": "arg"
+    },
+    "interworking.venue": {
+      "_type": "arg"
+    },
+    "interworking.venue-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.wan-at-capacity": {
+      "_type": "arg"
+    },
+    "interworking.wan-downlink": {
+      "_type": "arg"
+    },
+    "interworking.wan-downlink-load": {
+      "_type": "arg"
+    },
+    "interworking.wan-measurement-duration": {
+      "_type": "arg"
+    },
+    "interworking.wan-status": {
+      "_type": "arg"
+    },
+    "interworking.wan-symmetric": {
+      "_type": "arg"
+    },
+    "interworking.wan-uplink": {
+      "_type": "arg"
+    },
+    "interworking.wan-uplink-load": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "master-interface": {
+      "_type": "arg"
+    },
+    "mld-interface": {
+      "_type": "arg"
+    },
+    "mld-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "radio-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "security": {
+      "_type": "arg"
+    },
+    "security.authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+    },
+    "security.beacon-protection": {
+      "_type": "arg"
+    },
+    "security.connect-group": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.connect-priority": {
+      "_type": "arg"
+    },
+    "security.dh-groups": {
+      "_type": "arg",
+      "desc": "19|20|21[,SecurityDhGroups*]"
+    },
+    "security.disable-pmkid": {
+      "_type": "arg"
+    },
+    "security.eap-accounting": {
+      "_type": "arg"
+    },
+    "security.eap-anonymous-identity": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.eap-certificate-mode": {
+      "_type": "arg"
+    },
+    "security.eap-methods": {
+      "_type": "arg"
+    },
+    "security.eap-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.eap-tls-certificate": {
+      "_type": "arg"
+    },
+    "security.eap-username": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.encryption": {
+      "_type": "arg",
+      "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+    },
+    "security.ft": {
+      "_type": "arg"
+    },
+    "security.ft-mobility-domain": {
+      "_type": "arg"
+    },
+    "security.ft-nas-identifier": {
+      "_type": "arg",
+      "desc": "string value, min length 2, max length 96"
+    },
+    "security.ft-over-ds": {
+      "_type": "arg"
+    },
+    "security.ft-preserve-vlanid": {
+      "_type": "arg"
+    },
+    "security.ft-r0-key-lifetime": {
+      "_type": "arg",
+      "desc": "1s..6w3d12h15m    (time interval)"
+    },
+    "security.ft-reassociation-deadline": {
+      "_type": "arg",
+      "desc": "0s..1m10s    (time interval)"
+    },
+    "security.group-encryption": {
+      "_type": "arg"
+    },
+    "security.group-key-update": {
+      "_type": "arg",
+      "desc": "30s..7101w3d6h28m15s    (time interval)"
+    },
+    "security.management-encryption": {
+      "_type": "arg"
+    },
+    "security.management-protection": {
+      "_type": "arg"
+    },
+    "security.multi-passphrase-group": {
+      "_type": "arg"
+    },
+    "security.owe-transition-interface": {
+      "_type": "arg"
+    },
+    "security.passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.sae-anti-clogging-threshold": {
+      "_type": "arg"
+    },
+    "security.sae-max-failure-rate": {
+      "_type": "arg"
+    },
+    "security.sae-pwe": {
+      "_type": "arg"
+    },
+    "security.wps": {
+      "_type": "arg"
+    },
+    "steering": {
+      "_type": "arg"
+    },
+    "steering.2g-probe-delay": {
+      "_type": "arg"
+    },
+    "steering.neighbor-group": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "steering.rrm": {
+      "_type": "arg"
+    },
+    "steering.transition-request-count": {
+      "_type": "arg"
+    },
+    "steering.transition-request-period": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "steering.transition-threshold": {
+      "_type": "arg"
+    },
+    "steering.transition-threshold-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "steering.transition-time": {
+      "_type": "arg"
+    },
+    "steering.wnm": {
+      "_type": "arg"
+    }
+  },
+  "cap": {
+    "_type": "dir",
+    "edit": {
+      "_type": "cmd",
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "oid": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "caps-man-addresses": {
+        "_type": "arg"
+      },
+      "caps-man-certificate-common-names": {
+        "_type": "arg",
+        "desc": "string value, min length 1"
+      },
+      "caps-man-names": {
+        "_type": "arg",
+        "desc": "string value, min length 1"
+      },
+      "certificate": {
+        "_type": "arg"
+      },
+      "discovery-interfaces": {
+        "_type": "arg"
+      },
+      "enabled": {
+        "_type": "arg"
+      },
+      "lock-to-caps-man": {
+        "_type": "arg"
+      },
+      "mld-datapath": {
+        "_type": "arg"
+      },
+      "mld-static": {
+        "_type": "arg"
+      },
+      "slaves-datapath": {
+        "_type": "arg"
+      },
+      "slaves-static": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "caps-man-addresses": {
+        "_type": "arg"
+      },
+      "caps-man-certificate-common-names": {
+        "_type": "arg",
+        "desc": "string value, min length 1"
+      },
+      "caps-man-names": {
+        "_type": "arg",
+        "desc": "string value, min length 1"
+      },
+      "certificate": {
+        "_type": "arg"
+      },
+      "discovery-interfaces": {
+        "_type": "arg"
+      },
+      "enabled": {
+        "_type": "arg"
+      },
+      "lock-to-caps-man": {
+        "_type": "arg"
+      },
+      "mld-datapath": {
+        "_type": "arg"
+      },
+      "mld-static": {
+        "_type": "arg"
+      },
+      "slaves-datapath": {
+        "_type": "arg"
+      },
+      "slaves-static": {
+        "_type": "arg"
+      }
+    }
+  },
+  "capsman": {
+    "_type": "dir",
+    "edit": {
+      "_type": "cmd",
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "oid": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remote-cap": {
+      "_type": "dir",
+      "find": {
+        "_type": "cmd",
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "append": {
+          "_type": "arg"
+        },
+        "as-value": {
+          "_type": "arg"
+        },
+        "brief": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "count-only": {
+          "_type": "arg"
+        },
+        "detail": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "follow": {
+          "_type": "arg"
+        },
+        "follow-only": {
+          "_type": "arg"
+        },
+        "from": {
+          "_type": "arg"
+        },
+        "group-by": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "oid": {
+          "_type": "arg"
+        },
+        "on-event": {
+          "_type": "arg",
+          "desc": "script"
+        },
+        "order-by": {
+          "_type": "arg"
+        },
+        "proplist": {
+          "_type": "arg"
+        },
+        "show-ids": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "timestamp": {
+          "_type": "arg"
+        },
+        "value-list": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "provision": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "remove": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "set-identity": {
+        "_type": "cmd",
+        "name": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "upgrade": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "ca-certificate": {
+        "_type": "arg"
+      },
+      "certificate": {
+        "_type": "arg"
+      },
+      "enabled": {
+        "_type": "arg"
+      },
+      "interfaces": {
+        "_type": "arg"
+      },
+      "package-path": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "require-peer-certificate": {
+        "_type": "arg"
+      },
+      "upgrade-policy": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "ca-certificate": {
+        "_type": "arg"
+      },
+      "certificate": {
+        "_type": "arg"
+      },
+      "enabled": {
+        "_type": "arg"
+      },
+      "interfaces": {
+        "_type": "arg"
+      },
+      "package-path": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "require-peer-certificate": {
+        "_type": "arg"
+      },
+      "upgrade-policy": {
+        "_type": "arg"
+      }
+    }
+  },
+  "channel": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "afc": {
+        "_type": "arg"
+      },
+      "band": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "deprioritize-unii-3-4": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "frequency": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "preamble-puncturing": {
+        "_type": "arg"
+      },
+      "reselect-interval": {
+        "_type": "arg",
+        "desc": "1s..42w6d    (time interval)"
+      },
+      "reselect-time": {
+        "_type": "arg"
+      },
+      "secondary-frequency": {
+        "_type": "arg"
+      },
+      "skip-dfs-channels": {
+        "_type": "arg"
+      },
+      "width": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "afc": {
+        "_type": "arg"
+      },
+      "band": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "deprioritize-unii-3-4": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "frequency": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "preamble-puncturing": {
+        "_type": "arg"
+      },
+      "reselect-interval": {
+        "_type": "arg",
+        "desc": "1s..42w6d    (time interval)"
+      },
+      "reselect-time": {
+        "_type": "arg"
+      },
+      "secondary-frequency": {
+        "_type": "arg"
+      },
+      "skip-dfs-channels": {
+        "_type": "arg"
+      },
+      "width": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "afc": {
+        "_type": "arg"
+      },
+      "band": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "deprioritize-unii-3-4": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "frequency": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "preamble-puncturing": {
+        "_type": "arg"
+      },
+      "reselect-interval": {
+        "_type": "arg",
+        "desc": "1s..42w6d    (time interval)"
+      },
+      "reselect-time": {
+        "_type": "arg"
+      },
+      "secondary-frequency": {
+        "_type": "arg"
+      },
+      "skip-dfs-channels": {
+        "_type": "arg"
+      },
+      "width": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "configuration": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "aaa": {
+        "_type": "arg"
+      },
+      "aaa.called-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.calling-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.interim-update": {
+        "_type": "arg"
+      },
+      "aaa.mac-caching": {
+        "_type": "arg"
+      },
+      "aaa.nas-identifier": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.password-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.username-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "antenna-gain": {
+        "_type": "arg"
+      },
+      "beacon-interval": {
+        "_type": "arg",
+        "desc": "100ms..1s    (time interval)"
+      },
+      "chains": {
+        "_type": "arg",
+        "desc": "0|1|2|3|4|5|6|7[,Chains*]"
+      },
+      "channel": {
+        "_type": "arg"
+      },
+      "channel.afc": {
+        "_type": "arg"
+      },
+      "channel.band": {
+        "_type": "arg"
+      },
+      "channel.deprioritize-unii-3-4": {
+        "_type": "arg"
+      },
+      "channel.frequency": {
+        "_type": "arg"
+      },
+      "channel.preamble-puncturing": {
+        "_type": "arg"
+      },
+      "channel.reselect-interval": {
+        "_type": "arg",
+        "desc": "1s..42w6d    (time interval)"
+      },
+      "channel.reselect-time": {
+        "_type": "arg"
+      },
+      "channel.secondary-frequency": {
+        "_type": "arg"
+      },
+      "channel.skip-dfs-channels": {
+        "_type": "arg"
+      },
+      "channel.width": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "country": {
+        "_type": "arg"
+      },
+      "datapath": {
+        "_type": "arg"
+      },
+      "datapath.bridge": {
+        "_type": "arg"
+      },
+      "datapath.bridge-cost": {
+        "_type": "arg"
+      },
+      "datapath.bridge-horizon": {
+        "_type": "arg"
+      },
+      "datapath.client-isolation": {
+        "_type": "arg"
+      },
+      "datapath.interface-list": {
+        "_type": "arg"
+      },
+      "datapath.openflow-switch": {
+        "_type": "arg"
+      },
+      "datapath.traffic-processing": {
+        "_type": "arg"
+      },
+      "datapath.vlan-id": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "distance": {
+        "_type": "arg"
+      },
+      "dtim-period": {
+        "_type": "arg"
+      },
+      "hide-ssid": {
+        "_type": "arg"
+      },
+      "hw-protection-mode": {
+        "_type": "arg"
+      },
+      "installation": {
+        "_type": "arg"
+      },
+      "interworking": {
+        "_type": "arg"
+      },
+      "interworking.3gpp-info": {
+        "_type": "arg",
+        "desc": "string value, min length 3, max length 3"
+      },
+      "interworking.3gpp-info-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "interworking.authentication-types": {
+        "_type": "arg"
+      },
+      "interworking.connection-capabilities": {
+        "_type": "arg"
+      },
+      "interworking.domain-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.esr": {
+        "_type": "arg"
+      },
+      "interworking.hessid": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "interworking.hotspot20": {
+        "_type": "arg"
+      },
+      "interworking.hotspot20-dgaf": {
+        "_type": "arg"
+      },
+      "interworking.internet": {
+        "_type": "arg"
+      },
+      "interworking.ipv4-availability": {
+        "_type": "arg"
+      },
+      "interworking.ipv6-availability": {
+        "_type": "arg"
+      },
+      "interworking.network-type": {
+        "_type": "arg"
+      },
+      "interworking.operational-classes": {
+        "_type": "arg"
+      },
+      "interworking.operator-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.realms": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.realms-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "interworking.roaming-ois": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.uesa": {
+        "_type": "arg"
+      },
+      "interworking.venue": {
+        "_type": "arg"
+      },
+      "interworking.venue-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.wan-at-capacity": {
+        "_type": "arg"
+      },
+      "interworking.wan-downlink": {
+        "_type": "arg"
+      },
+      "interworking.wan-downlink-load": {
+        "_type": "arg"
+      },
+      "interworking.wan-measurement-duration": {
+        "_type": "arg"
+      },
+      "interworking.wan-status": {
+        "_type": "arg"
+      },
+      "interworking.wan-symmetric": {
+        "_type": "arg"
+      },
+      "interworking.wan-uplink": {
+        "_type": "arg"
+      },
+      "interworking.wan-uplink-load": {
+        "_type": "arg"
+      },
+      "manager": {
+        "_type": "arg"
+      },
+      "max-clients": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "multicast-enhance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "qos-classifier": {
+        "_type": "arg"
+      },
+      "security": {
+        "_type": "arg"
+      },
+      "security.authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+      },
+      "security.beacon-protection": {
+        "_type": "arg"
+      },
+      "security.connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.connect-priority": {
+        "_type": "arg"
+      },
+      "security.dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,SecurityDhGroups*]"
+      },
+      "security.disable-pmkid": {
+        "_type": "arg"
+      },
+      "security.eap-accounting": {
+        "_type": "arg"
+      },
+      "security.eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "security.eap-methods": {
+        "_type": "arg"
+      },
+      "security.eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "security.eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+      },
+      "security.ft": {
+        "_type": "arg"
+      },
+      "security.ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "security.ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "security.ft-over-ds": {
+        "_type": "arg"
+      },
+      "security.ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "security.ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "security.ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "security.group-encryption": {
+        "_type": "arg"
+      },
+      "security.group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "security.management-encryption": {
+        "_type": "arg"
+      },
+      "security.management-protection": {
+        "_type": "arg"
+      },
+      "security.multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "security.owe-transition-interface": {
+        "_type": "arg"
+      },
+      "security.passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "security.sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "security.sae-pwe": {
+        "_type": "arg"
+      },
+      "security.wps": {
+        "_type": "arg"
+      },
+      "ssid": {
+        "_type": "arg",
+        "desc": "string value, max length 32"
+      },
+      "station-roaming": {
+        "_type": "arg"
+      },
+      "steering": {
+        "_type": "arg"
+      },
+      "steering.2g-probe-delay": {
+        "_type": "arg"
+      },
+      "steering.neighbor-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "steering.rrm": {
+        "_type": "arg"
+      },
+      "steering.transition-request-count": {
+        "_type": "arg"
+      },
+      "steering.transition-request-period": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "steering.transition-threshold": {
+        "_type": "arg"
+      },
+      "steering.transition-threshold-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "steering.transition-time": {
+        "_type": "arg"
+      },
+      "steering.wnm": {
+        "_type": "arg"
+      },
+      "tx-chains": {
+        "_type": "arg",
+        "desc": "0|1|2|3|4|5|6|7[,TxChains*]"
+      },
+      "tx-power": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "values": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      },
+      "values": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "config": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "aaa": {
+        "_type": "arg"
+      },
+      "aaa.called-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.calling-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.interim-update": {
+        "_type": "arg"
+      },
+      "aaa.mac-caching": {
+        "_type": "arg"
+      },
+      "aaa.nas-identifier": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.password-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.username-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "antenna-gain": {
+        "_type": "arg"
+      },
+      "beacon-interval": {
+        "_type": "arg",
+        "desc": "100ms..1s    (time interval)"
+      },
+      "chains": {
+        "_type": "arg",
+        "desc": "0|1|2|3|4|5|6|7[,Chains*]"
+      },
+      "channel": {
+        "_type": "arg"
+      },
+      "channel.afc": {
+        "_type": "arg"
+      },
+      "channel.band": {
+        "_type": "arg"
+      },
+      "channel.deprioritize-unii-3-4": {
+        "_type": "arg"
+      },
+      "channel.frequency": {
+        "_type": "arg"
+      },
+      "channel.preamble-puncturing": {
+        "_type": "arg"
+      },
+      "channel.reselect-interval": {
+        "_type": "arg",
+        "desc": "1s..42w6d    (time interval)"
+      },
+      "channel.reselect-time": {
+        "_type": "arg"
+      },
+      "channel.secondary-frequency": {
+        "_type": "arg"
+      },
+      "channel.skip-dfs-channels": {
+        "_type": "arg"
+      },
+      "channel.width": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "country": {
+        "_type": "arg"
+      },
+      "datapath": {
+        "_type": "arg"
+      },
+      "datapath.bridge": {
+        "_type": "arg"
+      },
+      "datapath.bridge-cost": {
+        "_type": "arg"
+      },
+      "datapath.bridge-horizon": {
+        "_type": "arg"
+      },
+      "datapath.client-isolation": {
+        "_type": "arg"
+      },
+      "datapath.interface-list": {
+        "_type": "arg"
+      },
+      "datapath.openflow-switch": {
+        "_type": "arg"
+      },
+      "datapath.traffic-processing": {
+        "_type": "arg"
+      },
+      "datapath.vlan-id": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "distance": {
+        "_type": "arg"
+      },
+      "dtim-period": {
+        "_type": "arg"
+      },
+      "hide-ssid": {
+        "_type": "arg"
+      },
+      "hw-protection-mode": {
+        "_type": "arg"
+      },
+      "installation": {
+        "_type": "arg"
+      },
+      "interworking": {
+        "_type": "arg"
+      },
+      "interworking.3gpp-info": {
+        "_type": "arg",
+        "desc": "string value, min length 3, max length 3"
+      },
+      "interworking.3gpp-info-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "interworking.authentication-types": {
+        "_type": "arg"
+      },
+      "interworking.connection-capabilities": {
+        "_type": "arg"
+      },
+      "interworking.domain-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.esr": {
+        "_type": "arg"
+      },
+      "interworking.hessid": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "interworking.hotspot20": {
+        "_type": "arg"
+      },
+      "interworking.hotspot20-dgaf": {
+        "_type": "arg"
+      },
+      "interworking.internet": {
+        "_type": "arg"
+      },
+      "interworking.ipv4-availability": {
+        "_type": "arg"
+      },
+      "interworking.ipv6-availability": {
+        "_type": "arg"
+      },
+      "interworking.network-type": {
+        "_type": "arg"
+      },
+      "interworking.operational-classes": {
+        "_type": "arg"
+      },
+      "interworking.operator-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.realms": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.realms-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "interworking.roaming-ois": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.uesa": {
+        "_type": "arg"
+      },
+      "interworking.venue": {
+        "_type": "arg"
+      },
+      "interworking.venue-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.wan-at-capacity": {
+        "_type": "arg"
+      },
+      "interworking.wan-downlink": {
+        "_type": "arg"
+      },
+      "interworking.wan-downlink-load": {
+        "_type": "arg"
+      },
+      "interworking.wan-measurement-duration": {
+        "_type": "arg"
+      },
+      "interworking.wan-status": {
+        "_type": "arg"
+      },
+      "interworking.wan-symmetric": {
+        "_type": "arg"
+      },
+      "interworking.wan-uplink": {
+        "_type": "arg"
+      },
+      "interworking.wan-uplink-load": {
+        "_type": "arg"
+      },
+      "manager": {
+        "_type": "arg"
+      },
+      "max-clients": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "multicast-enhance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "qos-classifier": {
+        "_type": "arg"
+      },
+      "security": {
+        "_type": "arg"
+      },
+      "security.authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+      },
+      "security.beacon-protection": {
+        "_type": "arg"
+      },
+      "security.connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.connect-priority": {
+        "_type": "arg"
+      },
+      "security.dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,SecurityDhGroups*]"
+      },
+      "security.disable-pmkid": {
+        "_type": "arg"
+      },
+      "security.eap-accounting": {
+        "_type": "arg"
+      },
+      "security.eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "security.eap-methods": {
+        "_type": "arg"
+      },
+      "security.eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "security.eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+      },
+      "security.ft": {
+        "_type": "arg"
+      },
+      "security.ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "security.ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "security.ft-over-ds": {
+        "_type": "arg"
+      },
+      "security.ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "security.ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "security.ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "security.group-encryption": {
+        "_type": "arg"
+      },
+      "security.group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "security.management-encryption": {
+        "_type": "arg"
+      },
+      "security.management-protection": {
+        "_type": "arg"
+      },
+      "security.multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "security.owe-transition-interface": {
+        "_type": "arg"
+      },
+      "security.passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "security.sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "security.sae-pwe": {
+        "_type": "arg"
+      },
+      "security.wps": {
+        "_type": "arg"
+      },
+      "ssid": {
+        "_type": "arg",
+        "desc": "string value, max length 32"
+      },
+      "station-roaming": {
+        "_type": "arg"
+      },
+      "steering": {
+        "_type": "arg"
+      },
+      "steering.2g-probe-delay": {
+        "_type": "arg"
+      },
+      "steering.neighbor-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "steering.rrm": {
+        "_type": "arg"
+      },
+      "steering.transition-request-count": {
+        "_type": "arg"
+      },
+      "steering.transition-request-period": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "steering.transition-threshold": {
+        "_type": "arg"
+      },
+      "steering.transition-threshold-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "steering.transition-time": {
+        "_type": "arg"
+      },
+      "steering.wnm": {
+        "_type": "arg"
+      },
+      "tx-chains": {
+        "_type": "arg",
+        "desc": "0|1|2|3|4|5|6|7[,TxChains*]"
+      },
+      "tx-power": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "aaa": {
+        "_type": "arg"
+      },
+      "aaa.called-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.calling-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.interim-update": {
+        "_type": "arg"
+      },
+      "aaa.mac-caching": {
+        "_type": "arg"
+      },
+      "aaa.nas-identifier": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.password-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "aaa.username-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "antenna-gain": {
+        "_type": "arg"
+      },
+      "beacon-interval": {
+        "_type": "arg",
+        "desc": "100ms..1s    (time interval)"
+      },
+      "chains": {
+        "_type": "arg",
+        "desc": "0|1|2|3|4|5|6|7[,Chains*]"
+      },
+      "channel": {
+        "_type": "arg"
+      },
+      "channel.afc": {
+        "_type": "arg"
+      },
+      "channel.band": {
+        "_type": "arg"
+      },
+      "channel.deprioritize-unii-3-4": {
+        "_type": "arg"
+      },
+      "channel.frequency": {
+        "_type": "arg"
+      },
+      "channel.preamble-puncturing": {
+        "_type": "arg"
+      },
+      "channel.reselect-interval": {
+        "_type": "arg",
+        "desc": "1s..42w6d    (time interval)"
+      },
+      "channel.reselect-time": {
+        "_type": "arg"
+      },
+      "channel.secondary-frequency": {
+        "_type": "arg"
+      },
+      "channel.skip-dfs-channels": {
+        "_type": "arg"
+      },
+      "channel.width": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "country": {
+        "_type": "arg"
+      },
+      "datapath": {
+        "_type": "arg"
+      },
+      "datapath.bridge": {
+        "_type": "arg"
+      },
+      "datapath.bridge-cost": {
+        "_type": "arg"
+      },
+      "datapath.bridge-horizon": {
+        "_type": "arg"
+      },
+      "datapath.client-isolation": {
+        "_type": "arg"
+      },
+      "datapath.interface-list": {
+        "_type": "arg"
+      },
+      "datapath.openflow-switch": {
+        "_type": "arg"
+      },
+      "datapath.traffic-processing": {
+        "_type": "arg"
+      },
+      "datapath.vlan-id": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "distance": {
+        "_type": "arg"
+      },
+      "dtim-period": {
+        "_type": "arg"
+      },
+      "hide-ssid": {
+        "_type": "arg"
+      },
+      "hw-protection-mode": {
+        "_type": "arg"
+      },
+      "installation": {
+        "_type": "arg"
+      },
+      "interworking": {
+        "_type": "arg"
+      },
+      "interworking.3gpp-info": {
+        "_type": "arg",
+        "desc": "string value, min length 3, max length 3"
+      },
+      "interworking.3gpp-info-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "interworking.authentication-types": {
+        "_type": "arg"
+      },
+      "interworking.connection-capabilities": {
+        "_type": "arg"
+      },
+      "interworking.domain-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.esr": {
+        "_type": "arg"
+      },
+      "interworking.hessid": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "interworking.hotspot20": {
+        "_type": "arg"
+      },
+      "interworking.hotspot20-dgaf": {
+        "_type": "arg"
+      },
+      "interworking.internet": {
+        "_type": "arg"
+      },
+      "interworking.ipv4-availability": {
+        "_type": "arg"
+      },
+      "interworking.ipv6-availability": {
+        "_type": "arg"
+      },
+      "interworking.network-type": {
+        "_type": "arg"
+      },
+      "interworking.operational-classes": {
+        "_type": "arg"
+      },
+      "interworking.operator-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.realms": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.realms-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "interworking.roaming-ois": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.uesa": {
+        "_type": "arg"
+      },
+      "interworking.venue": {
+        "_type": "arg"
+      },
+      "interworking.venue-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "interworking.wan-at-capacity": {
+        "_type": "arg"
+      },
+      "interworking.wan-downlink": {
+        "_type": "arg"
+      },
+      "interworking.wan-downlink-load": {
+        "_type": "arg"
+      },
+      "interworking.wan-measurement-duration": {
+        "_type": "arg"
+      },
+      "interworking.wan-status": {
+        "_type": "arg"
+      },
+      "interworking.wan-symmetric": {
+        "_type": "arg"
+      },
+      "interworking.wan-uplink": {
+        "_type": "arg"
+      },
+      "interworking.wan-uplink-load": {
+        "_type": "arg"
+      },
+      "manager": {
+        "_type": "arg"
+      },
+      "max-clients": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "multicast-enhance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "qos-classifier": {
+        "_type": "arg"
+      },
+      "security": {
+        "_type": "arg"
+      },
+      "security.authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+      },
+      "security.beacon-protection": {
+        "_type": "arg"
+      },
+      "security.connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.connect-priority": {
+        "_type": "arg"
+      },
+      "security.dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,SecurityDhGroups*]"
+      },
+      "security.disable-pmkid": {
+        "_type": "arg"
+      },
+      "security.eap-accounting": {
+        "_type": "arg"
+      },
+      "security.eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "security.eap-methods": {
+        "_type": "arg"
+      },
+      "security.eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "security.eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+      },
+      "security.ft": {
+        "_type": "arg"
+      },
+      "security.ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "security.ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "security.ft-over-ds": {
+        "_type": "arg"
+      },
+      "security.ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "security.ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "security.ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "security.group-encryption": {
+        "_type": "arg"
+      },
+      "security.group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "security.management-encryption": {
+        "_type": "arg"
+      },
+      "security.management-protection": {
+        "_type": "arg"
+      },
+      "security.multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "security.owe-transition-interface": {
+        "_type": "arg"
+      },
+      "security.passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "security.sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "security.sae-pwe": {
+        "_type": "arg"
+      },
+      "security.wps": {
+        "_type": "arg"
+      },
+      "ssid": {
+        "_type": "arg",
+        "desc": "string value, max length 32"
+      },
+      "station-roaming": {
+        "_type": "arg"
+      },
+      "steering": {
+        "_type": "arg"
+      },
+      "steering.2g-probe-delay": {
+        "_type": "arg"
+      },
+      "steering.neighbor-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "steering.rrm": {
+        "_type": "arg"
+      },
+      "steering.transition-request-count": {
+        "_type": "arg"
+      },
+      "steering.transition-request-period": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "steering.transition-threshold": {
+        "_type": "arg"
+      },
+      "steering.transition-threshold-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "steering.transition-time": {
+        "_type": "arg"
+      },
+      "steering.wnm": {
+        "_type": "arg"
+      },
+      "tx-chains": {
+        "_type": "arg",
+        "desc": "0|1|2|3|4|5|6|7[,TxChains*]"
+      },
+      "tx-power": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "datapath": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "bridge": {
+        "_type": "arg"
+      },
+      "bridge-cost": {
+        "_type": "arg"
+      },
+      "bridge-horizon": {
+        "_type": "arg"
+      },
+      "client-isolation": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface-list": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "openflow-switch": {
+        "_type": "arg"
+      },
+      "traffic-processing": {
+        "_type": "arg"
+      },
+      "vlan-id": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "bridge": {
+        "_type": "arg"
+      },
+      "bridge-cost": {
+        "_type": "arg"
+      },
+      "bridge-horizon": {
+        "_type": "arg"
+      },
+      "client-isolation": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface-list": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "openflow-switch": {
+        "_type": "arg"
+      },
+      "traffic-processing": {
+        "_type": "arg"
+      },
+      "vlan-id": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "bridge": {
+        "_type": "arg"
+      },
+      "bridge-cost": {
+        "_type": "arg"
+      },
+      "bridge-horizon": {
+        "_type": "arg"
+      },
+      "client-isolation": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface-list": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "openflow-switch": {
+        "_type": "arg"
+      },
+      "traffic-processing": {
+        "_type": "arg"
+      },
+      "vlan-id": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "devel": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "mode": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "values": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "flat-snoop": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "filter-type": {
+      "_type": "arg",
+      "desc": "frequency|bsss|stas[,FilterType*]"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "frequency-scan": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "frequency": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "rounds": {
+      "_type": "arg"
+    },
+    "save-file": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    },
+    "values": {
+      "_type": "arg"
+    }
+  },
+  "interworking": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "3gpp-info": {
+        "_type": "arg",
+        "desc": "string value, min length 3, max length 3"
+      },
+      "3gpp-info-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "authentication-types": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-capabilities": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "domain-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "esr": {
+        "_type": "arg"
+      },
+      "hessid": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "hotspot20": {
+        "_type": "arg"
+      },
+      "hotspot20-dgaf": {
+        "_type": "arg"
+      },
+      "internet": {
+        "_type": "arg"
+      },
+      "ipv4-availability": {
+        "_type": "arg"
+      },
+      "ipv6-availability": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "network-type": {
+        "_type": "arg"
+      },
+      "operational-classes": {
+        "_type": "arg"
+      },
+      "operator-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "realms": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "realms-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "roaming-ois": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "uesa": {
+        "_type": "arg"
+      },
+      "venue": {
+        "_type": "arg"
+      },
+      "venue-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "wan-at-capacity": {
+        "_type": "arg"
+      },
+      "wan-downlink": {
+        "_type": "arg"
+      },
+      "wan-downlink-load": {
+        "_type": "arg"
+      },
+      "wan-measurement-duration": {
+        "_type": "arg"
+      },
+      "wan-status": {
+        "_type": "arg"
+      },
+      "wan-symmetric": {
+        "_type": "arg"
+      },
+      "wan-uplink": {
+        "_type": "arg"
+      },
+      "wan-uplink-load": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "3gpp-info": {
+        "_type": "arg",
+        "desc": "string value, min length 3, max length 3"
+      },
+      "3gpp-info-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "authentication-types": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-capabilities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "domain-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "esr": {
+        "_type": "arg"
+      },
+      "hessid": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "hotspot20": {
+        "_type": "arg"
+      },
+      "hotspot20-dgaf": {
+        "_type": "arg"
+      },
+      "internet": {
+        "_type": "arg"
+      },
+      "ipv4-availability": {
+        "_type": "arg"
+      },
+      "ipv6-availability": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "network-type": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "operational-classes": {
+        "_type": "arg"
+      },
+      "operator-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "realms": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "realms-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "roaming-ois": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "uesa": {
+        "_type": "arg"
+      },
+      "venue": {
+        "_type": "arg"
+      },
+      "venue-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "wan-at-capacity": {
+        "_type": "arg"
+      },
+      "wan-downlink": {
+        "_type": "arg"
+      },
+      "wan-downlink-load": {
+        "_type": "arg"
+      },
+      "wan-measurement-duration": {
+        "_type": "arg"
+      },
+      "wan-status": {
+        "_type": "arg"
+      },
+      "wan-symmetric": {
+        "_type": "arg"
+      },
+      "wan-uplink": {
+        "_type": "arg"
+      },
+      "wan-uplink-load": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "3gpp-info": {
+        "_type": "arg",
+        "desc": "string value, min length 3, max length 3"
+      },
+      "3gpp-info-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "authentication-types": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connection-capabilities": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "domain-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "esr": {
+        "_type": "arg"
+      },
+      "hessid": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "hotspot20": {
+        "_type": "arg"
+      },
+      "hotspot20-dgaf": {
+        "_type": "arg"
+      },
+      "internet": {
+        "_type": "arg"
+      },
+      "ipv4-availability": {
+        "_type": "arg"
+      },
+      "ipv6-availability": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "network-type": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "operational-classes": {
+        "_type": "arg"
+      },
+      "operator-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "realms": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "realms-raw": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "roaming-ois": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "uesa": {
+        "_type": "arg"
+      },
+      "venue": {
+        "_type": "arg"
+      },
+      "venue-names": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "wan-at-capacity": {
+        "_type": "arg"
+      },
+      "wan-downlink": {
+        "_type": "arg"
+      },
+      "wan-downlink-load": {
+        "_type": "arg"
+      },
+      "wan-measurement-duration": {
+        "_type": "arg"
+      },
+      "wan-status": {
+        "_type": "arg"
+      },
+      "wan-symmetric": {
+        "_type": "arg"
+      },
+      "wan-uplink": {
+        "_type": "arg"
+      },
+      "wan-uplink-load": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "liberate": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "monitor": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "network": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "beacon-interval": {
+        "_type": "arg",
+        "desc": "100ms..1s    (time interval)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "datapath.bridge": {
+        "_type": "arg"
+      },
+      "datapath.bridge-cost": {
+        "_type": "arg"
+      },
+      "datapath.bridge-horizon": {
+        "_type": "arg"
+      },
+      "datapath.client-isolation": {
+        "_type": "arg"
+      },
+      "datapath.interface-list": {
+        "_type": "arg"
+      },
+      "datapath.openflow-switch": {
+        "_type": "arg"
+      },
+      "datapath.traffic-processing": {
+        "_type": "arg"
+      },
+      "datapath.vlan-id": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dtim-period": {
+        "_type": "arg"
+      },
+      "hide-ssid": {
+        "_type": "arg"
+      },
+      "hw-protection-mode": {
+        "_type": "arg"
+      },
+      "labels": {
+        "_type": "arg"
+      },
+      "max-clients": {
+        "_type": "arg"
+      },
+      "mlo": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "multicast-enhance": {
+        "_type": "arg"
+      },
+      "qos-classifier": {
+        "_type": "arg"
+      },
+      "security.authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+      },
+      "security.beacon-protection": {
+        "_type": "arg"
+      },
+      "security.connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.connect-priority": {
+        "_type": "arg"
+      },
+      "security.dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,SecurityDhGroups*]"
+      },
+      "security.disable-pmkid": {
+        "_type": "arg"
+      },
+      "security.eap-accounting": {
+        "_type": "arg"
+      },
+      "security.eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "security.eap-methods": {
+        "_type": "arg"
+      },
+      "security.eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "security.eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+      },
+      "security.ft": {
+        "_type": "arg"
+      },
+      "security.ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "security.ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "security.ft-over-ds": {
+        "_type": "arg"
+      },
+      "security.ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "security.ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "security.ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "security.group-encryption": {
+        "_type": "arg"
+      },
+      "security.group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "security.management-encryption": {
+        "_type": "arg"
+      },
+      "security.management-protection": {
+        "_type": "arg"
+      },
+      "security.multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "security.owe-transition-interface": {
+        "_type": "arg"
+      },
+      "security.passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "security.sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "security.sae-pwe": {
+        "_type": "arg"
+      },
+      "security.wps": {
+        "_type": "arg"
+      },
+      "ssid": {
+        "_type": "arg",
+        "desc": "string value, max length 32"
+      },
+      "station-roaming": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "radio": {
+      "_type": "dir",
+      "add": {
+        "_type": "cmd",
+        "channel.afc": {
+          "_type": "arg"
+        },
+        "channel.band": {
+          "_type": "arg"
+        },
+        "channel.deprioritize-unii-3-4": {
+          "_type": "arg"
+        },
+        "channel.frequency": {
+          "_type": "arg"
+        },
+        "channel.preamble-puncturing": {
+          "_type": "arg"
+        },
+        "channel.reselect-interval": {
+          "_type": "arg",
+          "desc": "1s..42w6d    (time interval)"
+        },
+        "channel.reselect-time": {
+          "_type": "arg"
+        },
+        "channel.secondary-frequency": {
+          "_type": "arg"
+        },
+        "channel.skip-dfs-channels": {
+          "_type": "arg"
+        },
+        "channel.width": {
+          "_type": "arg"
+        },
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "configuration.antenna-gain": {
+          "_type": "arg"
+        },
+        "configuration.chains": {
+          "_type": "arg",
+          "desc": "0|1|2|3|4|5|6|7[,ConfigurationChains*]"
+        },
+        "configuration.country": {
+          "_type": "arg"
+        },
+        "configuration.distance": {
+          "_type": "arg"
+        },
+        "configuration.installation": {
+          "_type": "arg"
+        },
+        "configuration.tx-chains": {
+          "_type": "arg",
+          "desc": "0|1|2|3|4|5|6|7[,ConfigurationTxChains*]"
+        },
+        "configuration.tx-power": {
+          "_type": "arg"
+        },
+        "copy-from": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "extra-labels": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "labels": {
+          "_type": "arg"
+        },
+        "security.authentication-types": {
+          "_type": "arg",
+          "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+        }
+      },
+      "comment": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "disable": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "edit": {
+        "_type": "cmd",
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "enable": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "export": {
+        "_type": "cmd",
+        "compact": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "hide-sensitive": {
+          "_type": "arg"
+        },
+        "path": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "verbose": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "find": {
+        "_type": "cmd",
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "append": {
+          "_type": "arg"
+        },
+        "as-value": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "count-only": {
+          "_type": "arg"
+        },
+        "detail": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "follow": {
+          "_type": "arg"
+        },
+        "follow-only": {
+          "_type": "arg"
+        },
+        "from": {
+          "_type": "arg"
+        },
+        "group-by": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "on-event": {
+          "_type": "arg",
+          "desc": "script"
+        },
+        "order-by": {
+          "_type": "arg"
+        },
+        "proplist": {
+          "_type": "arg"
+        },
+        "show-ids": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "timestamp": {
+          "_type": "arg"
+        },
+        "value-list": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "remove": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "reset": {
+        "_type": "cmd",
+        "channel.afc": {
+          "_type": "arg"
+        },
+        "channel.band": {
+          "_type": "arg"
+        },
+        "channel.deprioritize-unii-3-4": {
+          "_type": "arg"
+        },
+        "channel.frequency": {
+          "_type": "arg"
+        },
+        "channel.preamble-puncturing": {
+          "_type": "arg"
+        },
+        "channel.reselect-interval": {
+          "_type": "arg",
+          "desc": "1s..42w6d    (time interval)"
+        },
+        "channel.reselect-time": {
+          "_type": "arg"
+        },
+        "channel.secondary-frequency": {
+          "_type": "arg"
+        },
+        "channel.skip-dfs-channels": {
+          "_type": "arg"
+        },
+        "channel.width": {
+          "_type": "arg"
+        },
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "configuration.antenna-gain": {
+          "_type": "arg"
+        },
+        "configuration.chains": {
+          "_type": "arg",
+          "desc": "0|1|2|3|4|5|6|7[,ConfigurationChains*]"
+        },
+        "configuration.country": {
+          "_type": "arg"
+        },
+        "configuration.distance": {
+          "_type": "arg"
+        },
+        "configuration.installation": {
+          "_type": "arg"
+        },
+        "configuration.tx-chains": {
+          "_type": "arg",
+          "desc": "0|1|2|3|4|5|6|7[,ConfigurationTxChains*]"
+        },
+        "configuration.tx-power": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "extra-labels": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "labels": {
+          "_type": "arg"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "security.authentication-types": {
+          "_type": "arg",
+          "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "channel.afc": {
+          "_type": "arg"
+        },
+        "channel.band": {
+          "_type": "arg"
+        },
+        "channel.deprioritize-unii-3-4": {
+          "_type": "arg"
+        },
+        "channel.frequency": {
+          "_type": "arg"
+        },
+        "channel.preamble-puncturing": {
+          "_type": "arg"
+        },
+        "channel.reselect-interval": {
+          "_type": "arg",
+          "desc": "1s..42w6d    (time interval)"
+        },
+        "channel.reselect-time": {
+          "_type": "arg"
+        },
+        "channel.secondary-frequency": {
+          "_type": "arg"
+        },
+        "channel.skip-dfs-channels": {
+          "_type": "arg"
+        },
+        "channel.width": {
+          "_type": "arg"
+        },
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "configuration.antenna-gain": {
+          "_type": "arg"
+        },
+        "configuration.chains": {
+          "_type": "arg",
+          "desc": "0|1|2|3|4|5|6|7[,ConfigurationChains*]"
+        },
+        "configuration.country": {
+          "_type": "arg"
+        },
+        "configuration.distance": {
+          "_type": "arg"
+        },
+        "configuration.installation": {
+          "_type": "arg"
+        },
+        "configuration.tx-chains": {
+          "_type": "arg",
+          "desc": "0|1|2|3|4|5|6|7[,ConfigurationTxChains*]"
+        },
+        "configuration.tx-power": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "extra-labels": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "labels": {
+          "_type": "arg"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "security.authentication-types": {
+          "_type": "arg",
+          "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+        }
+      },
+      "unset": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "beacon-interval": {
+        "_type": "arg",
+        "desc": "100ms..1s    (time interval)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "datapath.bridge": {
+        "_type": "arg"
+      },
+      "datapath.bridge-cost": {
+        "_type": "arg"
+      },
+      "datapath.bridge-horizon": {
+        "_type": "arg"
+      },
+      "datapath.client-isolation": {
+        "_type": "arg"
+      },
+      "datapath.interface-list": {
+        "_type": "arg"
+      },
+      "datapath.openflow-switch": {
+        "_type": "arg"
+      },
+      "datapath.traffic-processing": {
+        "_type": "arg"
+      },
+      "datapath.vlan-id": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dtim-period": {
+        "_type": "arg"
+      },
+      "hide-ssid": {
+        "_type": "arg"
+      },
+      "hw-protection-mode": {
+        "_type": "arg"
+      },
+      "labels": {
+        "_type": "arg"
+      },
+      "max-clients": {
+        "_type": "arg"
+      },
+      "mlo": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "multicast-enhance": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "qos-classifier": {
+        "_type": "arg"
+      },
+      "security.authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+      },
+      "security.beacon-protection": {
+        "_type": "arg"
+      },
+      "security.connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.connect-priority": {
+        "_type": "arg"
+      },
+      "security.dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,SecurityDhGroups*]"
+      },
+      "security.disable-pmkid": {
+        "_type": "arg"
+      },
+      "security.eap-accounting": {
+        "_type": "arg"
+      },
+      "security.eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "security.eap-methods": {
+        "_type": "arg"
+      },
+      "security.eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "security.eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+      },
+      "security.ft": {
+        "_type": "arg"
+      },
+      "security.ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "security.ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "security.ft-over-ds": {
+        "_type": "arg"
+      },
+      "security.ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "security.ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "security.ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "security.group-encryption": {
+        "_type": "arg"
+      },
+      "security.group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "security.management-encryption": {
+        "_type": "arg"
+      },
+      "security.management-protection": {
+        "_type": "arg"
+      },
+      "security.multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "security.owe-transition-interface": {
+        "_type": "arg"
+      },
+      "security.passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "security.sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "security.sae-pwe": {
+        "_type": "arg"
+      },
+      "security.wps": {
+        "_type": "arg"
+      },
+      "ssid": {
+        "_type": "arg",
+        "desc": "string value, max length 32"
+      },
+      "station-roaming": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "beacon-interval": {
+        "_type": "arg",
+        "desc": "100ms..1s    (time interval)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "datapath.bridge": {
+        "_type": "arg"
+      },
+      "datapath.bridge-cost": {
+        "_type": "arg"
+      },
+      "datapath.bridge-horizon": {
+        "_type": "arg"
+      },
+      "datapath.client-isolation": {
+        "_type": "arg"
+      },
+      "datapath.interface-list": {
+        "_type": "arg"
+      },
+      "datapath.openflow-switch": {
+        "_type": "arg"
+      },
+      "datapath.traffic-processing": {
+        "_type": "arg"
+      },
+      "datapath.vlan-id": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dtim-period": {
+        "_type": "arg"
+      },
+      "hide-ssid": {
+        "_type": "arg"
+      },
+      "hw-protection-mode": {
+        "_type": "arg"
+      },
+      "labels": {
+        "_type": "arg"
+      },
+      "max-clients": {
+        "_type": "arg"
+      },
+      "mlo": {
+        "_type": "arg"
+      },
+      "mode": {
+        "_type": "arg"
+      },
+      "multicast-enhance": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "qos-classifier": {
+        "_type": "arg"
+      },
+      "security.authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+      },
+      "security.beacon-protection": {
+        "_type": "arg"
+      },
+      "security.connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.connect-priority": {
+        "_type": "arg"
+      },
+      "security.dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,SecurityDhGroups*]"
+      },
+      "security.disable-pmkid": {
+        "_type": "arg"
+      },
+      "security.eap-accounting": {
+        "_type": "arg"
+      },
+      "security.eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "security.eap-methods": {
+        "_type": "arg"
+      },
+      "security.eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "security.eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+      },
+      "security.ft": {
+        "_type": "arg"
+      },
+      "security.ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "security.ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "security.ft-over-ds": {
+        "_type": "arg"
+      },
+      "security.ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "security.ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "security.ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "security.group-encryption": {
+        "_type": "arg"
+      },
+      "security.group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "security.management-encryption": {
+        "_type": "arg"
+      },
+      "security.management-protection": {
+        "_type": "arg"
+      },
+      "security.multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "security.owe-transition-interface": {
+        "_type": "arg"
+      },
+      "security.passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "security.sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "security.sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "security.sae-pwe": {
+        "_type": "arg"
+      },
+      "security.wps": {
+        "_type": "arg"
+      },
+      "ssid": {
+        "_type": "arg",
+        "desc": "string value, max length 32"
+      },
+      "station-roaming": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "config": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "oid": {
+      "_type": "arg"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "provisioning": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-ranges": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "common-name-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "identity-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "master-configuration": {
+        "_type": "arg"
+      },
+      "multi-link-mode": {
+        "_type": "arg"
+      },
+      "name-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "radio-mac": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "slave-configurations": {
+        "_type": "arg"
+      },
+      "slave-name-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "supported-bands": {
+        "_type": "arg"
+      },
+      "supported-hw-caps": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-ranges": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "common-name-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "identity-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "master-configuration": {
+        "_type": "arg"
+      },
+      "multi-link-mode": {
+        "_type": "arg"
+      },
+      "name-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "radio-mac": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "slave-configurations": {
+        "_type": "arg"
+      },
+      "slave-name-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "supported-bands": {
+        "_type": "arg"
+      },
+      "supported-hw-caps": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "action": {
+        "_type": "arg"
+      },
+      "address-ranges": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "common-name-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "identity-regexp": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "master-configuration": {
+        "_type": "arg"
+      },
+      "multi-link-mode": {
+        "_type": "arg"
+      },
+      "name-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "radio-mac": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "slave-configurations": {
+        "_type": "arg"
+      },
+      "slave-name-format": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "supported-bands": {
+        "_type": "arg"
+      },
+      "supported-hw-caps": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "radio": {
+    "_type": "dir",
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "provision": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reg-info": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "country": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      }
+    },
+    "settings": {
+      "_type": "dir",
+      "edit": {
+        "_type": "cmd",
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "export": {
+        "_type": "cmd",
+        "compact": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "hide-sensitive": {
+          "_type": "arg"
+        },
+        "path": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "verbose": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "as-value": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "reset": {
+        "_type": "cmd",
+        "external-antenna": {
+          "_type": "arg"
+        },
+        "wifi-band": {
+          "_type": "arg"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "external-antenna": {
+          "_type": "arg"
+        },
+        "wifi-band": {
+          "_type": "arg"
+        }
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "registration-table": {
+    "_type": "dir",
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "oid": {
+        "_type": "arg"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "aaa": {
+      "_type": "arg"
+    },
+    "aaa.called-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.calling-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.interim-update": {
+      "_type": "arg"
+    },
+    "aaa.mac-caching": {
+      "_type": "arg"
+    },
+    "aaa.nas-identifier": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.password-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.username-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "channel": {
+      "_type": "arg"
+    },
+    "channel.afc": {
+      "_type": "arg"
+    },
+    "channel.band": {
+      "_type": "arg"
+    },
+    "channel.deprioritize-unii-3-4": {
+      "_type": "arg"
+    },
+    "channel.frequency": {
+      "_type": "arg"
+    },
+    "channel.preamble-puncturing": {
+      "_type": "arg"
+    },
+    "channel.reselect-interval": {
+      "_type": "arg",
+      "desc": "1s..42w6d    (time interval)"
+    },
+    "channel.reselect-time": {
+      "_type": "arg"
+    },
+    "channel.secondary-frequency": {
+      "_type": "arg"
+    },
+    "channel.skip-dfs-channels": {
+      "_type": "arg"
+    },
+    "channel.width": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "configuration": {
+      "_type": "arg"
+    },
+    "configuration.antenna-gain": {
+      "_type": "arg"
+    },
+    "configuration.beacon-interval": {
+      "_type": "arg",
+      "desc": "100ms..1s    (time interval)"
+    },
+    "configuration.chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3|4|5|6|7[,ConfigurationChains*]"
+    },
+    "configuration.country": {
+      "_type": "arg"
+    },
+    "configuration.distance": {
+      "_type": "arg"
+    },
+    "configuration.dtim-period": {
+      "_type": "arg"
+    },
+    "configuration.hide-ssid": {
+      "_type": "arg"
+    },
+    "configuration.hw-protection-mode": {
+      "_type": "arg"
+    },
+    "configuration.installation": {
+      "_type": "arg"
+    },
+    "configuration.manager": {
+      "_type": "arg"
+    },
+    "configuration.max-clients": {
+      "_type": "arg"
+    },
+    "configuration.mode": {
+      "_type": "arg"
+    },
+    "configuration.multicast-enhance": {
+      "_type": "arg"
+    },
+    "configuration.qos-classifier": {
+      "_type": "arg"
+    },
+    "configuration.ssid": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "configuration.station-roaming": {
+      "_type": "arg"
+    },
+    "configuration.tx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3|4|5|6|7[,ConfigurationTxChains*]"
+    },
+    "configuration.tx-power": {
+      "_type": "arg"
+    },
+    "datapath": {
+      "_type": "arg"
+    },
+    "datapath.bridge": {
+      "_type": "arg"
+    },
+    "datapath.bridge-cost": {
+      "_type": "arg"
+    },
+    "datapath.bridge-horizon": {
+      "_type": "arg"
+    },
+    "datapath.client-isolation": {
+      "_type": "arg"
+    },
+    "datapath.interface-list": {
+      "_type": "arg"
+    },
+    "datapath.openflow-switch": {
+      "_type": "arg"
+    },
+    "datapath.traffic-processing": {
+      "_type": "arg"
+    },
+    "datapath.vlan-id": {
+      "_type": "arg"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "interworking": {
+      "_type": "arg"
+    },
+    "interworking.3gpp-info": {
+      "_type": "arg",
+      "desc": "string value, min length 3, max length 3"
+    },
+    "interworking.3gpp-info-raw": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interworking.authentication-types": {
+      "_type": "arg"
+    },
+    "interworking.connection-capabilities": {
+      "_type": "arg"
+    },
+    "interworking.domain-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.esr": {
+      "_type": "arg"
+    },
+    "interworking.hessid": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "interworking.hotspot20": {
+      "_type": "arg"
+    },
+    "interworking.hotspot20-dgaf": {
+      "_type": "arg"
+    },
+    "interworking.internet": {
+      "_type": "arg"
+    },
+    "interworking.ipv4-availability": {
+      "_type": "arg"
+    },
+    "interworking.ipv6-availability": {
+      "_type": "arg"
+    },
+    "interworking.network-type": {
+      "_type": "arg"
+    },
+    "interworking.operational-classes": {
+      "_type": "arg"
+    },
+    "interworking.operator-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.realms": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.realms-raw": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interworking.roaming-ois": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.uesa": {
+      "_type": "arg"
+    },
+    "interworking.venue": {
+      "_type": "arg"
+    },
+    "interworking.venue-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.wan-at-capacity": {
+      "_type": "arg"
+    },
+    "interworking.wan-downlink": {
+      "_type": "arg"
+    },
+    "interworking.wan-downlink-load": {
+      "_type": "arg"
+    },
+    "interworking.wan-measurement-duration": {
+      "_type": "arg"
+    },
+    "interworking.wan-status": {
+      "_type": "arg"
+    },
+    "interworking.wan-symmetric": {
+      "_type": "arg"
+    },
+    "interworking.wan-uplink": {
+      "_type": "arg"
+    },
+    "interworking.wan-uplink-load": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "master-interface": {
+      "_type": "arg"
+    },
+    "mld-interface": {
+      "_type": "arg"
+    },
+    "mld-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "radio-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "security": {
+      "_type": "arg"
+    },
+    "security.authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+    },
+    "security.beacon-protection": {
+      "_type": "arg"
+    },
+    "security.connect-group": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.connect-priority": {
+      "_type": "arg"
+    },
+    "security.dh-groups": {
+      "_type": "arg",
+      "desc": "19|20|21[,SecurityDhGroups*]"
+    },
+    "security.disable-pmkid": {
+      "_type": "arg"
+    },
+    "security.eap-accounting": {
+      "_type": "arg"
+    },
+    "security.eap-anonymous-identity": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.eap-certificate-mode": {
+      "_type": "arg"
+    },
+    "security.eap-methods": {
+      "_type": "arg"
+    },
+    "security.eap-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.eap-tls-certificate": {
+      "_type": "arg"
+    },
+    "security.eap-username": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.encryption": {
+      "_type": "arg",
+      "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+    },
+    "security.ft": {
+      "_type": "arg"
+    },
+    "security.ft-mobility-domain": {
+      "_type": "arg"
+    },
+    "security.ft-nas-identifier": {
+      "_type": "arg",
+      "desc": "string value, min length 2, max length 96"
+    },
+    "security.ft-over-ds": {
+      "_type": "arg"
+    },
+    "security.ft-preserve-vlanid": {
+      "_type": "arg"
+    },
+    "security.ft-r0-key-lifetime": {
+      "_type": "arg",
+      "desc": "1s..6w3d12h15m    (time interval)"
+    },
+    "security.ft-reassociation-deadline": {
+      "_type": "arg",
+      "desc": "0s..1m10s    (time interval)"
+    },
+    "security.group-encryption": {
+      "_type": "arg"
+    },
+    "security.group-key-update": {
+      "_type": "arg",
+      "desc": "30s..7101w3d6h28m15s    (time interval)"
+    },
+    "security.management-encryption": {
+      "_type": "arg"
+    },
+    "security.management-protection": {
+      "_type": "arg"
+    },
+    "security.multi-passphrase-group": {
+      "_type": "arg"
+    },
+    "security.owe-transition-interface": {
+      "_type": "arg"
+    },
+    "security.passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.sae-anti-clogging-threshold": {
+      "_type": "arg"
+    },
+    "security.sae-max-failure-rate": {
+      "_type": "arg"
+    },
+    "security.sae-pwe": {
+      "_type": "arg"
+    },
+    "security.wps": {
+      "_type": "arg"
+    },
+    "steering": {
+      "_type": "arg"
+    },
+    "steering.2g-probe-delay": {
+      "_type": "arg"
+    },
+    "steering.neighbor-group": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "steering.rrm": {
+      "_type": "arg"
+    },
+    "steering.transition-request-count": {
+      "_type": "arg"
+    },
+    "steering.transition-request-period": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "steering.transition-threshold": {
+      "_type": "arg"
+    },
+    "steering.transition-threshold-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "steering.transition-time": {
+      "_type": "arg"
+    },
+    "steering.wnm": {
+      "_type": "arg"
+    }
+  },
+  "reset-mac-address": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "roam": {
+    "_type": "cmd",
+    "addr": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    }
+  },
+  "scan": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "frequency": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "rounds": {
+      "_type": "arg"
+    },
+    "save-file": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "security": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,AuthenticationTypes*]"
+      },
+      "beacon-protection": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect-priority": {
+        "_type": "arg"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,DhGroups*]"
+      },
+      "disable-pmkid": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "eap-accounting": {
+        "_type": "arg"
+      },
+      "eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "eap-methods": {
+        "_type": "arg"
+      },
+      "eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,Encryption*]"
+      },
+      "ft": {
+        "_type": "arg"
+      },
+      "ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "ft-over-ds": {
+        "_type": "arg"
+      },
+      "ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "group-encryption": {
+        "_type": "arg"
+      },
+      "group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "management-encryption": {
+        "_type": "arg"
+      },
+      "management-protection": {
+        "_type": "arg"
+      },
+      "multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "owe-transition-interface": {
+        "_type": "arg"
+      },
+      "passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "sae-pwe": {
+        "_type": "arg"
+      },
+      "wps": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "multi-passphrase": {
+      "_type": "dir",
+      "add": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "copy-from": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "expires": {
+          "_type": "arg"
+        },
+        "group": {
+          "_type": "arg",
+          "desc": "string value, min length 1"
+        },
+        "isolation": {
+          "_type": "arg"
+        },
+        "passphrase": {
+          "_type": "arg",
+          "desc": "string value, min length 8, max length 64"
+        },
+        "vlan-id": {
+          "_type": "arg"
+        }
+      },
+      "comment": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "disable": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "edit": {
+        "_type": "cmd",
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "enable": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "export": {
+        "_type": "cmd",
+        "compact": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "hide-sensitive": {
+          "_type": "arg"
+        },
+        "path": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "verbose": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "find": {
+        "_type": "cmd",
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "append": {
+          "_type": "arg"
+        },
+        "as-value": {
+          "_type": "arg"
+        },
+        "brief": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "count-only": {
+          "_type": "arg"
+        },
+        "detail": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "follow": {
+          "_type": "arg"
+        },
+        "follow-only": {
+          "_type": "arg"
+        },
+        "from": {
+          "_type": "arg"
+        },
+        "group-by": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "on-event": {
+          "_type": "arg",
+          "desc": "script"
+        },
+        "order-by": {
+          "_type": "arg"
+        },
+        "proplist": {
+          "_type": "arg"
+        },
+        "show-ids": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "timestamp": {
+          "_type": "arg"
+        },
+        "value-list": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "remove": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "reset": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "expires": {
+          "_type": "arg"
+        },
+        "group": {
+          "_type": "arg",
+          "desc": "string value, min length 1"
+        },
+        "isolation": {
+          "_type": "arg"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "passphrase": {
+          "_type": "arg",
+          "desc": "string value, min length 8, max length 64"
+        },
+        "vlan-id": {
+          "_type": "arg"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "expires": {
+          "_type": "arg"
+        },
+        "group": {
+          "_type": "arg",
+          "desc": "string value, min length 1"
+        },
+        "isolation": {
+          "_type": "arg"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "passphrase": {
+          "_type": "arg",
+          "desc": "string value, min length 8, max length 64"
+        },
+        "vlan-id": {
+          "_type": "arg"
+        }
+      },
+      "unset": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,AuthenticationTypes*]"
+      },
+      "beacon-protection": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect-priority": {
+        "_type": "arg"
+      },
+      "dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,DhGroups*]"
+      },
+      "disable-pmkid": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "eap-accounting": {
+        "_type": "arg"
+      },
+      "eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "eap-methods": {
+        "_type": "arg"
+      },
+      "eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,Encryption*]"
+      },
+      "ft": {
+        "_type": "arg"
+      },
+      "ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "ft-over-ds": {
+        "_type": "arg"
+      },
+      "ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "group-encryption": {
+        "_type": "arg"
+      },
+      "group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "management-encryption": {
+        "_type": "arg"
+      },
+      "management-protection": {
+        "_type": "arg"
+      },
+      "multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "owe-transition-interface": {
+        "_type": "arg"
+      },
+      "passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "sae-pwe": {
+        "_type": "arg"
+      },
+      "wps": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "authentication-types": {
+        "_type": "arg",
+        "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,AuthenticationTypes*]"
+      },
+      "beacon-protection": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "connect-priority": {
+        "_type": "arg"
+      },
+      "dh-groups": {
+        "_type": "arg",
+        "desc": "19|20|21[,DhGroups*]"
+      },
+      "disable-pmkid": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "eap-accounting": {
+        "_type": "arg"
+      },
+      "eap-anonymous-identity": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "eap-certificate-mode": {
+        "_type": "arg"
+      },
+      "eap-methods": {
+        "_type": "arg"
+      },
+      "eap-password": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "eap-tls-certificate": {
+        "_type": "arg"
+      },
+      "eap-username": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "encryption": {
+        "_type": "arg",
+        "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,Encryption*]"
+      },
+      "ft": {
+        "_type": "arg"
+      },
+      "ft-mobility-domain": {
+        "_type": "arg"
+      },
+      "ft-nas-identifier": {
+        "_type": "arg",
+        "desc": "string value, min length 2, max length 96"
+      },
+      "ft-over-ds": {
+        "_type": "arg"
+      },
+      "ft-preserve-vlanid": {
+        "_type": "arg"
+      },
+      "ft-r0-key-lifetime": {
+        "_type": "arg",
+        "desc": "1s..6w3d12h15m    (time interval)"
+      },
+      "ft-reassociation-deadline": {
+        "_type": "arg",
+        "desc": "0s..1m10s    (time interval)"
+      },
+      "group-encryption": {
+        "_type": "arg"
+      },
+      "group-key-update": {
+        "_type": "arg",
+        "desc": "30s..7101w3d6h28m15s    (time interval)"
+      },
+      "management-encryption": {
+        "_type": "arg"
+      },
+      "management-protection": {
+        "_type": "arg"
+      },
+      "multi-passphrase-group": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "owe-transition-interface": {
+        "_type": "arg"
+      },
+      "passphrase": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "sae-anti-clogging-threshold": {
+        "_type": "arg"
+      },
+      "sae-max-failure-rate": {
+        "_type": "arg"
+      },
+      "sae-pwe": {
+        "_type": "arg"
+      },
+      "wps": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "aaa": {
+      "_type": "arg"
+    },
+    "aaa.called-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.calling-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.interim-update": {
+      "_type": "arg"
+    },
+    "aaa.mac-caching": {
+      "_type": "arg"
+    },
+    "aaa.nas-identifier": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.password-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "aaa.username-format": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "channel": {
+      "_type": "arg"
+    },
+    "channel.afc": {
+      "_type": "arg"
+    },
+    "channel.band": {
+      "_type": "arg"
+    },
+    "channel.deprioritize-unii-3-4": {
+      "_type": "arg"
+    },
+    "channel.frequency": {
+      "_type": "arg"
+    },
+    "channel.preamble-puncturing": {
+      "_type": "arg"
+    },
+    "channel.reselect-interval": {
+      "_type": "arg",
+      "desc": "1s..42w6d    (time interval)"
+    },
+    "channel.reselect-time": {
+      "_type": "arg"
+    },
+    "channel.secondary-frequency": {
+      "_type": "arg"
+    },
+    "channel.skip-dfs-channels": {
+      "_type": "arg"
+    },
+    "channel.width": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "configuration": {
+      "_type": "arg"
+    },
+    "configuration.antenna-gain": {
+      "_type": "arg"
+    },
+    "configuration.beacon-interval": {
+      "_type": "arg",
+      "desc": "100ms..1s    (time interval)"
+    },
+    "configuration.chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3|4|5|6|7[,ConfigurationChains*]"
+    },
+    "configuration.country": {
+      "_type": "arg"
+    },
+    "configuration.distance": {
+      "_type": "arg"
+    },
+    "configuration.dtim-period": {
+      "_type": "arg"
+    },
+    "configuration.hide-ssid": {
+      "_type": "arg"
+    },
+    "configuration.hw-protection-mode": {
+      "_type": "arg"
+    },
+    "configuration.installation": {
+      "_type": "arg"
+    },
+    "configuration.manager": {
+      "_type": "arg"
+    },
+    "configuration.max-clients": {
+      "_type": "arg"
+    },
+    "configuration.mode": {
+      "_type": "arg"
+    },
+    "configuration.multicast-enhance": {
+      "_type": "arg"
+    },
+    "configuration.qos-classifier": {
+      "_type": "arg"
+    },
+    "configuration.ssid": {
+      "_type": "arg",
+      "desc": "string value, max length 32"
+    },
+    "configuration.station-roaming": {
+      "_type": "arg"
+    },
+    "configuration.tx-chains": {
+      "_type": "arg",
+      "desc": "0|1|2|3|4|5|6|7[,ConfigurationTxChains*]"
+    },
+    "configuration.tx-power": {
+      "_type": "arg"
+    },
+    "datapath": {
+      "_type": "arg"
+    },
+    "datapath.bridge": {
+      "_type": "arg"
+    },
+    "datapath.bridge-cost": {
+      "_type": "arg"
+    },
+    "datapath.bridge-horizon": {
+      "_type": "arg"
+    },
+    "datapath.client-isolation": {
+      "_type": "arg"
+    },
+    "datapath.interface-list": {
+      "_type": "arg"
+    },
+    "datapath.openflow-switch": {
+      "_type": "arg"
+    },
+    "datapath.traffic-processing": {
+      "_type": "arg"
+    },
+    "datapath.vlan-id": {
+      "_type": "arg"
+    },
+    "disable-running-check": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "interworking": {
+      "_type": "arg"
+    },
+    "interworking.3gpp-info": {
+      "_type": "arg",
+      "desc": "string value, min length 3, max length 3"
+    },
+    "interworking.3gpp-info-raw": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interworking.authentication-types": {
+      "_type": "arg"
+    },
+    "interworking.connection-capabilities": {
+      "_type": "arg"
+    },
+    "interworking.domain-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.esr": {
+      "_type": "arg"
+    },
+    "interworking.hessid": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "interworking.hotspot20": {
+      "_type": "arg"
+    },
+    "interworking.hotspot20-dgaf": {
+      "_type": "arg"
+    },
+    "interworking.internet": {
+      "_type": "arg"
+    },
+    "interworking.ipv4-availability": {
+      "_type": "arg"
+    },
+    "interworking.ipv6-availability": {
+      "_type": "arg"
+    },
+    "interworking.network-type": {
+      "_type": "arg"
+    },
+    "interworking.operational-classes": {
+      "_type": "arg"
+    },
+    "interworking.operator-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.realms": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.realms-raw": {
+      "_type": "arg",
+      "desc": "hexadecimal string value"
+    },
+    "interworking.roaming-ois": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.uesa": {
+      "_type": "arg"
+    },
+    "interworking.venue": {
+      "_type": "arg"
+    },
+    "interworking.venue-names": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "interworking.wan-at-capacity": {
+      "_type": "arg"
+    },
+    "interworking.wan-downlink": {
+      "_type": "arg"
+    },
+    "interworking.wan-downlink-load": {
+      "_type": "arg"
+    },
+    "interworking.wan-measurement-duration": {
+      "_type": "arg"
+    },
+    "interworking.wan-status": {
+      "_type": "arg"
+    },
+    "interworking.wan-symmetric": {
+      "_type": "arg"
+    },
+    "interworking.wan-uplink": {
+      "_type": "arg"
+    },
+    "interworking.wan-uplink-load": {
+      "_type": "arg"
+    },
+    "l2mtu": {
+      "_type": "arg"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "master-interface": {
+      "_type": "arg"
+    },
+    "mld-interface": {
+      "_type": "arg"
+    },
+    "mld-name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "radio-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "security": {
+      "_type": "arg"
+    },
+    "security.authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa2-psk-sha2|wpa-eap|wpa2-eap|wpa3-psk|owe|wpa3-eap|wpa3-eap-192[,SecurityAuthenticationTypes*]"
+    },
+    "security.beacon-protection": {
+      "_type": "arg"
+    },
+    "security.connect-group": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.connect-priority": {
+      "_type": "arg"
+    },
+    "security.dh-groups": {
+      "_type": "arg",
+      "desc": "19|20|21[,SecurityDhGroups*]"
+    },
+    "security.disable-pmkid": {
+      "_type": "arg"
+    },
+    "security.eap-accounting": {
+      "_type": "arg"
+    },
+    "security.eap-anonymous-identity": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.eap-certificate-mode": {
+      "_type": "arg"
+    },
+    "security.eap-methods": {
+      "_type": "arg"
+    },
+    "security.eap-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.eap-tls-certificate": {
+      "_type": "arg"
+    },
+    "security.eap-username": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.encryption": {
+      "_type": "arg",
+      "desc": "tkip|ccmp|gcmp|ccmp-256|gcmp-256[,SecurityEncryption*]"
+    },
+    "security.ft": {
+      "_type": "arg"
+    },
+    "security.ft-mobility-domain": {
+      "_type": "arg"
+    },
+    "security.ft-nas-identifier": {
+      "_type": "arg",
+      "desc": "string value, min length 2, max length 96"
+    },
+    "security.ft-over-ds": {
+      "_type": "arg"
+    },
+    "security.ft-preserve-vlanid": {
+      "_type": "arg"
+    },
+    "security.ft-r0-key-lifetime": {
+      "_type": "arg",
+      "desc": "1s..6w3d12h15m    (time interval)"
+    },
+    "security.ft-reassociation-deadline": {
+      "_type": "arg",
+      "desc": "0s..1m10s    (time interval)"
+    },
+    "security.group-encryption": {
+      "_type": "arg"
+    },
+    "security.group-key-update": {
+      "_type": "arg",
+      "desc": "30s..7101w3d6h28m15s    (time interval)"
+    },
+    "security.management-encryption": {
+      "_type": "arg"
+    },
+    "security.management-protection": {
+      "_type": "arg"
+    },
+    "security.multi-passphrase-group": {
+      "_type": "arg"
+    },
+    "security.owe-transition-interface": {
+      "_type": "arg"
+    },
+    "security.passphrase": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "security.sae-anti-clogging-threshold": {
+      "_type": "arg"
+    },
+    "security.sae-max-failure-rate": {
+      "_type": "arg"
+    },
+    "security.sae-pwe": {
+      "_type": "arg"
+    },
+    "security.wps": {
+      "_type": "arg"
+    },
+    "steering": {
+      "_type": "arg"
+    },
+    "steering.2g-probe-delay": {
+      "_type": "arg"
+    },
+    "steering.neighbor-group": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "steering.rrm": {
+      "_type": "arg"
+    },
+    "steering.transition-request-count": {
+      "_type": "arg"
+    },
+    "steering.transition-request-period": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "steering.transition-threshold": {
+      "_type": "arg"
+    },
+    "steering.transition-threshold-time": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "steering.transition-time": {
+      "_type": "arg"
+    },
+    "steering.wnm": {
+      "_type": "arg"
+    }
+  },
+  "sniffer": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "filter": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "pcap-file": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "pcap-size-limit": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-frame": {
+      "_type": "arg"
+    },
+    "stream-address": {
+      "_type": "arg"
+    },
+    "stream-rate": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "spectral-history": {
+    "_type": "cmd",
+    "data": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "range": {
+      "_type": "arg"
+    },
+    "resolution": {
+      "_type": "arg"
+    },
+    "show-interference": {
+      "_type": "arg"
+    }
+  },
+  "spectral-scan": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "data": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "peak-hold-duration": {
+      "_type": "arg"
+    },
+    "peak-mode": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "range": {
+      "_type": "arg"
+    },
+    "resolution": {
+      "_type": "arg"
+    },
+    "show-interference": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "steering": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "2g-probe-delay": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "neighbor-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "rrm": {
+        "_type": "arg"
+      },
+      "transition-request-count": {
+        "_type": "arg"
+      },
+      "transition-request-period": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "transition-threshold": {
+        "_type": "arg"
+      },
+      "transition-threshold-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "transition-time": {
+        "_type": "arg"
+      },
+      "wnm": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "neighbor-group": {
+      "_type": "dir",
+      "comment": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "edit": {
+        "_type": "cmd",
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "find": {
+        "_type": "cmd",
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "append": {
+          "_type": "arg"
+        },
+        "as-value": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "count-only": {
+          "_type": "arg"
+        },
+        "detail": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "follow": {
+          "_type": "arg"
+        },
+        "follow-only": {
+          "_type": "arg"
+        },
+        "from": {
+          "_type": "arg"
+        },
+        "group-by": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "on-event": {
+          "_type": "arg",
+          "desc": "script"
+        },
+        "order-by": {
+          "_type": "arg"
+        },
+        "proplist": {
+          "_type": "arg"
+        },
+        "show-ids": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "timestamp": {
+          "_type": "arg"
+        },
+        "value-list": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "reset": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "2g-probe-delay": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "neighbor-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "rrm": {
+        "_type": "arg"
+      },
+      "transition-request-count": {
+        "_type": "arg"
+      },
+      "transition-request-period": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "transition-threshold": {
+        "_type": "arg"
+      },
+      "transition-threshold-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "transition-time": {
+        "_type": "arg"
+      },
+      "wnm": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "2g-probe-delay": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "neighbor-group": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "rrm": {
+        "_type": "arg"
+      },
+      "transition-request-count": {
+        "_type": "arg"
+      },
+      "transition-request-period": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "transition-threshold": {
+        "_type": "arg"
+      },
+      "transition-threshold-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "transition-time": {
+        "_type": "arg"
+      },
+      "wnm": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "wps-client": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "create-profile": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "dpp-uri": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "mac-address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "ssid": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "wps-push-button": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  }
+}

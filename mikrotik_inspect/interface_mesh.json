@@ -1,0 +1,731 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "admin-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "auto-mac": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "hwmp-default-hoplimit": {
+      "_type": "arg"
+    },
+    "hwmp-prep-lifetime": {
+      "_type": "arg",
+      "desc": "0s..1h    (time interval)"
+    },
+    "hwmp-preq-destination-only": {
+      "_type": "arg"
+    },
+    "hwmp-preq-reply-and-forward": {
+      "_type": "arg"
+    },
+    "hwmp-preq-retries": {
+      "_type": "arg"
+    },
+    "hwmp-preq-waiting-time": {
+      "_type": "arg",
+      "desc": "1s..30s    (time interval)"
+    },
+    "hwmp-rann-interval": {
+      "_type": "arg",
+      "desc": "0s..30m    (time interval)"
+    },
+    "hwmp-rann-lifetime": {
+      "_type": "arg",
+      "desc": "0s..1h    (time interval)"
+    },
+    "hwmp-rann-propagation-delay": {
+      "_type": "arg"
+    },
+    "mesh-portal": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "reoptimize-paths": {
+      "_type": "arg"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "fdb": {
+    "_type": "dir",
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "port": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..1m    (time interval)"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "mesh": {
+        "_type": "arg"
+      },
+      "path-cost": {
+        "_type": "arg"
+      },
+      "port-type": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "stats": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..1m    (time interval)"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "mesh": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "path-cost": {
+        "_type": "arg"
+      },
+      "port-type": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..1m    (time interval)"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "mesh": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "path-cost": {
+        "_type": "arg"
+      },
+      "port-type": {
+        "_type": "arg"
+      }
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "admin-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "auto-mac": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "hwmp-default-hoplimit": {
+      "_type": "arg"
+    },
+    "hwmp-prep-lifetime": {
+      "_type": "arg",
+      "desc": "0s..1h    (time interval)"
+    },
+    "hwmp-preq-destination-only": {
+      "_type": "arg"
+    },
+    "hwmp-preq-reply-and-forward": {
+      "_type": "arg"
+    },
+    "hwmp-preq-retries": {
+      "_type": "arg"
+    },
+    "hwmp-preq-waiting-time": {
+      "_type": "arg",
+      "desc": "1s..30s    (time interval)"
+    },
+    "hwmp-rann-interval": {
+      "_type": "arg",
+      "desc": "0s..30m    (time interval)"
+    },
+    "hwmp-rann-lifetime": {
+      "_type": "arg",
+      "desc": "0s..1h    (time interval)"
+    },
+    "hwmp-rann-propagation-delay": {
+      "_type": "arg"
+    },
+    "mesh-portal": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "reoptimize-paths": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "admin-mac": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "arp": {
+      "_type": "arg"
+    },
+    "arp-timeout": {
+      "_type": "arg"
+    },
+    "auto-mac": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "hwmp-default-hoplimit": {
+      "_type": "arg"
+    },
+    "hwmp-prep-lifetime": {
+      "_type": "arg",
+      "desc": "0s..1h    (time interval)"
+    },
+    "hwmp-preq-destination-only": {
+      "_type": "arg"
+    },
+    "hwmp-preq-reply-and-forward": {
+      "_type": "arg"
+    },
+    "hwmp-preq-retries": {
+      "_type": "arg"
+    },
+    "hwmp-preq-waiting-time": {
+      "_type": "arg",
+      "desc": "1s..30s    (time interval)"
+    },
+    "hwmp-rann-interval": {
+      "_type": "arg",
+      "desc": "0s..30m    (time interval)"
+    },
+    "hwmp-rann-lifetime": {
+      "_type": "arg",
+      "desc": "0s..1h    (time interval)"
+    },
+    "hwmp-rann-propagation-delay": {
+      "_type": "arg"
+    },
+    "mesh-portal": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "reoptimize-paths": {
+      "_type": "arg"
+    }
+  },
+  "traceroute": {
+    "_type": "cmd",
+    "address": {
+      "_type": "arg",
+      "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "hoplimit": {
+      "_type": "arg"
+    },
+    "mesh": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  }
+}

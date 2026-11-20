@@ -15,6 +15,7 @@ plan.go / types.go          # Plan, Build, Sentence, Query
 rosrun/                     # adapter ke goros/v4 (satu-satunya import engine)
 mikhmon/                    # overlay khusus Mikhmon: subset + workflow + script
 cmd/example/                # jalankan satu view dari CLI
+cmd/multicheck/             # uji status/stream/poll di banyak router sekaligus
 cmd/rosverify/              # verifikasi/discovery via /console/inspect
 cmd/mikhmon-live/           # uji profile/voucher/sales/expire ke router
 goros/                      # module github.com/quiqxiq/goros/v4 (fork engine)
@@ -41,18 +42,45 @@ Untuk pemakaian aplikasi (dua koneksi + reconnect), pakai `rosrun.Open`:
 ```go
 sess, err := rosrun.Open(ctx, rosrun.Config{
     Address: "192.168.88.1:8728", Username: "admin", Password: "secret",
-    Stream: true, PollEvery: time.Second,
+    Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second,
 })
 if err != nil { log.Fatal(err) }
 defer sess.Close()
 
 events, err := sess.Watch(ctx, req) // lanjut otomatis setelah reconnect
+st := sess.Status()                 // connected / warning / error, dari native /ping
+_ = st
 ```
+
+Banyak router:
+
+```go
+mgr, err := rosrun.OpenAll(ctx, []rosrun.Config{
+    {ID: "r1", Address: "192.168.88.1:8728", Username: "admin", Password: "secret",
+        Stream: true, StreamEvery: time.Second, PollEvery: 5 * time.Second},
+    {ID: "r2", Address: "192.168.88.2:8728", Username: "admin", Password: "secret",
+        Stream: false, PollEvery: 5 * time.Second},
+})
+if err != nil { log.Printf("partial: %v", err) }
+defer mgr.Close()
+
+res, _ := ros.Lookup("interface")
+events, _ := mgr.WatchAutoAll(ctx, res, "live", ros.AnyVersion, ros.Plan{}, ros.Params{})
+for ev := range events { fmt.Println(ev.RouterID, ev.Kind) }
+for _, st := range mgr.Statuses() { fmt.Println(st.ID, st.State) }
+```
+
+Batas proyek: `interval` **1s..5s** (print stats, ping, command native) dan
+`PollEvery` **5s..30s**. View counter mengirim `print [stats] interval=N`
+dalam satu sentence, mis. `/interface/print =interval=1s =stats=`.
 
 Uji cepat ke router:
 
 ```bash
 go run ./cmd/roscheck -addr 192.168.88.1:8728 -user admin -pass secret
+go run ./cmd/multicheck -router 192.168.122.60:8728 \
+  -router 192.168.122.26:8728 -router 192.168.122.189:8728 \
+  -user admin -pass secret -duration 20s
 ```
 
 Verifikasi katalog ke router sungguhan (RouterOS 7+):
@@ -70,6 +98,10 @@ Uji `listen` nyata (membuat lalu menghapus entri address-list sementara):
 ```bash
 ROUTEROS_LIVE_ADDR=192.168.88.1:8728 ROUTEROS_LIVE_USER=admin \
 ROUTEROS_LIVE_PASS=secret go test ./rosrun -run TestLiveListenRemoval -v
+
+ROUTEROS_LIVE_ADDRS=192.168.122.60:8728,192.168.122.26:8728,192.168.122.189:8728 \
+ROUTEROS_LIVE_USER=admin ROUTEROS_LIVE_PASS=secret \
+go test ./rosrun -run TestLiveMultiRouter -v
 ```
 
 `rosverify` memakai `goros.Inspect` (`/console/inspect`) untuk memeriksa path,

@@ -1,0 +1,680 @@
+{
+  "_type": "dir",
+  "edit": {
+    "_type": "cmd",
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "ipfix": {
+    "_type": "dir",
+    "edit": {
+      "_type": "cmd",
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "bytes": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-mask": {
+        "_type": "arg"
+      },
+      "dst-mac-address": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "first-forwarded": {
+        "_type": "arg"
+      },
+      "gateway": {
+        "_type": "arg"
+      },
+      "icmp-code": {
+        "_type": "arg"
+      },
+      "icmp-type": {
+        "_type": "arg"
+      },
+      "igmp-type": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "ip-header-length": {
+        "_type": "arg"
+      },
+      "ip-total-length": {
+        "_type": "arg"
+      },
+      "ipv6-flow-label": {
+        "_type": "arg"
+      },
+      "is-multicast": {
+        "_type": "arg"
+      },
+      "last-forwarded": {
+        "_type": "arg"
+      },
+      "nat-dst-address": {
+        "_type": "arg"
+      },
+      "nat-dst-port": {
+        "_type": "arg"
+      },
+      "nat-events": {
+        "_type": "arg"
+      },
+      "nat-src-address": {
+        "_type": "arg"
+      },
+      "nat-src-port": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "packets": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-mask": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "sys-init-time": {
+        "_type": "arg"
+      },
+      "tcp-ack-num": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-seq-num": {
+        "_type": "arg"
+      },
+      "tcp-window-size": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      },
+      "udp-length": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "bytes": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "dst-address-mask": {
+        "_type": "arg"
+      },
+      "dst-mac-address": {
+        "_type": "arg"
+      },
+      "dst-port": {
+        "_type": "arg"
+      },
+      "first-forwarded": {
+        "_type": "arg"
+      },
+      "gateway": {
+        "_type": "arg"
+      },
+      "icmp-code": {
+        "_type": "arg"
+      },
+      "icmp-type": {
+        "_type": "arg"
+      },
+      "igmp-type": {
+        "_type": "arg"
+      },
+      "in-interface": {
+        "_type": "arg"
+      },
+      "ip-header-length": {
+        "_type": "arg"
+      },
+      "ip-total-length": {
+        "_type": "arg"
+      },
+      "ipv6-flow-label": {
+        "_type": "arg"
+      },
+      "is-multicast": {
+        "_type": "arg"
+      },
+      "last-forwarded": {
+        "_type": "arg"
+      },
+      "nat-dst-address": {
+        "_type": "arg"
+      },
+      "nat-dst-port": {
+        "_type": "arg"
+      },
+      "nat-events": {
+        "_type": "arg"
+      },
+      "nat-src-address": {
+        "_type": "arg"
+      },
+      "nat-src-port": {
+        "_type": "arg"
+      },
+      "out-interface": {
+        "_type": "arg"
+      },
+      "packets": {
+        "_type": "arg"
+      },
+      "protocol": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "src-address-mask": {
+        "_type": "arg"
+      },
+      "src-mac-address": {
+        "_type": "arg"
+      },
+      "src-port": {
+        "_type": "arg"
+      },
+      "sys-init-time": {
+        "_type": "arg"
+      },
+      "tcp-ack-num": {
+        "_type": "arg"
+      },
+      "tcp-flags": {
+        "_type": "arg"
+      },
+      "tcp-seq-num": {
+        "_type": "arg"
+      },
+      "tcp-window-size": {
+        "_type": "arg"
+      },
+      "tos": {
+        "_type": "arg"
+      },
+      "ttl": {
+        "_type": "arg"
+      },
+      "udp-length": {
+        "_type": "arg"
+      }
+    }
+  },
+  "monitor": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "duration": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "freeze-frame-interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:30    (time interval)"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.020..00:00:05    (time interval)"
+    },
+    "once": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "active-flow-timeout": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "cache-entries": {
+      "_type": "arg"
+    },
+    "enabled": {
+      "_type": "arg"
+    },
+    "inactive-flow-timeout": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "interfaces": {
+      "_type": "arg"
+    },
+    "packet-sampling": {
+      "_type": "arg"
+    },
+    "sampling-interval": {
+      "_type": "arg"
+    },
+    "sampling-space": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "active-flow-timeout": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "cache-entries": {
+      "_type": "arg"
+    },
+    "enabled": {
+      "_type": "arg"
+    },
+    "inactive-flow-timeout": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "interfaces": {
+      "_type": "arg"
+    },
+    "packet-sampling": {
+      "_type": "arg"
+    },
+    "sampling-interval": {
+      "_type": "arg"
+    },
+    "sampling-space": {
+      "_type": "arg"
+    }
+  },
+  "target": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "v9-template-refresh": {
+        "_type": "arg"
+      },
+      "v9-template-timeout": {
+        "_type": "arg",
+        "desc": "1s..7101w3d6h28m15s    (time interval)"
+      },
+      "version": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "disabled": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "v9-template-refresh": {
+        "_type": "arg"
+      },
+      "v9-template-timeout": {
+        "_type": "arg",
+        "desc": "1s..7101w3d6h28m15s    (time interval)"
+      },
+      "version": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "disabled": {
+        "_type": "arg"
+      },
+      "dst-address": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "port": {
+        "_type": "arg"
+      },
+      "src-address": {
+        "_type": "arg"
+      },
+      "v9-template-refresh": {
+        "_type": "arg"
+      },
+      "v9-template-timeout": {
+        "_type": "arg",
+        "desc": "1s..7101w3d6h28m15s    (time interval)"
+      },
+      "version": {
+        "_type": "arg"
+      }
+    }
+  }
+}

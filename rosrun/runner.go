@@ -22,8 +22,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"reflect"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -588,7 +590,8 @@ func (r *Runner) cancel(l *routeros.ListenReply) {
 	done := make(chan struct{})
 	go func() {
 		defer close(done)
-		if _, err := l.Cancel(); err != nil {
+		if _, err := l.Cancel(); err != nil && !errors.Is(err, io.EOF) &&
+			!strings.Contains(err.Error(), "loop has ended") {
 			r.logf("rosrun: cancel gagal: %v", err)
 		}
 	}()

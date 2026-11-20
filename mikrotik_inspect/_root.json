@@ -1,0 +1,578 @@
+{
+  "beep": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "frequency": {
+      "_type": "arg"
+    },
+    "length": {
+      "_type": "arg",
+      "desc": "time interval"
+    }
+  },
+  "break": {
+    "_type": "cmd"
+  },
+  "continue": {
+    "_type": "cmd"
+  },
+  "convert": {
+    "_type": "cmd",
+    "from": {
+      "_type": "arg"
+    },
+    "from-scheme": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "to": {
+      "_type": "arg"
+    },
+    "to-scheme": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "transform": {
+      "_type": "arg"
+    },
+    "transform-scheme": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "delay": {
+    "_type": "cmd",
+    "delay-time": {
+      "_type": "arg",
+      "desc": "0s..7w17h2m47s    (time interval)"
+    }
+  },
+  "deserialize": {
+    "_type": "cmd",
+    "delimiter": {
+      "_type": "arg",
+      "desc": "string value, min length 1, max length 3"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "options": {
+      "_type": "arg"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "do": {
+    "_type": "cmd",
+    "command": {
+      "_type": "arg"
+    },
+    "if": {
+      "_type": "arg"
+    },
+    "on-error": {
+      "_type": "arg"
+    },
+    "while": {
+      "_type": "arg"
+    }
+  },
+  "error": {
+    "_type": "cmd",
+    "message": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "execute": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "script": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "exit": {
+    "_type": "cmd"
+  },
+  "find": {
+    "_type": "cmd",
+    "from": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "in": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "key": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "for": {
+    "_type": "cmd",
+    "counter": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "on-error": {
+      "_type": "arg"
+    },
+    "step": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "to": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "foreach": {
+    "_type": "cmd",
+    "counter": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "in": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "on-error": {
+      "_type": "arg"
+    }
+  },
+  "global": {
+    "_type": "cmd",
+    "do": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "grep": {
+    "_type": "cmd",
+    "after": {
+      "_type": "arg"
+    },
+    "as-array": {
+      "_type": "arg"
+    },
+    "before": {
+      "_type": "arg"
+    },
+    "filename": {
+      "_type": "arg"
+    },
+    "pattern": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "script": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "if": {
+    "_type": "cmd",
+    "condition": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    },
+    "else": {
+      "_type": "arg"
+    }
+  },
+  "import": {
+    "_type": "cmd",
+    "dry-run": {
+      "_type": "arg"
+    },
+    "file-name": {
+      "_type": "arg"
+    },
+    "from-line": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    }
+  },
+  "jobname": {
+    "_type": "cmd"
+  },
+  "len": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "local": {
+    "_type": "cmd",
+    "do": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "lock": {
+    "_type": "cmd",
+    "delay": {
+      "_type": "arg",
+      "desc": "time interval"
+    }
+  },
+  "nothing": {
+    "_type": "cmd"
+  },
+  "onerror": {
+    "_type": "cmd",
+    "do": {
+      "_type": "arg"
+    },
+    "error": {
+      "_type": "arg"
+    },
+    "in": {
+      "_type": "arg",
+      "desc": "script"
+    }
+  },
+  "parse": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "password": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "confirm-new-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "new-password": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "old-password": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "pick": {
+    "_type": "cmd",
+    "begin": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "counter": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "end": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "put": {
+    "_type": "cmd",
+    "message": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "quit": {
+    "_type": "cmd"
+  },
+  "range": {
+    "_type": "cmd",
+    "from": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "to": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "redo": {
+    "_type": "cmd"
+  },
+  "resolve": {
+    "_type": "cmd",
+    "domain-name": {
+      "_type": "arg"
+    },
+    "server": {
+      "_type": "arg"
+    },
+    "server-port": {
+      "_type": "arg"
+    },
+    "type": {
+      "_type": "arg"
+    }
+  },
+  "retry": {
+    "_type": "cmd",
+    "command": {
+      "_type": "arg"
+    },
+    "delay": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "max": {
+      "_type": "arg"
+    },
+    "on-error": {
+      "_type": "arg"
+    }
+  },
+  "return": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "rndnum": {
+    "_type": "cmd",
+    "from": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "to": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "rndstr": {
+    "_type": "cmd",
+    "from": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "length": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "serialize": {
+    "_type": "cmd",
+    "delimiter": {
+      "_type": "arg",
+      "desc": "string value, min length 1, max length 3"
+    },
+    "file-name": {
+      "_type": "arg"
+    },
+    "options": {
+      "_type": "arg"
+    },
+    "order": {
+      "_type": "arg",
+      "desc": "see documentation"
+    },
+    "to": {
+      "_type": "arg"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "do": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "time": {
+    "_type": "cmd",
+    "command": {
+      "_type": "arg"
+    }
+  },
+  "timestamp": {
+    "_type": "cmd",
+    "use-tz": {
+      "_type": "arg"
+    }
+  },
+  "toarray": {
+    "_type": "cmd",
+    "delimiter": {
+      "_type": "arg",
+      "desc": "string value, min length 1, max length 3"
+    },
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "tobool": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "tocrlf": {
+    "_type": "cmd",
+    "input": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "toid": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "toip": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "toip6": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "tolf": {
+    "_type": "cmd",
+    "input": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  },
+  "tonsec": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "tonum": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "tostr": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "totime": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "typeof": {
+    "_type": "cmd",
+    "value": {
+      "_type": "arg",
+      "desc": "see documentation"
+    }
+  },
+  "undo": {
+    "_type": "cmd"
+  },
+  "while": {
+    "_type": "cmd",
+    "condition": {
+      "_type": "arg"
+    },
+    "do": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "recursive-print": {
+    "_type": "cmd"
+  }
+}

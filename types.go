@@ -33,9 +33,15 @@ const (
 	ModeListen   Mode = "listen"
 )
 
-// MinPrintInterval adalah batas bawah interval pada print menurut skema
-// console di dokumentasi RouterOS (200 ms).
-const MinPrintInterval = 200 * time.Millisecond
+// Batas interval command yang dikirim ke router: print interval, ping
+// interval, dan command native lain yang memakai =interval=.
+//
+// Kebijakan proyek ini lebih ketat daripada batas per-command RouterOS supaya
+// beban router terkendali dan bentuk stream tetap seragam di semua menu.
+const (
+	MinPrintInterval = time.Second
+	MaxPrintInterval = 5 * time.Second
+)
 
 // Group mengelompokkan resource untuk dokumentasi dan UI.
 type Group string
@@ -258,6 +264,14 @@ func (v View) Sentence(p Params) ([]string, error) {
 		}
 		for _, a := range v.Args {
 			if val, ok := p.Args[a.Name]; ok {
+				if a.Name == "interval" && val != "" {
+					if d, err := time.ParseDuration(val); err == nil {
+						if d < MinPrintInterval || d > MaxPrintInterval {
+							return nil, fmt.Errorf("%s: interval %s di luar batas %s..%s",
+								v.Command, d, MinPrintInterval, MaxPrintInterval)
+						}
+					}
+				}
 				w = append(w, "="+a.Name+"="+val)
 			}
 		}
@@ -268,6 +282,9 @@ func (v View) Sentence(p Params) ([]string, error) {
 		}
 		if d < MinPrintInterval {
 			return nil, fmt.Errorf("%s: interval %s di bawah batas %s", v.Command, d, MinPrintInterval)
+		}
+		if d > MaxPrintInterval {
+			return nil, fmt.Errorf("%s: interval %s di atas batas %s", v.Command, d, MaxPrintInterval)
 		}
 		w = append(w, "=interval="+FormatTime(d))
 		fallthrough

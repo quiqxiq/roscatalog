@@ -1,0 +1,198 @@
+{
+  "_type": "dir",
+  "edit": {
+    "_type": "cmd",
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "manual": {
+    "_type": "dir",
+    "edit": {
+      "_type": "cmd",
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "dst-delta": {
+        "_type": "arg",
+        "desc": "see documentation"
+      },
+      "dst-end": {
+        "_type": "arg"
+      },
+      "dst-start": {
+        "_type": "arg"
+      },
+      "time-zone": {
+        "_type": "arg",
+        "desc": "see documentation"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "dst-delta": {
+        "_type": "arg",
+        "desc": "see documentation"
+      },
+      "dst-end": {
+        "_type": "arg"
+      },
+      "dst-start": {
+        "_type": "arg"
+      },
+      "time-zone": {
+        "_type": "arg",
+        "desc": "see documentation"
+      }
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "date": {
+      "_type": "arg"
+    },
+    "time": {
+      "_type": "arg"
+    },
+    "time-zone-autodetect": {
+      "_type": "arg"
+    },
+    "time-zone-name": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "date": {
+      "_type": "arg"
+    },
+    "time": {
+      "_type": "arg"
+    },
+    "time-zone-autodetect": {
+      "_type": "arg"
+    },
+    "time-zone-name": {
+      "_type": "arg"
+    }
+  }
+}

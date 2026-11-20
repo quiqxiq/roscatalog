@@ -43,8 +43,8 @@ func TestStructure(t *testing.T) {
 			default:
 				t.Errorf("%s/%s: mode tidak dikenal %q", r.ID, v.Name, v.Mode)
 			}
-			if v.Mode == ModeInterval && v.Interval < MinPrintInterval {
-				t.Errorf("%s/%s: interval %s < %s", r.ID, v.Name, v.Interval, MinPrintInterval)
+			if v.Mode == ModeInterval && (v.Interval < MinPrintInterval || v.Interval > MaxPrintInterval) {
+				t.Errorf("%s/%s: interval %s di luar %s..%s", r.ID, v.Name, v.Interval, MinPrintInterval, MaxPrintInterval)
 			}
 			if v.Mode == ModeListen {
 				hasList := false
@@ -139,7 +139,7 @@ func TestViewSentences(t *testing.T) {
 			get("hotspot-active", "live", AnyVersion),
 			Params{Tag: "t2", Query: []Query{{Prop: "server", Value: "hs1"}}},
 			[]string{
-				"/ip/hotspot/active/print", "=interval=2s",
+				"/ip/hotspot/active/print", "=interval=2s", "=stats=",
 				"=.proplist=.id,user,address,uptime,session-time-left,idle-time,bytes-in,bytes-out",
 				"?server=hs1", ".tag=t2",
 			},
@@ -147,9 +147,9 @@ func TestViewSentences(t *testing.T) {
 		{
 			"interval stats milidetik",
 			get("interface", "live", AnyVersion),
-			Params{Interval: 500 * time.Millisecond},
+			Params{Interval: 2 * time.Second},
 			[]string{
-				"/interface/print", "=interval=500ms", "=stats=",
+				"/interface/print", "=interval=2s", "=stats=",
 				"=.proplist=.id,name,running,rx-byte,tx-byte,rx-packet,tx-packet,rx-drop,tx-drop,tx-queue-drop,rx-error,tx-error",
 			},
 		},
@@ -234,6 +234,34 @@ func TestViewSentenceErrors(t *testing.T) {
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("ping:\n got  %q\n want %q", got, want)
+	}
+}
+
+// View interval yang membawa counter wajib mengirim =stats= berpasangan
+// dengan =interval=, mis. /interface/print =interval=1s =stats=.
+func TestIntervalCounterViewsUseStats(t *testing.T) {
+	counters := map[string]bool{
+		"bytes": true, "packets": true, "bytes-in": true, "bytes-out": true,
+		"rx-byte": true, "tx-byte": true, "rx-packet": true, "tx-packet": true,
+		"rx-drop": true, "tx-drop": true, "rx-error": true, "tx-error": true,
+		"tx-queue-drop": true, "dropped": true, "packet-rate": true,
+	}
+	for _, r := range All() {
+		for _, v := range r.Views {
+			if v.Mode != ModeInterval {
+				continue
+			}
+			hasCounter := false
+			for _, p := range v.Proplist {
+				if counters[p] {
+					hasCounter = true
+					break
+				}
+			}
+			if hasCounter && !contains(v.Flags, "stats") {
+				t.Errorf("%s/%s: counter tanpa =stats= (flags=%v)", r.ID, v.Name, v.Flags)
+			}
+		}
 	}
 }
 

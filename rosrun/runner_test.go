@@ -23,6 +23,49 @@ func build(t *testing.T, id, view string, ver ros.Version, plan ros.Plan, p ros.
 	return req
 }
 
+// fastPoll membangun Request poll yang valid (5s) lalu mempercepat Every untuk
+// test. Batas 5s tetap berlaku untuk pemakai API; ini hanya jalur test.
+func fastPoll(t *testing.T, id, view string, ver ros.Version, every time.Duration, p ros.Params) ros.Request {
+	t.Helper()
+	req := build(t, id, view, ver, ros.Poll(ros.MinPollEvery), p)
+	req.Every = every
+	return req
+}
+
+// fastInterval membangun Request interval yang valid (1s) lalu mengganti
+// =interval= dan Every agar test tidak menunggu satu detik per siklus.
+func fastInterval(t *testing.T, id, view string, ver ros.Version, every time.Duration, p ros.Params) ros.Request {
+	t.Helper()
+	req := build(t, id, view, ver, ros.StreamEvery(ros.MinPrintInterval), p)
+	req.Every = every
+	rewriteInterval := func(words []string) {
+		for i, w := range words {
+			if strings.HasPrefix(w, "=interval=") {
+				words[i] = "=interval=" + ros.FormatTime(every)
+			}
+		}
+	}
+	rewriteInterval(req.Sentence)
+	rewriteInterval(req.Fallback)
+	return req
+}
+
+func fastStream(t *testing.T, req ros.Request, every time.Duration) ros.Request {
+	t.Helper()
+	req.Every = every
+	for i, w := range req.Sentence {
+		if strings.HasPrefix(w, "=interval=") {
+			req.Sentence[i] = "=interval=" + ros.FormatTime(every)
+		}
+	}
+	for i, w := range req.Fallback {
+		if strings.HasPrefix(w, "=interval=") {
+			req.Fallback[i] = "=interval=" + ros.FormatTime(every)
+		}
+	}
+	return req
+}
+
 // next membaca satu event atau gagal bila lewat batas waktu.
 func next(t *testing.T, ch <-chan Event, d time.Duration) (Event, bool) {
 	t.Helper()
@@ -137,7 +180,8 @@ func TestPollDiff(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := build(t, "hotspot-active", "live", ros.AnyVersion, ros.Poll(60*time.Millisecond).WithDiff(), ros.Params{})
+	req := fastPoll(t, "hotspot-active", "live", ros.AnyVersion, 60*time.Millisecond, ros.Params{})
+	req.Diff = true
 	ch, err := r.Watch(ctx, req)
 	if err != nil {
 		t.Fatal(err)
@@ -170,7 +214,7 @@ func TestPollNativeOnce(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req := build(t, "interface-monitor-traffic", "run", ros.AnyVersion, ros.Poll(50*time.Millisecond),
+	req := fastPoll(t, "interface-monitor-traffic", "run", ros.AnyVersion, 50*time.Millisecond,
 		ros.Params{Args: map[string]string{"interface": "ether1"}})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 3)
@@ -199,7 +243,7 @@ func TestStreamIntervalGroupsSnapshots(t *testing.T) {
 	_, r := m.client()
 	ctx, cancel := context.WithCancel(context.Background())
 
-	req := build(t, "hotspot-active", "live", ros.AnyVersion, ros.StreamEvery(200*time.Millisecond), ros.Params{})
+	req := fastInterval(t, "hotspot-active", "live", ros.AnyVersion, 200*time.Millisecond, ros.Params{})
 	ch, _ := r.Watch(ctx, req)
 	evs := take(t, ch, 3)
 	for i, e := range evs {
@@ -399,16 +443,23 @@ func TestWatchAutoFallsBackToPoll(t *testing.T) {
 	defer cancel()
 
 	res, _ := ros.Lookup("hotspot-active")
-	ch, err := r.WatchAuto(ctx, res, "events", ros.AnyVersion, ros.Plan{Every: 60 * time.Millisecond}, ros.Params{})
+	ch, err := r.WatchAuto(ctx, res, "events", ros.AnyVersion, ros.Plan{Every: ros.MinPollEvery}, ros.Params{})
 	if err != nil {
 		t.Fatal(err)
 	}
-	evs := take(t, ch, 3)
-	if evs[0].Kind != KindSnapshot {
-		t.Errorf("event pertama setelah fallback harus snapshot: %+v", evs[0])
+	first, ok := next(t, ch, 8*time.Second)
+	if !ok {
+		t.Fatal("channel tertutup sebelum snapshot")
 	}
-	if evs[1].Kind != KindChanged && evs[1].Kind != KindAdded && evs[1].Kind != KindRemoved {
-		t.Errorf("event berikutnya harus hasil diff: %+v", evs[1])
+	if first.Kind != KindSnapshot {
+		t.Errorf("event pertama setelah fallback harus snapshot: %+v", first)
+	}
+	second, ok := next(t, ch, 8*time.Second)
+	if !ok {
+		t.Fatal("channel tertutup sebelum event diff")
+	}
+	if second.Kind != KindChanged && second.Kind != KindAdded && second.Kind != KindRemoved {
+		t.Errorf("event berikutnya harus hasil diff: %+v", second)
 	}
 	if len(m.callsTo("/ip/hotspot/active/listen")) < 1 || len(m.callsTo("/ip/hotspot/active/print")) < 2 {
 		t.Errorf("urutan panggilan tidak sesuai: listen=%d print=%d",

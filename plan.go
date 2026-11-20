@@ -2,6 +2,7 @@ package roscatalog
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -20,17 +21,22 @@ const (
 	DeliveryPoll Delivery = "poll"
 )
 
-// MinPollEvery melindungi router dari polling terlalu rapat.
-const MinPollEvery = 50 * time.Millisecond
+// MinPollEvery dan MaxPollEvery membatasi polling dari sisi Go. Polling
+// terlalu rapat membebani router; terlalu renggang membuat dashboard basi.
+const (
+	MinPollEvery = 5 * time.Second
+	MaxPollEvery = 30 * time.Second
+)
 
 // Plan adalah pilihan pemakai: stream atau poll, seberapa sering, dan apakah
 // perubahan perlu dihitung (diff) atau snapshot awal diambil (seed).
 type Plan struct {
 	Delivery Delivery
 	// Every berarti:
-	//   Stream pada view interval : nilai =interval= (default View.Interval)
+	//   Stream pada view interval : nilai =interval= (MinPrintInterval..MaxPrintInterval)
 	//   Stream pada view native   : =interval= bila command mendukungnya
 	//   Poll                      : jeda antar one-shot dari sisi Go
+	//                               (MinPollEvery..MaxPollEvery)
 	Every time.Duration
 	// Diff mengubah hasil poll menjadi event added/changed/removed (poll pada
 	// view listen/follow selalu memakai diff).
@@ -46,10 +52,12 @@ func Once() Plan { return Plan{Delivery: DeliveryOnce} }
 // Stream memakai mode asli view dengan interval bawaan.
 func Stream() Plan { return Plan{Delivery: DeliveryStream} }
 
-// StreamEvery seperti Stream dengan interval sendiri (mis. 500ms).
+// StreamEvery seperti Stream dengan interval sendiri. Nilai harus berada di
+// antara MinPrintInterval dan MaxPrintInterval.
 func StreamEvery(d time.Duration) Plan { return Plan{Delivery: DeliveryStream, Every: d} }
 
-// Poll mengulang one-shot dari Go tiap d.
+// Poll mengulang one-shot dari Go tiap d. Nilai harus berada di antara
+// MinPollEvery dan MaxPollEvery.
 func Poll(d time.Duration) Plan { return Plan{Delivery: DeliveryPoll, Every: d} }
 
 // WithDiff meminta event added/changed/removed.
@@ -88,6 +96,26 @@ type Request struct {
 	Baseline     bool // poll follow-only: hasil pertama hanya jadi baseline
 	Seed         bool // stream listen: ambil snapshot awal
 	SeedSentence []string
+}
+
+// Fingerprint mengembalikan kunci stabil untuk cache/shared feed. Semua field
+// yang memengaruhi kalimat ke router dan bentuk hasil ikut disertakan, sehingga
+// dua Request dengan hasil berbeda tidak pernah berbagi stream.
+func (r Request) Fingerprint() string {
+	parts := []string{
+		r.ResourceID, r.View, string(r.Delivery), string(r.Mode),
+		r.Every.String(), string(r.Shape), r.Key,
+		strconv.FormatBool(r.CountOnly), strconv.FormatBool(r.Diff),
+		strconv.FormatBool(r.Baseline), strconv.FormatBool(r.Seed),
+	}
+	parts = append(parts, r.Sentence...)
+	parts = append(parts, "\x1e")
+	parts = append(parts, r.Fallback...)
+	parts = append(parts, "\x1e")
+	parts = append(parts, r.Fields...)
+	parts = append(parts, "\x1e")
+	parts = append(parts, r.SeedSentence...)
+	return strings.Join(parts, "\x1f")
 }
 
 // Deliveries mengembalikan pengiriman yang valid untuk sebuah view; elemen
@@ -179,8 +207,19 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		return Request{}, fmt.Errorf("%s/%s (%s): pengiriman %q tidak didukung; pilihan: %s",
 			r.ID, v.Name, v.Mode, d, strings.Join(names, ", "))
 	}
-	if d == DeliveryPoll && plan.Every < MinPollEvery {
-		return Request{}, fmt.Errorf("%s/%s: jeda poll %s di bawah batas %s", r.ID, v.Name, plan.Every, MinPollEvery)
+	if d == DeliveryStream && plan.Every > 0 {
+		if plan.Every < MinPrintInterval || plan.Every > MaxPrintInterval {
+			return Request{}, fmt.Errorf("%s/%s: interval %s di luar batas %s..%s",
+				r.ID, v.Name, plan.Every, MinPrintInterval, MaxPrintInterval)
+		}
+	}
+	if d == DeliveryPoll {
+		if plan.Every < MinPollEvery {
+			return Request{}, fmt.Errorf("%s/%s: jeda poll %s di bawah batas %s", r.ID, v.Name, plan.Every, MinPollEvery)
+		}
+		if plan.Every > MaxPollEvery {
+			return Request{}, fmt.Errorf("%s/%s: jeda poll %s di atas batas %s", r.ID, v.Name, plan.Every, MaxPollEvery)
+		}
 	}
 
 	req := Request{
@@ -230,15 +269,27 @@ func (r *Resource) Build(viewName string, ver Version, plan Plan, p Params) (Req
 		switch v.Mode {
 		case ModeInterval:
 			if plan.Every > 0 {
+				if plan.Every < MinPrintInterval || plan.Every > MaxPrintInterval {
+					return Request{}, fmt.Errorf("%s/%s: interval %s di luar batas %s..%s",
+						r.ID, v.Name, plan.Every, MinPrintInterval, MaxPrintInterval)
+				}
 				p2.Interval = plan.Every
 			}
 			req.Every = p2.Interval
 			if req.Every == 0 {
 				req.Every = v.Interval
 			}
+			if req.Every < MinPrintInterval || req.Every > MaxPrintInterval {
+				return Request{}, fmt.Errorf("%s/%s: interval %s di luar batas %s..%s",
+					r.ID, v.Name, req.Every, MinPrintInterval, MaxPrintInterval)
+			}
 			req.Shape = ShapeSnapshot
 		case ModeNative:
 			if plan.Every > 0 && v.hasArg("interval") {
+				if plan.Every < MinPrintInterval || plan.Every > MaxPrintInterval {
+					return Request{}, fmt.Errorf("%s/%s: interval %s di luar batas %s..%s",
+						r.ID, v.Name, plan.Every, MinPrintInterval, MaxPrintInterval)
+				}
 				if p2.Args == nil {
 					p2.Args = map[string]string{}
 				}

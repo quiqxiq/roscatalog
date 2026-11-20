@@ -1,0 +1,48 @@
+{
+  "_type": "dir",
+  "discourse": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "chain": {
+      "_type": "arg"
+    },
+    "dsts": {
+      "_type": "arg"
+    },
+    "raw": {
+      "_type": "arg"
+    },
+    "select": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  }
+}

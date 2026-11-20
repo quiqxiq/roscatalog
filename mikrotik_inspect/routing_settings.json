@@ -1,0 +1,119 @@
+{
+  "_type": "dir",
+  "edit": {
+    "_type": "cmd",
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "check-gateway-ping-count": {
+      "_type": "arg"
+    },
+    "check-gateway-ping-interval": {
+      "_type": "arg",
+      "desc": "100ms..10m    (time interval)"
+    },
+    "check-gateway-ping-timeout": {
+      "_type": "arg",
+      "desc": "1ms..1s    (time interval)"
+    },
+    "connected-in-chain": {
+      "_type": "arg"
+    },
+    "dynamic-in-chain": {
+      "_type": "arg"
+    },
+    "policy-rules": {
+      "_type": "arg"
+    },
+    "single-process": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "check-gateway-ping-count": {
+      "_type": "arg"
+    },
+    "check-gateway-ping-interval": {
+      "_type": "arg",
+      "desc": "100ms..10m    (time interval)"
+    },
+    "check-gateway-ping-timeout": {
+      "_type": "arg",
+      "desc": "1ms..1s    (time interval)"
+    },
+    "connected-in-chain": {
+      "_type": "arg"
+    },
+    "dynamic-in-chain": {
+      "_type": "arg"
+    },
+    "policy-rules": {
+      "_type": "arg"
+    },
+    "single-process": {
+      "_type": "arg"
+    }
+  }
+}

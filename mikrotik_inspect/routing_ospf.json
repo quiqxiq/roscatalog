@@ -1,0 +1,2101 @@
+{
+  "_type": "dir",
+  "area": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "area-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "default-cost": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "no-summaries": {
+        "_type": "arg"
+      },
+      "nssa-translator": {
+        "_type": "arg"
+      },
+      "type": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "range": {
+      "_type": "dir",
+      "add": {
+        "_type": "cmd",
+        "advertise": {
+          "_type": "arg"
+        },
+        "area": {
+          "_type": "arg"
+        },
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "copy-from": {
+          "_type": "arg"
+        },
+        "cost": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "prefix": {
+          "_type": "arg"
+        }
+      },
+      "comment": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "disable": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "edit": {
+        "_type": "cmd",
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "enable": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "export": {
+        "_type": "cmd",
+        "compact": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "hide-sensitive": {
+          "_type": "arg"
+        },
+        "path": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "verbose": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "find": {
+        "_type": "cmd",
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "append": {
+          "_type": "arg"
+        },
+        "as-value": {
+          "_type": "arg"
+        },
+        "brief": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "count-only": {
+          "_type": "arg"
+        },
+        "detail": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "follow": {
+          "_type": "arg"
+        },
+        "follow-only": {
+          "_type": "arg"
+        },
+        "from": {
+          "_type": "arg"
+        },
+        "group-by": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "on-event": {
+          "_type": "arg",
+          "desc": "script"
+        },
+        "order-by": {
+          "_type": "arg"
+        },
+        "proplist": {
+          "_type": "arg"
+        },
+        "show-ids": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "timestamp": {
+          "_type": "arg"
+        },
+        "value-list": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "remove": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "reset": {
+        "_type": "cmd",
+        "advertise": {
+          "_type": "arg"
+        },
+        "area": {
+          "_type": "arg"
+        },
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "cost": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "prefix": {
+          "_type": "arg"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "advertise": {
+          "_type": "arg"
+        },
+        "area": {
+          "_type": "arg"
+        },
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "cost": {
+          "_type": "arg"
+        },
+        "disabled": {
+          "_type": "arg"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "prefix": {
+          "_type": "arg"
+        }
+      },
+      "unset": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "area-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "default-cost": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "no-summaries": {
+        "_type": "arg"
+      },
+      "nssa-translator": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "type": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "area-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "default-cost": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "instance": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "no-summaries": {
+        "_type": "arg"
+      },
+      "nssa-translator": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "type": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "instance": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "domain-id": {
+        "_type": "arg"
+      },
+      "domain-tag": {
+        "_type": "arg"
+      },
+      "in-filter-chain": {
+        "_type": "arg"
+      },
+      "mpls-te-address": {
+        "_type": "arg"
+      },
+      "mpls-te-area": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "originate-default": {
+        "_type": "arg"
+      },
+      "out-filter-chain": {
+        "_type": "arg"
+      },
+      "out-filter-select": {
+        "_type": "arg"
+      },
+      "redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,Redistribute*]"
+      },
+      "router-id": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "use-dn": {
+        "_type": "arg"
+      },
+      "version": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "domain-id": {
+        "_type": "arg"
+      },
+      "domain-tag": {
+        "_type": "arg"
+      },
+      "in-filter-chain": {
+        "_type": "arg"
+      },
+      "mpls-te-address": {
+        "_type": "arg"
+      },
+      "mpls-te-area": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "originate-default": {
+        "_type": "arg"
+      },
+      "out-filter-chain": {
+        "_type": "arg"
+      },
+      "out-filter-select": {
+        "_type": "arg"
+      },
+      "redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,Redistribute*]"
+      },
+      "router-id": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "use-dn": {
+        "_type": "arg"
+      },
+      "version": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "domain-id": {
+        "_type": "arg"
+      },
+      "domain-tag": {
+        "_type": "arg"
+      },
+      "in-filter-chain": {
+        "_type": "arg"
+      },
+      "mpls-te-address": {
+        "_type": "arg"
+      },
+      "mpls-te-area": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "originate-default": {
+        "_type": "arg"
+      },
+      "out-filter-chain": {
+        "_type": "arg"
+      },
+      "out-filter-select": {
+        "_type": "arg"
+      },
+      "redistribute": {
+        "_type": "arg",
+        "desc": "connected|static|rip|ospf|isis|bgp|vpn|dhcp|fantasy|modem|bgp-mpls-vpn|slaac[,Redistribute*]"
+      },
+      "router-id": {
+        "_type": "arg"
+      },
+      "routing-table": {
+        "_type": "arg"
+      },
+      "use-dn": {
+        "_type": "arg"
+      },
+      "version": {
+        "_type": "arg"
+      },
+      "vrf": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "interface": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "area": {
+        "_type": "arg"
+      },
+      "auth": {
+        "_type": "arg"
+      },
+      "auth-id": {
+        "_type": "arg"
+      },
+      "auth-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "cost": {
+        "_type": "arg"
+      },
+      "dead-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "passive": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "retransmit-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "transmit-delay": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "type": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vlink-neighbor-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "vlink-transit-area": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "area": {
+        "_type": "arg"
+      },
+      "auth": {
+        "_type": "arg"
+      },
+      "auth-id": {
+        "_type": "arg"
+      },
+      "auth-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "cost": {
+        "_type": "arg"
+      },
+      "dead-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "passive": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "retransmit-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "transmit-delay": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "type": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vlink-neighbor-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "vlink-transit-area": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "area": {
+        "_type": "arg"
+      },
+      "auth": {
+        "_type": "arg"
+      },
+      "auth-id": {
+        "_type": "arg"
+      },
+      "auth-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "cost": {
+        "_type": "arg"
+      },
+      "dead-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "passive": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "retransmit-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "transmit-delay": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "type": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      },
+      "vlink-neighbor-id": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "vlink-transit-area": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "interface-template": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "area": {
+        "_type": "arg"
+      },
+      "auth": {
+        "_type": "arg"
+      },
+      "auth-id": {
+        "_type": "arg"
+      },
+      "auth-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "cost": {
+        "_type": "arg"
+      },
+      "dead-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "interfaces": {
+        "_type": "arg"
+      },
+      "networks": {
+        "_type": "arg"
+      },
+      "passive": {
+        "_type": "arg"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "prefix-list": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "retransmit-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "transmit-delay": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "type": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "area": {
+        "_type": "arg"
+      },
+      "auth": {
+        "_type": "arg"
+      },
+      "auth-id": {
+        "_type": "arg"
+      },
+      "auth-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "cost": {
+        "_type": "arg"
+      },
+      "dead-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "interfaces": {
+        "_type": "arg"
+      },
+      "networks": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "passive": {
+        "_type": "arg"
+      },
+      "prefix-list": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "retransmit-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "transmit-delay": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "type": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "area": {
+        "_type": "arg"
+      },
+      "auth": {
+        "_type": "arg"
+      },
+      "auth-id": {
+        "_type": "arg"
+      },
+      "auth-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "cost": {
+        "_type": "arg"
+      },
+      "dead-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "hello-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "interfaces": {
+        "_type": "arg"
+      },
+      "networks": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "passive": {
+        "_type": "arg"
+      },
+      "prefix-list": {
+        "_type": "arg"
+      },
+      "priority": {
+        "_type": "arg"
+      },
+      "retransmit-interval": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "transmit-delay": {
+        "_type": "arg",
+        "desc": "1s..18h12m15s    (time interval)"
+      },
+      "type": {
+        "_type": "arg"
+      },
+      "use-bfd": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "lsa": {
+    "_type": "dir",
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    }
+  },
+  "neighbor": {
+    "_type": "dir",
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    }
+  },
+  "static-neighbor": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "area": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "poll-interval": {
+        "_type": "arg",
+        "desc": "time interval"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "area": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "poll-interval": {
+        "_type": "arg",
+        "desc": "time interval"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "area": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "instance-id": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "poll-interval": {
+        "_type": "arg",
+        "desc": "time interval"
+      }
+    }
+  }
+}

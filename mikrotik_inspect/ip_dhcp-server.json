@@ -1,0 +1,2229 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "add-arp": {
+      "_type": "arg"
+    },
+    "add-dns-entries": {
+      "_type": "arg"
+    },
+    "add-dns-entries-suffix": {
+      "_type": "arg",
+      "desc": "string value, min length 1, max length 64"
+    },
+    "address-lists": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "address-pool": {
+      "_type": "arg"
+    },
+    "allow-dual-stack-queue": {
+      "_type": "arg"
+    },
+    "always-broadcast": {
+      "_type": "arg"
+    },
+    "authoritative": {
+      "_type": "arg"
+    },
+    "bootp-lease-time": {
+      "_type": "arg"
+    },
+    "bootp-support": {
+      "_type": "arg"
+    },
+    "client-mac-limit": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "conflict-detection": {
+      "_type": "arg"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "delay-threshold": {
+      "_type": "arg"
+    },
+    "dhcp-option-set": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "dynamic-lease-identifiers": {
+      "_type": "arg",
+      "desc": "client-mac|client-id|opt-82[,DynamicLeaseIdentifiers*]"
+    },
+    "insert-queue-before": {
+      "_type": "arg"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "lease-script": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "lease-time": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "parent-queue": {
+      "_type": "arg"
+    },
+    "relay": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "server-address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "support-broadband-tr101": {
+      "_type": "arg"
+    },
+    "use-framed-as-classless": {
+      "_type": "arg"
+    },
+    "use-radius": {
+      "_type": "arg"
+    },
+    "use-reconfigure": {
+      "_type": "arg"
+    }
+  },
+  "alert": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "alert-timeout": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "on-alert": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "valid-server": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "alert-timeout": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "on-alert": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "valid-server": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      }
+    },
+    "reset-alert": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "alert-timeout": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "on-alert": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "valid-server": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      }
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "config": {
+    "_type": "dir",
+    "edit": {
+      "_type": "cmd",
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "accounting": {
+        "_type": "arg"
+      },
+      "interim-update": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "radius-password": {
+        "_type": "arg"
+      },
+      "store-leases-disk": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "accounting": {
+        "_type": "arg"
+      },
+      "interim-update": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "radius-password": {
+        "_type": "arg"
+      },
+      "store-leases-disk": {
+        "_type": "arg"
+      }
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "lease": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "address-lists": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "agent-circuit-id": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "agent-remote-id": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "allow-dual-stack-queue": {
+        "_type": "arg"
+      },
+      "always-broadcast": {
+        "_type": "arg"
+      },
+      "block-access": {
+        "_type": "arg"
+      },
+      "client-id": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "dhcp-option": {
+        "_type": "arg"
+      },
+      "dhcp-option-set": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "insert-queue-before": {
+        "_type": "arg"
+      },
+      "lease-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "mac-address": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "parent-queue": {
+        "_type": "arg"
+      },
+      "queue-type": {
+        "_type": "arg"
+      },
+      "rate-limit": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "routes": {
+        "_type": "arg"
+      },
+      "server": {
+        "_type": "arg"
+      },
+      "use-src-mac": {
+        "_type": "arg"
+      }
+    },
+    "check-status": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "make-static": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "active": {
+        "_type": "arg"
+      },
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "address-lists": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "agent-circuit-id": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "agent-remote-id": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "allow-dual-stack-queue": {
+        "_type": "arg"
+      },
+      "always-broadcast": {
+        "_type": "arg"
+      },
+      "block-access": {
+        "_type": "arg"
+      },
+      "client-id": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "dhcp-option": {
+        "_type": "arg"
+      },
+      "dhcp-option-set": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "insert-queue-before": {
+        "_type": "arg"
+      },
+      "lease-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "mac-address": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "parent-queue": {
+        "_type": "arg"
+      },
+      "queue-type": {
+        "_type": "arg"
+      },
+      "rate-limit": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "routes": {
+        "_type": "arg"
+      },
+      "server": {
+        "_type": "arg"
+      },
+      "use-src-mac": {
+        "_type": "arg"
+      }
+    },
+    "send-reconfigure": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg"
+      },
+      "address-lists": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "agent-circuit-id": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "agent-remote-id": {
+        "_type": "arg",
+        "desc": "hexadecimal string value"
+      },
+      "allow-dual-stack-queue": {
+        "_type": "arg"
+      },
+      "always-broadcast": {
+        "_type": "arg"
+      },
+      "block-access": {
+        "_type": "arg"
+      },
+      "client-id": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "dhcp-option": {
+        "_type": "arg"
+      },
+      "dhcp-option-set": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "insert-queue-before": {
+        "_type": "arg"
+      },
+      "lease-time": {
+        "_type": "arg",
+        "desc": "time interval"
+      },
+      "mac-address": {
+        "_type": "arg",
+        "desc": "AB[:|-|.]CD[:|-|.]EF[:|-|.]GH[:|-|.]IJ[:|-|.]KL    (MAC address)"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "parent-queue": {
+        "_type": "arg"
+      },
+      "queue-type": {
+        "_type": "arg"
+      },
+      "rate-limit": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "routes": {
+        "_type": "arg"
+      },
+      "server": {
+        "_type": "arg"
+      },
+      "use-src-mac": {
+        "_type": "arg"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "matcher": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "address-pool": {
+        "_type": "arg"
+      },
+      "code": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "matching-type": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "option-set": {
+        "_type": "arg"
+      },
+      "server": {
+        "_type": "arg"
+      },
+      "value": {
+        "_type": "arg",
+        "desc": "string value, min length 1, max length 510"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "address-pool": {
+        "_type": "arg"
+      },
+      "code": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "matching-type": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "option-set": {
+        "_type": "arg"
+      },
+      "server": {
+        "_type": "arg"
+      },
+      "value": {
+        "_type": "arg",
+        "desc": "string value, min length 1, max length 510"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "address-pool": {
+        "_type": "arg"
+      },
+      "code": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "matching-type": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "option-set": {
+        "_type": "arg"
+      },
+      "server": {
+        "_type": "arg"
+      },
+      "value": {
+        "_type": "arg",
+        "desc": "string value, min length 1, max length 510"
+      }
+    }
+  },
+  "network": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "boot-file-name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "caps-manager": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "dhcp-option": {
+        "_type": "arg"
+      },
+      "dhcp-option-set": {
+        "_type": "arg"
+      },
+      "dns-none": {
+        "_type": "arg"
+      },
+      "dns-server": {
+        "_type": "arg"
+      },
+      "domain": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "gateway": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "netmask": {
+        "_type": "arg"
+      },
+      "next-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "ntp-none": {
+        "_type": "arg"
+      },
+      "ntp-server": {
+        "_type": "arg"
+      },
+      "wins-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "boot-file-name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "caps-manager": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "dhcp-option": {
+        "_type": "arg"
+      },
+      "dhcp-option-set": {
+        "_type": "arg"
+      },
+      "dns-none": {
+        "_type": "arg"
+      },
+      "dns-server": {
+        "_type": "arg"
+      },
+      "domain": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "gateway": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "netmask": {
+        "_type": "arg"
+      },
+      "next-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "ntp-none": {
+        "_type": "arg"
+      },
+      "ntp-server": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "wins-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "address": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "boot-file-name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "caps-manager": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "dhcp-option": {
+        "_type": "arg"
+      },
+      "dhcp-option-set": {
+        "_type": "arg"
+      },
+      "dns-none": {
+        "_type": "arg"
+      },
+      "dns-server": {
+        "_type": "arg"
+      },
+      "domain": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "gateway": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "netmask": {
+        "_type": "arg"
+      },
+      "next-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      },
+      "ntp-none": {
+        "_type": "arg"
+      },
+      "ntp-server": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "wins-server": {
+        "_type": "arg",
+        "desc": "A.B.C.D    (IP address)"
+      }
+    },
+    "unset": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    }
+  },
+  "option": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "code": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "force": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "value": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "code": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "force": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "value": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "code": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "force": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "value": {
+        "_type": "arg",
+        "desc": "string value"
+      }
+    },
+    "sets": {
+      "_type": "dir",
+      "add": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "copy-from": {
+          "_type": "arg"
+        },
+        "name": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "options": {
+          "_type": "arg"
+        }
+      },
+      "comment": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "edit": {
+        "_type": "cmd",
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "export": {
+        "_type": "cmd",
+        "compact": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "hide-sensitive": {
+          "_type": "arg"
+        },
+        "path": {
+          "_type": "arg"
+        },
+        "show-sensitive": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "verbose": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "find": {
+        "_type": "cmd",
+        "where": {
+          "_type": "arg"
+        }
+      },
+      "get": {
+        "_type": "cmd",
+        "as-string": {
+          "_type": "arg"
+        },
+        "as-string-value": {
+          "_type": "arg"
+        },
+        "number": {
+          "_type": "arg"
+        },
+        "value-name": {
+          "_type": "arg"
+        }
+      },
+      "print": {
+        "_type": "cmd",
+        "append": {
+          "_type": "arg"
+        },
+        "as-value": {
+          "_type": "arg"
+        },
+        "brief": {
+          "_type": "arg"
+        },
+        "comments": {
+          "_type": "arg"
+        },
+        "count-only": {
+          "_type": "arg"
+        },
+        "detail": {
+          "_type": "arg"
+        },
+        "file": {
+          "_type": "arg"
+        },
+        "follow": {
+          "_type": "arg"
+        },
+        "follow-only": {
+          "_type": "arg"
+        },
+        "from": {
+          "_type": "arg"
+        },
+        "group-by": {
+          "_type": "arg"
+        },
+        "interval": {
+          "_type": "arg",
+          "desc": "00:00:00.200..    (time interval)"
+        },
+        "on-event": {
+          "_type": "arg",
+          "desc": "script"
+        },
+        "order-by": {
+          "_type": "arg"
+        },
+        "proplist": {
+          "_type": "arg"
+        },
+        "show-ids": {
+          "_type": "arg"
+        },
+        "terse": {
+          "_type": "arg"
+        },
+        "timestamp": {
+          "_type": "arg"
+        },
+        "value-list": {
+          "_type": "arg"
+        },
+        "where": {
+          "_type": "arg"
+        },
+        "without-paging": {
+          "_type": "arg"
+        }
+      },
+      "remove": {
+        "_type": "cmd",
+        "numbers": {
+          "_type": "arg"
+        }
+      },
+      "reset": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "name": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "options": {
+          "_type": "arg"
+        }
+      },
+      "set": {
+        "_type": "cmd",
+        "comment": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "name": {
+          "_type": "arg",
+          "desc": "string value"
+        },
+        "numbers": {
+          "_type": "arg"
+        },
+        "options": {
+          "_type": "arg"
+        }
+      }
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "add-arp": {
+      "_type": "arg"
+    },
+    "add-dns-entries": {
+      "_type": "arg"
+    },
+    "add-dns-entries-suffix": {
+      "_type": "arg",
+      "desc": "string value, min length 1, max length 64"
+    },
+    "address-lists": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "address-pool": {
+      "_type": "arg"
+    },
+    "allow-dual-stack-queue": {
+      "_type": "arg"
+    },
+    "always-broadcast": {
+      "_type": "arg"
+    },
+    "authoritative": {
+      "_type": "arg"
+    },
+    "bootp-lease-time": {
+      "_type": "arg"
+    },
+    "bootp-support": {
+      "_type": "arg"
+    },
+    "client-mac-limit": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "conflict-detection": {
+      "_type": "arg"
+    },
+    "delay-threshold": {
+      "_type": "arg"
+    },
+    "dhcp-option-set": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "dynamic-lease-identifiers": {
+      "_type": "arg",
+      "desc": "client-mac|client-id|opt-82[,DynamicLeaseIdentifiers*]"
+    },
+    "insert-queue-before": {
+      "_type": "arg"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "lease-script": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "lease-time": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "parent-queue": {
+      "_type": "arg"
+    },
+    "relay": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "server-address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "support-broadband-tr101": {
+      "_type": "arg"
+    },
+    "use-framed-as-classless": {
+      "_type": "arg"
+    },
+    "use-radius": {
+      "_type": "arg"
+    },
+    "use-reconfigure": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "add-arp": {
+      "_type": "arg"
+    },
+    "add-dns-entries": {
+      "_type": "arg"
+    },
+    "add-dns-entries-suffix": {
+      "_type": "arg",
+      "desc": "string value, min length 1, max length 64"
+    },
+    "address-lists": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "address-pool": {
+      "_type": "arg"
+    },
+    "allow-dual-stack-queue": {
+      "_type": "arg"
+    },
+    "always-broadcast": {
+      "_type": "arg"
+    },
+    "authoritative": {
+      "_type": "arg"
+    },
+    "bootp-lease-time": {
+      "_type": "arg"
+    },
+    "bootp-support": {
+      "_type": "arg"
+    },
+    "client-mac-limit": {
+      "_type": "arg"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "conflict-detection": {
+      "_type": "arg"
+    },
+    "delay-threshold": {
+      "_type": "arg"
+    },
+    "dhcp-option-set": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "dynamic-lease-identifiers": {
+      "_type": "arg",
+      "desc": "client-mac|client-id|opt-82[,DynamicLeaseIdentifiers*]"
+    },
+    "insert-queue-before": {
+      "_type": "arg"
+    },
+    "interface": {
+      "_type": "arg"
+    },
+    "lease-script": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "lease-time": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "parent-queue": {
+      "_type": "arg"
+    },
+    "relay": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "server-address": {
+      "_type": "arg",
+      "desc": "A.B.C.D    (IP address)"
+    },
+    "support-broadband-tr101": {
+      "_type": "arg"
+    },
+    "use-framed-as-classless": {
+      "_type": "arg"
+    },
+    "use-radius": {
+      "_type": "arg"
+    },
+    "use-reconfigure": {
+      "_type": "arg"
+    }
+  },
+  "setup": {
+    "_type": "cmd"
+  }
+}

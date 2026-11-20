@@ -1,0 +1,652 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "listen-port": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "private-key": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "vrf": {
+      "_type": "arg"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "disable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "enable": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "peers": {
+    "_type": "dir",
+    "add": {
+      "_type": "cmd",
+      "allowed-address": {
+        "_type": "arg"
+      },
+      "client-address": {
+        "_type": "arg"
+      },
+      "client-allowed-address": {
+        "_type": "arg"
+      },
+      "client-dns": {
+        "_type": "arg"
+      },
+      "client-endpoint": {
+        "_type": "arg"
+      },
+      "client-keepalive": {
+        "_type": "arg",
+        "desc": "0s..18h12m15s    (time interval)"
+      },
+      "client-listen-port": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "copy-from": {
+        "_type": "arg"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "endpoint-address": {
+        "_type": "arg"
+      },
+      "endpoint-port": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "persistent-keepalive": {
+        "_type": "arg",
+        "desc": "0s..18h12m15s    (time interval)"
+      },
+      "place-before": {
+        "_type": "arg"
+      },
+      "preshared-key": {
+        "_type": "arg"
+      },
+      "private-key": {
+        "_type": "arg"
+      },
+      "public-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "responder": {
+        "_type": "arg"
+      }
+    },
+    "comment": {
+      "_type": "cmd",
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "disable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "edit": {
+      "_type": "cmd",
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "enable": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "export": {
+      "_type": "cmd",
+      "compact": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "hide-sensitive": {
+        "_type": "arg"
+      },
+      "path": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "verbose": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "find": {
+      "_type": "cmd",
+      "where": {
+        "_type": "arg"
+      }
+    },
+    "get": {
+      "_type": "cmd",
+      "as-string": {
+        "_type": "arg"
+      },
+      "as-string-value": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "value-name": {
+        "_type": "arg"
+      }
+    },
+    "move": {
+      "_type": "cmd",
+      "destination": {
+        "_type": "arg"
+      },
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "print": {
+      "_type": "cmd",
+      "append": {
+        "_type": "arg"
+      },
+      "as-value": {
+        "_type": "arg"
+      },
+      "brief": {
+        "_type": "arg"
+      },
+      "comments": {
+        "_type": "arg"
+      },
+      "count-only": {
+        "_type": "arg"
+      },
+      "detail": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "follow": {
+        "_type": "arg"
+      },
+      "follow-only": {
+        "_type": "arg"
+      },
+      "from": {
+        "_type": "arg"
+      },
+      "group-by": {
+        "_type": "arg"
+      },
+      "interval": {
+        "_type": "arg",
+        "desc": "00:00:00.200..    (time interval)"
+      },
+      "on-event": {
+        "_type": "arg",
+        "desc": "script"
+      },
+      "order-by": {
+        "_type": "arg"
+      },
+      "proplist": {
+        "_type": "arg"
+      },
+      "show-ids": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      },
+      "terse": {
+        "_type": "arg"
+      },
+      "timestamp": {
+        "_type": "arg"
+      },
+      "value-list": {
+        "_type": "arg"
+      },
+      "where": {
+        "_type": "arg"
+      },
+      "without-paging": {
+        "_type": "arg"
+      }
+    },
+    "remove": {
+      "_type": "cmd",
+      "numbers": {
+        "_type": "arg"
+      }
+    },
+    "reset": {
+      "_type": "cmd",
+      "allowed-address": {
+        "_type": "arg"
+      },
+      "client-address": {
+        "_type": "arg"
+      },
+      "client-allowed-address": {
+        "_type": "arg"
+      },
+      "client-dns": {
+        "_type": "arg"
+      },
+      "client-endpoint": {
+        "_type": "arg"
+      },
+      "client-keepalive": {
+        "_type": "arg",
+        "desc": "0s..18h12m15s    (time interval)"
+      },
+      "client-listen-port": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "endpoint-address": {
+        "_type": "arg"
+      },
+      "endpoint-port": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "persistent-keepalive": {
+        "_type": "arg",
+        "desc": "0s..18h12m15s    (time interval)"
+      },
+      "preshared-key": {
+        "_type": "arg"
+      },
+      "private-key": {
+        "_type": "arg"
+      },
+      "public-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "responder": {
+        "_type": "arg"
+      }
+    },
+    "set": {
+      "_type": "cmd",
+      "allowed-address": {
+        "_type": "arg"
+      },
+      "client-address": {
+        "_type": "arg"
+      },
+      "client-allowed-address": {
+        "_type": "arg"
+      },
+      "client-dns": {
+        "_type": "arg"
+      },
+      "client-endpoint": {
+        "_type": "arg"
+      },
+      "client-keepalive": {
+        "_type": "arg",
+        "desc": "0s..18h12m15s    (time interval)"
+      },
+      "client-listen-port": {
+        "_type": "arg"
+      },
+      "comment": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "disabled": {
+        "_type": "arg"
+      },
+      "endpoint-address": {
+        "_type": "arg"
+      },
+      "endpoint-port": {
+        "_type": "arg"
+      },
+      "interface": {
+        "_type": "arg"
+      },
+      "name": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "numbers": {
+        "_type": "arg"
+      },
+      "persistent-keepalive": {
+        "_type": "arg",
+        "desc": "0s..18h12m15s    (time interval)"
+      },
+      "preshared-key": {
+        "_type": "arg"
+      },
+      "private-key": {
+        "_type": "arg"
+      },
+      "public-key": {
+        "_type": "arg",
+        "desc": "string value"
+      },
+      "responder": {
+        "_type": "arg"
+      }
+    },
+    "show-client-config": {
+      "_type": "cmd",
+      "as-value": {
+        "_type": "arg"
+      },
+      "file": {
+        "_type": "arg"
+      },
+      "number": {
+        "_type": "arg"
+      },
+      "show-sensitive": {
+        "_type": "arg"
+      }
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "listen-port": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "private-key": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "vrf": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disabled": {
+      "_type": "arg"
+    },
+    "listen-port": {
+      "_type": "arg"
+    },
+    "mtu": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "private-key": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "vrf": {
+      "_type": "arg"
+    }
+  },
+  "wg-export": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    }
+  },
+  "wg-import": {
+    "_type": "cmd",
+    "as-value": {
+      "_type": "arg"
+    },
+    "config-file": {
+      "_type": "arg"
+    },
+    "config-string": {
+      "_type": "arg",
+      "desc": "string value"
+    }
+  }
+}

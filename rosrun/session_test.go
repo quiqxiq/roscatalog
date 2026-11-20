@@ -19,6 +19,7 @@ func openMock(t *testing.T, m *mock, mutate func(*Config)) *MikroTik {
 		Username: "admin",
 		Timeout:  2 * time.Second,
 		backoff:  25 * time.Millisecond,
+		Status:   StatusConfig{Disable: true, SuppressTLSWarning: true},
 	}
 	if mutate != nil {
 		mutate(&cfg)
@@ -66,6 +67,14 @@ func TestConfigValidate(t *testing.T) {
 		{"port too big", Config{Address: "h", Username: "u", Port: 70000}, false},
 		{"negative timeout", Config{Address: "h", Username: "u", Timeout: -time.Second}, false},
 		{"poll too fast", Config{Address: "h", Username: "u", PollEvery: 10 * time.Millisecond}, false},
+		{"poll too slow", Config{Address: "h", Username: "u", PollEvery: 31 * time.Second}, false},
+		{"poll valid", Config{Address: "h", Username: "u", PollEvery: 5 * time.Second}, true},
+		{"stream too fast", Config{Address: "h", Username: "u", StreamEvery: 500 * time.Millisecond}, false},
+		{"stream too slow", Config{Address: "h", Username: "u", StreamEvery: 6 * time.Second}, false},
+		{"status too fast", Config{Address: "h", Username: "u", Status: StatusConfig{Every: 500 * time.Millisecond}}, false},
+		{"status too slow", Config{Address: "h", Username: "u", Status: StatusConfig{Every: 6 * time.Second}}, false},
+		{"status timeout below interval", Config{Address: "h", Username: "u", Status: StatusConfig{Every: 2 * time.Second, Timeout: time.Second}}, false},
+		{"negative cache ttl", Config{Address: "h", Username: "u", Cache: CacheConfig{TTL: -time.Second}}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -156,11 +165,7 @@ func TestWatchPoll(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)
 
-	res, _ := ros.Lookup("hotspot-active")
-	req, err := res.Build("list", ros.AnyVersion, ros.Poll(60*time.Millisecond), ros.Params{})
-	if err != nil {
-		t.Fatalf("build: %v", err)
-	}
+	req := fastPoll(t, "hotspot-active", "list", ros.AnyVersion, 60*time.Millisecond, ros.Params{})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -223,10 +228,30 @@ func TestGateCalledPerCommand(t *testing.T) {
 	}
 }
 
+func TestConfigDefaults(t *testing.T) {
+	c := Config{Address: "h", Username: "u"}.withDefaults()
+	if c.PollEvery != 5*time.Second {
+		t.Errorf("PollEvery = %s", c.PollEvery)
+	}
+	if c.Status.Target != "8.8.8.8" || c.Status.Every != time.Second || c.Status.Timeout != 15*time.Second {
+		t.Errorf("status defaults = %+v", c.Status)
+	}
+	if c.Cache.TTL != 5*time.Second || c.Cache.MaxEntries != 64 {
+		t.Errorf("cache defaults = %+v", c.Cache)
+	}
+	if c.Status.WarnPacketLoss != 5 {
+		t.Errorf("WarnPacketLoss = %v", c.Status.WarnPacketLoss)
+	}
+}
+
 func TestPlanFor(t *testing.T) {
 	m := newMock(t)
-	stream := openMock(t, m, func(c *Config) { c.Stream = true; c.PollEvery = 500 * time.Millisecond })
-	poll := openMock(t, m, func(c *Config) { c.Stream = false; c.PollEvery = 500 * time.Millisecond })
+	stream := openMock(t, m, func(c *Config) {
+		c.Stream = true
+		c.StreamEvery = 2 * time.Second
+		c.PollEvery = 5 * time.Second
+	})
+	poll := openMock(t, m, func(c *Config) { c.Stream = false; c.PollEvery = 5 * time.Second })
 
 	live, _ := ros.Lookup("hotspot-active")
 
@@ -237,10 +262,10 @@ func TestPlanFor(t *testing.T) {
 		want  ros.Delivery
 		every time.Duration
 	}{
-		{"interval stream", stream, "live", ros.DeliveryStream, 0},
-		{"interval poll", poll, "live", ros.DeliveryPoll, 500 * time.Millisecond},
+		{"interval stream", stream, "live", ros.DeliveryStream, 2 * time.Second},
+		{"interval poll", poll, "live", ros.DeliveryPoll, 5 * time.Second},
 		{"oneshot stream falls back", stream, "list", ros.DeliveryOnce, 0},
-		{"oneshot poll", poll, "list", ros.DeliveryPoll, 500 * time.Millisecond},
+		{"oneshot poll", poll, "list", ros.DeliveryPoll, 5 * time.Second},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

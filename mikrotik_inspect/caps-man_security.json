@@ -1,0 +1,300 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa-eap|wpa2-eap[,AuthenticationTypes*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "disable-pmkid": {
+      "_type": "arg"
+    },
+    "eap-methods": {
+      "_type": "arg"
+    },
+    "eap-radius-accounting": {
+      "_type": "arg"
+    },
+    "encryption": {
+      "_type": "arg",
+      "desc": "aes-ccm|tkip[,Encryption*]"
+    },
+    "group-encryption": {
+      "_type": "arg"
+    },
+    "group-key-update": {
+      "_type": "arg",
+      "desc": "30s..1d    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "passphrase": {
+      "_type": "arg",
+      "desc": "string value, min length 8, max length 63"
+    },
+    "tls-certificate": {
+      "_type": "arg"
+    },
+    "tls-mode": {
+      "_type": "arg"
+    }
+  },
+  "comment": {
+    "_type": "cmd",
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa-eap|wpa2-eap[,AuthenticationTypes*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disable-pmkid": {
+      "_type": "arg"
+    },
+    "eap-methods": {
+      "_type": "arg"
+    },
+    "eap-radius-accounting": {
+      "_type": "arg"
+    },
+    "encryption": {
+      "_type": "arg",
+      "desc": "aes-ccm|tkip[,Encryption*]"
+    },
+    "group-encryption": {
+      "_type": "arg"
+    },
+    "group-key-update": {
+      "_type": "arg",
+      "desc": "30s..1d    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "passphrase": {
+      "_type": "arg",
+      "desc": "string value, min length 8, max length 63"
+    },
+    "tls-certificate": {
+      "_type": "arg"
+    },
+    "tls-mode": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "authentication-types": {
+      "_type": "arg",
+      "desc": "wpa-psk|wpa2-psk|wpa-eap|wpa2-eap[,AuthenticationTypes*]"
+    },
+    "comment": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "disable-pmkid": {
+      "_type": "arg"
+    },
+    "eap-methods": {
+      "_type": "arg"
+    },
+    "eap-radius-accounting": {
+      "_type": "arg"
+    },
+    "encryption": {
+      "_type": "arg",
+      "desc": "aes-ccm|tkip[,Encryption*]"
+    },
+    "group-encryption": {
+      "_type": "arg"
+    },
+    "group-key-update": {
+      "_type": "arg",
+      "desc": "30s..1d    (time interval)"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "passphrase": {
+      "_type": "arg",
+      "desc": "string value, min length 8, max length 63"
+    },
+    "tls-certificate": {
+      "_type": "arg"
+    },
+    "tls-mode": {
+      "_type": "arg"
+    }
+  },
+  "unset": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  }
+}

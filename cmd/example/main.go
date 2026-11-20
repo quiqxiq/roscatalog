@@ -34,7 +34,7 @@ func main() {
 		view     = flag.String("view", "live", "nama view")
 		ver      = flag.String("ver", "", "v6 atau v7 (kosong = semua)")
 		delivery = flag.String("delivery", "", "once | stream | poll (kosong = bawaan view)")
-		every    = flag.Duration("every", time.Second, "interval stream atau jeda poll")
+		every    = flag.Duration("every", 5*time.Second, "interval stream atau jeda poll (1s..5s / 5s..30s)")
 		diff     = flag.Bool("diff", false, "poll: keluarkan added/changed/removed")
 		seed     = flag.Bool("seed", false, "listen: ambil snapshot awal")
 	)

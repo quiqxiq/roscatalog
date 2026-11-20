@@ -1,0 +1,632 @@
+{
+  "_type": "dir",
+  "add": {
+    "_type": "cmd",
+    "bfifo-limit": {
+      "_type": "arg"
+    },
+    "cake-ack-filter": {
+      "_type": "arg"
+    },
+    "cake-atm": {
+      "_type": "arg"
+    },
+    "cake-autorate-ingress": {
+      "_type": "arg"
+    },
+    "cake-bandwidth": {
+      "_type": "arg"
+    },
+    "cake-diffserv": {
+      "_type": "arg"
+    },
+    "cake-flowmode": {
+      "_type": "arg"
+    },
+    "cake-memlimit": {
+      "_type": "arg"
+    },
+    "cake-mpu": {
+      "_type": "arg"
+    },
+    "cake-nat": {
+      "_type": "arg"
+    },
+    "cake-overhead": {
+      "_type": "arg"
+    },
+    "cake-overhead-scheme": {
+      "_type": "arg"
+    },
+    "cake-rtt": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "cake-rtt-scheme": {
+      "_type": "arg"
+    },
+    "cake-wash": {
+      "_type": "arg"
+    },
+    "codel-ce-threshold": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "codel-ecn": {
+      "_type": "arg"
+    },
+    "codel-interval": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "codel-limit": {
+      "_type": "arg"
+    },
+    "codel-target": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "copy-from": {
+      "_type": "arg"
+    },
+    "fq-codel-ce-threshold": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-ecn": {
+      "_type": "arg"
+    },
+    "fq-codel-flows": {
+      "_type": "arg"
+    },
+    "fq-codel-interval": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-limit": {
+      "_type": "arg"
+    },
+    "fq-codel-memlimit": {
+      "_type": "arg"
+    },
+    "fq-codel-quantum": {
+      "_type": "arg"
+    },
+    "fq-codel-target": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "kind": {
+      "_type": "arg"
+    },
+    "mq-pfifo-limit": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "pcq-burst-rate": {
+      "_type": "arg"
+    },
+    "pcq-burst-threshold": {
+      "_type": "arg"
+    },
+    "pcq-burst-time": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "pcq-classifier": {
+      "_type": "arg",
+      "desc": "src-address|dst-address|src-port|dst-port[,PcqClassifier*]"
+    },
+    "pcq-dst-address-mask": {
+      "_type": "arg"
+    },
+    "pcq-dst-address6-mask": {
+      "_type": "arg"
+    },
+    "pcq-limit": {
+      "_type": "arg"
+    },
+    "pcq-rate": {
+      "_type": "arg"
+    },
+    "pcq-src-address-mask": {
+      "_type": "arg"
+    },
+    "pcq-src-address6-mask": {
+      "_type": "arg"
+    },
+    "pcq-total-limit": {
+      "_type": "arg"
+    },
+    "pfifo-limit": {
+      "_type": "arg"
+    },
+    "red-avg-packet": {
+      "_type": "arg"
+    },
+    "red-burst": {
+      "_type": "arg"
+    },
+    "red-limit": {
+      "_type": "arg"
+    },
+    "red-max-threshold": {
+      "_type": "arg"
+    },
+    "red-min-threshold": {
+      "_type": "arg"
+    },
+    "sfq-allot": {
+      "_type": "arg"
+    },
+    "sfq-perturb": {
+      "_type": "arg"
+    }
+  },
+  "edit": {
+    "_type": "cmd",
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "export": {
+    "_type": "cmd",
+    "compact": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "hide-sensitive": {
+      "_type": "arg"
+    },
+    "path": {
+      "_type": "arg"
+    },
+    "show-sensitive": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "verbose": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "find": {
+    "_type": "cmd",
+    "where": {
+      "_type": "arg"
+    }
+  },
+  "get": {
+    "_type": "cmd",
+    "as-string": {
+      "_type": "arg"
+    },
+    "as-string-value": {
+      "_type": "arg"
+    },
+    "number": {
+      "_type": "arg"
+    },
+    "value-name": {
+      "_type": "arg"
+    }
+  },
+  "print": {
+    "_type": "cmd",
+    "append": {
+      "_type": "arg"
+    },
+    "as-value": {
+      "_type": "arg"
+    },
+    "brief": {
+      "_type": "arg"
+    },
+    "comments": {
+      "_type": "arg"
+    },
+    "count-only": {
+      "_type": "arg"
+    },
+    "detail": {
+      "_type": "arg"
+    },
+    "file": {
+      "_type": "arg"
+    },
+    "follow": {
+      "_type": "arg"
+    },
+    "follow-only": {
+      "_type": "arg"
+    },
+    "from": {
+      "_type": "arg"
+    },
+    "group-by": {
+      "_type": "arg"
+    },
+    "interval": {
+      "_type": "arg",
+      "desc": "00:00:00.200..    (time interval)"
+    },
+    "on-event": {
+      "_type": "arg",
+      "desc": "script"
+    },
+    "order-by": {
+      "_type": "arg"
+    },
+    "proplist": {
+      "_type": "arg"
+    },
+    "show-ids": {
+      "_type": "arg"
+    },
+    "terse": {
+      "_type": "arg"
+    },
+    "timestamp": {
+      "_type": "arg"
+    },
+    "value-list": {
+      "_type": "arg"
+    },
+    "where": {
+      "_type": "arg"
+    },
+    "without-paging": {
+      "_type": "arg"
+    }
+  },
+  "remove": {
+    "_type": "cmd",
+    "numbers": {
+      "_type": "arg"
+    }
+  },
+  "reset": {
+    "_type": "cmd",
+    "bfifo-limit": {
+      "_type": "arg"
+    },
+    "cake-ack-filter": {
+      "_type": "arg"
+    },
+    "cake-atm": {
+      "_type": "arg"
+    },
+    "cake-autorate-ingress": {
+      "_type": "arg"
+    },
+    "cake-bandwidth": {
+      "_type": "arg"
+    },
+    "cake-diffserv": {
+      "_type": "arg"
+    },
+    "cake-flowmode": {
+      "_type": "arg"
+    },
+    "cake-memlimit": {
+      "_type": "arg"
+    },
+    "cake-mpu": {
+      "_type": "arg"
+    },
+    "cake-nat": {
+      "_type": "arg"
+    },
+    "cake-overhead": {
+      "_type": "arg"
+    },
+    "cake-overhead-scheme": {
+      "_type": "arg"
+    },
+    "cake-rtt": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "cake-rtt-scheme": {
+      "_type": "arg"
+    },
+    "cake-wash": {
+      "_type": "arg"
+    },
+    "codel-ce-threshold": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "codel-ecn": {
+      "_type": "arg"
+    },
+    "codel-interval": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "codel-limit": {
+      "_type": "arg"
+    },
+    "codel-target": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-ce-threshold": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-ecn": {
+      "_type": "arg"
+    },
+    "fq-codel-flows": {
+      "_type": "arg"
+    },
+    "fq-codel-interval": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-limit": {
+      "_type": "arg"
+    },
+    "fq-codel-memlimit": {
+      "_type": "arg"
+    },
+    "fq-codel-quantum": {
+      "_type": "arg"
+    },
+    "fq-codel-target": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "kind": {
+      "_type": "arg"
+    },
+    "mq-pfifo-limit": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "pcq-burst-rate": {
+      "_type": "arg"
+    },
+    "pcq-burst-threshold": {
+      "_type": "arg"
+    },
+    "pcq-burst-time": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "pcq-classifier": {
+      "_type": "arg",
+      "desc": "src-address|dst-address|src-port|dst-port[,PcqClassifier*]"
+    },
+    "pcq-dst-address-mask": {
+      "_type": "arg"
+    },
+    "pcq-dst-address6-mask": {
+      "_type": "arg"
+    },
+    "pcq-limit": {
+      "_type": "arg"
+    },
+    "pcq-rate": {
+      "_type": "arg"
+    },
+    "pcq-src-address-mask": {
+      "_type": "arg"
+    },
+    "pcq-src-address6-mask": {
+      "_type": "arg"
+    },
+    "pcq-total-limit": {
+      "_type": "arg"
+    },
+    "pfifo-limit": {
+      "_type": "arg"
+    },
+    "red-avg-packet": {
+      "_type": "arg"
+    },
+    "red-burst": {
+      "_type": "arg"
+    },
+    "red-limit": {
+      "_type": "arg"
+    },
+    "red-max-threshold": {
+      "_type": "arg"
+    },
+    "red-min-threshold": {
+      "_type": "arg"
+    },
+    "sfq-allot": {
+      "_type": "arg"
+    },
+    "sfq-perturb": {
+      "_type": "arg"
+    }
+  },
+  "set": {
+    "_type": "cmd",
+    "bfifo-limit": {
+      "_type": "arg"
+    },
+    "cake-ack-filter": {
+      "_type": "arg"
+    },
+    "cake-atm": {
+      "_type": "arg"
+    },
+    "cake-autorate-ingress": {
+      "_type": "arg"
+    },
+    "cake-bandwidth": {
+      "_type": "arg"
+    },
+    "cake-diffserv": {
+      "_type": "arg"
+    },
+    "cake-flowmode": {
+      "_type": "arg"
+    },
+    "cake-memlimit": {
+      "_type": "arg"
+    },
+    "cake-mpu": {
+      "_type": "arg"
+    },
+    "cake-nat": {
+      "_type": "arg"
+    },
+    "cake-overhead": {
+      "_type": "arg"
+    },
+    "cake-overhead-scheme": {
+      "_type": "arg"
+    },
+    "cake-rtt": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "cake-rtt-scheme": {
+      "_type": "arg"
+    },
+    "cake-wash": {
+      "_type": "arg"
+    },
+    "codel-ce-threshold": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "codel-ecn": {
+      "_type": "arg"
+    },
+    "codel-interval": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "codel-limit": {
+      "_type": "arg"
+    },
+    "codel-target": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-ce-threshold": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-ecn": {
+      "_type": "arg"
+    },
+    "fq-codel-flows": {
+      "_type": "arg"
+    },
+    "fq-codel-interval": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "fq-codel-limit": {
+      "_type": "arg"
+    },
+    "fq-codel-memlimit": {
+      "_type": "arg"
+    },
+    "fq-codel-quantum": {
+      "_type": "arg"
+    },
+    "fq-codel-target": {
+      "_type": "arg",
+      "desc": "time interval"
+    },
+    "kind": {
+      "_type": "arg"
+    },
+    "mq-pfifo-limit": {
+      "_type": "arg"
+    },
+    "name": {
+      "_type": "arg",
+      "desc": "string value"
+    },
+    "numbers": {
+      "_type": "arg"
+    },
+    "pcq-burst-rate": {
+      "_type": "arg"
+    },
+    "pcq-burst-threshold": {
+      "_type": "arg"
+    },
+    "pcq-burst-time": {
+      "_type": "arg",
+      "desc": "1s..7101w3d6h28m15s    (time interval)"
+    },
+    "pcq-classifier": {
+      "_type": "arg",
+      "desc": "src-address|dst-address|src-port|dst-port[,PcqClassifier*]"
+    },
+    "pcq-dst-address-mask": {
+      "_type": "arg"
+    },
+    "pcq-dst-address6-mask": {
+      "_type": "arg"
+    },
+    "pcq-limit": {
+      "_type": "arg"
+    },
+    "pcq-rate": {
+      "_type": "arg"
+    },
+    "pcq-src-address-mask": {
+      "_type": "arg"
+    },
+    "pcq-src-address6-mask": {
+      "_type": "arg"
+    },
+    "pcq-total-limit": {
+      "_type": "arg"
+    },
+    "pfifo-limit": {
+      "_type": "arg"
+    },
+    "red-avg-packet": {
+      "_type": "arg"
+    },
+    "red-burst": {
+      "_type": "arg"
+    },
+    "red-limit": {
+      "_type": "arg"
+    },
+    "red-max-threshold": {
+      "_type": "arg"
+    },
+    "red-min-threshold": {
+      "_type": "arg"
+    },
+    "sfq-allot": {
+      "_type": "arg"
+    },
+    "sfq-perturb": {
+      "_type": "arg"
+    }
+  }
+}

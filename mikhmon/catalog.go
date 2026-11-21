@@ -23,6 +23,8 @@ const (
 	ExpireMonitorName = "Mikhmon-Expire-Monitor"
 	// ExpireMonitorComment adalah comment scheduler tersebut.
 	ExpireMonitorComment = "Mikhmon Expire Monitor"
+	// ProfileMonitorCommentPrefix adalah prefix comment scheduler monitor profil Mikhmon v4.
+	ProfileMonitorCommentPrefix = "Monitor Profile "
 	// SalesComment menandai script laporan penjualan Mikhmon.
 	SalesComment = "mikhmon"
 	// QuickPrintComment menandai preset QuickPrint Mikhmon.

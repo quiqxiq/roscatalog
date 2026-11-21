@@ -293,3 +293,95 @@ func TestKickUser(t *testing.T) {
 		t.Fatalf("bukan remove active: %s", got)
 	}
 }
+
+func TestInstallProfileMonitorAdd(t *testing.T) {
+	f := &fakeExec{execRet: "*S1"}
+	c := New(f)
+	if err := c.InstallProfileMonitor(context.Background(), "1jam", ExpiryRemoveRecord); err != nil {
+		t.Fatal(err)
+	}
+	if len(f.execs) != 1 {
+		t.Fatalf("exec=%d, want 1", len(f.execs))
+	}
+	got := joined(f.execs[0])
+	for _, want := range []string{
+		"/system/scheduler/add", "=name=1jam",
+		"=comment=Monitor Profile 1jam", "=interval=00:02:30",
+		"=on-event=", `profile="1jam"`,
+	} {
+		if !strings.Contains(got, want) {
+			t.Errorf("sentence tidak memuat %q: %s", want, got)
+		}
+	}
+}
+
+func TestInstallProfileMonitorUpdate(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{{".id": "*S2"}}}
+	c := New(f)
+	if err := c.InstallProfileMonitor(context.Background(), "1jam", ExpiryNoticeRecord); err != nil {
+		t.Fatal(err)
+	}
+	if len(f.execs) != 2 {
+		t.Fatalf("exec=%d, want 2 (set + enable)", len(f.execs))
+	}
+	if got := joined(f.execs[0]); !strings.Contains(got, "/system/scheduler/set") || !strings.Contains(got, "=.id=*S2") {
+		t.Errorf("exec pertama bukan set: %s", got)
+	}
+	if got := joined(f.execs[1]); !strings.Contains(got, "/system/scheduler/enable") || !strings.Contains(got, "=.id=*S2") {
+		t.Errorf("exec kedua bukan enable: %s", got)
+	}
+}
+
+func TestInstallProfileMonitorNoneRemoves(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{{".id": "*S3"}}}
+	c := New(f)
+	if err := c.InstallProfileMonitor(context.Background(), "1jam", ExpiryNone); err != nil {
+		t.Fatal(err)
+	}
+	if len(f.execs) != 1 {
+		t.Fatalf("exec=%d, want 1 (remove)", len(f.execs))
+	}
+	if got := joined(f.execs[0]); !strings.Contains(got, "/system/scheduler/remove") || !strings.Contains(got, "=.id=*S3") {
+		t.Errorf("sentence bukan remove: %s", got)
+	}
+}
+
+func TestRemoveProfileMonitor(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{{".id": "*S4"}}}
+	c := New(f)
+	if err := c.RemoveProfileMonitor(context.Background(), "1jam"); err != nil {
+		t.Fatal(err)
+	}
+	if len(f.execs) != 1 {
+		t.Fatalf("exec=%d, want 1", len(f.execs))
+	}
+	if got := joined(f.execs[0]); !strings.Contains(got, "/system/scheduler/remove") || !strings.Contains(got, "=.id=*S4") {
+		t.Errorf("sentence salah: %s", got)
+	}
+}
+
+func TestProfileMonitor(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{{".id": "*S5", "name": "1jam"}}}
+	c := New(f)
+	row, err := c.ProfileMonitor(context.Background(), "1jam")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if row[".id"] != "*S5" || row["name"] != "1jam" {
+		t.Fatalf("row salah: %v", row)
+	}
+}
+
+func TestRemoveProfile(t *testing.T) {
+	f := &fakeExec{
+		onceRows: []map[string]string{{".id": "*P1"}}, // for profile lookup
+	}
+	c := New(f)
+	if err := c.RemoveProfile(context.Background(), "1jam"); err != nil {
+		t.Fatal(err)
+	}
+	// first action is remove profile
+	if got := joined(f.execs[0]); !strings.Contains(got, "/ip/hotspot/user/profile/remove") || !strings.Contains(got, "=.id=*P1") {
+		t.Errorf("exec remove profile salah: %s", got)
+	}
+}

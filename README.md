@@ -127,7 +127,7 @@ mengembalikan field lewat completion.
 ## Paket `mikhmon`
 
 `mikhmon/` adalah overlay, bukan katalog duplikat. Ia menyaring resource root
-yang dipakai Mikhmon, menyediakan builder `on-login`/Expire Monitor, format
+yang dipakai Mikhmon, menyediakan builder `on-login`/Monitor Profile/Expire Monitor, format
 laporan penjualan/QuickPrint, dan `Client` workflow di atas `rosrun.Runner`.
 
 ```go
@@ -148,6 +148,8 @@ onLogin, _ := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
 _, _ = client.AddProfile(ctx, mikhmon.Profile{
     Name: "1jam", RateLimit: "1M/1M", SharedUsers: "1", OnLogin: onLogin,
 })
+_ = client.InstallProfileMonitor(ctx, "1jam", mikhmon.ExpiryRemoveRecord)
+
 _, _ = client.AddUser(ctx, mikhmon.User{
     Name: "vc001", Password: "vc001", Profile: "1jam",
     Server: "all", Comment: mikhmon.MikhmonComment("vc001", "vc001", "batch"),

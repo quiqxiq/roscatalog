@@ -207,6 +207,101 @@ func (c *Client) InstallExpireMonitor(ctx context.Context) error {
 	return err
 }
 
+// InstallProfileMonitor membuat atau memperbarui scheduler Monitor Profile
+// untuk satu user profile di /system/scheduler persis seperti adduserprofile.php di Mikhmon v4.
+// Bila mode adalah ExpiryNone, scheduler monitor untuk profile ini dihapus.
+func (c *Client) InstallProfileMonitor(ctx context.Context, profile string, mode ExpiryMode) error {
+	if mode == ExpiryNone {
+		return c.RemoveProfileMonitor(ctx, profile)
+	}
+	script, err := ProfileMonitorScript(profile, mode)
+	if err != nil {
+		return err
+	}
+	comment := ProfileMonitorCommentPrefix + profile
+	rows, err := c.once(ctx, "system-scheduler", "list",
+		[]ros.Query{{Prop: "name", Value: profile}})
+	if err != nil {
+		return err
+	}
+	if len(rows) == 0 {
+		_, err = c.action(ctx, "system-scheduler", "add", "", map[string]string{
+			"name":       profile,
+			"start-time": "01:00:00",
+			"interval":   "00:02:30",
+			"on-event":   script,
+			"comment":    comment,
+			"disabled":   "no",
+		})
+		return err
+	}
+	id := rows[0][".id"]
+	if id == "" {
+		return fmt.Errorf("mikhmon: scheduler Monitor Profile %q tidak mengembalikan .id", profile)
+	}
+	if _, err := c.action(ctx, "system-scheduler", "set", id, map[string]string{
+		"interval": "00:02:30",
+		"on-event": script,
+		"comment":  comment,
+	}); err != nil {
+		return err
+	}
+	_, err = c.action(ctx, "system-scheduler", "enable", id, nil)
+	return err
+}
+
+// RemoveProfileMonitor menghapus scheduler Monitor Profile jika ada.
+func (c *Client) RemoveProfileMonitor(ctx context.Context, profile string) error {
+	rows, err := c.once(ctx, "system-scheduler", "list",
+		[]ros.Query{{Prop: "name", Value: profile}})
+	if err != nil {
+		return err
+	}
+	if len(rows) == 0 {
+		return nil
+	}
+	id := rows[0][".id"]
+	if id == "" {
+		return nil
+	}
+	_, err = c.action(ctx, "system-scheduler", "remove", id, nil)
+	return err
+}
+
+// ProfileMonitor membaca scheduler Monitor Profile untuk profile tertentu.
+func (c *Client) ProfileMonitor(ctx context.Context, profile string) (map[string]string, error) {
+	rows, err := c.once(ctx, "system-scheduler", "list",
+		[]ros.Query{{Prop: "name", Value: profile}})
+	if err != nil {
+		return nil, err
+	}
+	if len(rows) == 0 {
+		return nil, fmt.Errorf("%w: scheduler monitor profile %q", ErrNotFound, profile)
+	}
+	return rows[0], nil
+}
+
+// RemoveProfile menghapus user profile sekaligus menghapus scheduler Monitor Profile-nya,
+// sama seperti removeuserprofile.php di Mikhmon v4.
+func (c *Client) RemoveProfile(ctx context.Context, profile string) error {
+	rows, err := c.once(ctx, "hotspot-user-profile", "detail",
+		[]ros.Query{{Prop: "name", Value: profile}})
+	if err != nil {
+		return err
+	}
+	if len(rows) == 0 {
+		return fmt.Errorf("%w: profile %q", ErrNotFound, profile)
+	}
+	id := rows[0][".id"]
+	if id == "" {
+		return fmt.Errorf("mikhmon: profile %q tidak mengembalikan .id", profile)
+	}
+	if _, err := c.action(ctx, "hotspot-user-profile", "remove", id, nil); err != nil {
+		return err
+	}
+	return c.RemoveProfileMonitor(ctx, profile)
+}
+
 // ExpireMonitor membaca scheduler Expire Monitor.
 func (c *Client) ExpireMonitor(ctx context.Context) (map[string]string, error) {
 	rows, err := c.once(ctx, "system-scheduler", "list",

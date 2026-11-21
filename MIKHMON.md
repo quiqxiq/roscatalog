@@ -373,7 +373,7 @@ Bagian-bagiannya:
      /system scheduler add name=$user start-date=$date interval=1d;
      :delay 2s;
      :local exp [/system scheduler get [find where name=$user] next-run];
-     /ip hotspot user set comment="$exp $mode" [find where name=$user];
+     /ip hotspot user set comment="$exp" [find where name=$user];
      /system scheduler remove [find where name=$user];
    }
    ```
@@ -467,11 +467,32 @@ Penting:
 
 ---
 
-## 6. Expire Monitor
+## 6. Expire Monitor & Monitor Profile
 
-Mikhmon memasang scheduler bernama `Mikhmon-Expire-Monitor` yang berjalan
-setiap menit (`post/post_expire_monitor.php`, script dibangun di
-`assets/js/func.js` `setExpMon`):
+Di Mikhmon terdapat dua mekanisme pemantauan kedaluwarsa:
+
+### A. Monitor Profile per-profil (Standar Mikhmon v4)
+
+Sejak pembaruan v3.13 r7 hingga v4, Mikhmon beralih ke scheduler independen **per user profile**:
+- Scheduler bernama sama dengan profilnya (`<nama_profile>`), dengan comment `Monitor Profile <nama_profile>` dan interval acak ~`00:02:XX`.
+- Script on-event di-generate dari fungsi `mikhmon_v3_bgservice_script($name, $mode)`.
+- Mode aksi (`remove` atau `set limit-uptime=1s`) tertanam langsung di scheduler profil tersebut, sehingga user comment murni berisi tanggal kedaluwarsa (`$expLegacy`, mis. `nov/18/2026 10:00:00`) tanpa perlu suffix `N`/`X`.
+- Di antarmuka web Mikhmon v4, scheduler ini dipantau untuk menampilkan lampu indikator profil: hijau jika scheduler aktif, oranye jika mati atau belum dibuat.
+
+```php
+$API->comm("/system/scheduler/add", [
+  "name" => $name,
+  "start-time" => $randstarttime,
+  "interval" => $randinterval,
+  "on-event" => $bgservice_src,
+  "disabled" => "no",
+  "comment" => "Monitor Profile " . $name,
+]);
+```
+
+### B. Global Expire Monitor (`Mikhmon-Expire-Monitor`)
+
+Sebagai utilitas pembersih umum atau pada versi sebelumnya, Mikhmon memasang scheduler global bernama `Mikhmon-Expire-Monitor` yang berjalan setiap menit (`post/post_expire_monitor.php`, script di `assets/js/func.js` `setExpMon`):
 
 ```php
 $API->comm("/system/scheduler/add", [
@@ -840,14 +861,16 @@ Paket itu adalah **overlay**, bukan duplikat katalog:
 - `mikhmon.Lookup`/`Resources`/`IDs` hanya mengekspos 22 resource yang dipakai
   Mikhmon (dashboard, hotspot, DHCP, pool/NAT/queue, scheduler/script).
 - `mikhmon.OnLoginScript` membangun `on-login` satu baris, termasuk metadata
-  harga, normalisasi tanggal v6/v7, scheduler sementara, mode N/X, lock, dan
+  harga `:put`, normalisasi tanggal v6/v7, scheduler sementara, mode expiry, lock, dan
   laporan `remc`/`ntfc`.
-- `mikhmon.ExpireMonitorScript` mengembalikan on-event
+- `mikhmon.ProfileMonitorScript` mengembalikan on-event scheduler
+  `Monitor Profile <nama_profile>` persis seperti `mikhmon_v3_bgservice_script` di Mikhmon v4.
+- `mikhmon.ExpireMonitorScript` mengembalikan on-event global
   `Mikhmon-Expire-Monitor` yang sama dengan `assets/js/func.js`.
 - `mikhmon.Sale` dan `mikhmon.QuickPrintPreset` menyusun/membaca format name,
   source, owner, dan source QuickPrint.
 - `mikhmon.Client` membungkus workflow add profile, add user/voucher,
-  set on-login, install Expire Monitor, add sale, simpan QuickPrint, normalize
+  set on-login, install Profile Monitor / Expire Monitor, add sale, simpan QuickPrint, normalize
   laporan `owner=*sys`, kick user, dan hapus user `limit-uptime=1s`.
 
 `Client` hanya membutuhkan interface `Executor`; `*rosrun.Runner` sudah

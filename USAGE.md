@@ -485,24 +485,50 @@ rows, err := client.Vouchers(ctx, comment) // view voucher, termasuk password
 per profile, `KickUser` memutus sesi aktif, dan `RemoveExpiredUsers` menghapus
 user ber-`limit-uptime=1s` (hati-hati bila dipakai di router produksi).
 
-### 11.4 Expire Monitor
+### 11.4 Monitor Profile dan Expire Monitor
 
-```go
-if err := client.InstallExpireMonitor(ctx); err != nil {
-    log.Fatal(err)
-}
+Mikhmon memiliki dua mekanisme pemantau kedaluwarsa:
 
-sched, err := client.ExpireMonitor(ctx) // map nama/interval/on-event/disabled
-```
+1. **Monitor Profile per-profil (Standar Mikhmon v4)**:
+   Sejak Mikhmon v3.13 r7 / v4, pembersihan user yang kedaluwarsa ditangani oleh scheduler independen per user-profile bernama `<nama_profile>` dengan comment `Monitor Profile <nama_profile>` dan interval `00:02:30`. Di web UI Mikhmon v4, scheduler ini terdeteksi sebagai lampu indikator hijau pada daftar profil.
 
-`InstallExpireMonitor` membuat scheduler `Mikhmon-Expire-Monitor` bila belum
-ada, atau memperbarui interval/on-event lalu mengaktifkannya. On-event-nya
-disalin dari `assets/js/func.js` dan tetap satu baris.
+   ```go
+   // Pasang atau perbarui scheduler monitor profil
+   if err := client.InstallProfileMonitor(ctx, "1jam", mikhmon.ExpiryRemoveRecord); err != nil {
+       log.Fatal(err)
+   }
+
+   // Periksa status monitor profil
+   sched, err := client.ProfileMonitor(ctx, "1jam")
+
+   // Hapus monitor profil jika mode diubah ke ExpiryNone
+   err = client.RemoveProfileMonitor(ctx, "1jam")
+
+   // Atau hapus profil beserta scheduler monitornya sekaligus
+   err = client.RemoveProfile(ctx, "1jam")
+   ```
+
+   Script on-event dibuat lewat `mikhmon.ProfileMonitorScript(profile, mode)` yang mengimplementasikan `mikhmon_v3_bgservice_script` di Mikhmon v4. Mode `rem`/`remc` mengeksekusi `remove`, sedangkan mode `ntf`/`ntfc` mengeksekusi `set limit-uptime=1s`.
+
+2. **Global Expire Monitor (Utilitas Global)**:
+   Scheduler global `Mikhmon-Expire-Monitor` yang memindai seluruh user di router setiap 1 menit:
+
+   ```go
+   if err := client.InstallExpireMonitor(ctx); err != nil {
+       log.Fatal(err)
+   }
+
+   sched, err := client.ExpireMonitor(ctx) // map nama/interval/on-event/disabled
+   ```
+
+   `InstallExpireMonitor` membuat scheduler `Mikhmon-Expire-Monitor` bila belum
+   ada, atau memperbarui interval/on-event lalu mengaktifkannya. On-event-nya
+   disalin dari `assets/js/func.js` dan tetap satu baris.
 
 Mode kerja:
 
-- `N`: saat kedaluwarsa, set `limit-uptime=1s` lalu putuskan sesi aktif.
-- `X`: saat kedaluwarsa, hapus user lalu putuskan sesi aktif.
+- `N` (`ntf`/`ntfc`): saat kedaluwarsa, set `limit-uptime=1s` lalu putuskan sesi aktif.
+- `X` (`rem`/`remc`): saat kedaluwarsa, hapus user lalu putuskan sesi aktif.
 
 ### 11.5 Laporan penjualan dan `owner=*sys`
 

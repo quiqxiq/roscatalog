@@ -242,6 +242,7 @@ func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, ke
 	if err := t.must("on-login/build", func() (string, error) {
 		s, err := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
 			Mode:        mikhmon.ExpiryRemoveRecord,
+			Price:       "5000",
 			Validity:    "1d",
 			Profile:     profileName,
 			RecordSales: true,
@@ -290,7 +291,7 @@ func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, ke
 		if strings.ContainsAny(got, "\r\n") {
 			return "", errors.New("on-login tersimpan multi-baris")
 		}
-		if !strings.Contains(got, `:local mode "X"`) || !strings.Contains(got, "comment=mikhmon") {
+		if !strings.Contains(got, `:put (",remc,5000,1d,0,,Disable,")`) || !strings.Contains(got, "comment=mikhmon") {
 			return "", fmt.Errorf("on-login tersimpan tidak memuat mode/laporan: %.120s", got)
 		}
 		exact := "ya"
@@ -436,8 +437,8 @@ func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, ke
 		if got == comment {
 			return "", errors.New("on-login tidak mengubah comment")
 		}
-		if !strings.Contains(got, " X") {
-			return "", fmt.Errorf("comment tidak berisi mode X: %q", got)
+		if len(got) < 19 || !strings.Contains(got, "/") {
+			return "", fmt.Errorf("comment tidak berisi format tanggal Mikhmon v4: %q", got)
 		}
 		return got, nil
 	}); err != nil {
@@ -554,6 +555,34 @@ func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, ke
 			return "", errors.New("set owner tidak membuat laporan tampil di query owner")
 		}
 		return fmt.Sprintf("%d laporan owner=*sys dinormalisasi ke %s", n, owner), nil
+	}); err != nil {
+		return err
+	}
+
+	if err := t.must("profile-monitor/install", func() (string, error) {
+		if err := t.client.InstallProfileMonitor(ctx, profileName, mikhmon.ExpiryRemoveRecord); err != nil {
+			return "", err
+		}
+		t.onCleanup("profile monitor "+profileName, func() error {
+			return t.client.RemoveProfileMonitor(t.ctx, profileName)
+		})
+		return "dipasang", nil
+	}); err != nil {
+		return err
+	}
+
+	if err := t.must("profile-monitor/verifikasi", func() (string, error) {
+		row, err := t.client.ProfileMonitor(ctx, profileName)
+		if err != nil {
+			return "", err
+		}
+		if row["disabled"] == "true" {
+			return "", errors.New("profile monitor disabled")
+		}
+		if row["interval"] != "00:02:30" && row["interval"] != "2m30s" {
+			return "", fmt.Errorf("interval=%q, want 00:02:30", row["interval"])
+		}
+		return fmt.Sprintf("interval=%s comment=%s", row["interval"], row["comment"]), nil
 	}); err != nil {
 		return err
 	}

@@ -78,6 +78,21 @@ func init() {
 			Filter("list", "interface").
 			List("list", "interface", "disabled", "comment").
 			CRUD(P("list", "interface"), P("comment")),
+
+		Table("interface-bridge-vlan", GroupInterface, "Bridge VLAN", "/interface/bridge/vlan").
+			Describe("CHR 7.24.6: CHR tidak punya menu ini; field dari MikroDash (interface-bridge-vlan/print).").
+			Filter("bridge", "vlan-ids").
+			List("id", "bridge", "vlan-ids", "tagged", "untagged", "current-tagged", "dynamic", "disabled").
+			CRUD(P("bridge"), P("vlan-ids", "tagged", "untagged", "dynamic", "disabled")),
+
+		Table("interface-detect-internet-state", GroupInterface, "detect-internet status", "/interface/detect-internet/state").
+			Describe("Statis; field dari MikroDash (interface-detect-internet-state/print).").
+			List("id", "name", "state", "state-change-time", "interface"),
+
+		Table("wireguard-peers", GroupInterface, "WireGuard peers", "/interface/wireguard/peers").
+			Describe("CHR 7.24.6: CHR mengirim kolom spesifik router; proplist sebagai konsistensi katalog").
+			Filter("name", "interface").
+			List("id", "interface", "name", "comment", "public-key", "allowed-address"),
 	)
 
 	// -----------------------------------------------------------------------
@@ -118,7 +133,8 @@ func init() {
 
 		Table("system-package", GroupSystem, "Paket terpasang", "/system/package").
 			List("name", "version", "build-time", "disabled", "scheduled").
-			Toggle(),
+			Toggle().
+			Do("apply-changes", SelNone, nil, nil, true, "terapkan paket yang baru dipasang"),
 
 		Single("system-package-update", GroupSystem, "Update paket", "/system/package/update").
 			Describe("check-for-updates mengirim beberapa !re status lalu !done (self-terminating).").
@@ -127,7 +143,8 @@ func init() {
 			add(View{
 				Name: "check", Mode: ModeNative, Command: "/system/package/update/check-for-updates",
 				Proplist: P("channel", "installed-version", "latest-version", "status"), SelfTerminating: true,
-			}),
+			}).
+			Do("install", SelNone, nil, nil, false, "install latest versi (putus sampai reboot)"),
 
 		Table("system-script", GroupSystem, "Script", "/system/script").
 			Describe("run memakai =number= (nama atau .id) dan tidak mengembalikan output script.").
@@ -177,6 +194,8 @@ func init() {
 			Filter("name", "type").
 			List("name", "type", "size", "creation-time").
 			Count().
+			Add(P("name", "type", "contents", "permission", "owner", "group"), nil).
+			Set(P("name", "contents", "permission", "owner", "group")...).
 			Remove("hapus file di router"),
 
 		Table("user", GroupSystem, "User router", "/user").

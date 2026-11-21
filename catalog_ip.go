@@ -102,5 +102,34 @@ func init() {
 				"default-route-distance", "comment")).
 			Do("release", SelNumbers, nil, nil, false, "lepas binding lalu restart client").
 			Do("renew", SelNumbers, nil, nil, false, "perbarui lease"),
+
+		Table("ipsec-policy", GroupIP, "IPsec policy", "/ip/ipsec/policy").
+			Filter("peer", "dst-address", "action", "protocol").
+			List("id", "dst-address", "protocol", "action", "peer", "disabled", "template"),
+
+		Table("ipsec-active-peers", GroupIP, "IPsec active peers", "/ip/ipsec/active-peers").
+			List("id", "identity", "address", "state", "dpd-state", "phase1-lifetime",
+				"phase2-lifetime"),
+
+		Table("ipsec-installed-sa", GroupIP, "IPsec installed SA", "/ip/ipsec/installed-sa").
+			List("id", "name", "security-profile", "phase1-lifetime", "phase2-lifetime",
+				"dont-send-deltas", "lifetime-strict-bytes-kb"),
+
+		Single("discovery-settings", GroupIP, "neighbor discovery settings", "/ip/neighbor/discovery-settings").
+			Describe("CHR 7.24.6: CHR mengirim kolom kosong; field dari MikroDash.").
+			List("name", "interface", "address", "mac-address", "identity", "platform"),
+
+		Table("routing-rule", GroupIP, "Routing rule", "/routing/rule").
+			List("id", "table", "disabled"),
+
+		Table("ipv6-route", GroupIP, "IPv6 route", "/ipv6/route").
+			Filter("dst-address", "gateway", "distance", "routing-table", "scope", "target-scope").
+			List("id", "active", "connect", "distance", "dst-address", "dynamic", "gateway",
+				"immediate-gw", "inactive", "routing-table", "scope", "target-scope").
+			CRUD(P("dst-address", "gateway"), P("distance", "routing-table", "scope", "target-scope",
+				"immediate-gw", "comment")),
+
+		Single("ip-cloud", GroupIP, "IP cloud", "/ip/cloud").
+			List("ddns-enabled", "ddns-update-interval", "update-time"),
 	)
 }

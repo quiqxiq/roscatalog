@@ -5,12 +5,13 @@ API (milik-style Mikhmon): mengandung daftar menu/resource, view baca
 (oneshot/interval/follow/listen/native), aksi tulis, dan konversi ke `Plan`
 stream/poll/execute.
 
-Ada dua module dalam project ini:
+Ada tiga komponen utama dalam project ini:
 
-| Module | Fungsi |
+| Module / Paket | Fungsi |
 |---|---|
 | `example.com/roscatalog` | katalog + `Request` builder + `fields/` struct + sentinel error |
 | `example.com/roscatalog/rosrun` | adapter ke engine transport (`goros/`), transport asinkron, watchdog, Manager |
+| `example.com/roscatalog/mikhmon` | overlay + workflow Mikhmon v4 (on-login, monitor profile, voucher, sales, quickprint) |
 
 Daftar halaman (baca dari awal):
 
@@ -25,6 +26,7 @@ Daftar halaman (baca dari awal):
 9. [Errors](09-errors.md) — sentinel errors + `errors.Is`
 10. [Testing](10-testing.md) — unit + live tests, roscheck/rosverify
 11. [Migrasi MikroDash](11-mikrodash.md) — jalan menggunakan roscatalog di MikroDash
+12. [Mikhmon](12-mikhmon.md) — overlay + workflow Mikhmon v4, on-login, monitor profile, sales, quickprint
 
 Contoh code yang bisa dijalankan: [docs/examples/](examples).
 

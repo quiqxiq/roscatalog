@@ -29,6 +29,13 @@ Pembagian tanggung jawab:
 | path/verb, view, plan, field dashboard, aksi aman, semantik domain | katalog `roscatalog` |
 | eksekusi dan konversi `Request` → command | `rosrun/` |
 
+## Dokumentasi
+
+Wiki lengkap untuk cara pakai: [`docs/`](docs/README.md) — 11 halaman:
+mulai, catalog, custom resources, views, realtime/poll, connection layer,
+status realtime, fields, errors, testing, dan laporan migrasi MikroDash.
+Contoh yang bisa dijalankan langsung: [`docs/examples/`](docs/examples).
+
 ## Mulai
 
 ```bash

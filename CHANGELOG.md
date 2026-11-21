@@ -3,7 +3,9 @@
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/) dan
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.3.0] - 2026-11-21
+
+Dokumentasi lengkap (`docs/`) ditambahkan, CHR-absent diimplementasikan, CHR-103 verified.
 
 ### Added — menutup gap dengan MikroDash
 
@@ -11,6 +13,19 @@ CHR-192 (CHR 7.24.6) dan CHR-103 (CHR 7.25-era) dianggap sumber field CHR;
 katalog ambil proplist dari CHR lalu tambah field MikroDash (masih tersedia lama,
 mis. `wifi`). CHR-192/103 hilang menu atau 0-field: katalog tetap ditambahkan
 (CHR baru/v7.25 akan lengkap).
+
+CHR-103 lengkap (verified): `/app/settings` (6 field), `/system/license`
+(features, nlevel, software-id), `/system/device-mode` (24 field CHR = CHR-103).
+
+### Added — wiki docs
+
+- `docs/` 11-halaman wiki lengkap: [docs/README.md](docs/README.md) —
+  mulai, catalog, custom-resources, views, realtime/poll, connection-layer,
+  status, fields, errors, testing, laporan-migrasi MikroDash.
+- `docs/examples/` 3 example Go bisa di-`go run` secara langsung.
+- root `README.md` kait dengan docs/.
+
+### Added — resource & aksi baru (CHR-103 verified; CHR-192 = CHR 7.24.6)
 
 - Resource baru (File juga — keangkatan nama resource mengikuti path CHR):
   - `app` — /app (statis; CHR-192/103: menu ada, field 0 — MikroDash proplist digunakan);

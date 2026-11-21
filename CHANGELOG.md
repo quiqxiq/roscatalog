@@ -13,7 +13,8 @@ mis. `wifi`). CHR-192/103 hilang menu atau 0-field: katalog tetap ditambahkan
 (CHR baru/v7.25 akan lengkap).
 
 - Resource baru (File juga — keangkatan nama resource mengikuti path CHR):
-  - `app` — /app (statis); `app-settings` — /app/settings
+  - `app` — /app (statis; CHR-192/103: menu ada, field 0 — MikroDash proplist digunakan);
+  `app-settings` — /app/settings (Set: CHR-103 lengkap: auto-update, registry-mirrors, show-in-webfig)
   - `user-group` — /user/group; `user-settings` — /user/settings
   - `device-mode` — /system/device-mode; `license` — /system/license
   - `routerboard-settings` — /system/routerboard/settings
@@ -43,6 +44,18 @@ mis. `wifi`). CHR-192/103 hilang menu atau 0-field: katalog tetap ditambahkan
   - `file`: `add` (name, type, contents, permission, owner, group), `set`
   - `system-package-update`: `install`
   - `system-package`: `apply-changes`
+  - `app-settings`: `Set` (disk, lan-bridge, assumed-lan-bridge, router-ip, assumed-router-ip, auto-update, registry-mirrors, show-in-webfig)
+  - `tool-sniffer` — /tool/sniffer: `Set`, `Do("start")`, `Do("stop")`, `Do("save")`
+
+### CHR-absent (MikroDash-only, tidak dapat verifikasi pada CHR-192/103)
+
+- `/caps-man/manager`, `/caps-man/radio` (CHR: no such command)
+- `/interface/wifi/cap`, `/interface/wifi/capsman`, `/interface/wifi/capsman/remote-cap`,
+  `/interface/wifi/frequency-scan` (CHR: tidak ada)
+- `/execute`, `/import`, `/menu`, `/stub/print` (console/tooling, CHR: tidak ada)
+- `/system/reset-configuration` (CHR: tidak ada)
+- `/tool/ping` (CHR: /tool/ping tidak ada; roscatalog gunakan `tool-ping` di /ping)
+- `/tool/sniffer/packet` dll — CHR-192/103: fields=0 — `tool-sniffer` resource List+Set saja.)
 
 ### Verified against CHR (192.168.122.189:8728 + 103.139.193.128:1012)
 

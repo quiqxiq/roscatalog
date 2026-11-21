@@ -7,12 +7,16 @@ func init() {
 			List("slot", "fs", "mounted", "free", "size"),
 
 		Single("app", GroupSystem, "App runtime", "/app").
-			Describe("Statis per build router; format field bisa berubah antar versi.").
-			List("id", "name", "disabled", "running", "status", "ui-url", "interface"),
+			Describe("Statis per build router; format field bisa berubah antar versi. "+
+				"CHR-192/103: field kosong; CHR lama lebih lengkap dari MikroDash.").
+			List("id", "name", "disabled", "running", "status", "ui-url", "interface").
+			Set("use-https"),
 
 		Table("app-settings", GroupSystem, "App settings", "/app/settings").
 			Describe("CHR-103 fields: auto-update, registry-mirrors, show-in-webfig; CHR lain memberi 0 field.").
 			List("disk", "lan-bridge", "assumed-lan-bridge", "router-ip", "assumed-router-ip",
+				"auto-update", "registry-mirrors", "show-in-webfig").
+			Set("disk", "lan-bridge", "assumed-lan-bridge", "router-ip", "assumed-router-ip",
 				"auto-update", "registry-mirrors", "show-in-webfig"),
 
 		Table("user-group", GroupSystem, "User groups", "/user/group").

@@ -86,6 +86,30 @@ func init() {
 			P("name", "cpu", "usage"),
 			true),
 
+		Table("tool-sniffer", GroupTools, "Sniffer (paket sniffing)", "/tool/sniffer").
+			Describe("CHR-103 fields (file-limit ... streaming-server).").
+			Filter("interface", "file-name", "streaming-server").
+			List("id", "file-limit", "file-name", "filter-cpu", "filter-direction",
+				"filter-dst-ip-address", "filter-dst-ipv6-address", "filter-dst-mac-address",
+				"filter-dst-port", "filter-interface", "filter-ip-address", "filter-ip-protocol",
+				"filter-ipv6-address", "filter-mac-address", "filter-mac-protocol",
+				"filter-operator-between-entries", "filter-port", "filter-size",
+				"filter-src-ip-address", "filter-src-ipv6-address", "filter-src-mac-address",
+				"filter-src-port", "filter-stream", "filter-vlan", "max-packet-size",
+				"memory-limit", "memory-scroll", "only-headers", "quick-rows", "quick-show-frame",
+				"running", "streaming-enabled", "streaming-server").
+			Set("file-limit", "file-name", "filter-interface", "filter-dst-ip-address",
+				"filter-dst-ipv6-address", "filter-dst-mac-address", "filter-dst-port",
+				"filter-ip-address", "filter-ip-protocol", "filter-ipv6-address",
+				"filter-mac-address", "filter-mac-protocol", "filter-operator-between-entries",
+				"filter-port", "filter-size", "filter-src-ip-address", "filter-src-ipv6-address",
+				"filter-src-mac-address", "filter-src-port", "filter-stream", "filter-vlan",
+				"memory-limit", "memory-scroll", "only-headers", "quick-rows", "quick-show-frame",
+				"streaming-enabled", "streaming-server").
+			Do("start", SelNone, nil, nil, false, "jalankan sniffer").
+			Do("stop", SelNone, nil, nil, false, "hentikan sniffer").
+			Do("save", SelNone, nil, P("file-name"), false, "simpan sniffer sebagai file"),
+
 		Table("tool-netwatch", GroupTools, "Netwatch (monitor host up/down)", "/tool/netwatch").
 			Describe("Perubahan status muncul sebagai perubahan properti status/since; listen layak dicoba, "+
 				"fallback ke view live bila event tidak datang.").

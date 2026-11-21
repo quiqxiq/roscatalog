@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	ros "example.com/roscatalog"
+	"example.com/roscatalog/fields"
 	"example.com/roscatalog/rosrun"
 )
 
@@ -383,5 +384,142 @@ func TestRemoveProfile(t *testing.T) {
 	// first action is remove profile
 	if got := joined(f.execs[0]); !strings.Contains(got, "/ip/hotspot/user/profile/remove") || !strings.Contains(got, "=.id=*P1") {
 		t.Errorf("exec remove profile salah: %s", got)
+	}
+}
+
+func TestUserToFieldsAndFromVoucher(t *testing.T) {
+	u := User{
+		Name:            "vc101",
+		Password:        "pass101",
+		Profile:         "paket1",
+		Server:          "all",
+		Comment:         "vc-batch-1",
+		Address:         "10.0.0.10",
+		MACAddress:      "00:11:22:33:44:55",
+		LimitUptime:     "1d",
+		LimitBytesTotal: "1048576000",
+		Email:           "test@example.com",
+	}
+	f := u.ToFields()
+	if f.Name != u.Name || f.Password != u.Password || f.LimitUptime != u.LimitUptime {
+		t.Fatalf("ToFields salah: %+v", f)
+	}
+
+	vRow := fields.MikhmonVoucherRow{
+		ID:              "*101",
+		Name:            u.Name,
+		Password:        u.Password,
+		Profile:         u.Profile,
+		LimitUptime:     u.LimitUptime,
+		LimitBytesTotal: u.LimitBytesTotal,
+		Comment:         u.Comment,
+		Server:          u.Server,
+		Address:         u.Address,
+		MACAddress:      u.MACAddress,
+	}
+	uFromV := UserFromVoucher(vRow)
+	if uFromV.Name != u.Name || uFromV.Password != u.Password || uFromV.Profile != u.Profile {
+		t.Fatalf("UserFromVoucher salah: %+v", uFromV)
+	}
+}
+
+func TestProfileToFields(t *testing.T) {
+	p := Profile{
+		Name:        "paket1",
+		RateLimit:   "2M/2M",
+		SharedUsers: "1",
+		OnLogin:     ":put test",
+	}
+	f := p.ToFields()
+	if f.Name != "paket1" || f.StatusAutorefresh != "1m" || f.RateLimit != "2M/2M" {
+		t.Fatalf("ToFields profile salah: %+v", f)
+	}
+}
+
+func TestClientTypedMethods(t *testing.T) {
+	f := &fakeExec{
+		onceRows: []map[string]string{
+			{
+				".id":     "*1",
+				"name":    "nov/18/2026-|-10:00:00-|-u1-|-5000-|-10.0.0.1-|-AA:BB-|-1d-|-p1-|-vc-1",
+				"owner":   "nov2026",
+				"source":  "nov/18/2026",
+				"comment": "mikhmon",
+			},
+		},
+	}
+	c := New(f)
+	sales, err := c.SalesRows(context.Background(), "nov2026")
+	if err != nil || len(sales) != 1 {
+		t.Fatalf("SalesRows failed: err=%v, len=%d", err, len(sales))
+	}
+	if sales[0].Owner != "nov2026" || sales[0].Comment != "mikhmon" {
+		t.Fatalf("unexpected sales row: %+v", sales[0])
+	}
+
+	f.onceRows = []map[string]string{
+		{
+			".id":     "*2",
+			"name":    "Quick_Print_Paket1",
+			"source":  "#Paket1#all#vc#4#vc#mix#paket1#1d#0#c#1d#5000_7000#Disable",
+			"comment": "QuickPrintMikhmon",
+		},
+	}
+	qps, err := c.QuickPrintRows(context.Background())
+	if err != nil || len(qps) != 1 {
+		t.Fatalf("QuickPrintRows failed: err=%v, len=%d", err, len(qps))
+	}
+	if qps[0].Name != "Quick_Print_Paket1" {
+		t.Fatalf("unexpected quickprint row: %+v", qps[0])
+	}
+
+	f.onceRows = []map[string]string{
+		{
+			".id":          "*3",
+			"name":         "vc101",
+			"password":     "1234",
+			"profile":      "paket1",
+			"limit-uptime": "1d",
+			"comment":      "vc-batch-1",
+		},
+	}
+	vouchers, err := c.VouchersTyped(context.Background(), "vc-batch-1")
+	if err != nil || len(vouchers) != 1 {
+		t.Fatalf("VouchersTyped failed: err=%v, len=%d", err, len(vouchers))
+	}
+	if vouchers[0].Password != "1234" {
+		t.Fatalf("unexpected voucher row: %+v", vouchers[0])
+	}
+
+	f.onceRows = []map[string]string{
+		{
+			".id":        "*4",
+			"name":       "paket1",
+			"start-time": "01:00:00",
+			"interval":   "00:02:30",
+			"on-event":   ":put test",
+			"comment":    "Monitor Profile paket1",
+			"disabled":   "no",
+		},
+	}
+	pMon, err := c.ProfileMonitorRow(context.Background(), "paket1")
+	if err != nil || pMon.Comment != "Monitor Profile paket1" {
+		t.Fatalf("ProfileMonitorRow failed: err=%v, row=%+v", err, pMon)
+	}
+
+	f.onceRows = []map[string]string{
+		{
+			".id":        "*5",
+			"name":       ExpireMonitorName,
+			"start-time": "00:00:00",
+			"interval":   "00:01:00",
+			"on-event":   ":put test",
+			"comment":    ExpireMonitorComment,
+			"disabled":   "no",
+		},
+	}
+	expMon, err := c.ExpireMonitorRow(context.Background())
+	if err != nil || expMon.Comment != ExpireMonitorComment {
+		t.Fatalf("ExpireMonitorRow failed: err=%v, row=%+v", err, expMon)
 	}
 }

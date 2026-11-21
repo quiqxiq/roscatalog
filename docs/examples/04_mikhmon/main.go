@@ -81,4 +81,12 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("Total user berprofile paket-1hari: %d\n", total)
+
+	// 6. Baca voucher secara typed menggunakan fields.MikhmonVoucherRow
+	vouchers, err := client.VouchersTyped(ctx, comment)
+	if err == nil {
+		for _, v := range vouchers {
+			fmt.Printf("- Voucher: %s, Profile: %s, LimitUptime: %s\n", v.Name, v.Profile, v.LimitUptime)
+		}
+	}
 }

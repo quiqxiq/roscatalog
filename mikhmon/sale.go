@@ -3,6 +3,8 @@ package mikhmon
 import (
 	"fmt"
 	"strings"
+
+	"example.com/roscatalog/fields"
 )
 
 // Sale adalah satu baris laporan penjualan Mikhmon. Name mengikuti konvensi
@@ -62,6 +64,21 @@ func ParseSaleName(name string) (Sale, error) {
 		Address: parts[4], MAC: parts[5], Validity: parts[6],
 		Profile: parts[7], Comment: parts[8],
 	}, nil
+}
+
+// ToFields mengonversi Sale ke fields.MikhmonSalesAdd untuk disimpan ke /system/script.
+func (s Sale) ToFields() fields.MikhmonSalesAdd {
+	return fields.MikhmonSalesAdd{
+		Name:    s.Name(),
+		Source:  s.Source(),
+		Owner:   s.Owner(),
+		Comment: SalesComment,
+	}
+}
+
+// SaleFromRow mem-parse fields.MikhmonSalesRow menjadi domain Sale.
+func SaleFromRow(row fields.MikhmonSalesRow) (Sale, error) {
+	return ParseSaleName(row.Name)
 }
 
 var monthNumbers = map[string]string{

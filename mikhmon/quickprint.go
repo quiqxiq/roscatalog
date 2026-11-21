@@ -3,6 +3,8 @@ package mikhmon
 import (
 	"fmt"
 	"strings"
+
+	"example.com/roscatalog/fields"
 )
 
 // QuickPrintPreset adalah preset cetak voucher Mikhmon. Source-nya adalah
@@ -44,12 +46,26 @@ func (p QuickPrintPreset) Source() string {
 	if selling == "" {
 		selling = price
 	}
-	fields := []string{
+	parts := []string{
 		p.Package, p.Server, p.UserMode, p.UserLength, p.Prefix, p.Char,
 		p.Profile, p.TimeLimit, p.DataLimit, p.Comment, p.Validity,
 		price + "_" + selling, p.UserLock,
 	}
-	return "#" + strings.Join(fields, "#")
+	return "#" + strings.Join(parts, "#")
+}
+
+// ToFields mengonversi QuickPrintPreset ke fields.MikhmonQuickPrintAdd.
+func (p QuickPrintPreset) ToFields() fields.MikhmonQuickPrintAdd {
+	return fields.MikhmonQuickPrintAdd{
+		Name:    p.Name(),
+		Source:  p.Source(),
+		Comment: QuickPrintComment,
+	}
+}
+
+// PresetFromRow mem-parse fields.MikhmonQuickPrintRow menjadi domain QuickPrintPreset.
+func PresetFromRow(row fields.MikhmonQuickPrintRow) (QuickPrintPreset, error) {
+	return ParseQuickPrintSource(row.Source)
 }
 
 // ParseQuickPrintSource membalikkan QuickPrintPreset.Source.

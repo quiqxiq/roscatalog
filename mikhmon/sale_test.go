@@ -1,6 +1,10 @@
 package mikhmon
 
-import "testing"
+import (
+	"testing"
+
+	"example.com/roscatalog/fields"
+)
 
 func TestSaleRoundTrip(t *testing.T) {
 	s := Sale{
@@ -55,5 +59,32 @@ func TestSaleValidate(t *testing.T) {
 	}
 	if err := s.Validate(); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestSaleToFieldsAndFromRow(t *testing.T) {
+	s := Sale{
+		Date: "nov/18/2026", Time: "10:00:00", User: "vc001",
+		Price: "5000", Address: "198.51.100.10", MAC: "AA:BB:CC:DD:EE:FF",
+		Validity: "1d", Profile: "1jam", Comment: "vc-123",
+	}
+	f := s.ToFields()
+	if f.Name != s.Name() || f.Source != s.Source() || f.Owner != "nov2026" || f.Comment != SalesComment {
+		t.Fatalf("ToFields salah: %+v", f)
+	}
+
+	row := fields.MikhmonSalesRow{
+		ID:      "*S1",
+		Name:    s.Name(),
+		Owner:   f.Owner,
+		Source:  f.Source,
+		Comment: f.Comment,
+	}
+	parsed, err := SaleFromRow(row)
+	if err != nil {
+		t.Fatalf("SaleFromRow failed: %v", err)
+	}
+	if parsed != s {
+		t.Fatalf("SaleFromRow:\n got %+v\nwant %+v", parsed, s)
 	}
 }

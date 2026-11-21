@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	ros "example.com/roscatalog"
+	"example.com/roscatalog/fields"
 )
 
 // ErrNotFound dipakai bila baris yang dicari tidak ada di router.
@@ -44,34 +45,41 @@ type User struct {
 	Email           string
 }
 
+// ToFields membungkus User ke typed struct fields.MikhmonUserAdd.
+func (u User) ToFields() fields.MikhmonUserAdd {
+	return fields.MikhmonUserAdd{
+		Name:            u.Name,
+		Password:        u.Password,
+		Profile:         u.Profile,
+		Server:          u.Server,
+		Comment:         u.Comment,
+		Address:         u.Address,
+		MACAddress:      u.MACAddress,
+		LimitUptime:     u.LimitUptime,
+		LimitBytesTotal: u.LimitBytesTotal,
+		Email:           u.Email,
+	}
+}
+
+// UserFromVoucher mengonversi fields.MikhmonVoucherRow menjadi domain User.
+func UserFromVoucher(v fields.MikhmonVoucherRow) User {
+	return User{
+		Name:            v.Name,
+		Password:        v.Password,
+		Profile:         v.Profile,
+		Server:          v.Server,
+		Comment:         v.Comment,
+		Address:         v.Address,
+		MACAddress:      v.MACAddress,
+		LimitUptime:     v.LimitUptime,
+		LimitBytesTotal: v.LimitBytesTotal,
+	}
+}
+
 func (u User) args() map[string]string {
-	m := map[string]string{"name": u.Name}
-	if u.Password != "" {
-		m["password"] = u.Password
-	}
-	if u.Profile != "" {
-		m["profile"] = u.Profile
-	}
-	if u.Server != "" {
-		m["server"] = u.Server
-	}
-	if u.Comment != "" {
-		m["comment"] = u.Comment
-	}
-	if u.Address != "" {
-		m["address"] = u.Address
-	}
-	if u.MACAddress != "" {
-		m["mac-address"] = u.MACAddress
-	}
-	if u.LimitUptime != "" {
-		m["limit-uptime"] = u.LimitUptime
-	}
-	if u.LimitBytesTotal != "" {
-		m["limit-bytes-total"] = u.LimitBytesTotal
-	}
-	if u.Email != "" {
-		m["email"] = u.Email
+	m, err := ros.ArgsOf(u.ToFields())
+	if err != nil || m == nil {
+		m = map[string]string{"name": u.Name}
 	}
 	return m
 }
@@ -117,6 +125,23 @@ type Profile struct {
 	OnLogin           string
 }
 
+// ToFields membungkus Profile ke typed struct fields.MikhmonProfileAdd.
+func (p Profile) ToFields() fields.MikhmonProfileAdd {
+	refresh := p.StatusAutorefresh
+	if refresh == "" {
+		refresh = "1m"
+	}
+	return fields.MikhmonProfileAdd{
+		Name:              p.Name,
+		AddressPool:       p.AddressPool,
+		RateLimit:         p.RateLimit,
+		SharedUsers:       p.SharedUsers,
+		StatusAutorefresh: refresh,
+		ParentQueue:       p.ParentQueue,
+		OnLogin:           p.OnLogin,
+	}
+}
+
 // AddProfile menambah profile. StatusAutorefresh default "1m" seperti Mikhmon.
 func (c *Client) AddProfile(ctx context.Context, p Profile) (string, error) {
 	if strings.TrimSpace(p.Name) == "" {
@@ -125,27 +150,9 @@ func (c *Client) AddProfile(ctx context.Context, p Profile) (string, error) {
 	if err := checkOnLoginScript(p.OnLogin); err != nil {
 		return "", err
 	}
-	args := map[string]string{
-		"name":               p.Name,
-		"status-autorefresh": p.StatusAutorefresh,
-	}
-	if args["status-autorefresh"] == "" {
-		args["status-autorefresh"] = "1m"
-	}
-	if p.AddressPool != "" {
-		args["address-pool"] = p.AddressPool
-	}
-	if p.RateLimit != "" {
-		args["rate-limit"] = p.RateLimit
-	}
-	if p.SharedUsers != "" {
-		args["shared-users"] = p.SharedUsers
-	}
-	if p.ParentQueue != "" {
-		args["parent-queue"] = p.ParentQueue
-	}
-	if p.OnLogin != "" {
-		args["on-login"] = p.OnLogin
+	args, err := ros.ArgsOf(p.ToFields())
+	if err != nil {
+		return "", err
 	}
 	return c.action(ctx, "hotspot-user-profile", "add", "", args)
 }
@@ -281,6 +288,15 @@ func (c *Client) ProfileMonitor(ctx context.Context, profile string) (map[string
 	return rows[0], nil
 }
 
+// ProfileMonitorRow membaca scheduler Monitor Profile dalam bentuk typed fields.MikhmonSchedulerRow.
+func (c *Client) ProfileMonitorRow(ctx context.Context, profile string) (fields.MikhmonSchedulerRow, error) {
+	row, err := c.ProfileMonitor(ctx, profile)
+	if err != nil {
+		return fields.MikhmonSchedulerRow{}, err
+	}
+	return ros.Decode[fields.MikhmonSchedulerRow](row)
+}
+
 // RemoveProfile menghapus user profile sekaligus menghapus scheduler Monitor Profile-nya,
 // sama seperti removeuserprofile.php di Mikhmon v4.
 func (c *Client) RemoveProfile(ctx context.Context, profile string) error {
@@ -315,17 +331,25 @@ func (c *Client) ExpireMonitor(ctx context.Context) (map[string]string, error) {
 	return rows[0], nil
 }
 
+// ExpireMonitorRow membaca scheduler Expire Monitor dalam bentuk typed fields.MikhmonSchedulerRow.
+func (c *Client) ExpireMonitorRow(ctx context.Context) (fields.MikhmonSchedulerRow, error) {
+	row, err := c.ExpireMonitor(ctx)
+	if err != nil {
+		return fields.MikhmonSchedulerRow{}, err
+	}
+	return ros.Decode[fields.MikhmonSchedulerRow](row)
+}
+
 // AddSale menulis satu laporan penjualan ke /system/script.
 func (c *Client) AddSale(ctx context.Context, s Sale) (string, error) {
 	if err := s.Validate(); err != nil {
 		return "", err
 	}
-	return c.action(ctx, "mikhmon-sales", "add", "", map[string]string{
-		"name":    s.Name(),
-		"source":  s.Source(),
-		"owner":   s.Owner(),
-		"comment": SalesComment,
-	})
+	args, err := ros.ArgsOf(s.ToFields())
+	if err != nil {
+		return "", err
+	}
+	return c.action(ctx, "mikhmon-sales", "add", "", args)
 }
 
 // Sales membaca laporan berdasarkan owner (mis. nov2026).
@@ -335,6 +359,15 @@ func (c *Client) Sales(ctx context.Context, owner string) ([]map[string]string, 
 		q = append(q, ros.Query{Prop: "owner", Value: owner})
 	}
 	return c.once(ctx, "mikhmon-sales", "report", q)
+}
+
+// SalesRows membaca laporan berdasarkan owner dalam bentuk typed fields.MikhmonSalesRow.
+func (c *Client) SalesRows(ctx context.Context, owner string) ([]fields.MikhmonSalesRow, error) {
+	rows, err := c.Sales(ctx, owner)
+	if err != nil {
+		return nil, err
+	}
+	return ros.DecodeAll[fields.MikhmonSalesRow](rows)
 }
 
 // NormalizeSalesOwner memperbaiki laporan Mikhmon yang ditulis dengan
@@ -378,10 +411,9 @@ func (c *Client) SaveQuickPrint(ctx context.Context, p QuickPrintPreset) (string
 		return "", errors.New("mikhmon: QuickPrint.Package wajib diisi")
 	}
 	name := p.Name()
-	args := map[string]string{
-		"name":    name,
-		"source":  p.Source(),
-		"comment": QuickPrintComment,
+	args, err := ros.ArgsOf(p.ToFields())
+	if err != nil {
+		return "", err
 	}
 	rows, err := c.once(ctx, "system-script", "list",
 		[]ros.Query{{Prop: "name", Value: name}})
@@ -402,6 +434,15 @@ func (c *Client) SaveQuickPrint(ctx context.Context, p QuickPrintPreset) (string
 func (c *Client) QuickPrints(ctx context.Context) ([]map[string]string, error) {
 	return c.once(ctx, "system-script", "detail",
 		[]ros.Query{{Prop: "comment", Value: QuickPrintComment}})
+}
+
+// QuickPrintRows membaca semua preset QuickPrint dalam bentuk typed fields.MikhmonQuickPrintRow.
+func (c *Client) QuickPrintRows(ctx context.Context) ([]fields.MikhmonQuickPrintRow, error) {
+	rows, err := c.QuickPrints(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return ros.DecodeAll[fields.MikhmonQuickPrintRow](rows)
 }
 
 // RemoveExpiredUsers menghapus user dengan limit-uptime=1s, penanda yang
@@ -451,6 +492,15 @@ func (c *Client) KickUser(ctx context.Context, user string) (int, error) {
 func (c *Client) Vouchers(ctx context.Context, comment string) ([]map[string]string, error) {
 	return c.once(ctx, "hotspot-user", "voucher",
 		[]ros.Query{{Prop: "comment", Value: comment}})
+}
+
+// VouchersTyped membaca voucher dalam bentuk typed fields.MikhmonVoucherRow.
+func (c *Client) VouchersTyped(ctx context.Context, comment string) ([]fields.MikhmonVoucherRow, error) {
+	rows, err := c.Vouchers(ctx, comment)
+	if err != nil {
+		return nil, err
+	}
+	return ros.DecodeAll[fields.MikhmonVoucherRow](rows)
 }
 
 // Users membaca user, opsional difilter profile.

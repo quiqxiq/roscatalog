@@ -199,7 +199,46 @@ presets, err := client.QuickPrints(ctx)
 
 ---
 
-## 7. Verifikasi Langsung (`cmd/mikhmon-live`)
+## 7. Typed Fields & Struct Adapters (`fields/`)
+
+Paket `example.com/roscatalog/fields` menyediakan struct khusus untuk seluruh resource Mikhmon (`fields/mikhmon.go`). Klien `mikhmon` menyediakan method typed langsung di samping metode map:
+
+```go
+import "example.com/roscatalog/fields"
+
+// Baca laporan penjualan bertipe fields.MikhmonSalesRow
+sales, err := client.SalesRows(ctx, "nov2026")
+for _, s := range sales {
+    saleObj, _ := mikhmon.SaleFromRow(s)
+    fmt.Println(saleObj.User, saleObj.Price, saleObj.Validity)
+}
+
+// Baca voucher bertipe fields.MikhmonVoucherRow (termasuk password untuk cetak)
+vouchers, err := client.VouchersTyped(ctx, "vc-batch-1")
+for _, v := range vouchers {
+    fmt.Printf("User: %s, Pass: %s, Profile: %s\n", v.Name, v.Password, v.Profile)
+}
+
+// Baca preset QuickPrint bertipe fields.MikhmonQuickPrintRow
+presets, err := client.QuickPrintRows(ctx)
+
+// Baca status monitor scheduler bertipe fields.MikhmonSchedulerRow
+pMon, err := client.ProfileMonitorRow(ctx, "1jam")
+expMon, err := client.ExpireMonitorRow(ctx)
+```
+
+Adapter domain ↔ fields:
+- `mikhmon.User.ToFields() fields.MikhmonUserAdd`
+- `mikhmon.UserFromVoucher(fields.MikhmonVoucherRow) mikhmon.User`
+- `mikhmon.Profile.ToFields() fields.MikhmonProfileAdd`
+- `mikhmon.Sale.ToFields() fields.MikhmonSalesAdd`
+- `mikhmon.SaleFromRow(fields.MikhmonSalesRow) (mikhmon.Sale, error)`
+- `mikhmon.QuickPrintPreset.ToFields() fields.MikhmonQuickPrintAdd`
+- `mikhmon.PresetFromRow(fields.MikhmonQuickPrintRow) (mikhmon.QuickPrintPreset, error)`
+
+---
+
+## 8. Verifikasi Langsung (`cmd/mikhmon-live`)
 
 Untuk memverifikasi alur kerja ke router nyata:
 

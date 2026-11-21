@@ -59,6 +59,7 @@ Interface ini dipenuhi oleh `*rosrun.Runner`, sehingga paket ini tidak mengimpor
   - `AddUser(ctx, u User) (string, error)`: Tambah 1 user/voucher hotspot.
   - `AddUsers(ctx, users []User) ([]string, error)`: Tambah batch user/voucher berurutan.
   - `Vouchers(ctx, comment string) ([]map[string]string, error)`: Baca voucher berdasarkan comment batch.
+  - `VouchersTyped(ctx, comment string) ([]fields.MikhmonVoucherRow, error)`: Baca voucher dalam bentuk typed struct lengkap dengan password.
   - `Users(ctx, profile string) ([]map[string]string, error)`: Daftar user (opsional filter profile).
   - `CountUsers(ctx, profile string) (int, error)`: Hitung total user.
   - `CountActive(ctx) (int, error)`: Hitung sesi hotspot aktif.
@@ -70,15 +71,38 @@ Interface ini dipenuhi oleh `*rosrun.Runner`, sehingga paket ini tidak mengimpor
   - `InstallProfileMonitor(ctx, profile string, mode ExpiryMode) error`: Pasang/update scheduler `Monitor Profile <profile>` (interval `00:02:30`). Jika mode `0`, scheduler dihapus.
   - `RemoveProfileMonitor(ctx, profile string) error`: Hapus scheduler monitor profile.
   - `ProfileMonitor(ctx, profile string) (map[string]string, error)`: Baca status scheduler monitor profile.
+  - `ProfileMonitorRow(ctx, profile string) (fields.MikhmonSchedulerRow, error)`: Baca scheduler monitor profile dalam bentuk typed struct.
   - `RemoveProfile(ctx, profile string) error`: Hapus profile hotspot sekaligus scheduler monitor profilnya.
   - `InstallExpireMonitor(ctx) error`: Pasang/update scheduler global `Mikhmon-Expire-Monitor`.
   - `ExpireMonitor(ctx) (map[string]string, error)`: Baca scheduler global `Mikhmon-Expire-Monitor`.
+  - `ExpireMonitorRow(ctx) (fields.MikhmonSchedulerRow, error)`: Baca scheduler global dalam bentuk typed struct.
 - **Laporan & QuickPrint**:
   - `AddSale(ctx, s Sale) (string, error)`: Tambah laporan penjualan ke `/system/script`.
   - `Sales(ctx, owner string) ([]map[string]string, error)`: Ambil laporan berdasarkan bulan (mis. `nov2026`).
+  - `SalesRows(ctx, owner string) ([]fields.MikhmonSalesRow, error)`: Ambil laporan penjualan dalam bentuk typed struct.
   - `NormalizeSalesOwner(ctx, owner string) (int, error)`: Normalisasi laporan `owner=*sys` (RouterOS 7.24+) ke format bulan+tahun agar tampil di dashboard.
   - `SaveQuickPrint(ctx, p QuickPrintPreset) (string, error)`: Buat atau perbarui preset QuickPrint.
   - `QuickPrints(ctx) ([]map[string]string, error)`: Baca semua preset QuickPrint.
+  - `QuickPrintRows(ctx) ([]fields.MikhmonQuickPrintRow, error)`: Baca semua preset QuickPrint dalam bentuk typed struct.
+
+### Typed Fields & Adapters (`fields/mikhmon.go`)
+Paket `example.com/roscatalog/fields` menyediakan struct typed yang siap di-decode atau diubah menjadi argumen router:
+- `MikhmonSalesRow` / `MikhmonSalesAdd` / `MikhmonSalesSet`
+- `MikhmonQuickPrintRow` / `MikhmonQuickPrintAdd` / `MikhmonQuickPrintSet`
+- `MikhmonVoucherRow`
+- `MikhmonUserAdd` / `MikhmonUserSet`
+- `MikhmonProfileRow` / `MikhmonProfileAdd` / `MikhmonProfileSet`
+- `MikhmonSchedulerRow` / `MikhmonSchedulerAdd` / `MikhmonSchedulerSet`
+- `MikhmonActiveRow`
+
+Fungsi helper konversi:
+- `mikhmon.SaleFromRow(fields.MikhmonSalesRow) (Sale, error)`
+- `mikhmon.PresetFromRow(fields.MikhmonQuickPrintRow) (QuickPrintPreset, error)`
+- `mikhmon.UserFromVoucher(fields.MikhmonVoucherRow) User`
+- `mikhmon.User.ToFields() fields.MikhmonUserAdd`
+- `mikhmon.Profile.ToFields() fields.MikhmonProfileAdd`
+- `mikhmon.Sale.ToFields() fields.MikhmonSalesAdd`
+- `mikhmon.QuickPrintPreset.ToFields() fields.MikhmonQuickPrintAdd`
 
 ---
 

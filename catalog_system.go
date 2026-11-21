@@ -40,5 +40,17 @@ func init() {
 
 		Single("routerboard-settings", GroupSystem, "RouterBOARD settings", "/system/routerboard/settings").
 			List("board-identifier", "bootloader-protocol", "cpu-mode", "channels"),
+
+		// CHR-192/103 tidak punya menu ini; field dari MikroDash/server.
+		Table("system-reset", GroupSystem, "Reset konfigurasi", "/system/reset-configuration").
+			Do("reset-configuration", SelNone, nil, nil, true,
+				"reset ke konfigurasi standar, lalu reboot otomatis"),
+
+		Table("system-import", GroupSystem, "Import konfigurasi", "/import").
+			Do("import", SelNone, P("file-name"), P("verbose", "dry-run"), true,
+				"import config dari file (putus sampai selesai)"),
+
+		Table("stub", GroupSystem, "Stub menu", "/stub").
+			List("name"),
 	)
 }

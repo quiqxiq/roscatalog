@@ -16,6 +16,10 @@ var resourceBaru = []string{
 	"interface-bridge-vlan", "interface-detect-internet-state", "wireguard-peers",
 	"ipsec-policy", "ipsec-active-peers", "ipsec-installed-sa", "discovery-settings",
 	"routing-rule", "ipv6-route", "ip-cloud",
+	"capsman-manager", "capsman-radio", "interface-wifi-cap", "interface-wifi-capsman",
+	"interface-wifi-capsman-remote-cap", "interface-wifi-frequency-scan",
+	"console", "menu", "stub", "system-reset", "system-import", "tool-ping-status",
+	"tool-sniffer",
 }
 
 // TestGapResourcesValid — seluruh resource baru punya definisi valid:

@@ -88,5 +88,29 @@ func init() {
 		Table("wifi-capsman-security", GroupInterface, "CapsMan security", "/caps-man/security").
 			List("id", "name", "authentication-types", "encryption", "group-encryption",
 				"eap-methods", "wpa-version", "encryption-protocols", "use-dot1x"),
+
+		// CHR-192/103 tidak punya menu-menu ini; field dari MikroDash/capsman.go.
+		Table("capsman-manager", GroupInterface, "CapsMan manager (v7)", "/caps-man/manager").
+			List("id", "name", "interfaces", "priority", "ds-properties", "manager-configuration",
+				"registration-table", "security", "datapath", "channel", "interface", "remote-cap"),
+
+		Table("capsman-radio", GroupInterface, "CapsMan radio (v7)", "/caps-man/radio").
+			List("id", "name", "radio-mac", "interface", "channel", "usage", "comment"),
+
+		Table("interface-wifi-cap", GroupInterface, "Wi-Fi cap (v7)", "/interface/wifi/cap").
+			List("id", "name", "is-ready", "interfaces", "setup-time", "mode",
+				"tsf-clock-level", "is-pending", "strength"),
+
+		Table("interface-wifi-capsman", GroupInterface, "Wi-Fi capsman (v7)", "/interface/wifi/capsman").
+			List("id", "name", "interfaces", "priority", "ds-properties", "manager-configuration",
+				"registration-table", "security", "datapath", "channel", "interface", "remote-cap", "rates"),
+
+		Table("interface-wifi-capsman-remote-cap", GroupInterface, "Wi-Fi capsman remote cap (v7)",
+			"/interface/wifi/capsman/remote-cap").
+			List("id", "identity", "address", "board-name", "state"),
+
+		Tool("interface-wifi-frequency-scan", GroupInterface, "Wi-Fi frequency scan (v7)",
+			"/interface/wifi/frequency-scan", nil, nil, false).
+			Describe("Native streaming; CHR-192/103 tidak punya menu ini."),
 	)
 }

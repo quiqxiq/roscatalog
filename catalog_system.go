@@ -11,7 +11,9 @@ func init() {
 			List("id", "name", "disabled", "running", "status", "ui-url", "interface"),
 
 		Table("app-settings", GroupSystem, "App settings", "/app/settings").
-			List("disk", "lan-bridge", "assumed-lan-bridge", "router-ip", "assumed-router-ip"),
+			Describe("CHR-103 fields: auto-update, registry-mirrors, show-in-webfig; CHR lain memberi 0 field.").
+			List("disk", "lan-bridge", "assumed-lan-bridge", "router-ip", "assumed-router-ip",
+				"auto-update", "registry-mirrors", "show-in-webfig"),
 
 		Table("user-group", GroupSystem, "User groups", "/user/group").
 			Filter("name", "group", "disabled").
@@ -27,10 +29,10 @@ func init() {
 			List("allowed-versions", "attempt-count", "bandwidth-test", "container", "email",
 				"fetch", "flagged", "flagging-enabled", "hotspot", "install-any-version", "ipsec",
 				"l2tp", "mode", "partitions", "pptp", "proxy", "romon", "routerboard", "scheduler",
-				"smb", "socks", "traffic-gen", "zerotier"),
+				"smb", "socks", "sniffer", "traffic-gen", "zerotier"),
 
 		Single("license", GroupSystem, "License", "/system/license").
-			List("level", "system-id"),
+			List("features", "nlevel", "software-id", "level", "system-id"),
 
 		Single("routerboard-settings", GroupSystem, "RouterBOARD settings", "/system/routerboard/settings").
 			List("board-identifier", "bootloader-protocol", "cpu-mode", "channels"),

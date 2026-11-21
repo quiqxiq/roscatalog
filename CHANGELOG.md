@@ -7,9 +7,10 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/) dan
 
 ### Added — menutup gap dengan MikroDash
 
-Catalog CHR 7.24.6/beda CHR (per CHR baru dapat field dari CHR; CHR lama memberi 0 field)
-dan menggunakan field CHR sebagai sumber proplist. Catalog standar: `List`
-sebagai setengah kolom (field kurang adalah normal, lebih coba CRUD).
+CHR-192 (CHR 7.24.6) dan CHR-103 (CHR 7.25-era) dianggap sumber field CHR;
+katalog ambil proplist dari CHR lalu tambah field MikroDash (masih tersedia lama,
+mis. `wifi`). CHR-192/103 hilang menu atau 0-field: katalog tetap ditambahkan
+(CHR baru/v7.25 akan lengkap).
 
 - Resource baru (File juga — keangkatan nama resource mengikuti path CHR):
   - `app` — /app (statis); `app-settings` — /app/settings
@@ -43,14 +44,20 @@ sebagai setengah kolom (field kurang adalah normal, lebih coba CRUD).
   - `system-package-update`: `install`
   - `system-package`: `apply-changes`
 
-### Verified against CHR (192.168.122.189:8728)
+### Verified against CHR (192.168.122.189:8728 + 103.139.193.128:1012)
 
-- `rosverify -addr 192.168.122.189:8728 -json` (proplist CHR; CHR memberi field
-  untuk menu ini di CHR ini).
-- CHR versi ini: /caps-man, /interface/wireless, /interface/wifi (0 field di
-  CHR), /app, /disk (field kosong di CHR ini) — catalog tetap ditambahkan
-  untuk CHR v7.25 (MikroDash); CHR nampak mengirim menu dengan 0 field.
-- CHR-data lengkap: mikrotik_inspect/print_fields.json.
+- `go run ./tools/probe_print -addr 192.168.122.189:8728 -user admin -pass r00t -out /tmp/opencode/pf_fresh.json`
+  dan `-addr 103.139.193.128:1012 -user fandi1 -pass 001 -out /tmp/opencode/pf_103.json`
+  (raw print CHR). CHR-103 data lengkap: /app/settings (6 field), /system/license
+  (features, nlevel, software-id); /system/device-mode CHR = CHR-103 (24 field,
+  sama-sama 0-field pada CHR-192 lama).
+- CHR-103 tidak lengkap `/console/inspect` schema (kebanyakan `unknown`) — CHR data
+  paling lengkap dari raw print (`probe_print`). CHR-192 = CHR 7.24.6; CHR-103 = CHR
+  7.25-era dengan field yang lebih banyak (`/system/license` 3 field, `/app/settings`
+  6 field, `/system/device-mode` sama-sama 24 field).
+- CHR-103 tidak punya menu capaian penuh: `/caps-man`, `/interface/wireless`,
+  `/interface/wifi` (CHR-192 sama — CHR tidak mengirim field, menu hadir dengan 0 field);
+  CHR-192/103: `/app`, `/disk` 0 field. Proplist wifi/capsman sebagai konsistensi katalog.
 
 ## [0.2.0] - 2026-11-21
 

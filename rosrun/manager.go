@@ -66,6 +66,17 @@ func (m *Manager) ensureMapsLocked() {
 	}
 }
 
+// NewManager membuat Manager kosong siap pakai.
+func NewManager() *Manager {
+	return &Manager{
+		routers: make(map[string]*MikroTik),
+		cfgs:    make(map[string]Config),
+		refs:    make(map[string]int),
+		holds:   make(map[string]map[string]bool),
+		linger:  make(map[string]*time.Timer),
+	}
+}
+
 // OpenAll membuka semua router secara paralel. Bila sebagian gagal, router yang
 // berhasil tetap dikembalikan bersama error gabungan (partial success).
 // Bila tidak ada satu pun yang berhasil, hasilnya nil dan error.
@@ -179,6 +190,50 @@ func (m *Manager) Add(ctx context.Context, cfg Config) (*MikroTik, error) {
 	}
 	m.order = append(m.order, cfg.ID)
 	return sess, nil
+}
+
+// Register mendaftarkan atau memperbarui konfigurasi router ke manager tanpa
+// langsung membuka koneksi. Koneksi dibuka saat pertama kali di-Acquire.
+func (m *Manager) Register(cfg Config) {
+	if m == nil {
+		return
+	}
+	if strings.TrimSpace(cfg.ID) == "" {
+		cfg.ID = cfg.addr()
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.ensureMapsLocked()
+	m.cfgs[cfg.ID] = cfg
+}
+
+// Unregister menghapus router dan menutup sesinya bila sedang terbuka.
+func (m *Manager) Unregister(id string) error {
+	if m == nil {
+		return nil
+	}
+	m.mu.Lock()
+	m.ensureMapsLocked()
+	sess := m.routers[id]
+	delete(m.routers, id)
+	delete(m.cfgs, id)
+	delete(m.refs, id)
+	delete(m.holds, id)
+	if t := m.linger[id]; t != nil {
+		t.Stop()
+		delete(m.linger, id)
+	}
+	for i, x := range m.order {
+		if x == id {
+			m.order = append(m.order[:i], m.order[i+1:]...)
+			break
+		}
+	}
+	m.mu.Unlock()
+	if sess != nil {
+		return sess.Close()
+	}
+	return nil
 }
 
 // Get mencari sesi berdasarkan ID.

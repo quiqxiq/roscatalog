@@ -219,3 +219,30 @@ func TestManagerWatchAutoAllUsesPerRouterStream(t *testing.T) {
 		t.Errorf("router poll tidak boleh memakai interval: %+v", c2)
 	}
 }
+
+func TestManagerRegisterAndUnregister(t *testing.T) {
+	m := newMock(t)
+	mgr := NewManager()
+	t.Cleanup(func() { _ = mgr.Close() })
+
+	cfg := managerConfig("r-dyn", m)
+	mgr.Register(cfg)
+
+	// Acquire opens session on-demand from registered config
+	sess, err := mgr.Acquire(context.Background(), "r-dyn")
+	if err != nil {
+		t.Fatalf("Acquire: %v", err)
+	}
+	if sess == nil {
+		t.Fatal("sess is nil")
+	}
+	mgr.Release("r-dyn")
+
+	// Unregister closes and removes
+	if err := mgr.Unregister("r-dyn"); err != nil {
+		t.Fatalf("Unregister: %v", err)
+	}
+	if _, ok := mgr.Get("r-dyn"); ok {
+		t.Error("r-dyn still exists after Unregister")
+	}
+}

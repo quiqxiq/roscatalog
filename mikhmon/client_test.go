@@ -175,6 +175,73 @@ func TestAddSale(t *testing.T) {
 	}
 }
 
+func TestSalesEmptyMonth(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{
+		{".id": "*S1", "name": "2024-03-18-|-10:00:00-|-vc01-|-5000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+	}}
+	c := New(f)
+	rows, err := c.Sales(context.Background(), "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(rows) != 1 {
+		t.Fatalf("rows=%d, want 1", len(rows))
+	}
+	sent := joined(f.onceReqs[0].Sentence)
+	if !strings.Contains(sent, "?comment=mikhmon") {
+		t.Errorf("query tidak memuat ?comment=mikhmon: %s", sent)
+	}
+}
+
+func TestSalesFallbackInMemory(t *testing.T) {
+	// RouterOS 7.24+ di mana owner=*sys, sehingga query server ?owner=mar2024 dan ?owner=032024 kosong
+	// lalu fallback mengambil semua comment=mikhmon dan menyaring in-memory
+	f := &fakeExec{onceRows: []map[string]string{
+		{".id": "*S1", "owner": "*sys", "name": "2024-03-18-|-10:00:00-|-vc01-|-5000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+		{".id": "*S2", "owner": "*sys", "name": "2024-04-18-|-10:00:00-|-vc02-|-5000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+	}}
+	c := New(f)
+	sales, err := c.SalesByMonth(context.Background(), "mar2024")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(sales) != 1 || sales[0].User != "vc01" {
+		t.Fatalf("sales=%+v, want 1 record vc01", sales)
+	}
+}
+
+func TestSalesByDate(t *testing.T) {
+	f := &fakeExec{onceRows: []map[string]string{
+		{".id": "*S1", "name": "2024-03-18-|-10:00:00-|-vc01-|-5000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+		{".id": "*S2", "name": "2024-03-19-|-10:00:00-|-vc02-|-5000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+	}}
+	c := New(f)
+	sales, err := c.SalesByDate(context.Background(), "mar/18/2024")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(sales) != 1 || sales[0].User != "vc01" {
+		t.Fatalf("sales=%+v, want vc01", sales)
+	}
+}
+
+func TestSalesStats(t *testing.T) {
+	f := &fakeExec{
+		onceRows: []map[string]string{
+			{".id": "*S1", "name": "2024-03-18-|-10:00:00-|-vc01-|-5000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+			{".id": "*S2", "name": "2024-03-18-|-11:00:00-|-vc02-|-3000-|-1.1.1.1-|-AA-|-1d-|-def-|-comment"},
+		},
+	}
+	c := New(f)
+	stats, err := c.SalesStats(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if stats.TotalCount != 2 || stats.TotalSum != 8000 {
+		t.Fatalf("stats salah: %+v", stats)
+	}
+}
+
 func TestNormalizeSalesOwner(t *testing.T) {
 	f := &fakeExec{onceRows: []map[string]string{
 		{".id": "*R1", "source": "nov/18/2026"},

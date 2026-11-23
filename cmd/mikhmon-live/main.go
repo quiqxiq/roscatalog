@@ -42,6 +42,7 @@ import (
 	routeros "github.com/quiqxiq/goros/v4"
 
 	ros "example.com/roscatalog"
+	"example.com/roscatalog/cmd"
 	"example.com/roscatalog/mikhmon"
 	"example.com/roscatalog/rosrun"
 )
@@ -84,6 +85,7 @@ func (r *report) ok() bool {
 }
 
 func main() {
+	router := flag.String("router", "", "nama router dari cmd.MikrotikList (mis. router-streaming-01)")
 	addr := flag.String("addr", "", "alamat API, mis. 192.168.88.1:8728")
 	user := flag.String("user", "admin", "user API")
 	pass := flag.String("pass", "", "password API")
@@ -95,8 +97,25 @@ func main() {
 	schedulerWait := flag.Bool("scheduler-wait", false, "tunggu tick scheduler Expire Monitor (bukan jalankan on-event manual)")
 	flag.Parse()
 
+	if *router != "" {
+		found := false
+		for _, cfg := range cmd.MikrotikList {
+			if cfg.ID == *router {
+				*addr = fmt.Sprintf("%s:%d", cfg.Address, cfg.Port)
+				*user = cfg.Username
+				*pass = cfg.Password
+				found = true
+				break
+			}
+		}
+		if !found {
+			fmt.Fprintf(os.Stderr, "router %q tidak ditemukan di cmd.MikrotikList\n", *router)
+			os.Exit(2)
+		}
+	}
+
 	if *addr == "" {
-		fmt.Fprintln(os.Stderr, "-addr wajib diisi")
+		fmt.Fprintln(os.Stderr, "-addr atau -router wajib diisi")
 		os.Exit(2)
 	}
 	if *webterm != "" && *hotspot == "" {
@@ -555,6 +574,48 @@ func scenario(ctx context.Context, addr, user, pass, webterm, hotspot string, ke
 			return "", errors.New("set owner tidak membuat laporan tampil di query owner")
 		}
 		return fmt.Sprintf("%d laporan owner=*sys dinormalisasi ke %s", n, owner), nil
+	}); err != nil {
+		return err
+	}
+
+	if err := t.must("sales/query cross-version & stats", func() (string, error) {
+		allSales, err := t.client.AllSales(ctx)
+		if err != nil {
+			return "", err
+		}
+		stats, err := t.client.SalesStats(ctx)
+		if err != nil {
+			return "", err
+		}
+		detail := fmt.Sprintf("%d total penjualan Mikhmon terbaca, stats total=%d (Rp %.0f)",
+			len(allSales), stats.TotalCount, stats.TotalSum)
+		if len(allSales) > 0 {
+			sample := allSales[0]
+			mText := sample.MonthText()
+			mNum := sample.MonthNumeric()
+			byText, err := t.client.SalesByMonth(ctx, mText)
+			if err != nil {
+				return "", fmt.Errorf("SalesByMonth(%q): %w", mText, err)
+			}
+			byNum, err := t.client.SalesByMonth(ctx, mNum)
+			if err != nil {
+				return "", fmt.Errorf("SalesByMonth(%q): %w", mNum, err)
+			}
+			if len(byText) == 0 || len(byNum) == 0 {
+				return "", fmt.Errorf("query bulan gagal: byText(%s)=%d, byNum(%s)=%d",
+					mText, len(byText), mNum, len(byNum))
+			}
+			byDate, err := t.client.SalesByDate(ctx, sample.Date)
+			if err != nil {
+				return "", fmt.Errorf("SalesByDate(%q): %w", sample.Date, err)
+			}
+			if len(byDate) == 0 {
+				return "", fmt.Errorf("query tanggal gagal: byDate(%s)=0", sample.Date)
+			}
+			detail += fmt.Sprintf("; query bulan %s (%d) / %s (%d) / tanggal %s (%d) ok",
+				mText, len(byText), mNum, len(byNum), sample.Date, len(byDate))
+		}
+		return detail, nil
 	}); err != nil {
 		return err
 	}

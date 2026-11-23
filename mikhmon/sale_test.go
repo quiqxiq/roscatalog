@@ -32,6 +32,75 @@ func TestSaleOwnerV7(t *testing.T) {
 	if got := s.Owner(); got != "nov2026" {
 		t.Fatalf("Owner=%q", got)
 	}
+	if got := s.MonthText(); got != "nov2026" {
+		t.Fatalf("MonthText=%q", got)
+	}
+	if got := s.MonthNumeric(); got != "112026" {
+		t.Fatalf("MonthNumeric=%q", got)
+	}
+}
+
+func TestSaleMatchesMonthAndDate(t *testing.T) {
+	s7 := Sale{Date: "2024-03-18"}
+	if !s7.MatchesMonth("mar2024") {
+		t.Error("2024-03-18 harus cocok dengan mar2024")
+	}
+	if !s7.MatchesMonth("032024") {
+		t.Error("2024-03-18 harus cocok dengan 032024")
+	}
+	if !s7.MatchesMonth("2024-03") {
+		t.Error("2024-03-18 harus cocok dengan 2024-03")
+	}
+	if s7.MatchesMonth("apr2024") {
+		t.Error("2024-03-18 tidak boleh cocok dengan apr2024")
+	}
+	if !s7.MatchesDate("2024-03-18") {
+		t.Error("2024-03-18 harus cocok dengan 2024-03-18")
+	}
+	if !s7.MatchesDate("mar/18/2024") {
+		t.Error("2024-03-18 harus cocok dengan mar/18/2024")
+	}
+	if !s7.MatchesDate("03/18/2024") {
+		t.Error("2024-03-18 harus cocok dengan 03/18/2024")
+	}
+	if s7.MatchesDate("2024-03-19") {
+		t.Error("2024-03-18 tidak boleh cocok dengan 2024-03-19")
+	}
+
+	s6 := Sale{Date: "mar/18/2024"}
+	if !s6.MatchesMonth("mar2024") || !s6.MatchesMonth("032024") {
+		t.Error("mar/18/2024 harus cocok dengan mar2024 dan 032024")
+	}
+	if !s6.MatchesDate("2024-03-18") {
+		t.Error("mar/18/2024 harus cocok dengan 2024-03-18")
+	}
+}
+
+func TestMonthBuckets(t *testing.T) {
+	cases := []struct {
+		input       string
+		wantText    string
+		wantNumeric string
+		wantOK      bool
+	}{
+		{"2024-03-18", "mar2024", "032024", true},
+		{"2024-03", "mar2024", "032024", true},
+		{"mar2024", "mar2024", "032024", true},
+		{"032024", "mar2024", "032024", true},
+		{"mar/18/2024", "mar2024", "032024", true},
+		{"03/18/2024", "mar2024", "032024", true},
+		{"mar/2024", "mar2024", "032024", true},
+		{"03/2024", "mar2024", "032024", true},
+		{"invalid", "", "", false},
+		{"", "", "", false},
+	}
+	for _, tc := range cases {
+		text, num, ok := MonthBuckets(tc.input)
+		if ok != tc.wantOK || text != tc.wantText || num != tc.wantNumeric {
+			t.Errorf("MonthBuckets(%q) = (%q, %q, %v), want (%q, %q, %v)",
+				tc.input, text, num, ok, tc.wantText, tc.wantNumeric, tc.wantOK)
+		}
+	}
 }
 
 func TestSaleOwnerInvalid(t *testing.T) {

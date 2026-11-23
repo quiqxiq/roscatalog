@@ -126,7 +126,7 @@ func init() {
 				"tanggal-|-jam-|-user-|-harga-|-ip-|-mac-|-validity-|-profile-|-comment, "+
 				"owner berisi bulan+tahun (mis. nov2026), source berisi tanggal, comment=mikhmon. "+
 				"Verifikasi format terhadap versi Mikhmon yang dipakai.").
-			Filter("owner", "comment", "name").
+			Filter("owner", "comment", "name", "source").
 			Named("report", "name", "owner", "source", "comment").
 			MarkHeavy().
 			Hint("selalu filter ?owner=<bulantahun>").

@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
+	"time"
 
 	ros "example.com/roscatalog"
 	"example.com/roscatalog/fields"
@@ -352,22 +354,218 @@ func (c *Client) AddSale(ctx context.Context, s Sale) (string, error) {
 	return c.action(ctx, "mikhmon-sales", "add", "", args)
 }
 
-// Sales membaca laporan berdasarkan owner (mis. nov2026).
-func (c *Client) Sales(ctx context.Context, owner string) ([]map[string]string, error) {
-	q := []ros.Query(nil)
-	if owner != "" {
-		q = append(q, ros.Query{Prop: "owner", Value: owner})
+// Sales membaca laporan penjualan Mikhmon (/system/script dengan comment=mikhmon).
+// Parameter monthOrOwner opsional:
+// - Bila kosong, seluruh laporan penjualan Mikhmon dikembalikan.
+// - Bila diisi (mis. "nov2026", "032024", atau "2024-03"), fungsi secara cerdas
+//   mencoba query server-side terlebih dahulu (format teks & numerik), lalu fallback
+//   ke penyaringan sisi klien agar kompatibel dengan seluruh versi RouterOS
+//   (RouterOS 6, RouterOS 7 < 7.24, dan RouterOS 7.24+ owner=*sys).
+func (c *Client) Sales(ctx context.Context, monthOrOwner string) ([]map[string]string, error) {
+	monthOrOwner = strings.TrimSpace(monthOrOwner)
+	if monthOrOwner == "" {
+		return c.once(ctx, "mikhmon-sales", "report",
+			[]ros.Query{{Prop: "comment", Value: SalesComment}})
 	}
-	return c.once(ctx, "mikhmon-sales", "report", q)
+
+	textBucket, numBucket, isBucket := MonthBuckets(monthOrOwner)
+	if isBucket {
+		primary := textBucket
+		alt := numBucket
+		if monthOrOwner == numBucket {
+			primary = numBucket
+			alt = textBucket
+		}
+
+		// Percobaan 1: Server query dengan format utama
+		rows, err := c.once(ctx, "mikhmon-sales", "report", []ros.Query{
+			{Prop: "comment", Value: SalesComment},
+			{Prop: "owner", Value: primary},
+		})
+		if err != nil {
+			return nil, err
+		}
+		if len(rows) > 0 {
+			filtered := filterSalesByMonth(rows, monthOrOwner)
+			if len(filtered) > 0 {
+				return filtered, nil
+			}
+		}
+
+		// Percobaan 2: Server query dengan format alternatif (jika beda)
+		if alt != "" && alt != primary {
+			altRows, err := c.once(ctx, "mikhmon-sales", "report", []ros.Query{
+				{Prop: "comment", Value: SalesComment},
+				{Prop: "owner", Value: alt},
+			})
+			if err != nil {
+				return nil, err
+			}
+			if len(altRows) > 0 {
+				filtered := filterSalesByMonth(altRows, monthOrOwner)
+				if len(filtered) > 0 {
+					return filtered, nil
+				}
+			}
+		}
+
+		// Fallback: router mungkin menggunakan owner=*sys (v7.24+) atau custom.
+		// Ambil seluruh comment=mikhmon lalu saring berdasarkan Sale.MatchesMonth.
+		allRows, err := c.once(ctx, "mikhmon-sales", "report", []ros.Query{
+			{Prop: "comment", Value: SalesComment},
+		})
+		if err != nil {
+			return nil, err
+		}
+		return filterSalesByMonth(allRows, monthOrOwner), nil
+	}
+
+	// Bukan format bulan standar (mis. user query owner custom)
+	return c.once(ctx, "mikhmon-sales", "report", []ros.Query{
+		{Prop: "comment", Value: SalesComment},
+		{Prop: "owner", Value: monthOrOwner},
+	})
+}
+
+func filterSalesByMonth(rows []map[string]string, month string) []map[string]string {
+	var out []map[string]string
+	for _, r := range rows {
+		name := r["name"]
+		if s, err := ParseSaleName(name); err == nil && s.MatchesMonth(month) {
+			out = append(out, r)
+		}
+	}
+	return out
 }
 
 // SalesRows membaca laporan berdasarkan owner dalam bentuk typed fields.MikhmonSalesRow.
-func (c *Client) SalesRows(ctx context.Context, owner string) ([]fields.MikhmonSalesRow, error) {
-	rows, err := c.Sales(ctx, owner)
+func (c *Client) SalesRows(ctx context.Context, monthOrOwner string) ([]fields.MikhmonSalesRow, error) {
+	rows, err := c.Sales(ctx, monthOrOwner)
 	if err != nil {
 		return nil, err
 	}
 	return ros.DecodeAll[fields.MikhmonSalesRow](rows)
+}
+
+// AllSales membaca semua laporan penjualan Mikhmon dan mem-parse-nya ke []Sale.
+// Baris yang bukan format laporan Mikhmon diabaikan secara aman.
+func (c *Client) AllSales(ctx context.Context) ([]Sale, error) {
+	rows, err := c.Sales(ctx, "")
+	if err != nil {
+		return nil, err
+	}
+	out := make([]Sale, 0, len(rows))
+	for _, r := range rows {
+		name := r["name"]
+		if s, err := ParseSaleName(name); err == nil {
+			out = append(out, s)
+		}
+	}
+	return out, nil
+}
+
+// SalesByMonth membaca laporan penjualan untuk satu bulan tertentu (mis. "nov2026", "032024", atau "2024-03").
+func (c *Client) SalesByMonth(ctx context.Context, month string) ([]Sale, error) {
+	rows, err := c.Sales(ctx, month)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]Sale, 0, len(rows))
+	for _, r := range rows {
+		name := r["name"]
+		if s, err := ParseSaleName(name); err == nil {
+			out = append(out, s)
+		}
+	}
+	return out, nil
+}
+
+// SalesByDate membaca laporan penjualan untuk satu tanggal tertentu (mis. "2024-03-18" atau "mar/18/2024").
+func (c *Client) SalesByDate(ctx context.Context, date string) ([]Sale, error) {
+	var rows []map[string]string
+	var err error
+	if _, _, ok := MonthBuckets(date); ok {
+		rows, err = c.Sales(ctx, date)
+	} else {
+		rows, err = c.Sales(ctx, "")
+	}
+	if err != nil {
+		return nil, err
+	}
+	out := make([]Sale, 0)
+	for _, r := range rows {
+		name := r["name"]
+		if s, err := ParseSaleName(name); err == nil && s.MatchesDate(date) {
+			out = append(out, s)
+		}
+	}
+	return out, nil
+}
+
+// SalesStats adalah indikator kinerja penjualan (KPI) Mikhmon.
+type SalesStats struct {
+	TotalCount  int     `json:"total_count"`
+	TotalSum    float64 `json:"total_sum"`
+	MonthCount  int     `json:"month_count"`
+	MonthSum    float64 `json:"month_sum"`
+	PrevSum     float64 `json:"prev_sum"`
+	TodayCount  int     `json:"today_count"`
+	TodaySum    float64 `json:"today_sum"`
+	MonthBucket string  `json:"month_bucket"`
+}
+
+// SalesStats menghitung statistik KPI penjualan langsung dari router,
+// identik dengan fungsi mikhmon_scripts_stats di Mikhmon v4.
+func (c *Client) SalesStats(ctx context.Context) (SalesStats, error) {
+	all, err := c.AllSales(ctx)
+	if err != nil {
+		return SalesStats{}, err
+	}
+
+	now := time.Now()
+	var clockDate string
+	clockRows, err := c.once(ctx, "system-clock", "list", nil)
+	if err == nil && len(clockRows) > 0 {
+		clockDate = clockRows[0]["date"]
+	}
+
+	var thisBucket, prevBucket, todayISO string
+	if clockDate != "" {
+		if t, _, ok := MonthBuckets(clockDate); ok {
+			thisBucket = t
+		}
+		todayISO = NormalizeDateISO(clockDate)
+	}
+	if thisBucket == "" {
+		thisBucket = strings.ToLower(now.Format("Jan2006"))
+	}
+	if todayISO == "" {
+		todayISO = now.Format("2006-01-02")
+	}
+	prevTime := now.AddDate(0, -1, 0)
+	prevBucket = strings.ToLower(prevTime.Format("Jan2006"))
+
+	stats := SalesStats{
+		MonthBucket: thisBucket,
+	}
+	for _, s := range all {
+		price, _ := strconv.ParseFloat(strings.TrimSpace(s.Price), 64)
+		stats.TotalCount++
+		stats.TotalSum += price
+
+		if s.MatchesMonth(thisBucket) {
+			stats.MonthCount++
+			stats.MonthSum += price
+		}
+		if s.MatchesMonth(prevBucket) {
+			stats.PrevSum += price
+		}
+		if s.MatchesDate(todayISO) {
+			stats.TodayCount++
+			stats.TodaySum += price
+		}
+	}
+	return stats, nil
 }
 
 // NormalizeSalesOwner memperbaiki laporan Mikhmon yang ditulis dengan

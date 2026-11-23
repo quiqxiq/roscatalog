@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROSCATALOG — Multi-Router Live Testing Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0B0F17;
+      --bg-surface: #121824;
+      --bg-card: #182234;
+      --bg-card-hover: #1E2B42;
+      --border: #223147;
+      --border-focus: #3B82F6;
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --primary: #3B82F6;
+      --primary-hover: #2563EB;
+      --success: #10B981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --warning: #F59E0B;
+      --warning-bg: rgba(245, 158, 11, 0.12);
+      --danger: #EF4444;
+      --danger-bg: rgba(239, 68, 68, 0.12);
+      --purple: #8B5CF6;
+      --cyan: #06B6D4;
+      --terminal-bg: #070A0F;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(12px);
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563EB, #7C3AED);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Live Badge */
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--success);
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.9; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); opacity: 0.9; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-focus);
+    }
+    .btn-danger {
+      background: var(--danger-bg);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+    }
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+    .btn-success:hover {
+      background: #059669;
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* Stats Ribbon */
+    .stats-ribbon {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* Router Grid */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .router-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    /* Router Card */
+    .router-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .router-card:hover {
+      border-color: #334766;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .router-id {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .router-meta {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .card-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-connected { background: var(--success-bg); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-warning { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-error { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-offline { background: rgba(148, 163, 184, 0.1); color: var(--text-muted); border: 1px solid rgba(148, 163, 184, 0.2); }
+    .badge-mode { background: rgba(59, 130, 246, 0.15); color: var(--primary); border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    /* Ping latency block */
+    .ping-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ping-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .ping-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .ping-good { color: var(--success); }
+    .ping-warn { color: var(--warning); }
+    .ping-bad { color: var(--danger); }
+    .ping-stats {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    /* System bars */
+    .metric-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .metric-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .metric-name { color: var(--text-muted); }
+    .metric-num { font-family: 'JetBrains Mono', monospace; color: var(--text-main); }
+    .progress-track {
+      width: 100%;
+      height: 7px;
+      background: #0D131F;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+    .bg-cpu { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+    .bg-ram { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
+    .bg-hdd { background: linear-gradient(90deg, #06B6D4, #38BDF8); }
+
+    /* System Chips */
+    .sys-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+    .chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* Card Actions */
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .card-actions .btn {
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* Live Workbench */
+    .workbench-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .workbench-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .form-control {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--border-focus);
+    }
+    select.form-control {
+      cursor: pointer;
+    }
+
+    /* Terminal Console */
+    .terminal-wrapper {
+      background: var(--terminal-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .terminal-header {
+      background: #0E141E;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    .terminal-cmd {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+    .terminal-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .terminal-status {
+      font-weight: 700;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .term-idle { background: rgba(148, 163, 184, 0.2); color: var(--text-muted); }
+    .term-running { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    .term-stopped { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+
+    .terminal-body {
+      padding: 14px 16px;
+      height: 380px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #CBD5E1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .log-line {
+      word-break: break-all;
+    }
+    .log-time { color: var(--text-dim); margin-right: 8px; }
+    .log-tag { font-weight: 700; margin-right: 8px; }
+    .log-row { color: #38BDF8; }
+    .log-snapshot { color: #A78BFA; }
+    .log-error { color: #F87171; }
+    .log-status { color: #FBBF24; }
+    .log-done { color: #34D399; }
+
+    /* Modal Dialog */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 580px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #fff; }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    /* Checkbox & Radio */
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="brand">
+        <div class="brand-icon">RC</div>
+        <div>
+          <div class="brand-title">ROSCATALOG MULTI-ROUTER TESTER</div>
+          <div class="brand-subtitle">Realtime Latency, Resource Health & Interactive Stream/Poll Workbench</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="live-indicator">
+          <div class="pulse-dot"></div>
+          <span id="sse-indicator">SSE Connected</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="fetchRouters()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Refresh All
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="openAddRouterModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          + Tambah Router
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Global Stats Ribbon -->
+    <section class="stats-ribbon">
+      <div class="stat-card">
+        <div class="stat-label">Total Router</div>
+        <div class="stat-value" id="stat-total-routers">0</div>
+        <div class="stat-sub" id="stat-sub-routers">Semua terdaftar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Router Terhubung</div>
+        <div class="stat-value" style="color: var(--success);" id="stat-connected-routers">0</div>
+        <div class="stat-sub">Sesi aktif rosrun</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Rata-Rata Latency Ping</div>
+        <div class="stat-value" style="color: var(--primary);" id="stat-avg-ping">0.00 ms</div>
+        <div class="stat-sub">Probe native /ping</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Workbench Status</div>
+        <div class="stat-value" style="color: var(--purple);" id="stat-workbench-status">IDLE</div>
+        <div class="stat-sub" id="stat-workbench-sub">Siap menguji stream</div>
+      </div>
+    </section>
+
+    <!-- Router List Section -->
+    <section>
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          Daftar Router & Monitoring Realtime
+        </div>
+      </div>
+      <div class="router-grid" id="router-cards-container">
+        <!-- Kartu router di-render dinamis via JS -->
+      </div>
+    </section>
+
+    <!-- Stream & Poll Workbench Section -->
+    <section id="workbench-section">
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+          Live Stream & Poll Testing Workbench
+        </div>
+      </div>
+      <div class="workbench-panel">
+        <div class="workbench-form">
+          <div class="form-group">
+            <label class="form-label">Target Router</label>
+            <select id="wb-router" class="form-control">
+              <option value="">Pilih Router...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Resource Katalog</label>
+            <select id="wb-resource" class="form-control" onchange="onResourceChange()">
+              <option value="">Loading katalog...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catalog View</label>
+            <select id="wb-view" class="form-control">
+              <option value="list">list</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mode Pengujian</label>
+            <select id="wb-delivery" class="form-control">
+              <option value="auto">Auto (Sesuai Config Router)</option>
+              <option value="stream_interval" selected>Stream (Interval 1s)</option>
+              <option value="stream_follow">Stream (Follow Live)</option>
+              <option value="poll">Poll (Ticker Go 5s)</option>
+              <option value="once">Once (Snapshot Dump)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Proplist (Opsional)</label>
+            <input type="text" id="wb-proplist" class="form-control" placeholder="mis: name,type,rx-byte">
+          </div>
+          <div class="form-group" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="wb-btn-build" class="btn btn-secondary" onclick="buildCatalogCommand()" title="Susun dan tampilkan command MikroTik (Poll / Stream)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              Build Command
+            </button>
+            <button id="wb-btn-start" class="btn btn-success" onclick="startStreamTest()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Start Test
+            </button>
+            <button id="wb-btn-stop" class="btn btn-danger" onclick="stopStreamTest()" disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"></rect></svg>
+              Stop
+            </button>
+          </div>
+        </div>
+
+        <!-- Monospace Live Terminal Viewer -->
+        <div class="terminal-wrapper">
+          <div class="terminal-header">
+            <div>
+              <span style="color: var(--text-dim); margin-right: 6px;">EXEC:</span>
+              <span id="term-cmd-text" class="terminal-cmd">Pilih parameter dan klik 'Start Test'...</span>
+            </div>
+            <div class="terminal-tools">
+              <span style="color: var(--text-dim);">Events: <b id="term-event-count" style="color: #fff;">0</b></span>
+              <span style="color: var(--text-dim);">Duration: <b id="term-duration" style="color: #fff;">00:00</b></span>
+              <span id="term-status-badge" class="terminal-status term-idle">IDLE</span>
+              <button class="btn btn-secondary btn-sm" onclick="clearTerminal()">Clear</button>
+            </div>
+          </div>
+          <div class="terminal-body" id="term-body">
+            <div class="log-line" style="color: var(--text-dim);">
+              // Konsol live event stream/poll siap menerima data realtime dari RouterOS...
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CRUD Router Modal -->
+  <div class="modal-backdrop" id="router-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Tambah Router Baru</div>
+        <button class="modal-close" onclick="closeRouterModal()">&times;</button>
+      </div>
+      <form id="router-form" onsubmit="handleRouterFormSubmit(event)">
+        <div class="modal-grid">
+          <div class="form-group">
+            <label class="form-label">Router ID *</label>
+            <input type="text" id="form-id" class="form-control" required placeholder="misal: router-lab-03">
+          </div>
+          <div class="form-group">
+            <label class="form-label">IP Address / Host *</label>
+            <input type="text" id="form-address" class="form-control" required placeholder="misal: 192.168.88.1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Port API</label>
+            <input type="number" id="form-port" class="form-control" placeholder="8728">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Username *</label>
+            <input type="text" id="form-username" class="form-control" required placeholder="admin">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="form-password" class="form-control" placeholder="Password API">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mode Default</label>
+            <select id="form-poll" class="form-control">
+              <option value="false">Streaming (Realtime)</option>
+              <option value="true">Polling (Berkala Go)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Interval Stream (detik)</label>
+            <input type="number" step="0.5" id="form-stream-every" class="form-control" value="1.0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Interval Poll (detik)</label>
+            <input type="number" step="0.5" id="form-poll-every" class="form-control" value="5.0">
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label">Ping Target Probe</label>
+            <input type="text" id="form-ping-target" class="form-control" value="8.8.8.8">
+          </div>
+          <div class="form-group" style="grid-column: span 2; display: flex; gap: 24px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="form-tls">
+              Gunakan TLS (Port 8729)
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="form-insecure">
+              Skip Verifikasi Sertifikat TLS
+            </label>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeRouterModal()">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-router">Simpan Router</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    ROSCATALOG &bull; RouterOS Catalog & Multi-Router Runner Tool &bull; Powered by Go & roscatalog
+  </footer>
+
+  <script>
+    // State aplikasi
+    let routers = [];
+    let catalog = [];
+    let activeStreamEventSource = null;
+    let streamTimer = null;
+    let streamSeconds = 0;
+    let eventCount = 0;
+    let isEditing = false;
+
+    // Helper format bytes
+    function formatBytes(bytes) {
+      if (!bytes || bytes <= 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Ambil daftar router awal
+    async function fetchRouters() {
+      try {
+        const res = await fetch('/api/routers');
+        if (!res.ok) throw new Error('Gagal memuat routers');
+        routers = await res.json();
+        renderRouterCards();
+        updateGlobalStats();
+        syncRouterSelect();
+      } catch (err) {
+        console.error('Fetch routers error:', err);
+      }
+    }
+
+    // Ambil katalog roscatalog
+    async function fetchCatalog() {
+      try {
+        const res = await fetch('/api/catalog');
+        if (!res.ok) throw new Error('Gagal memuat katalog');
+        catalog = await res.json();
+        populateCatalogDropdown();
+      } catch (err) {
+        console.error('Fetch catalog error:', err);
+      }
+    }
+
+    function populateCatalogDropdown() {
+      const select = document.getElementById('wb-resource');
+      select.innerHTML = '';
+      catalog.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.id;
+        opt.textContent = `${item.id} (${item.path})`;
+        select.appendChild(opt);
+      });
+      onResourceChange();
+    }
+
+    function onResourceChange() {
+      const resID = document.getElementById('wb-resource').value;
+      const resItem = catalog.find(x => x.id === resID);
+      const viewSelect = document.getElementById('wb-view');
+      viewSelect.innerHTML = '';
+
+      if (resItem && resItem.views && resItem.views.length > 0) {
+        resItem.views.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v.name;
+          opt.textContent = v.name + (v.description ? ` (${v.description})` : '');
+          if (v.name === resItem.default_view) opt.selected = true;
+          viewSelect.appendChild(opt);
+        });
+      } else {
+        const opt = document.createElement('option');
+        opt.value = 'list';
+        opt.textContent = 'list';
+        viewSelect.appendChild(opt);
+      }
+    }
+
+    function syncRouterSelect() {
+      const select = document.getElementById('wb-router');
+      const currentVal = select.value;
+      select.innerHTML = '<option value="">Pilih Router...</option>';
+      routers.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.config.id;
+        opt.textContent = `${r.config.id} (${r.config.address}:${r.config.port})`;
+        if (r.config.id === currentVal) opt.selected = true;
+        select.appendChild(opt);
+      });
+      if (!select.value && routers.length > 0) {
+        // Pilih router connected pertama secara default
+        const connected = routers.find(x => x.state === 'connected' || x.state === 'warning');
+        if (connected) select.value = connected.config.id;
+        else select.value = routers[0].config.id;
+      }
+    }
+
+    // Render Kartu-Kartu Router
+    function renderRouterCards() {
+      const container = document.getElementById('router-cards-container');
+      if (!routers || routers.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px; background: var(--bg-surface); border: 1px dashed var(--border); border-radius: 12px; color: var(--text-muted);">
+            Belum ada router terdaftar. Klik tombol <b>+ Tambah Router</b> untuk memulai.
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = routers.map(r => {
+        const isConnected = r.connected || r.state === 'connected' || r.state === 'warning';
+        let stateClass = 'badge-offline';
+        let stateBadgeText = 'OFFLINE';
+        if (r.state === 'connected') {
+          stateClass = 'badge-connected';
+          stateBadgeText = 'CONNECTED';
+        } else if (r.state === 'warning') {
+          stateClass = 'badge-warning';
+          stateBadgeText = isConnected ? 'ONLINE' : 'WARNING';
+        } else if (r.state === 'error') {
+          stateClass = 'badge-error';
+          stateBadgeText = 'ERROR';
+        } else if (r.state === 'connecting') {
+          stateClass = 'badge-warning';
+          stateBadgeText = 'CONNECTING';
+        }
+        const modeBadge = r.config.poll ? 'POLLING' : 'STREAMING';
+
+        // Ping Styling
+        let pingColorClass = 'ping-good';
+        let pingDisplay = '--';
+        if (!isConnected) {
+          pingDisplay = 'Offline';
+          pingColorClass = 'ping-bad';
+        } else if (r.ping_last_rtt_ms > 0) {
+          pingDisplay = `${r.ping_last_rtt_ms.toFixed(2)} ms`;
+          if (r.ping_last_rtt_ms > 50 || r.packet_loss > 0) pingColorClass = 'ping-bad';
+          else if (r.ping_last_rtt_ms > 15) pingColorClass = 'ping-warn';
+          else pingColorClass = 'ping-good';
+        } else {
+          pingDisplay = 'Probing...';
+          pingColorClass = 'ping-warn';
+        }
+
+        const pingTarget = r.ping_target || r.config.ping_target || '8.8.8.8';
+
+        // System metrics
+        const sys = r.system || {};
+        const cpuLoad = sys.cpu_load !== undefined ? sys.cpu_load : 0;
+        const memUsedPct = sys.memory_used_pct !== undefined ? sys.memory_used_pct.toFixed(1) : 0;
+        const hddUsedPct = sys.hdd_used_pct !== undefined ? sys.hdd_used_pct.toFixed(1) : 0;
+        const uptime = sys.uptime || '--';
+        const version = sys.version || '--';
+        const arch = sys.architecture || sys.board_name || '--';
+
+        const totalMemStr = formatBytes(sys.total_memory);
+        const freeMemStr = formatBytes(sys.free_memory);
+        const totalHDDStr = formatBytes(sys.total_hdd);
+        const freeHDDStr = formatBytes(sys.free_hdd);
+
+        // Alert markup
+        let alertMarkup = '';
+        if (r.warnings && r.warnings.length > 0) {
+          alertMarkup += `<div id="alert-warn-${r.config.id}" style="font-size: 11px; color: var(--warning); background: var(--warning-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(245, 158, 11, 0.25);">
+            ⚠️ ${escapeHTML(r.warnings.join(' • '))}
+          </div>`;
+        }
+        if (!isConnected && r.last_error) {
+          alertMarkup += `<div id="alert-err-${r.config.id}" style="font-size: 11px; color: var(--danger); background: var(--danger-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(239, 68, 68, 0.25);">
+            ❌ ${escapeHTML(r.last_error)}
+          </div>`;
+        }
+
+        return `
+          <div class="router-card" id="card-${r.config.id}">
+            <div class="card-top">
+              <div>
+                <div class="router-id">${escapeHTML(r.config.id)}</div>
+                <div class="router-meta">${escapeHTML(r.config.username)}@${escapeHTML(r.config.address)}:${r.config.port}</div>
+              </div>
+              <div class="card-badges">
+                <span class="badge badge-mode">${modeBadge}</span>
+                <span class="badge ${stateClass}" id="badge-${r.config.id}">${stateBadgeText}</span>
+              </div>
+            </div>
+
+            <!-- Ping Box -->
+            <div class="ping-box">
+              <div>
+                <div class="ping-title" id="ping-title-${r.config.id}">Latency Ping (${escapeHTML(pingTarget)})</div>
+                <div class="ping-value ${pingColorClass}" id="ping-val-${r.config.id}">${pingDisplay}</div>
+              </div>
+              <div class="ping-stats" id="ping-stats-${r.config.id}">
+                <div>Avg: <b>${r.ping_avg_rtt_ms > 0 ? r.ping_avg_rtt_ms.toFixed(2) + ' ms' : '--'}</b></div>
+                <div>Loss: <b>${r.packet_loss !== undefined ? r.packet_loss.toFixed(1) + '%' : '0%'}</b>${r.ping_sent > 0 ? ` (${r.ping_received}/${r.ping_sent})` : ''}</div>
+                ${r.ping_min_rtt_ms > 0 && r.ping_max_rtt_ms > 0 ? `<div>Min/Max: <b>${r.ping_min_rtt_ms.toFixed(2)}/${r.ping_max_rtt_ms.toFixed(2)} ms</b></div>` : ''}
+              </div>
+            </div>
+
+            <!-- System Resource Metrics -->
+            <div class="metric-bars">
+              <!-- CPU -->
+              <div class="metric-row">
+                <div class="metric-header">
+                  <span class="metric-name">CPU Load</span>
+                  <span class="metric-num" id="cpu-num-${r.config.id}">${cpuLoad}%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-bar bg-cpu" id="cpu-bar-${r.config.id}" style="width: ${cpuLoad}%"></div>
+                </div>
+              </div>
+              <!-- RAM -->
+              <div class="metric-row">
+                <div class="metric-header">
+                  <span class="metric-name">RAM Memory</span>
+                  <span class="metric-num" id="ram-num-${r.config.id}">${memUsedPct}% (${freeMemStr} free / ${totalMemStr})</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-bar bg-ram" id="ram-bar-${r.config.id}" style="width: ${memUsedPct}%"></div>
+                </div>
+              </div>
+              <!-- HDD -->
+              <div class="metric-row">
+                <div class="metric-header">
+                  <span class="metric-name">Storage / HDD</span>
+                  <span class="metric-num" id="hdd-num-${r.config.id}">${hddUsedPct}% (${freeHDDStr} free / ${totalHDDStr})</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-bar bg-hdd" id="hdd-bar-${r.config.id}" style="width: ${hddUsedPct}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hardware Chips -->
+            <div class="sys-chips">
+              <span class="chip">Uptime: <b id="uptime-${r.config.id}">${uptime}</b></span>
+              <span class="chip">ROS: <b id="version-${r.config.id}">${version}</b></span>
+              <span class="chip">Arch: <b>${arch}</b></span>
+            </div>
+
+            <!-- Alerts Container -->
+            <div id="alerts-${r.config.id}" style="display: flex; flex-direction: column; gap: 6px;">
+              ${alertMarkup}
+            </div>
+
+            <!-- Card Actions -->
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="selectRouterForWorkbench('${escapeHTML(r.config.id)}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Workbench
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openEditRouterModal('${escapeHTML(r.config.id)}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteRouter('${escapeHTML(r.config.id)}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Hapus
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateGlobalStats() {
+      const total = routers.length;
+      const connected = routers.filter(x => x.state === 'connected' || x.state === 'warning').length;
+      let sumPing = 0;
+      let countPing = 0;
+      routers.forEach(r => {
+        if (r.ping_last_rtt_ms > 0 && (r.state === 'connected' || r.state === 'warning')) {
+          sumPing += r.ping_last_rtt_ms;
+          countPing++;
+        }
+      });
+      const avgPing = countPing > 0 ? (sumPing / countPing).toFixed(2) : '0.00';
+
+      document.getElementById('stat-total-routers').textContent = total;
+      document.getElementById('stat-connected-routers').textContent = connected;
+      document.getElementById('stat-avg-ping').textContent = avgPing + ' ms';
+      document.getElementById('stat-sub-routers').textContent = `${connected} aktif, ${total - connected} offline`;
+    }
+
+    // Sambungan SSE untuk Health & Realtime Ping
+    function initHealthSSE() {
+      const es = new EventSource('/api/events/health');
+      const ind = document.getElementById('sse-indicator');
+
+      es.onopen = () => {
+        ind.textContent = 'SSE Connected';
+        ind.parentElement.style.color = 'var(--success)';
+      };
+
+      es.addEventListener('health', (e) => {
+        try {
+          const ev = JSON.parse(e.data);
+          updateRouterRealtimeDOM(ev);
+        } catch (err) {
+          console.error('SSE health parse error:', err);
+        }
+      });
+
+      es.onerror = () => {
+        ind.textContent = 'SSE Reconnecting...';
+        ind.parentElement.style.color = 'var(--warning)';
+      };
+    }
+
+    function updateRouterRealtimeDOM(ev) {
+      const idx = routers.findIndex(r => r.config.id === ev.router_id);
+      if (idx !== -1) {
+        if (ev.state) routers[idx].state = ev.state;
+        if (ev.state && typeof ev.connected === 'boolean') routers[idx].connected = ev.connected;
+        if (ev.warnings !== undefined) routers[idx].warnings = ev.warnings;
+        if (ev.last_error !== undefined) routers[idx].last_error = ev.last_error;
+        if (ev.ping_target) routers[idx].ping_target = ev.ping_target;
+        if (ev.ping_last_rtt_ms !== undefined && ev.ping_last_rtt_ms >= 0) routers[idx].ping_last_rtt_ms = ev.ping_last_rtt_ms;
+        if (ev.ping_avg_rtt_ms !== undefined && ev.ping_avg_rtt_ms >= 0) routers[idx].ping_avg_rtt_ms = ev.ping_avg_rtt_ms;
+        if (ev.ping_min_rtt_ms !== undefined && ev.ping_min_rtt_ms >= 0) routers[idx].ping_min_rtt_ms = ev.ping_min_rtt_ms;
+        if (ev.ping_max_rtt_ms !== undefined && ev.ping_max_rtt_ms >= 0) routers[idx].ping_max_rtt_ms = ev.ping_max_rtt_ms;
+        if (ev.packet_loss !== undefined && ev.packet_loss >= 0) routers[idx].packet_loss = ev.packet_loss;
+        if (ev.ping_sent !== undefined && ev.ping_sent >= 0) routers[idx].ping_sent = ev.ping_sent;
+        if (ev.ping_received !== undefined && ev.ping_received >= 0) routers[idx].ping_received = ev.ping_received;
+        if (ev.ping_status) routers[idx].ping_status = ev.ping_status;
+        if (ev.system) routers[idx].system = ev.system;
+      }
+
+      const r = idx !== -1 ? routers[idx] : null;
+      const isConnected = r ? (r.connected || r.state === 'connected' || r.state === 'warning') : (ev.connected || ev.state === 'connected' || ev.state === 'warning');
+      const currentState = r ? r.state : ev.state;
+
+      // Update badge
+      const badge = document.getElementById(`badge-${ev.router_id}`);
+      if (badge && currentState) {
+        if (currentState === 'connected') {
+          badge.className = 'badge badge-connected';
+          badge.textContent = 'CONNECTED';
+        } else if (currentState === 'warning') {
+          badge.className = 'badge badge-warning';
+          badge.textContent = isConnected ? 'ONLINE' : 'WARNING';
+        } else if (currentState === 'error') {
+          badge.className = 'badge badge-error';
+          badge.textContent = 'ERROR';
+        } else if (currentState === 'connecting') {
+          badge.className = 'badge badge-warning';
+          badge.textContent = 'CONNECTING';
+        } else {
+          badge.className = 'badge badge-offline';
+          badge.textContent = 'OFFLINE';
+        }
+      }
+
+      // Update ping display
+      const pingVal = document.getElementById(`ping-val-${ev.router_id}`);
+      if (pingVal) {
+        if (!isConnected) {
+          pingVal.className = 'ping-value ping-bad';
+          pingVal.textContent = 'Offline';
+        } else if (r && r.ping_last_rtt_ms > 0) {
+          let pingColorClass = 'ping-good';
+          if (r.ping_last_rtt_ms > 50 || (r.packet_loss !== undefined && r.packet_loss > 0)) pingColorClass = 'ping-bad';
+          else if (r.ping_last_rtt_ms > 15) pingColorClass = 'ping-warn';
+          pingVal.className = `ping-value ${pingColorClass}`;
+          pingVal.textContent = `${r.ping_last_rtt_ms.toFixed(2)} ms`;
+        } else {
+          pingVal.className = 'ping-value ping-warn';
+          pingVal.textContent = 'Probing...';
+        }
+      }
+
+      // Update ping stats
+      const pingStats = document.getElementById(`ping-stats-${ev.router_id}`);
+      if (pingStats && r) {
+        const avgStr = (r.ping_avg_rtt_ms !== undefined && r.ping_avg_rtt_ms > 0) ? `${r.ping_avg_rtt_ms.toFixed(2)} ms` : '--';
+        const lossStr = r.packet_loss !== undefined ? `${r.packet_loss.toFixed(1)}%` : '0%';
+        const countStr = (r.ping_sent !== undefined && r.ping_sent > 0) ? ` (${r.ping_received || 0}/${r.ping_sent})` : '';
+        const minMaxStr = (r.ping_min_rtt_ms > 0 && r.ping_max_rtt_ms > 0) ? `<div>Min/Max: <b>${r.ping_min_rtt_ms.toFixed(2)}/${r.ping_max_rtt_ms.toFixed(2)} ms</b></div>` : '';
+
+        pingStats.innerHTML = `
+          <div>Avg: <b>${avgStr}</b></div>
+          <div>Loss: <b>${lossStr}</b>${countStr}</div>
+          ${minMaxStr}
+        `;
+      }
+
+      // Update alerts
+      const alerts = document.getElementById(`alerts-${ev.router_id}`);
+      if (alerts) {
+        let alertMarkup = '';
+        if (ev.warnings && ev.warnings.length > 0) {
+          alertMarkup += `<div style="font-size: 11px; color: var(--warning); background: var(--warning-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(245, 158, 11, 0.25);">
+            ⚠️ ${escapeHTML(ev.warnings.join(' • '))}
+          </div>`;
+        }
+        if (!isConnected && ev.last_error) {
+          alertMarkup += `<div style="font-size: 11px; color: var(--danger); background: var(--danger-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(239, 68, 68, 0.25);">
+            ❌ ${escapeHTML(ev.last_error)}
+          </div>`;
+        }
+        alerts.innerHTML = alertMarkup;
+      }
+
+      // Update system metrics jika tersedia
+      if (ev.system) {
+        const sys = ev.system;
+        const cpuNum = document.getElementById(`cpu-num-${ev.router_id}`);
+        const cpuBar = document.getElementById(`cpu-bar-${ev.router_id}`);
+        if (cpuNum && cpuBar) {
+          cpuNum.textContent = `${sys.cpu_load}%`;
+          cpuBar.style.width = `${sys.cpu_load}%`;
+        }
+
+        const ramNum = document.getElementById(`ram-num-${ev.router_id}`);
+        const ramBar = document.getElementById(`ram-bar-${ev.router_id}`);
+        if (ramNum && ramBar) {
+          const usedPct = sys.memory_used_pct ? sys.memory_used_pct.toFixed(1) : 0;
+          ramNum.textContent = `${usedPct}% (${formatBytes(sys.free_memory)} free / ${formatBytes(sys.total_memory)})`;
+          ramBar.style.width = `${usedPct}%`;
+        }
+
+        const hddNum = document.getElementById(`hdd-num-${ev.router_id}`);
+        const hddBar = document.getElementById(`hdd-bar-${ev.router_id}`);
+        if (hddNum && hddBar) {
+          const usedPct = sys.hdd_used_pct ? sys.hdd_used_pct.toFixed(1) : 0;
+          hddNum.textContent = `${usedPct}% (${formatBytes(sys.free_hdd)} free / ${formatBytes(sys.total_hdd)})`;
+          hddBar.style.width = `${usedPct}%`;
+        }
+
+        const uptime = document.getElementById(`uptime-${ev.router_id}`);
+        if (uptime && sys.uptime) uptime.textContent = sys.uptime;
+        const version = document.getElementById(`version-${ev.router_id}`);
+        if (version && sys.version) version.textContent = sys.version;
+      }
+
+      updateGlobalStats();
+    }
+
+    // Memilih router langsung dari tombol Workbench kartu
+    function selectRouterForWorkbench(routerID) {
+      const select = document.getElementById('wb-router');
+      select.value = routerID;
+      document.getElementById('workbench-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- WORKBENCH BUILD COMMAND (COMMAND MIKROTIK ONLY) ---
+
+    async function buildCatalogCommand() {
+      const routerID = document.getElementById('wb-router').value;
+      const resID = document.getElementById('wb-resource').value;
+      const view = document.getElementById('wb-view').value;
+      const delivery = document.getElementById('wb-delivery').value;
+      const proplist = document.getElementById('wb-proplist').value.trim();
+
+      if (!resID) {
+        alert('Silakan pilih Resource Katalog terlebih dahulu.');
+        return;
+      }
+
+      // Pastikan stream berhenti jika sedang jalan
+      stopStreamTest();
+
+      const btn = document.getElementById('wb-btn-build');
+      const origText = btn.innerHTML;
+      btn.disabled = true;
+
+      try {
+        const params = new URLSearchParams({
+          resource: resID,
+          view: view || '',
+          delivery: delivery || 'stream_interval',
+          proplist: proplist,
+          router: routerID || ''
+        });
+        const res = await fetch(`/api/catalog/build?${params.toString()}`);
+        const data = await res.json();
+        if (!res.ok) {
+          alert('Build Error: ' + (data.error || 'Gagal menyusun command'));
+          return;
+        }
+
+        // Tampilkan hanya command MikroTik dan tag poll atau stream di terminal
+        const body = document.getElementById('term-body');
+        body.innerHTML = '';
+        const line = document.createElement('div');
+        line.className = 'log-line';
+        line.style.fontSize = '14px';
+        line.style.padding = '8px 4px';
+        const tagColor = data.tag === 'STREAM' ? '#38BDF8' : '#FBBF24';
+        line.innerHTML = `<span style="color: ${tagColor}; font-weight: 700;">[${escapeHTML(data.tag)}]</span> <span style="color: #F8FAFC; font-weight: 600;">${escapeHTML(data.command)}</span>`;
+        body.appendChild(line);
+
+        document.getElementById('term-cmd-text').textContent = data.formatted;
+        document.getElementById('term-status-badge').className = 'terminal-status ' + (data.tag === 'STREAM' ? 'term-running' : 'term-status');
+        document.getElementById('term-status-badge').style.color = tagColor;
+        document.getElementById('term-status-badge').textContent = data.tag;
+        document.getElementById('term-event-count').textContent = '1';
+        document.getElementById('stat-workbench-status').textContent = data.tag;
+        document.getElementById('stat-workbench-status').style.color = tagColor;
+        document.getElementById('stat-workbench-sub').textContent = `Command: ${resID}/${view}`;
+      } catch (err) {
+        alert('Gagal build command: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }
+    }
+
+    // --- WORKBENCH STREAM & POLL ENGINE ---
+
+    function startStreamTest() {
+      const routerID = document.getElementById('wb-router').value;
+      const resID = document.getElementById('wb-resource').value;
+      const view = document.getElementById('wb-view').value;
+      const delivery = document.getElementById('wb-delivery').value;
+      const proplist = document.getElementById('wb-proplist').value.trim();
+
+      if (!routerID || !resID) {
+        alert('Silakan pilih Target Router dan Resource Katalog terlebih dahulu.');
+        return;
+      }
+
+      stopStreamTest(); // Pastikan stream sebelumnya berhenti
+
+      clearTerminal();
+      eventCount = 0;
+      streamSeconds = 0;
+      document.getElementById('term-event-count').textContent = '0';
+      document.getElementById('term-duration').textContent = '00:00';
+      document.getElementById('term-status-badge').className = 'terminal-status term-running';
+      document.getElementById('term-status-badge').textContent = 'STREAMING';
+      document.getElementById('stat-workbench-status').textContent = 'ACTIVE';
+      document.getElementById('stat-workbench-status').style.color = 'var(--success)';
+      document.getElementById('stat-workbench-sub').textContent = `${delivery} on ${resID}`;
+
+      document.getElementById('wb-btn-start').disabled = true;
+      document.getElementById('wb-btn-stop').disabled = false;
+
+      // Timer durasi
+      streamTimer = setInterval(() => {
+        streamSeconds++;
+        const m = Math.floor(streamSeconds / 60).toString().padStart(2, '0');
+        const s = (streamSeconds % 60).toString().padStart(2, '0');
+        document.getElementById('term-duration').textContent = `${m}:${s}`;
+      }, 1000);
+
+      const url = `/api/events/stream?router=${encodeURIComponent(routerID)}&resource=${encodeURIComponent(resID)}&view=${encodeURIComponent(view)}&delivery=${encodeURIComponent(delivery)}&proplist=${encodeURIComponent(proplist)}`;
+      activeStreamEventSource = new EventSource(url);
+
+      activeStreamEventSource.addEventListener('status', (e) => {
+        const d = JSON.parse(e.data);
+        if (d.sentence) {
+          document.getElementById('term-cmd-text').textContent = d.sentence;
+        }
+        appendLog('STATUS', d.message, 'log-status');
+      });
+
+      activeStreamEventSource.addEventListener('row', (e) => {
+        eventCount++;
+        document.getElementById('term-event-count').textContent = eventCount;
+        const d = JSON.parse(e.data);
+        appendLog('ROW', JSON.stringify(d.row), 'log-row', d.time);
+      });
+
+      activeStreamEventSource.addEventListener('snapshot', (e) => {
+        eventCount++;
+        document.getElementById('term-event-count').textContent = eventCount;
+        const d = JSON.parse(e.data);
+        const rows = d.rows || [];
+        appendLog('SNAPSHOT', `Snapshot dump: ${rows.length} records\n` + JSON.stringify(rows, null, 2), 'log-snapshot', d.time);
+      });
+
+      activeStreamEventSource.addEventListener('error', (e) => {
+        try {
+          const d = JSON.parse(e.data);
+          appendLog('ERROR', d.message || d.error, 'log-error');
+        } catch {
+          appendLog('ERROR', 'Koneksi stream terputus atau timeout', 'log-error');
+        }
+        stopStreamTest();
+      });
+
+      activeStreamEventSource.addEventListener('done', (e) => {
+        const d = JSON.parse(e.data);
+        appendLog('DONE', d.message || 'Stream selesai', 'log-done');
+        stopStreamTest();
+      });
+
+      activeStreamEventSource.onerror = (e) => {
+        appendLog('INFO', 'Koneksi stream ditutup oleh server', 'log-done');
+        stopStreamTest();
+      };
+    }
+
+    function stopStreamTest() {
+      if (activeStreamEventSource) {
+        activeStreamEventSource.close();
+        activeStreamEventSource = null;
+      }
+      if (streamTimer) {
+        clearInterval(streamTimer);
+        streamTimer = null;
+      }
+      document.getElementById('wb-btn-start').disabled = false;
+      document.getElementById('wb-btn-stop').disabled = true;
+      document.getElementById('term-status-badge').className = 'terminal-status term-stopped';
+      document.getElementById('term-status-badge').textContent = 'STOPPED';
+      document.getElementById('stat-workbench-status').textContent = 'IDLE';
+      document.getElementById('stat-workbench-status').style.color = 'var(--purple)';
+      document.getElementById('stat-workbench-sub').textContent = 'Siap menguji stream';
+    }
+
+    function clearTerminal() {
+      document.getElementById('term-body').innerHTML = '';
+      document.getElementById('term-event-count').textContent = '0';
+    }
+
+    function appendLog(tag, content, cssClass, timeStr) {
+      const body = document.getElementById('term-body');
+      const time = timeStr || new Date().toTimeString().split(' ')[0] + '.' + Math.floor(new Date().getMilliseconds() / 100);
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      line.innerHTML = `<span class="log-time">[${time}]</span><span class="log-tag ${cssClass}">[${tag}]</span><span class="${cssClass}">${escapeHTML(content)}</span>`;
+      body.appendChild(line);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    // --- MODAL CRUD ROUTER ---
+
+    function openAddRouterModal() {
+      isEditing = false;
+      document.getElementById('modal-title').textContent = 'Tambah Router Baru';
+      document.getElementById('form-id').value = '';
+      document.getElementById('form-id').readOnly = false;
+      document.getElementById('form-address').value = '';
+      document.getElementById('form-port').value = 8728;
+      document.getElementById('form-username').value = 'admin';
+      document.getElementById('form-password').value = '';
+      document.getElementById('form-poll').value = 'false';
+      document.getElementById('form-stream-every').value = '1.0';
+      document.getElementById('form-poll-every').value = '5.0';
+      document.getElementById('form-ping-target').value = '8.8.8.8';
+      document.getElementById('form-tls').checked = false;
+      document.getElementById('form-insecure').checked = false;
+      document.getElementById('router-modal').classList.add('active');
+    }
+
+    function openEditRouterModal(id) {
+      const r = routers.find(x => x.config.id === id);
+      if (!r) return;
+      isEditing = true;
+      document.getElementById('modal-title').textContent = `Edit Router: ${r.config.id}`;
+      document.getElementById('form-id').value = r.config.id;
+      document.getElementById('form-id').readOnly = true;
+      document.getElementById('form-address').value = r.config.address;
+      document.getElementById('form-port').value = r.config.port;
+      document.getElementById('form-username').value = r.config.username;
+      document.getElementById('form-password').value = r.config.password;
+      document.getElementById('form-poll').value = r.config.poll ? 'true' : 'false';
+      document.getElementById('form-stream-every').value = (r.config.stream_every || 1000000000) / 1000000000;
+      document.getElementById('form-poll-every').value = (r.config.poll_every || 5000000000) / 1000000000;
+      document.getElementById('form-ping-target').value = (r.config.status && r.config.status.target) || '8.8.8.8';
+      document.getElementById('form-tls').checked = r.config.tls || false;
+      document.getElementById('form-insecure').checked = r.config.insecure || false;
+      document.getElementById('router-modal').classList.add('active');
+    }
+
+    function closeRouterModal() {
+      document.getElementById('router-modal').classList.remove('active');
+    }
+
+    async function handleRouterFormSubmit(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('btn-save-router');
+      const origText = saveBtn.textContent;
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Menyimpan...';
+
+      const id = document.getElementById('form-id').value.trim();
+      const payload = {
+        id: id,
+        address: document.getElementById('form-address').value.trim(),
+        port: parseInt(document.getElementById('form-port').value, 10) || 8728,
+        username: document.getElementById('form-username').value.trim(),
+        password: document.getElementById('form-password').value,
+        poll: document.getElementById('form-poll').value === 'true',
+        stream_every_s: parseFloat(document.getElementById('form-stream-every').value) || 1.0,
+        poll_every_s: parseFloat(document.getElementById('form-poll-every').value) || 5.0,
+        ping_target: document.getElementById('form-ping-target').value.trim() || '8.8.8.8',
+        tls: document.getElementById('form-tls').checked,
+        insecure: document.getElementById('form-insecure').checked,
+      };
+
+      try {
+        const url = isEditing ? `/api/routers/${encodeURIComponent(id)}` : '/api/routers';
+        const method = isEditing ? 'PUT' : 'POST';
+        const res = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          alert('Error: ' + (data.error || 'Gagal menyimpan router'));
+          return;
+        }
+        closeRouterModal();
+        if (data && data.config) {
+          const existingIdx = routers.findIndex(r => r.config.id === data.config.id);
+          if (existingIdx !== -1) {
+            routers[existingIdx] = data;
+          } else {
+            routers.push(data);
+          }
+          renderRouterCards();
+          updateGlobalStats();
+          syncRouterSelect();
+        }
+        await fetchRouters();
+      } catch (err) {
+        alert('Koneksi gagal: ' + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = origText;
+      }
+    }
+
+    async function deleteRouter(id) {
+      if (!confirm(`Apakah Anda yakin ingin menghapus router "${id}"? Koneksi akan diputus.`)) {
+        return;
+      }
+      try {
+        const res = await fetch(`/api/routers/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        if (!res.ok) {
+          const d = await res.json();
+          alert('Gagal menghapus: ' + (d.error || 'Server error'));
+          return;
+        }
+        await fetchRouters();
+      } catch (err) {
+        alert('Gagal menghapus: ' + err.message);
+      }
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Inisialisasi saat window load
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchRouters();
+      fetchCatalog();
+      initHealthSSE();
+    });
+  </script>
+</body>
+</html>

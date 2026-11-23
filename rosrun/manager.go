@@ -77,6 +77,21 @@ func NewManager() *Manager {
 	}
 }
 
+// Register mendaftarkan atau memperbarui konfigurasi router ke manager tanpa
+// langsung membuka koneksi. Koneksi dibuka saat pertama kali di-Acquire.
+func (m *Manager) Register(cfg Config) {
+	if m == nil {
+		return
+	}
+	if strings.TrimSpace(cfg.ID) == "" {
+		cfg.ID = cfg.addr()
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.ensureMapsLocked()
+	m.cfgs[cfg.ID] = cfg
+}
+
 // OpenAll membuka semua router secara paralel. Bila sebagian gagal, router yang
 // berhasil tetap dikembalikan bersama error gabungan (partial success).
 // Bila tidak ada satu pun yang berhasil, hasilnya nil dan error.
@@ -190,50 +205,6 @@ func (m *Manager) Add(ctx context.Context, cfg Config) (*MikroTik, error) {
 	}
 	m.order = append(m.order, cfg.ID)
 	return sess, nil
-}
-
-// Register mendaftarkan atau memperbarui konfigurasi router ke manager tanpa
-// langsung membuka koneksi. Koneksi dibuka saat pertama kali di-Acquire.
-func (m *Manager) Register(cfg Config) {
-	if m == nil {
-		return
-	}
-	if strings.TrimSpace(cfg.ID) == "" {
-		cfg.ID = cfg.addr()
-	}
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	m.ensureMapsLocked()
-	m.cfgs[cfg.ID] = cfg
-}
-
-// Unregister menghapus router dan menutup sesinya bila sedang terbuka.
-func (m *Manager) Unregister(id string) error {
-	if m == nil {
-		return nil
-	}
-	m.mu.Lock()
-	m.ensureMapsLocked()
-	sess := m.routers[id]
-	delete(m.routers, id)
-	delete(m.cfgs, id)
-	delete(m.refs, id)
-	delete(m.holds, id)
-	if t := m.linger[id]; t != nil {
-		t.Stop()
-		delete(m.linger, id)
-	}
-	for i, x := range m.order {
-		if x == id {
-			m.order = append(m.order[:i], m.order[i+1:]...)
-			break
-		}
-	}
-	m.mu.Unlock()
-	if sess != nil {
-		return sess.Close()
-	}
-	return nil
 }
 
 // Get mencari sesi berdasarkan ID.
@@ -447,6 +418,83 @@ func (m *Manager) idleOut(id string) {
 	if sess != nil {
 		_ = sess.Close()
 	}
+}
+
+// Remove memutuskan koneksi dan menghapus router dari manager.
+func (m *Manager) Remove(id string) error {
+	if m == nil {
+		return ErrClosed
+	}
+	m.mu.Lock()
+	if m.closed.Load() {
+		m.mu.Unlock()
+		return ErrClosed
+	}
+	sess, ok := m.routers[id]
+	if !ok {
+		m.mu.Unlock()
+		return fmt.Errorf("rosrun: router id %q not found", id)
+	}
+	delete(m.routers, id)
+	delete(m.cfgs, id)
+	delete(m.refs, id)
+	delete(m.holds, id)
+	if t := m.linger[id]; t != nil {
+		t.Stop()
+		delete(m.linger, id)
+	}
+	for i, x := range m.order {
+		if x == id {
+			m.order = append(m.order[:i], m.order[i+1:]...)
+			break
+		}
+	}
+	m.mu.Unlock()
+	if sess != nil {
+		return sess.Close()
+	}
+	return nil
+}
+
+// Unregister adalah alias dari Remove.
+func (m *Manager) Unregister(id string) error {
+	return m.Remove(id)
+}
+
+// Config mengembalikan Config untuk router id jika ada.
+func (m *Manager) Config(id string) (Config, bool) {
+	if m == nil {
+		return Config{}, false
+	}
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	cfg, ok := m.cfgs[id]
+	return cfg, ok
+}
+
+// Has melaporkan apakah konfigurasi router id sudah didaftarkan.
+func (m *Manager) Has(id string) bool {
+	if m == nil {
+		return false
+	}
+	_, ok := m.Config(id)
+	return ok
+}
+
+// Configs mengembalikan seluruh Config router terdaftar sesuai urutan pendaftaran.
+func (m *Manager) Configs() []Config {
+	if m == nil {
+		return nil
+	}
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	out := make([]Config, 0, len(m.order))
+	for _, id := range m.order {
+		if cfg, ok := m.cfgs[id]; ok {
+			out = append(out, cfg)
+		}
+	}
+	return out
 }
 
 // WatchAll menjalankan Request yang sama di semua router. Kegagalan satu

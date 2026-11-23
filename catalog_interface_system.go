@@ -104,6 +104,7 @@ func init() {
 			List("uptime", "version", "build-time", "architecture-name", "board-name", "platform",
 				"cpu", "cpu-count", "cpu-frequency", "cpu-load", "free-memory", "total-memory",
 				"free-hdd-space", "total-hdd-space").
+			WithoutServerProplist().
 			Live(time.Second, false, "uptime", "cpu-load", "free-memory", "total-memory",
 				"free-hdd-space", "total-hdd-space"),
 

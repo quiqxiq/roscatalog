@@ -63,6 +63,11 @@ func (r *Resource) MarkHeavy() *Resource { r.last().Heavy = true; return r }
 // native yang terbukti menerimanya, mis. monitor-traffic).
 func (r *Resource) UseServerProplist() *Resource { r.last().ServerProplist = true; return r }
 
+// WithoutServerProplist menonaktifkan =.proplist= pada view terakhir.
+// Berguna untuk resource singleton atau menu tertentu yang bermasalah bila
+// proplist dikirim ke router (mis. /system/resource pada RouterOS 6).
+func (r *Resource) WithoutServerProplist() *Resource { r.last().ServerProplist = false; return r }
+
 // Hint mengisi catatan pada view terakhir.
 func (r *Resource) Hint(s string) *Resource { r.last().Note = s; return r }
 

@@ -20,6 +20,8 @@ var (
 	ErrClosed = errors.New("rosrun: session closed")
 	// ErrReconnecting dikembalikan saat koneksi sedang dipulihkan.
 	ErrReconnecting = errors.New("rosrun: reconnecting")
+	// ErrUnknownRouter dikembalikan saat router belum didaftarkan di Manager.
+	ErrUnknownRouter = errors.New("rosrun: unknown router")
 )
 
 // MikroTik adalah satu sesi ke router: dua koneksi persisten (command dan

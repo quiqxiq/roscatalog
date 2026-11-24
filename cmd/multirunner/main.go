@@ -258,9 +258,15 @@ func main() {
 		runCatalogTestCase(ctx, mgr, idx+1, len(testCases), tc, *streamDur)
 	}
 
-	// 4. Pengujian Simulasi Perubahan Password di data.go
+	// 4. Pengujian Universal Command Builder (ros.Path / ros.Menu)
+	if ctx.Err() == nil {
+		fmt.Printf("\n%s[3/4] Menjalankan Pengujian Universal Command Builder (ros.Path / ros.Menu)...%s\n", colorBold, colorReset)
+		runUniversalCommandBuilderTests(ctx, mgr, *streamDur)
+	}
+
+	// 5. Pengujian Simulasi Perubahan Password di data.go
 	if !*skipAuthTest && ctx.Err() == nil {
-		fmt.Printf("\n%s[3/3] Pengujian Simulasi Perubahan Password di data.go (Config Level)...%s\n", colorBold, colorReset)
+		fmt.Printf("\n%s[4/4] Pengujian Simulasi Perubahan Password di data.go (Config Level)...%s\n", colorBold, colorReset)
 		runPasswordChangeSimulation(ctx, mgr)
 	}
 
@@ -501,4 +507,104 @@ func truncateMap(m map[string]string, maxKeys int) map[string]string {
 	}
 	out["..."] = fmt.Sprintf("(total %d kolom)", len(m))
 	return out
+}
+
+// runUniversalCommandBuilderTests mendemonstrasikan fleksibilitas ros.Path / ros.Menu
+// yang mencakup print dengan switches/proplist, stats detail interval, query server-side,
+// dan child command seperti ping/tools.
+func runUniversalCommandBuilderTests(ctx context.Context, mgr *rosrun.Manager, dur time.Duration) {
+	type builderTest struct {
+		Name     string
+		Builder  ros.Requestable
+		IsStream bool
+	}
+
+	tests := []builderTest{
+		{
+			Name: "ros.Path(/system/resource).Print().Proplist(\"version\", \"uptime\", \"cpu-load\")",
+			Builder: ros.Path("/system/resource").Print().
+				Proplist("version", "uptime", "cpu-load"),
+			IsStream: false,
+		},
+		{
+			Name: "ros.Path(/interface).Print(\"stats\", \"detail\").Interval(1s).Proplist(\".id\", \"name\", \"tx-byte\", \"rx-byte\")",
+			Builder: ros.Path("/interface").Print("stats", "detail").
+				Interval(time.Second).
+				Proplist(".id", "name", "tx-byte", "rx-byte"),
+			IsStream: true,
+		},
+		{
+			Name: "ros.Path(/ip/hotspot/user).Print().WhereEq(\"disabled\", \"no\").Proplist(\"name\", \"profile\")",
+			Builder: ros.Path("/ip/hotspot/user").Print().
+				WhereEq("disabled", "no").
+				Proplist("name", "profile"),
+			IsStream: false,
+		},
+		{
+			Name: "ros.Path(\"/\").Do(\"ping\").Arg(\"address\", \"8.8.8.8\").Arg(\"count\", 2)",
+			Builder: ros.Path("/").Do("ping").
+				Arg("address", "8.8.8.8").
+				Arg("count", 2),
+			IsStream: true,
+		},
+	}
+
+	routers := mgr.Routers()
+	if len(routers) == 0 {
+		fmt.Printf("    %s[SKIP] Tidak ada router terhubung di Manager%s\n", colorYellow, colorReset)
+		return
+	}
+
+	for i, t := range tests {
+		if ctx.Err() != nil {
+			break
+		}
+		req, err := t.Builder.Build()
+		if err != nil {
+			fmt.Printf("    [%d/%d] %s: %sBUILD ERROR:%s %v\n", i+1, len(tests), t.Name, colorRed, colorReset, err)
+			continue
+		}
+		fmt.Printf("\n    [%d/%d] %s%s%s\n", i+1, len(tests), colorBold, t.Name, colorReset)
+		fmt.Printf("        Sentence: %s\n", strings.Join(req.Sentence, " "))
+
+		if !t.IsStream {
+			for _, s := range routers {
+				st := s.Status()
+				if !st.Connected {
+					continue
+				}
+				start := time.Now()
+				rows, err := s.OnceCmd(ctx, t.Builder)
+				elapsed := time.Since(start)
+				if err != nil {
+					fmt.Printf("        [%s] %sERROR:%s %v (%s)\n", st.ID, colorRed, colorReset, err, elapsed)
+					continue
+				}
+				fmt.Printf("        [%s] %sOK:%s Menerima %d baris (%s)\n", st.ID, colorGreen, colorReset, len(rows), elapsed)
+				if len(rows) > 0 {
+					fmt.Printf("            Data: %v\n", truncateMap(rows[0], 5))
+				}
+			}
+		} else {
+			testCtx, cancel := context.WithTimeout(ctx, dur)
+			ch, err := mgr.WatchAllCmd(testCtx, t.Builder)
+			if err != nil {
+				fmt.Printf("        %sWATCH ERROR:%s %v\n", colorRed, colorReset, err)
+				cancel()
+				continue
+			}
+			counts := make(map[string]int)
+			for ev := range ch {
+				if ev.Event.Kind == rosrun.KindError {
+					fmt.Printf("        [%s] %sSTREAM ERROR:%s %v\n", ev.RouterID, colorRed, colorReset, ev.Event.Err)
+				} else {
+					counts[ev.RouterID]++
+				}
+			}
+			cancel()
+			for routerID, count := range counts {
+				fmt.Printf("        [%s] %sOK:%s Streaming diterima %d event dalam %s\n", routerID, colorGreen, colorReset, count, dur)
+			}
+		}
+	}
 }

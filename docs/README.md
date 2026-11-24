@@ -27,6 +27,7 @@ Daftar halaman (baca dari awal):
 10. [Testing](10-testing.md) — unit + live tests, roscheck/rosverify
 11. [Migrasi MikroDash](11-mikrodash.md) — jalan menggunakan roscatalog di MikroDash
 12. [Mikhmon](12-mikhmon.md) — overlay + workflow Mikhmon v4, on-login, monitor profile, sales, quickprint
+13. [Command Builder](13-command-builder.md) — universal command builder `ros.Path` & `ros.Menu` untuk semua menu/command CLI & Binary API
 
 Contoh code yang bisa dijalankan: [docs/examples/](examples).
 

@@ -128,6 +128,12 @@ func (r Request) Fingerprint() string {
 	return strings.Join(parts, "\x1f")
 }
 
+// Request mengembalikan dirinya sendiri untuk memenuhi antarmuka Requestable.
+func (r Request) Request() Request { return r }
+
+// Build mengembalikan dirinya sendiri dan error nil untuk memenuhi antarmuka Requestable.
+func (r Request) Build() (Request, error) { return r, nil }
+
 // Deliveries mengembalikan pengiriman yang valid untuk sebuah view; elemen
 // pertama adalah bawaan bila Plan.Delivery kosong.
 func (r *Resource) Deliveries(viewName string) []Delivery {

@@ -161,6 +161,31 @@ func TestOnceUsesSessionConnection(t *testing.T) {
 	}
 }
 
+func TestRequestableCmds(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, nil)
+
+	// Test OnceCmd dengan ros.Path
+	rows, err := s.OnceCmd(testContext(t, 2*time.Second), ros.Path("/ip/hotspot/active").Print())
+	if err != nil {
+		t.Fatalf("OnceCmd: %v", err)
+	}
+	if len(rows) != 2 {
+		t.Fatalf("rows = %d, want 2", len(rows))
+	}
+
+	// Test ExecCmd dengan ros.Path
+	ret, err := s.ExecCmd(testContext(t, 2*time.Second), ros.Path("/ip/hotspot/user").Add(map[string]any{
+		"name": "vc1",
+	}))
+	if err != nil {
+		t.Fatalf("ExecCmd: %v", err)
+	}
+	if ret != "*A1" {
+		t.Fatalf("ret = %q, want *A1", ret)
+	}
+}
+
 func TestWatchPoll(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)

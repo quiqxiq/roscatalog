@@ -560,6 +560,33 @@ func (m *Manager) WatchAll(ctx context.Context, req ros.Request) (<-chan RouterE
 	return out, nil
 }
 
+// WatchAllCmd membuka stream atau poll dari Requestable ke seluruh router yang terdaftar.
+func (m *Manager) WatchAllCmd(ctx context.Context, r ros.Requestable) (<-chan RouterEvent, error) {
+	req, err := r.Build()
+	if err != nil {
+		return nil, err
+	}
+	return m.WatchAll(ctx, req)
+}
+
+// SubscribeCmd mendaftarkan listener ke stream bersama berdasarkan Requestable.
+func (m *Manager) SubscribeCmd(ctx context.Context, id string, r ros.Requestable) (*Subscription, error) {
+	req, err := r.Build()
+	if err != nil {
+		return nil, err
+	}
+	return m.Subscribe(ctx, id, req)
+}
+
+// SubscribeAllCmd mendaftarkan listener ke stream bersama di semua router berdasarkan Requestable.
+func (m *Manager) SubscribeAllCmd(ctx context.Context, r ros.Requestable) (map[string]*Subscription, error) {
+	req, err := r.Build()
+	if err != nil {
+		return nil, err
+	}
+	return m.SubscribeAll(ctx, req)
+}
+
 // WatchAutoAll seperti WatchAll, tetapi tiap router memilih stream/poll dari
 // Config.Poll-nya sendiri saat plan.Delivery kosong.
 func (m *Manager) WatchAutoAll(ctx context.Context, res *ros.Resource, view string, plan ros.Plan, p ros.Params) (<-chan RouterEvent, error) {

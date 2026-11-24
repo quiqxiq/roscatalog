@@ -121,6 +121,15 @@ func (m *MikroTik) Exec(ctx context.Context, sentence []string) (string, error) 
 	return m.conn.run().Exec(ctx, sentence)
 }
 
+// ExecCmd mengeksekusi Requestable aksi dan mengembalikan nilai =ret=.
+func (m *MikroTik) ExecCmd(ctx context.Context, cmd ros.Requestable) (string, error) {
+	req, err := cmd.Build()
+	if err != nil {
+		return "", err
+	}
+	return m.Exec(ctx, req.Sentence)
+}
+
 // Once menjalankan satu Request mode once. Bila koneksi putus di tengah
 // jalan, Once menunggu reconnect lalu mencoba sekali lagi; retry kedua
 // memakai Fallback tanpa .proplist bila tersedia (beberapa versi RouterOS
@@ -142,6 +151,15 @@ func (m *MikroTik) Once(ctx context.Context, req ros.Request) ([]map[string]stri
 		retry.Sentence, retry.Fallback = req.Fallback, nil
 	}
 	return m.conn.run().Once(ctx, retry)
+}
+
+// OnceCmd menjalankan satu Requestable mode once (misal ros.Path("/system/resource").Print()).
+func (m *MikroTik) OnceCmd(ctx context.Context, r ros.Requestable) ([]map[string]string, error) {
+	req, err := r.Build()
+	if err != nil {
+		return nil, err
+	}
+	return m.Once(ctx, req)
 }
 
 // Count menjalankan Request count-only.
@@ -201,6 +219,15 @@ func (m *MikroTik) Watch(ctx context.Context, req ros.Request) (<-chan Event, er
 	out := make(chan Event)
 	go m.forward(wctx, cancel, req, first, out)
 	return out, nil
+}
+
+// WatchCmd membuka stream atau polling dari Requestable (misal ros.Path("/interface").Print("stats").Interval(time.Second)).
+func (m *MikroTik) WatchCmd(ctx context.Context, r ros.Requestable) (<-chan Event, error) {
+	req, err := r.Build()
+	if err != nil {
+		return nil, err
+	}
+	return m.Watch(ctx, req)
 }
 
 func (m *MikroTik) forward(ctx context.Context, cancel context.CancelFunc, req ros.Request, first <-chan Event, out chan<- Event) {

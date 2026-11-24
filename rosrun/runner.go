@@ -195,6 +195,24 @@ func (r *Runner) Exec(ctx context.Context, sentence []string) (string, error) {
 	return "", nil
 }
 
+// OnceCmd menjalankan satu Requestable mode once.
+func (r *Runner) OnceCmd(ctx context.Context, reqable ros.Requestable) ([]map[string]string, error) {
+	req, err := reqable.Build()
+	if err != nil {
+		return nil, err
+	}
+	return r.Once(ctx, req)
+}
+
+// ExecCmd mengeksekusi Requestable aksi dan mengembalikan nilai =ret=.
+func (r *Runner) ExecCmd(ctx context.Context, cmd ros.Requestable) (string, error) {
+	req, err := cmd.Build()
+	if err != nil {
+		return "", err
+	}
+	return r.Exec(ctx, req.Sentence)
+}
+
 // Watch menjalankan Request sesuai Delivery-nya dan mengirim Event sampai ctx
 // dibatalkan, stream berakhir, atau terjadi error (KindError lalu channel
 // ditutup). Konsumen harus terus membaca channel atau membatalkan ctx.
@@ -237,6 +255,15 @@ func (r *Runner) Watch(ctx context.Context, req ros.Request) (<-chan Event, erro
 		}
 	}()
 	return out, nil
+}
+
+// WatchCmd membuka stream atau polling dari Requestable.
+func (r *Runner) WatchCmd(ctx context.Context, reqable ros.Requestable) (<-chan Event, error) {
+	req, err := reqable.Build()
+	if err != nil {
+		return nil, err
+	}
+	return r.Watch(ctx, req)
 }
 
 // ---------------------------------------------------------------------------

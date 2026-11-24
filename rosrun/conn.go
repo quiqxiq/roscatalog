@@ -183,8 +183,8 @@ func isTransientDialErr(err error) bool {
 	return false
 }
 
-// supervise menunggu koneksi mati lalu menggantinya. Satu supervisor per
-// koneksi (cmd dan feed).
+// supervise menunggu koneksi mati lalu menggantinya. Ada tepat satu
+// supervisor untuk satu-satunya koneksi sesi.
 func (m *MikroTik) supervise(conn *managedConn) {
 	defer m.wg.Done()
 

@@ -58,7 +58,7 @@ func must(req ros.Request, err error) ros.Request {
 Catatan penting:
 
 - `res.Build(view, plan, params)` → `(ros.Request, error)`.
-- Session = satu koneksi asinkron per router (pengganti dualconn).
+- Session = tepat satu koneksi asinkron per router; tidak ada koneksi kedua.
 - Default delivery baca: **realtime** (`Stream`); minta `Once()` bila satu dump saja.
 - Command yang tidak ada di catalog → ditangkal: lihat [Custom Resources](03-custom-resources.md)
   (`Table`, `Tool`, `Single`) dan [Errors](09-errors.md) (`errors.Is(err, ros.ErrViewNotFound)`).

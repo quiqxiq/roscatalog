@@ -155,7 +155,7 @@ func newFeedCache(m *MikroTik) *feedCache {
 // Subscribe membuka atau bergabung ke shared feed untuk req. Request harus
 // memakai Delivery stream atau poll.
 func (m *MikroTik) Subscribe(ctx context.Context, req ros.Request) (*Subscription, error) {
-	if err := m.ready(m.feed); err != nil {
+	if err := m.ready(m.conn); err != nil {
 		return nil, err
 	}
 	if req.Delivery != ros.DeliveryStream && req.Delivery != ros.DeliveryEvents &&
@@ -566,7 +566,7 @@ func (c *feedCache) pollEntry(entry *cacheEntry) {
 		c.publish(entry, ev)
 		return true
 	}
-	if err := c.m.feed.run().pollOnce(ctx, req, entry.poll, emit); err != nil {
+	if err := c.m.conn.run().pollOnce(ctx, req, entry.poll, emit); err != nil {
 		c.m.logf("rosrun: poll %s gagal: %v", req.Sentence[0], err)
 		if ctx.Err() == nil && !errors.Is(err, context.Canceled) {
 			c.publish(entry, Event{Kind: KindError, At: time.Now(), Err: err})

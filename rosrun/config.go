@@ -53,7 +53,7 @@ const (
 // StatusConfig mengatur monitor status realtime per router.
 //
 // Monitor selalu memakai native stream /ping tanpa count/duration, terlepas
-// dari Config.Stream. Ping dijalankan di koneksi feed yang sudah ada.
+// dari Config.Stream. Ping dijalankan di koneksi sesi yang sudah ada.
 type StatusConfig struct {
 	// Disable mematikan monitor status. Status() tetap melaporkan keadaan
 	// koneksi, tetapi tanpa data ping.
@@ -99,7 +99,8 @@ type CacheConfig struct {
 type Gate func(ctx context.Context, path string) (release func(), err error)
 
 // Config adalah parameter satu router: alamat, kredensial, dan perilaku
-// koneksi. Satu Config selalu membuka dua koneksi (command dan feed stream).
+// koneksi. Satu router selalu memakai tepat satu koneksi async untuk command
+// dan feed stream.
 type Config struct {
 	// ID adalah identitas router untuk log, Status, dan Manager. Kosong =
 	// alamat (host:port). Harus unik di dalam satu Manager.
@@ -126,11 +127,6 @@ type Config struct {
 	// Deprecated: Stream dipertahankan agar kode lama tetap compile.
 	// Stream=false TIDAK lagi berarti poll; gunakan Poll=true.
 	Stream bool
-
-	// DualConn mempertahankan dua koneksi lama (command + feed). Default
-	// false = satu koneksi async, sama seperti MikroDash. Opsi ini akan
-	// dihapus setelah satu rilis.
-	DualConn bool
 
 	// MaxInFlight membatasi command per router. Kosong = DefaultMaxInFlight.
 	MaxInFlight int

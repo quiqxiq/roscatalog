@@ -12,8 +12,8 @@
 //     semua balasan berhenti, termasuk balasan command lain). Runner menguras
 //     channel library ke antrean sendiri sebelum dibaca konsumen.
 //
-// Runner membungkus satu *routeros.Client. Untuk pemakaian aplikasi — dua
-// koneksi per router, reconnect otomatis, dan plan stream/poll bawaan —
+// Runner membungkus satu *routeros.Client. Untuk pemakaian aplikasi —
+// reconnect otomatis, plan stream/poll bawaan, dan lifecycle per router —
 // gunakan MikroTik (session.go). New tetap tersedia untuk pemakaian satu
 // koneksi dan test.
 package rosrun

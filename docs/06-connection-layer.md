@@ -25,14 +25,24 @@ Sessions bisa di-persist via `rosrun.Open(ctx, cfg)`.
 m := rosrun.NewManager()
 sess, _ := m.Add(ctx, rosrun.Config{Address: "192.168.88.1:8728", Username: "admin", Password: "r00t"})
 
-m.Acquire(ctx, sess.ID)     // pin (refcount); any Acquire orders zero later
+m.Acquire(ctx, sess.ID)     // pin (refcount); membuka sesi dari Config terdaftar bila perlu
 sub, err := m.Subscribe(ctx, sess.ID, req)   // stream/events per subscription
 m.Release(id)
 m.Retain(id, reason)        // +1 ref, WatchAuto/WatchAll defers release
 m.Drop(id, reason)          // -1 ref; router di-close bila refcount 0
-m.WatchAutoAll(ctx, res, view, plan, params) // auto-fallback to poll
+m.WatchAutoAll(ctx, res, view, plan, params) // Acquire+Release otomatis per router
 st := m.Statuses()          // []RouterStatus{ID, Status}
 ```
+
+`Register(cfg)` hanya menyimpan konfigurasi; koneksi dibuka saat `Acquire`
+pertama. Registrasi **tidak** hilang ketika sesi ditutup karena grace, jadi
+`Acquire` berikutnya membuka sesi baru. `WatchAll`, `WatchAutoAll`,
+`WatchStatuses`, dan `SubscribeAll` memakai `Acquire` selama stream hidup,
+sehingga grace tidak bisa menutup sesi yang masih dipakai. `Configs()` berisi
+semua registrasi; `IDs()`/`Routers()` hanya sesi yang sedang terbuka.
+
+`Config.Grace` berlaku **per router**; router tanpa nilai memakai
+`DefaultGrace` (30s).
 
 Config:
 
@@ -50,7 +60,9 @@ type Config struct {
 }
 ```
 
-Feature switches (`Config.Poll`, ...) default **off** — satu koneksi asikron tunggal.
+Setiap router memakai **tepat satu koneksi async**; command dan stream
+dimultipleks lewat tag. Tidak ada opsi koneksi kedua. Feature switches
+(`Config.Poll`, ...) default **off**.
 
 ## 6.3 Limiter & Watchdog
 
@@ -64,8 +76,8 @@ type Config struct {
 }
 ```
 
-- **Stats()** — snapshot per-router: `ID, Address, Open, Epoch, Reconnects, CmdDown,
-  FeedDown, LastError, Uptime, InFlight, OpenStreams, Commands, BusiestMenus []MenuCount`.
+- **Stats()** — snapshot per-router: `ID, Address, Open, Epoch, Reconnects, Down,
+  LastError, Uptime, InFlight, OpenStreams, Commands, BusiestMenus []MenuCount`.
 - Watchdog stream: idle > 10s → re-open stream; stuck → check every 5s.
 - Auth reconnect backoff (per router, memulai dari `Reconnect`).
 

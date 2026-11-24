@@ -210,6 +210,11 @@ func (r *Resource) Validate() error {
 		if v.Mode == "" {
 			errs = append(errs, fmt.Errorf("%w: %s/%s: mode kosong", ErrInvalidResource, r.ID, v.Name))
 		}
+		switch v.Mode {
+		case ModeOneShot, ModeNative, ModeInterval, ModeFollow, ModeListen:
+		default:
+			errs = append(errs, fmt.Errorf("%w: %s/%s: mode tidak dikenal %q", ErrInvalidResource, r.ID, v.Name, v.Mode))
+		}
 		if v.Command == "" {
 			errs = append(errs, fmt.Errorf("%w: %s/%s: command kosong", ErrInvalidResource, r.ID, v.Name))
 		} else if v.Command != r.Path && !strings.HasPrefix(v.Command, r.Path+"/") {

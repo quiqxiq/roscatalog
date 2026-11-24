@@ -220,6 +220,112 @@ func TestManagerWatchAutoAllUsesPerRouterStream(t *testing.T) {
 	}
 }
 
+func TestManagerIdleKeepsRegistration(t *testing.T) {
+	m := newMock(t)
+	mgr := NewManager()
+	t.Cleanup(func() { _ = mgr.Close() })
+
+	cfg := managerConfig("r-idle", m)
+	cfg.Grace = 40 * time.Millisecond
+	mgr.Register(cfg)
+
+	if _, err := mgr.Acquire(context.Background(), "r-idle"); err != nil {
+		t.Fatalf("Acquire pertama: %v", err)
+	}
+	mgr.Release("r-idle")
+
+	waitFor(t, 2*time.Second, func() bool {
+		_, open := mgr.Get("r-idle")
+		return !open
+	}, "sesi ditutup setelah grace")
+
+	if !mgr.Has("r-idle") {
+		t.Fatal("registrasi hilang setelah sesi idle")
+	}
+	if got := mgr.Configs(); len(got) != 1 || got[0].ID != "r-idle" {
+		t.Fatalf("Configs = %+v", got)
+	}
+
+	sess, err := mgr.Acquire(context.Background(), "r-idle")
+	if err != nil {
+		t.Fatalf("Acquire setelah idle: %v", err)
+	}
+	if sess == nil {
+		t.Fatal("sesi nil")
+	}
+	mgr.Release("r-idle")
+}
+
+func TestManagerGraceIsPerRouter(t *testing.T) {
+	m1, m2 := newMock(t), newMock(t)
+	c1 := managerConfig("fast", m1)
+	c1.Grace = 50 * time.Millisecond
+	c2 := managerConfig("slow", m2)
+	c2.Grace = 2 * time.Second
+
+	mgr, err := OpenAll(context.Background(), []Config{c1, c2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = mgr.Close() })
+
+	for _, id := range []string{"fast", "slow"} {
+		if _, err := mgr.Acquire(context.Background(), id); err != nil {
+			t.Fatalf("Acquire %s: %v", id, err)
+		}
+		mgr.Release(id)
+	}
+
+	waitFor(t, time.Second, func() bool {
+		_, open := mgr.Get("fast")
+		return !open
+	}, "router fast ditutup sesuai Grace-nya")
+	if _, open := mgr.Get("slow"); !open {
+		t.Fatal("router slow ikut ditutup; Grace harus per-router")
+	}
+}
+
+func TestManagerWatchAllOpensRegisteredRouter(t *testing.T) {
+	m := newMock(t)
+	mgr := NewManager()
+	t.Cleanup(func() { _ = mgr.Close() })
+
+	cfg := managerConfig("r-watch", m)
+	cfg.Grace = 50 * time.Millisecond
+	mgr.Register(cfg)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	req := ros.Request{
+		Delivery: ros.DeliveryPoll,
+		Sentence: []string{"/ip/hotspot/active/print"},
+		Every:    40 * time.Millisecond,
+		Shape:    ros.ShapeSnapshot,
+	}
+	ch, err := mgr.WatchAll(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	select {
+	case ev, ok := <-ch:
+		if !ok {
+			t.Fatal("channel tertutup")
+		}
+		if ev.Kind == KindError {
+			t.Fatalf("error dari %s: %v", ev.RouterID, ev.Err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("tidak ada event dari router terdaftar")
+	}
+
+	// Watch memegang refcount, jadi grace tidak boleh menutup sesi.
+	time.Sleep(120 * time.Millisecond)
+	if _, open := mgr.Get("r-watch"); !open {
+		t.Fatal("sesi ditutup saat masih di-watch")
+	}
+}
+
 func TestManagerRegisterAndUnregister(t *testing.T) {
 	m := newMock(t)
 	mgr := NewManager()

@@ -10,7 +10,7 @@ Repo ini adalah **satu workspace dengan dua module**:
 ```
 go.work                     # use . dan ./goros
 go.mod                      # module example.com/roscatalog
-catalog_*.go                # 74 resource, 129 view baca, 245 aksi tulis
+catalog_*.go                # 125 resource, 175 view baca, 395 aksi tulis
 plan.go / types.go          # Plan, Build, Sentence, Query
 rosrun/                     # adapter ke goros/v4 (satu-satunya import engine)
 mikhmon/                    # overlay khusus Mikhmon: subset + workflow + script
@@ -31,9 +31,10 @@ Pembagian tanggung jawab:
 
 ## Dokumentasi
 
-Wiki lengkap untuk cara pakai: [`docs/`](docs/README.md) — 11 halaman:
+Wiki lengkap untuk cara pakai: [`docs/`](docs/README.md) — 12 halaman:
 mulai, catalog, custom resources, views, realtime/poll, connection layer,
-status realtime, fields, errors, testing, dan laporan migrasi MikroDash.
+status realtime, fields, errors, testing, laporan migrasi MikroDash, dan
+workflow Mikhmon.
 Contoh yang bisa dijalankan langsung: [`docs/examples/`](docs/examples).
 
 ## Mulai
@@ -80,8 +81,8 @@ for _, st := range mgr.Statuses() { fmt.Println(st.ID, st.State) }
 Default delivery adalah **stream** (realtime): `print interval=`, `follow`,
 `follow-only`, atau command native seperti `monitor`. View `/listen` memakai
 **`ros.Events()`** yang terpisah: hanya event perubahan, tanpa snapshot awal,
-dan tidak dibuka ulang saat sepi. Set `Poll: true` untuk polling dari Go. Tiap router memakai satu koneksi async (`DualConn: true`
-adalah escape hatch yang akan dihapus), dan command in-flight dibatasi
+dan tidak dibuka ulang saat sepi. Set `Poll: true` untuk polling dari Go. Tiap
+router memakai tepat satu koneksi async, dan command in-flight dibatasi
 `MaxInFlight` (default 8). `Manager.Acquire/Release/Retain/Drop` menyediakan
 refcount, hold non-viewer, dan grace.
 
@@ -194,11 +195,11 @@ serta tick scheduler Expire Monitor mode `X`/`N`. Detail workflow ada di
 - `USAGE.md` — cara pakai, plan stream/poll, event, jebakan, verifikasi.
 - `ROADMAP.md` — rencana proplist opsional berbasis struct (raw vs proyeksi).
 - `CHANGELOG.md` — riwayat rilis dan perubahan.
-- `mikrotik_inspect/SOURCE.md` — struct lengkap dari inspect + `print` router + katalog.
-- `fields/` — struct tersebut sebagai package Go, satu file per menu (ip, ppp, queue, ...).
-- `commands/` — data perintah + argumen dari inspect, termasuk seluruh flag `print`.
+- `fields/` — struct field RouterOS sebagai package Go, satu file per menu (ip, ppp, queue, ...).
+- `commands/` — data perintah + argumen hasil `/console/inspect`, termasuk seluruh flag `print`.
 - `MIKHMON.md` — pemetaan command Mikhmon v4 dan contoh workflow.
-- `REFERENCE.md` — referensi lengkap yang di-generate dari katalog.
+- `REFERENCE.md` — referensi lengkap; dibuat dengan `go run gen_reference.go > REFERENCE.md` (tidak disimpan di repo).
+- Dump `/console/inspect` mentah (`mikrotik_inspect/`) dipakai saat regenerasi `commands/`, tetapi tidak ikut disimpan di repo.
 - `goros/docs/` — desain, keputusan, riset, dan usage engine.
 
 ## Catatan

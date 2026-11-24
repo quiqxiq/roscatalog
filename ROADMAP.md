@@ -419,8 +419,7 @@ tulis dan resource baru). Laporan hasil generate dibandingkan dengan
 
 Sudah dikerjakan:
 
-- **Satu koneksi async default**; `Config.DualConn=true` adalah escape hatch
-  yang akan dihapus setelah satu rilis.
+- **Satu koneksi async per router, selalu**; tidak ada opsi koneksi kedua.
 - **Default realtime**: `Config.Poll` (default false) → stream; `Stream`
   deprecated. `PlanFor` memilih stream lebih dulu.
 - **`DeliveryEvents` terpisah dari `DeliveryStream`**: `ros.Events()` khusus

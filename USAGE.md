@@ -29,13 +29,11 @@ defer cancel()
 
 ### 1.1 Satu koneksi async dengan reconnect (disarankan)
 
-`rosrun.Open` membuka **satu koneksi async** per router, sama seperti
-MikroDash. Command (`Once`/`Count`/`Exec`) dan stream (`Watch`/`Subscribe`)
-dimultipleks lewat tag di koneksi itu. Bila putus, sesi menyambung ulang dengan
-backoff dan memberi tahu stream lewat event `KindReconnecting`.
-
-Dua koneksi lama masih bisa dipilih dengan `DualConn: true`, tetapi opsi itu
-akan dihapus setelah satu rilis.
+`rosrun.Open` membuka **tepat satu koneksi async** per router. Command
+(`Once`/`Count`/`Exec`) dan stream (`Watch`/`Subscribe`) dimultipleks lewat tag
+di koneksi itu. Bila putus, sesi menyambung ulang dengan backoff dan memberi
+tahu stream lewat event `KindReconnecting`. Tidak ada opsi membuka koneksi
+kedua; satu router selalu satu koneksi.
 
 ```go
 sess, err := rosrun.Open(ctx, rosrun.Config{
@@ -69,7 +67,7 @@ Yang perlu diingat:
 
 | Hal | Perilaku |
 | --- | --- |
-| Satu koneksi | Command dan stream berbagi satu socket async; `DualConn:true` mempertahankan model lama. |
+| Satu koneksi | Command dan stream berbagi satu socket async; tidak ada koneksi kedua. |
 | Default realtime | Stream (`interval=`, `follow`, `listen`, `monitor`) dipilih lebih dulu. |
 | `Config.Poll` | `true` memaksa polling dari Go. `Config.Stream` deprecated. |
 | Limiter | Maksimum `MaxInFlight` command per router (default 8); stream tidak mengambil slot command. |
@@ -105,8 +103,8 @@ for st := range sess.WatchStatus(ctx) {
 ```
 
 Contoh warning: `TLS disabled: API traffic is plaintext`, packet loss melewati
-ambang, satu koneksi turun, atau sedang reconnect. Error bila kedua koneksi
-turun atau ping status melewati `Status.Timeout`.
+ambang, atau status ping bermasalah. Error bila koneksi turun
+(`ErrConnectionDown`), sesi ditutup, atau ping status melewati `Status.Timeout`.
 
 ### 1.3 Banyak router sekaligus
 
@@ -294,7 +292,7 @@ Semuanya diperiksa pada source goros/v4 (turunan go-routeros v3.0.1), dan yang p
 
 ## 6. Banyak router dan WebSocket
 
-- Gunakan `rosrun.OpenAll` / `rosrun.Manager` untuk membuka banyak router sekaligus. Tiap router memakai satu koneksi async dan supervisor reconnect sendiri (`DualConn:true` untuk model lama).
+- Gunakan `rosrun.OpenAll` / `rosrun.Manager` untuk membuka banyak router sekaligus. Tiap router memakai satu koneksi async dan supervisor reconnect sendiri.
 - `Manager.WatchAll` menjalankan Request yang sama di semua router; `Manager.WatchAutoAll` memakai `Config.Poll` masing-masing router. Kegagalan satu router menjadi `RouterEvent.KindError` dan tidak menghentikan router lain.
 - `Manager.Acquire`/`Release`/`Retain`/`Drop` mengatur refcount, hold non-viewer, dan grace sebelum sesi ditutup.
 - `Manager.Statuses()` / `Manager.WatchStatuses(ctx)` memberi status realtime per router.
@@ -305,7 +303,7 @@ Semuanya diperiksa pada source goros/v4 (turunan go-routeros v3.0.1), dan yang p
 
 ## 7. Validasi terhadap router Anda
 
-Katalog baru memverifikasi 13 resource ke dokumentasi (tanda ✅ di REFERENCE.md). Sisanya jalankan sekali per versi RouterOS:
+Katalog baru memverifikasi 13 resource ke dokumentasi (tanda ✅ di referensi yang dibuat dengan `go run gen_reference.go > REFERENCE.md`). Sisanya jalankan sekali per versi RouterOS:
 
 ```go
 req, _ := res.Build("list", ver, ros.Once(), ros.Params{})
@@ -338,7 +336,7 @@ go.mod                  # module example.com/roscatalog
 catalog_*.go            # data katalog (tanpa dependensi API)
 plan.go, types.go       # Build/Plan/Sentence
 rosrun/                 # adapter: satu-satunya yang mengimpor goros
-  session.go            # dua koneksi + reconnect
+  session.go            # satu koneksi async + reconnect
   status.go             # native /ping status realtime
   manager.go            # banyak router + fan-out
   cache.go              # shared feed + snapshot cache

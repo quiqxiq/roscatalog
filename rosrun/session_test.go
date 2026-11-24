@@ -118,7 +118,7 @@ func TestOpenUsesOneConnection(t *testing.T) {
 	if !st.Open {
 		t.Fatal("session not open")
 	}
-	if st.CmdDown || st.FeedDown {
+	if st.Down {
 		t.Fatalf("connection down at open: %+v", st)
 	}
 	if st.Epoch != 0 {
@@ -139,7 +139,7 @@ func TestExecReturnsRet(t *testing.T) {
 	}
 }
 
-func TestOnceUsesCommandConnection(t *testing.T) {
+func TestOnceUsesSessionConnection(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil)
 

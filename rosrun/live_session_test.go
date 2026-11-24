@@ -56,7 +56,7 @@ func TestLiveSessionConnect(t *testing.T) {
 	}
 
 	st := sess.Stats()
-	if !st.Open || st.CmdDown || st.FeedDown {
+	if !st.Open || st.Down {
 		t.Fatalf("unexpected stats: %+v", st)
 	}
 	t.Logf("connected: epoch=%d reconnects=%d uptime=%s", st.Epoch, st.Reconnects, st.Uptime.Round(time.Millisecond))
@@ -108,7 +108,7 @@ func TestLiveSessionStreamAndExec(t *testing.T) {
 		t.Fatalf("watch monitor: %v", err)
 	}
 
-	// Command harus tetap jalan saat stream terbuka: bukti dua koneksi.
+	// Command harus tetap jalan saat stream terbuka di satu koneksi async.
 	for i := 0; i < 3; i++ {
 		if _, err := sess.Exec(ctx, []string{"/system/identity/print"}); err != nil {
 			t.Fatalf("exec during stream #%d: %v", i+1, err)

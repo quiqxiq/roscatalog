@@ -233,6 +233,8 @@ type Params struct {
 	Raw bool
 	// Only membatasi kolom yang diambil dari daftar field view. Nama harus
 	// tercantum di Proplist view, kalau tidak Build mengembalikan error.
+	// ".id" dan View.Key selalu boleh diminta karena dipakai sebagai kunci
+	// snapshot/diff; keduanya tidak ikut menjadi Request.Fields.
 	Only []string
 }
 

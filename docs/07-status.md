@@ -11,11 +11,11 @@ st := sess.Status()
 type Status struct {
 	ID, Address, Target string
 	State   StatusState     // StatusConnected / StatusWarning / StatusError
-	Connected bool          // kedua koneksi hidup + ping baru saja
-	Warnings []string       // alasan warning (TLS, packet loss, connection down)
+	Connected bool          // koneksi hidup + ping baru saja
+	Warnings []string       // alasan warning (TLS, packet loss, status ping)
 	Err      error          // di-populate bila State=error
 	Ping    PingStatus      // cumulative data ping
-	CmdDown, FeedDown bool
+	Down bool               // koneksi sesi sedang putus
 	Epoch, Reconnects uint64 / int64
 	Uptime  time.Duration
 	Updated time.Time
@@ -60,7 +60,7 @@ WATCH update 3: state=warning connected=true ping={Seq:16 Sent:17 Received:17 ..
 - `connected=true`, ping berjalan (RTT ~30ms, no loss), update tiap detik.
 - `warning` = karena CHR di port 8728 tidak pakai TLS (warning biasa — router tetap terhubung).
 - **Err = `ErrStatusTimeout`** bila tidak ada reply ke 8.8.8.8 > `Status.Timeout` (default 15s);
-  bila **kedua koneksi (cmd+feed) down** → `ErrBothConnectionsDown`; bila sesi tertutup → `ErrClosed`.
+  bila **koneksi down** → `ErrConnectionDown`; bila sesi tertutup → `ErrClosed`.
 - `StatusTimeoutBecomesError` unit test PASS.
 
 ## 7.3 Transition (dari error)

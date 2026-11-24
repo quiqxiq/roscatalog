@@ -24,16 +24,16 @@ var (
 	ErrUnknownRouter = errors.New("rosrun: unknown router")
 )
 
-// MikroTik adalah satu sesi ke router: dua koneksi persisten (command dan
-// feed stream), supervisor reconnect, dan pembungkus Runner.
+// MikroTik adalah satu sesi ke router: tepat satu koneksi async persisten yang
+// dipakai bersama oleh command dan feed stream, supervisor reconnect, dan
+// pembungkus Runner.
 //
-// Koneksi dipisah supaya stream yang lambat tidak menahan command tulis.
-// Keduanya memakai mode async masing-masing.
+// Satu koneksi sudah cukup karena mode async memultipleks command lewat tag;
+// stream yang lambat tidak menahan command tulis selama antrean runner dikuras.
 type MikroTik struct {
 	cfg Config
 
-	cmd  *managedConn
-	feed *managedConn
+	conn *managedConn
 
 	stopCh chan struct{}
 	wg     sync.WaitGroup
@@ -55,8 +55,7 @@ type MikroTik struct {
 	limiter *limiter
 }
 
-// Open memvalidasi cfg lalu membuka dua koneksi ke router. Bila koneksi kedua
-// gagal, koneksi pertama ditutup sebelum error dikembalikan.
+// Open memvalidasi cfg lalu membuka satu koneksi async ke router.
 func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	if err := cfg.Validate(); err != nil {
 		return nil, err
@@ -64,7 +63,7 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	cfg = cfg.withDefaults()
 
 	lim := newLimiter(cfg.MaxInFlight)
-	main, err := dialRetry(ctx, cfg, "main", lim)
+	conn, err := dialRetry(ctx, cfg, "conn", lim)
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +71,7 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	runCtx, cancel := context.WithCancel(context.Background())
 	m := &MikroTik{
 		cfg:      cfg,
-		cmd:      main,
-		feed:     main,
+		conn:     conn,
 		limiter:  lim,
 		stopCh:   make(chan struct{}),
 		runCtx:   runCtx,
@@ -83,23 +81,8 @@ func Open(ctx context.Context, cfg Config) (*MikroTik, error) {
 	}
 	m.cache = newFeedCache(m)
 
-	// Satu koneksi async adalah default (sama seperti MikroDash). Dua koneksi
-	// hanya bila diminta eksplisit, dan opsi itu akan dihapus setelah satu rilis.
 	m.wg.Add(1)
-	go m.supervise(main)
-	if cfg.DualConn {
-		feed, err := dialRetry(ctx, cfg, "feed", lim)
-		if err != nil {
-			if c := main.get(); c != nil {
-				_ = c.Close()
-			}
-			cancel()
-			return nil, err
-		}
-		m.feed = feed
-		m.wg.Add(1)
-		go m.supervise(feed)
-	}
+	go m.supervise(conn)
 
 	m.startStatus()
 
@@ -132,59 +115,59 @@ func (m *MikroTik) ready(conn *managedConn) error {
 // Exec menjalankan sentence aksi tulis dan mengembalikan nilai =ret=.
 // Command tulis tidak diulang otomatis saat reconnect.
 func (m *MikroTik) Exec(ctx context.Context, sentence []string) (string, error) {
-	if err := m.ready(m.cmd); err != nil {
+	if err := m.ready(m.conn); err != nil {
 		return "", err
 	}
-	return m.cmd.run().Exec(ctx, sentence)
+	return m.conn.run().Exec(ctx, sentence)
 }
 
-// Once menjalankan satu Request mode once. Bila koneksi command putus di
-// tengah jalan, Once menunggu reconnect lalu mencoba sekali lagi; retry kedua
+// Once menjalankan satu Request mode once. Bila koneksi putus di tengah
+// jalan, Once menunggu reconnect lalu mencoba sekali lagi; retry kedua
 // memakai Fallback tanpa .proplist bila tersedia (beberapa versi RouterOS
 // menutup koneksi untuk proplist pada menu tertentu).
 func (m *MikroTik) Once(ctx context.Context, req ros.Request) ([]map[string]string, error) {
-	if err := m.ready(m.cmd); err != nil {
+	if err := m.ready(m.conn); err != nil {
 		return nil, err
 	}
 	epoch := m.epochs.current()
-	rows, err := m.cmd.run().Once(ctx, req)
+	rows, err := m.conn.run().Once(ctx, req)
 	if err == nil || !isTransientDialErr(err) {
 		return rows, err
 	}
-	if !m.epochs.wait(ctx, epoch, m.stopCh) || !m.waitCmdUp(ctx, epoch) {
+	if !m.epochs.wait(ctx, epoch, m.stopCh) || !m.waitConnUp(ctx, epoch) {
 		return nil, err
 	}
 	retry := req
 	if len(req.Fallback) > 0 {
 		retry.Sentence, retry.Fallback = req.Fallback, nil
 	}
-	return m.cmd.run().Once(ctx, retry)
+	return m.conn.run().Once(ctx, retry)
 }
 
 // Count menjalankan Request count-only.
 func (m *MikroTik) Count(ctx context.Context, req ros.Request) (int, error) {
-	if err := m.ready(m.cmd); err != nil {
+	if err := m.ready(m.conn); err != nil {
 		return 0, err
 	}
 	epoch := m.epochs.current()
-	n, err := m.cmd.run().Count(ctx, req)
+	n, err := m.conn.run().Count(ctx, req)
 	if err == nil || !isTransientDialErr(err) {
 		return n, err
 	}
-	if !m.epochs.wait(ctx, epoch, m.stopCh) || !m.waitCmdUp(ctx, epoch) {
+	if !m.epochs.wait(ctx, epoch, m.stopCh) || !m.waitConnUp(ctx, epoch) {
 		return 0, err
 	}
-	return m.cmd.run().Count(ctx, req)
+	return m.conn.run().Count(ctx, req)
 }
 
-// waitCmdUp menunggu sampai koneksi command benar-benar up. Epoch dipakai
-// karena reconnect feed juga menaikkannya.
-func (m *MikroTik) waitCmdUp(ctx context.Context, epoch uint64) bool {
+// waitConnUp menunggu sampai koneksi benar-benar up. Epoch dipakai karena
+// reconnect menaikkannya.
+func (m *MikroTik) waitConnUp(ctx context.Context, epoch uint64) bool {
 	for {
 		if m.closed.Load() {
 			return false
 		}
-		if !m.cmd.isDown() {
+		if !m.conn.isDown() {
 			return true
 		}
 		if !m.epochs.wait(ctx, epoch, m.stopCh) {
@@ -198,16 +181,16 @@ func (m *MikroTik) waitCmdUp(ctx context.Context, epoch uint64) bool {
 // Stream dan poll
 // ---------------------------------------------------------------------------
 
-// Watch menjalankan Request sesuai Delivery-nya di koneksi feed. Bila
+// Watch menjalankan Request sesuai Delivery-nya di koneksi sesi. Bila
 // koneksi putus, Watch mengirim Event KindReconnecting lalu melanjutkan
 // request yang sama setelah koneksi pulih. Command wajar yang berakhir sendiri
 // (mis. ping dengan count) tidak diulang.
 func (m *MikroTik) Watch(ctx context.Context, req ros.Request) (<-chan Event, error) {
-	if err := m.ready(m.feed); err != nil {
+	if err := m.ready(m.conn); err != nil {
 		return nil, err
 	}
 
-	runner := m.feed.run()
+	runner := m.conn.run()
 	wctx, cancel := context.WithCancel(ctx)
 	first, err := runner.Watch(wctx, req)
 	if err != nil {
@@ -258,7 +241,7 @@ func (m *MikroTik) forward(ctx context.Context, cancel context.CancelFunc, req r
 			req.Delivery == ros.DeliveryEvents ||
 			(req.Delivery == ros.DeliveryStream && req.Mode != ros.ModeNative)
 		if !restart {
-			if !infinite && !m.feed.isDown() && m.epochs.current() == epoch {
+			if !infinite && !m.conn.isDown() && m.epochs.current() == epoch {
 				return
 			}
 			restart = true
@@ -271,17 +254,17 @@ func (m *MikroTik) forward(ctx context.Context, cancel context.CancelFunc, req r
 			return
 		}
 
-		// Epoch naik saat salah satu koneksi pulih. Stream hanya boleh
-		// dimulai di feed yang benar-benar sudah up.
+		// Epoch naik saat koneksi pulih. Stream hanya boleh dimulai
+		// setelah koneksi benar-benar up.
 		var next <-chan Event
 		for {
-			if m.feed.isDown() {
+			if m.conn.isDown() {
 				if !m.epochs.wait(ctx, m.epochs.current(), m.stopCh) {
 					return
 				}
 				continue
 			}
-			n, err := m.feed.run().Watch(ctx, req)
+			n, err := m.conn.run().Watch(ctx, req)
 			if err == nil {
 				next = n
 				break
@@ -434,10 +417,10 @@ type Stats struct {
 	Open       bool
 	Epoch      uint64
 	Reconnects int64
-	CmdDown    bool
-	FeedDown   bool
-	LastError  error
-	Uptime     time.Duration
+	// Down berarti satu-satunya koneksi sesi sedang putus/reconnect.
+	Down      bool
+	LastError error
+	Uptime    time.Duration
 
 	// Instrumentasi per router.
 	InFlight     int
@@ -448,20 +431,14 @@ type Stats struct {
 
 // Stats mengembalikan status sesi saat ini.
 func (m *MikroTik) Stats() Stats {
-	lastErr := m.feed.err()
-	if lastErr == nil {
-		lastErr = m.cmd.err()
-	}
-
 	st := Stats{
 		ID:         m.cfg.ID,
 		Address:    m.cfg.addr(),
 		Open:       !m.closed.Load(),
 		Epoch:      m.epochs.current(),
 		Reconnects: m.reconnects.Load(),
-		CmdDown:    m.cmd.isDown(),
-		FeedDown:   m.feed.isDown(),
-		LastError:  lastErr,
+		Down:       m.conn.isDown(),
+		LastError:  m.conn.err(),
 		Uptime:     time.Since(m.openedAt),
 	}
 	ls := m.limiter.stats()
@@ -478,7 +455,7 @@ func (m *MikroTik) Stats() Stats {
 // Epoch naik setiap reconnect berhasil.
 func (m *MikroTik) Epoch() uint64 { return m.epochs.current() }
 
-// Close membatalkan stream yang berjalan dan menutup kedua koneksi. Aman
+// Close membatalkan stream yang berjalan dan menutup koneksi sesi. Aman
 // dipanggil lebih dari sekali.
 func (m *MikroTik) Close() error {
 	m.closeOnce.Do(func() {
@@ -492,15 +469,9 @@ func (m *MikroTik) Close() error {
 		close(m.stopCh)
 
 		var errs []error
-		conns := []*managedConn{m.cmd}
-		if m.feed != m.cmd {
-			conns = append(conns, m.feed)
-		}
-		for _, conn := range conns {
-			if c := conn.get(); c != nil {
-				if err := c.Close(); err != nil {
-					errs = append(errs, fmt.Errorf("rosrun: close %s connection: %w", conn.name, err))
-				}
+		if c := m.conn.get(); c != nil {
+			if err := c.Close(); err != nil {
+				errs = append(errs, fmt.Errorf("rosrun: close connection: %w", err))
 			}
 		}
 

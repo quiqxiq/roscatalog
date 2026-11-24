@@ -28,7 +28,7 @@ func TestReconnectCommand(t *testing.T) {
 
 	waitFor(t, 8*time.Second, func() bool {
 		st := s.Stats()
-		return !st.CmdDown && !st.FeedDown && st.Reconnects >= 1
+		return !st.Down && st.Reconnects >= 1
 	}, "connection to reconnect")
 
 	if got := m.acceptedCount(); got < 2 {

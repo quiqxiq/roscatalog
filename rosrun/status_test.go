@@ -144,6 +144,18 @@ func TestWatchStatusRealtime(t *testing.T) {
 	}
 }
 
+func TestStatusConnectionDownUsesErrConnectionDown(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, nil) // status ping dimatikan; fokus ke koneksi
+
+	m.close() // listener ikut tutup, jadi reconnect tidak bisa berhasil
+
+	waitFor(t, 3*time.Second, func() bool {
+		st := s.Status()
+		return st.Down && !st.Connected && errors.Is(st.Err, ErrConnectionDown)
+	}, "status error karena koneksi down")
+}
+
 func TestStatusDisabledStillReportsConnections(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, nil) // openMock menonaktifkan status

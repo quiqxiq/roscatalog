@@ -7,7 +7,7 @@ mencari di catalog bawaan (`Builtin`) dan membangun catalog pemakai sendiri
 ## 2.1 API catalog
 
 ```go
-// Builtin: catalog kurasi bawaan (74 resource saat ini).
+// Builtin: catalog kurasi bawaan (125 resource saat ini).
 cat := ros.Builtin()
 
 res, err := cat.Find("hotspot-active")      // err = ErrResourceNotFound bila hilang

@@ -27,7 +27,7 @@ type RouterStatus struct {
 }
 
 // Manager mengelola banyak sesi MikroTik sekaligus. Tiap router tetap memiliki
-// dua koneksi sendiri, supervisor reconnect sendiri, dan monitor status
+// satu koneksi sendiri, supervisor reconnect sendiri, dan monitor status
 // sendiri; Manager hanya mengoordinasikan pembukaan dan fan-out event.
 type Manager struct {
 	mu      sync.RWMutex
@@ -35,11 +35,13 @@ type Manager struct {
 	order   []string
 
 	// Lifecycle: refcount pemakai, hold non-viewer, dan grace sebelum tutup.
-	cfgs   map[string]Config
-	refs   map[string]int
-	holds  map[string]map[string]bool
-	linger map[string]*time.Timer
-	grace  time.Duration
+	// cfgs/cfgOrder menyimpan registrasi (Register/Acquire) walau sesi sedang
+	// ditutup sementara, sehingga Acquire berikutnya bisa membukanya lagi.
+	cfgs     map[string]Config
+	cfgOrder []string
+	refs     map[string]int
+	holds    map[string]map[string]bool
+	linger   map[string]*time.Timer
 
 	closed    atomic.Bool
 	closeOnce sync.Once
@@ -79,6 +81,8 @@ func NewManager() *Manager {
 
 // Register mendaftarkan atau memperbarui konfigurasi router ke manager tanpa
 // langsung membuka koneksi. Koneksi dibuka saat pertama kali di-Acquire.
+// Registrasi tetap tersimpan setelah sesi ditutup karena grace, sehingga
+// Acquire berikutnya membuka sesi baru dengan Config yang sama.
 func (m *Manager) Register(cfg Config) {
 	if m == nil {
 		return
@@ -89,6 +93,14 @@ func (m *Manager) Register(cfg Config) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.ensureMapsLocked()
+	m.registerLocked(cfg)
+}
+
+// registerLocked menyimpan Config dan urutan registrasi. Caller memegang m.mu.
+func (m *Manager) registerLocked(cfg Config) {
+	if _, exists := m.cfgs[cfg.ID]; !exists {
+		m.cfgOrder = append(m.cfgOrder, cfg.ID)
+	}
 	m.cfgs[cfg.ID] = cfg
 }
 
@@ -122,6 +134,9 @@ func OpenAll(ctx context.Context, cfgs []Config) (*Manager, error) {
 		}
 		seen[cfg.ID] = true
 		valid = append(valid, i)
+		// Simpan registrasi walau dial gagal: Acquire/WatchAll bisa mencoba
+		// lagi tanpa perlu Register manual.
+		m.registerLocked(cfg)
 	}
 
 	type result struct {
@@ -148,11 +163,7 @@ func OpenAll(ctx context.Context, cfgs []Config) (*Manager, error) {
 			continue
 		}
 		m.routers[cfg.ID] = res.sess
-		m.cfgs[cfg.ID] = cfg
 		m.refs[cfg.ID] = 0
-		if cfg.Grace > 0 {
-			m.grace = cfg.Grace
-		}
 		m.order = append(m.order, cfg.ID)
 	}
 
@@ -197,12 +208,9 @@ func (m *Manager) Add(ctx context.Context, cfg Config) (*MikroTik, error) {
 		_ = sess.Close()
 		return nil, fmt.Errorf("rosrun: router id %q already exists", cfg.ID)
 	}
+	m.registerLocked(cfg)
 	m.routers[cfg.ID] = sess
-	m.cfgs[cfg.ID] = cfg
 	m.refs[cfg.ID] = 0
-	if cfg.Grace > 0 {
-		m.grace = cfg.Grace
-	}
 	m.order = append(m.order, cfg.ID)
 	return sess, nil
 }
@@ -382,7 +390,7 @@ func (m *Manager) armLingerLocked(id string) {
 	if t := m.linger[id]; t != nil {
 		t.Stop()
 	}
-	grace := m.grace
+	grace := m.cfgs[id].Grace
 	if grace <= 0 {
 		grace = DefaultGrace
 	}
@@ -401,7 +409,7 @@ func (m *Manager) idleOut(id string) {
 	}
 	sess := m.routers[id]
 	delete(m.routers, id)
-	delete(m.cfgs, id)
+	// cfgs/cfgOrder sengaja dipertahankan: ini registrasi, bukan sesi.
 	delete(m.refs, id)
 	delete(m.holds, id)
 	if t := m.linger[id]; t != nil {
@@ -449,6 +457,12 @@ func (m *Manager) Remove(id string) error {
 			break
 		}
 	}
+	for i, x := range m.cfgOrder {
+		if x == id {
+			m.cfgOrder = append(m.cfgOrder[:i], m.cfgOrder[i+1:]...)
+			break
+		}
+	}
 	m.mu.Unlock()
 	if sess != nil {
 		return sess.Close()
@@ -481,15 +495,16 @@ func (m *Manager) Has(id string) bool {
 	return ok
 }
 
-// Configs mengembalikan seluruh Config router terdaftar sesuai urutan pendaftaran.
+// Configs mengembalikan seluruh Config router terdaftar (termasuk yang
+// sesinya sedang ditutup karena grace) sesuai urutan pendaftaran.
 func (m *Manager) Configs() []Config {
 	if m == nil {
 		return nil
 	}
 	m.mu.RLock()
 	defer m.mu.RUnlock()
-	out := make([]Config, 0, len(m.order))
-	for _, id := range m.order {
+	out := make([]Config, 0, len(m.cfgOrder))
+	for _, id := range m.cfgOrder {
 		if cfg, ok := m.cfgs[id]; ok {
 			out = append(out, cfg)
 		}
@@ -497,36 +512,46 @@ func (m *Manager) Configs() []Config {
 	return out
 }
 
-// WatchAll menjalankan Request yang sama di semua router. Kegagalan satu
-// router menjadi RouterEvent KindError dan tidak menghentikan router lain.
-// Channel ditutup setelah semua stream berhenti atau ctx selesai.
+// WatchAll menjalankan Request yang sama di semua router terdaftar. Tiap
+// router di-Acquire selama stream hidup, jadi sesi tidak bisa ditutup oleh
+// grace saat masih dipakai. Router yang belum terbuka dibuka otomatis dari
+// Config terdaftar. Kegagalan satu router menjadi RouterEvent KindError dan
+// tidak menghentikan router lain. Channel ditutup setelah semua stream berhenti
+// atau ctx selesai.
 func (m *Manager) WatchAll(ctx context.Context, req ros.Request) (<-chan RouterEvent, error) {
-	routers, err := m.snapshot()
+	ids, err := m.watchIDs()
 	if err != nil {
 		return nil, err
 	}
 	out := make(chan RouterEvent, 64)
-	if len(routers) == 0 {
+	if len(ids) == 0 {
 		close(out)
 		return out, nil
 	}
 
 	var wg sync.WaitGroup
-	for _, r := range routers {
+	for _, id := range ids {
 		wg.Add(1)
-		go func(r *MikroTik) {
+		go func(id string) {
 			defer wg.Done()
-			ch, werr := r.Watch(ctx, req)
+			addr := m.routerAddress(id)
+			sess, aerr := m.Acquire(ctx, id)
+			if aerr != nil {
+				emitRouterEventID(ctx, out, id, addr, Event{Kind: KindError, At: time.Now(), Err: aerr})
+				return
+			}
+			defer m.Release(id)
+			ch, werr := sess.Watch(ctx, req)
 			if werr != nil {
-				emitRouterEvent(ctx, out, r, Event{Kind: KindError, At: time.Now(), Err: werr})
+				emitRouterEventID(ctx, out, id, addr, Event{Kind: KindError, At: time.Now(), Err: werr})
 				return
 			}
 			for ev := range ch {
-				if !emitRouterEvent(ctx, out, r, ev) {
+				if !emitRouterEventID(ctx, out, id, addr, ev) {
 					return
 				}
 			}
-		}(r)
+		}(id)
 	}
 	go func() {
 		wg.Wait()
@@ -536,38 +561,45 @@ func (m *Manager) WatchAll(ctx context.Context, req ros.Request) (<-chan RouterE
 }
 
 // WatchAutoAll seperti WatchAll, tetapi tiap router memilih stream/poll dari
-// Config.Stream-nya sendiri saat plan.Delivery kosong.
+// Config.Poll-nya sendiri saat plan.Delivery kosong.
 func (m *Manager) WatchAutoAll(ctx context.Context, res *ros.Resource, view string, plan ros.Plan, p ros.Params) (<-chan RouterEvent, error) {
-	routers, err := m.snapshot()
+	ids, err := m.watchIDs()
 	if err != nil {
 		return nil, err
 	}
 	out := make(chan RouterEvent, 64)
-	if len(routers) == 0 {
+	if len(ids) == 0 {
 		close(out)
 		return out, nil
 	}
 
 	var wg sync.WaitGroup
-	for _, r := range routers {
+	for _, id := range ids {
 		wg.Add(1)
-		go func(r *MikroTik) {
+		go func(id string) {
 			defer wg.Done()
+			addr := m.routerAddress(id)
+			sess, aerr := m.Acquire(ctx, id)
+			if aerr != nil {
+				emitRouterEventID(ctx, out, id, addr, Event{Kind: KindError, At: time.Now(), Err: aerr})
+				return
+			}
+			defer m.Release(id)
 			rp := plan
 			if rp.Delivery == "" {
-				rp = r.PlanFor(res, view)
+				rp = sess.PlanFor(res, view)
 			}
-			ch, werr := r.WatchAuto(ctx, res, view, rp, p)
+			ch, werr := sess.WatchAuto(ctx, res, view, rp, p)
 			if werr != nil {
-				emitRouterEvent(ctx, out, r, Event{Kind: KindError, At: time.Now(), Err: werr})
+				emitRouterEventID(ctx, out, id, addr, Event{Kind: KindError, At: time.Now(), Err: werr})
 				return
 			}
 			for ev := range ch {
-				if !emitRouterEvent(ctx, out, r, ev) {
+				if !emitRouterEventID(ctx, out, id, addr, ev) {
 					return
 				}
 			}
-		}(r)
+		}(id)
 	}
 	go func() {
 		wg.Wait()
@@ -578,31 +610,36 @@ func (m *Manager) WatchAutoAll(ctx context.Context, res *ros.Resource, view stri
 
 // WatchStatuses menggabungkan WatchStatus semua router.
 func (m *Manager) WatchStatuses(ctx context.Context) (<-chan RouterStatus, error) {
-	routers, err := m.snapshot()
+	ids, err := m.watchIDs()
 	if err != nil {
 		return nil, err
 	}
 	out := make(chan RouterStatus, 64)
-	if len(routers) == 0 {
+	if len(ids) == 0 {
 		close(out)
 		return out, nil
 	}
 
 	var wg sync.WaitGroup
-	for _, r := range routers {
+	for _, id := range ids {
 		wg.Add(1)
-		go func(r *MikroTik) {
+		go func(id string) {
 			defer wg.Done()
-			ch := r.WatchStatus(ctx)
+			sess, aerr := m.Acquire(ctx, id)
+			if aerr != nil {
+				return
+			}
+			defer m.Release(id)
+			ch := sess.WatchStatus(ctx)
 			for st := range ch {
-				ev := RouterStatus{RouterID: r.cfg.ID, Address: r.cfg.addr(), Status: st}
+				ev := RouterStatus{RouterID: id, Address: m.routerAddress(id), Status: st}
 				select {
 				case out <- ev:
 				case <-ctx.Done():
 					return
 				}
 			}
-		}(r)
+		}(id)
 	}
 	go func() {
 		wg.Wait()
@@ -615,21 +652,57 @@ func (m *Manager) WatchStatuses(ctx context.Context) (<-chan RouterStatus, error
 // gagal tetap dilaporkan lewat error gabungan; subscription yang berhasil
 // dikembalikan dalam map.
 func (m *Manager) SubscribeAll(ctx context.Context, req ros.Request) (map[string]*Subscription, error) {
-	routers, err := m.snapshot()
+	ids, err := m.watchIDs()
 	if err != nil {
 		return nil, err
 	}
-	subs := make(map[string]*Subscription, len(routers))
+	subs := make(map[string]*Subscription, len(ids))
 	var errs []error
-	for _, r := range routers {
-		sub, serr := r.Subscribe(ctx, req)
+	for _, id := range ids {
+		sub, serr := m.Subscribe(ctx, id, req)
 		if serr != nil {
-			errs = append(errs, fmt.Errorf("%s: %w", r.cfg.ID, serr))
+			errs = append(errs, fmt.Errorf("%s: %w", id, serr))
 			continue
 		}
-		subs[r.cfg.ID] = sub
+		subs[id] = sub
 	}
 	return subs, errors.Join(errs...)
+}
+
+// watchIDs mengembalikan router aktif lalu router terdaftar yang belum terbuka.
+// Mengembalikan error bila manager sudah ditutup.
+func (m *Manager) watchIDs() ([]string, error) {
+	if m == nil {
+		return nil, ErrClosed
+	}
+	if m.closed.Load() {
+		return nil, ErrClosed
+	}
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	ids := make([]string, 0, len(m.order)+len(m.cfgOrder))
+	seen := make(map[string]bool, len(ids))
+	for _, id := range m.order {
+		if !seen[id] {
+			seen[id] = true
+			ids = append(ids, id)
+		}
+	}
+	for _, id := range m.cfgOrder {
+		if !seen[id] {
+			seen[id] = true
+			ids = append(ids, id)
+		}
+	}
+	return ids, nil
+}
+
+func (m *Manager) routerAddress(id string) string {
+	cfg, ok := m.Config(id)
+	if !ok {
+		return ""
+	}
+	return cfg.addr()
 }
 
 // Close menutup semua router dan menunggu stream/goroutine selesai.
@@ -661,24 +734,8 @@ func (m *Manager) Close() error {
 	return m.closeErr
 }
 
-func (m *Manager) snapshot() ([]*MikroTik, error) {
-	if m == nil {
-		return nil, ErrClosed
-	}
-	if m.closed.Load() {
-		return nil, ErrClosed
-	}
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	out := make([]*MikroTik, 0, len(m.order))
-	for _, id := range m.order {
-		out = append(out, m.routers[id])
-	}
-	return out, nil
-}
-
-func emitRouterEvent(ctx context.Context, out chan<- RouterEvent, r *MikroTik, ev Event) bool {
-	re := RouterEvent{RouterID: r.cfg.ID, Address: r.cfg.addr(), Event: ev}
+func emitRouterEventID(ctx context.Context, out chan<- RouterEvent, id, address string, ev Event) bool {
+	re := RouterEvent{RouterID: id, Address: address, Event: ev}
 	select {
 	case out <- re:
 		return true

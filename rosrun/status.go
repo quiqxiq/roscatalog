@@ -17,12 +17,12 @@ import (
 type StatusState string
 
 const (
-	// StatusConnected: kedua koneksi hidup dan ping status baru saja berhasil.
+	// StatusConnected: koneksi hidup dan ping status baru saja berhasil.
 	StatusConnected StatusState = "connected"
 	// StatusWarning: router masih terhubung, tetapi ada kondisi yang perlu
-	// diperhatikan (TLS mati, packet loss, satu koneksi down, reconnecting).
+	// diperhatikan (TLS mati, packet loss, reconnecting).
 	StatusWarning StatusState = "warning"
-	// StatusError: sesi tertutup, kedua koneksi down, atau ping status sudah
+	// StatusError: sesi tertutup, koneksi down, atau ping status sudah
 	// melewati batas waktu.
 	StatusError StatusState = "error"
 )
@@ -30,8 +30,8 @@ const (
 var (
 	// ErrStatusTimeout menandai ping status tidak lagi menerima balasan.
 	ErrStatusTimeout = errors.New("rosrun: status ping timeout")
-	// ErrBothConnectionsDown menandai kedua koneksi sesi tidak tersedia.
-	ErrBothConnectionsDown = errors.New("rosrun: both connections down")
+	// ErrConnectionDown menandai koneksi sesi tidak tersedia.
+	ErrConnectionDown = errors.New("rosrun: connection down")
 )
 
 // PingStatus adalah data kumulatif probe /ping terakhir.
@@ -55,7 +55,7 @@ type Status struct {
 
 	// State adalah connected, warning, atau error.
 	State StatusState
-	// Connected berarti kedua koneksi hidup dan ping status masih segar.
+	// Connected berarti koneksi hidup dan ping status masih segar.
 	// Nilainya bisa true walaupun State=warning (mis. TLS mati).
 	Connected bool
 	// Warnings berisi alasan state warning.
@@ -67,8 +67,8 @@ type Status struct {
 	Target string
 	Ping   PingStatus
 
-	CmdDown    bool
-	FeedDown   bool
+	// Down berarti koneksi sesi sedang putus/reconnect.
+	Down       bool
 	Epoch      uint64
 	Reconnects int64
 	Uptime     time.Duration
@@ -134,7 +134,7 @@ func (m *MikroTik) statusRequest() ros.Request {
 	}
 }
 
-// statusLoop menjaga stream ping tetap hidup. Bila feed putus, Watch sudah
+// statusLoop menjaga stream ping tetap hidup. Bila koneksi putus, Watch sudah
 // melanjutkan request yang sama; loop ini hanya menangani kegagalan awal atau
 // penolakan permanen dari router.
 func (m *MikroTik) statusLoop() {
@@ -329,7 +329,7 @@ func (m *MikroTik) publishStatus() {
 func sameStatus(a, b Status) bool {
 	if a.ID != b.ID || a.Address != b.Address || a.State != b.State ||
 		a.Connected != b.Connected || a.Target != b.Target ||
-		a.CmdDown != b.CmdDown || a.FeedDown != b.FeedDown ||
+		a.Down != b.Down ||
 		a.Epoch != b.Epoch || a.Reconnects != b.Reconnects ||
 		!slices.Equal(a.Warnings, b.Warnings) || !sameErr(a.Err, b.Err) {
 		return false
@@ -370,11 +370,8 @@ func sendLatest(ch chan Status, st Status) {
 func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 	cfg := m.cfg
 	open := !m.closed.Load()
-	cmdDown, feedDown := m.cmd.isDown(), m.feed.isDown()
-	lastErr := m.feed.err()
-	if lastErr == nil {
-		lastErr = m.cmd.err()
-	}
+	down := m.conn.isDown()
+	lastErr := m.conn.err()
 
 	st := Status{
 		ID:         cfg.ID,
@@ -382,8 +379,7 @@ func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 		State:      StatusConnected,
 		Target:     cfg.Status.Target,
 		Ping:       m.status.ping,
-		CmdDown:    cmdDown,
-		FeedDown:   feedDown,
+		Down:       down,
 		Epoch:      m.epochs.current(),
 		Reconnects: m.reconnects.Load(),
 		Updated:    now,
@@ -392,7 +388,7 @@ func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 		st.Uptime = now.Sub(m.openedAt)
 	}
 
-	st.Connected = open && !cmdDown && !feedDown
+	st.Connected = open && !down
 	if !cfg.Status.Disable {
 		timeout := cfg.Status.Timeout
 		switch {
@@ -412,26 +408,17 @@ func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 	if !open {
 		st.State = StatusError
 		st.Err = ErrClosed
-	} else if cmdDown && feedDown {
+	} else if down {
 		st.State = StatusError
 		if lastErr != nil {
-			st.Err = fmt.Errorf("%w: %v", ErrBothConnectionsDown, lastErr)
+			st.Err = fmt.Errorf("%w: %v", ErrConnectionDown, lastErr)
 		} else {
-			st.Err = ErrBothConnectionsDown
+			st.Err = ErrConnectionDown
 		}
 	}
 
 	// Warning dikumpulkan terlepas dari error agar UI bisa menampilkan
 	// seluruh alasan yang diketahui.
-	if cmdDown && !feedDown {
-		st.Warnings = append(st.Warnings, "command connection down")
-	}
-	if feedDown && !cmdDown {
-		st.Warnings = append(st.Warnings, "feed connection down")
-	}
-	if lastErr != nil && (cmdDown || feedDown) && st.State != StatusError {
-		st.Warnings = append(st.Warnings, lastErr.Error())
-	}
 	if err := m.status.pingErr; err != nil {
 		st.Warnings = append(st.Warnings, "status ping: "+err.Error())
 	}

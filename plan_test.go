@@ -244,6 +244,37 @@ func TestRequestFingerprint(t *testing.T) {
 	}
 }
 
+func TestBuildUnknownModeDoesNotPanic(t *testing.T) {
+	r := Table("x-broken", GroupTools, "x", "/x")
+	r.Views = []View{{Name: "odd", Mode: Mode("bogus"), Command: "/x/print"}}
+	if _, err := r.Build("odd", Once(), Params{}); err == nil {
+		t.Fatal("mode tanpa delivery seharusnya error")
+	}
+	if err := r.Validate(); err == nil {
+		t.Fatal("mode tidak dikenal seharusnya ditolak Validate")
+	}
+}
+
+func TestBuildOnlyAcceptsKey(t *testing.T) {
+	r := Table("x-only", GroupTools, "x", "/x").List("name", "comment")
+	req, err := r.Build("list", Once(), Params{Only: []string{".id", "name"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	found := false
+	for _, w := range req.Sentence {
+		if w == "=.proplist=.id,name" {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatalf("proplist tidak memuat key: %v", req.Sentence)
+	}
+	if !reflect.DeepEqual(req.Fields, []string{"name"}) {
+		t.Fatalf("Fields = %v", req.Fields)
+	}
+}
+
 func TestDeliveriesTable(t *testing.T) {
 	cases := map[string][]Delivery{
 		"hotspot-user/list":             {DeliveryOnce, DeliveryPoll},

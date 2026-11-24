@@ -5,12 +5,10 @@ reconnect tanpa mengulang Dst.
 
 ```go
 type Plan struct {
-	Delivery Delivery // once, stream, events, poll
-	Every    time.Duration // interval stream (MinPrintInterval..MaxPrintInterval)
-	Interval time.Duration // override interval
-	Diff     bool          // diff lokal &amp; bila gunakan diff bertubi (poll w/ diff)
-	Seed     bool          // listen: ambil snapshot awal
-	Fallback []string      // request tanpa .proplist= pada fallback
+	Delivery Delivery      // once, stream, events, poll
+	Every    time.Duration // interval stream (1s..5s) atau jeda poll (5s..30s)
+	Diff     bool          // poll: hasilkan added/changed/removed
+	Seed     bool          // listen: ambil snapshot awal lewat print
 }
 ```
 
@@ -33,9 +31,8 @@ req, _ := res.Build("live", ros.StreamEvery(time.Second), ros.Params{})
 // hanya ada perubahan (no snapshot) — Events (listen)
 req, _ := res.Build("events", ros.Events(), ros.Params{})
 
-// poll dari Go — bila router menolak listen
+// poll dari Go — bila router menolak listen (Build sudah memakai diff)
 req, _ := res.Build("events", ros.Poll(5*time.Second), ros.Params{})
-req.Diff = true
 
 // seed lalu poll: listen + seed
 req, _ := res.Build("events", ros.Events().WithSeed(), ros.Params{})
@@ -59,7 +56,9 @@ sess, _ := rosrun.Open(ctx, rosrun.Config{
 - `Config.Poll = true`: seluruh koneksi polling dari Go (misal monitor);
   **`Status` tetap native stream** (status monitor `/ping` selalu stream,
   lihat [Status](07-status.md)).
-- `Stream()` (deprecated): normalize jadi Events bila view listen.
+- `Config.Stream` (field deprecated) tidak lagi berarti poll; gunakan
+  `Config.Poll`. `ros.Stream()` pada view listen tetap dinormalkan menjadi
+  `Events` untuk kompatibilitas.
 
 ## 5.3 Fallback otomatis (`WatchAuto`)
 
@@ -72,7 +71,7 @@ ch, _ := sess.WatchAuto(ctx, res, "events", ros.Plan{Every: 5 * time.Second}, ro
 ## 5.4 Difference lokal (`Params.Query`, `Diff`, `Seed`)
 
 ```go
-req, _ := res.Build("list", ros.Plan{Poll(5s).WithDiff()}, ros.Params{
+req, _ := res.Build("list", ros.Poll(5*time.Second).WithDiff(), ros.Params{
 	Query: []ros.Query{{Prop: "disabled", Value: "yes"}},
 })
 ```

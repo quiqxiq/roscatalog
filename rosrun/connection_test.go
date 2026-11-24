@@ -30,11 +30,26 @@ func TestPlanForDefaultsToStream(t *testing.T) {
 	}
 }
 
-func TestDualConnOptIn(t *testing.T) {
+func TestSingleConnectionServesStreamAndExec(t *testing.T) {
 	m := newMock(t)
-	openMock(t, m, func(c *Config) { c.DualConn = true })
-	if got := m.acceptedCount(); got != 2 {
-		t.Fatalf("accepted = %d, want 2", got)
+	s := openMock(t, m, nil)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	req := fastInterval(t, "hotspot-active", "live", 50*time.Millisecond, ros.Params{})
+	ch, err := s.Watch(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ev, ok := next(t, ch, 2*time.Second); !ok || ev.Kind != KindSnapshot {
+		t.Fatalf("event stream pertama: %+v (ok=%v)", ev, ok)
+	}
+
+	if _, err := s.Exec(testContext(t, 2*time.Second), []string{"/ip/hotspot/user/add", "=name=single"}); err != nil {
+		t.Fatalf("exec saat stream terbuka: %v", err)
+	}
+	if got := m.acceptedCount(); got != 1 {
+		t.Fatalf("accepted connections = %d, want 1", got)
 	}
 }
 

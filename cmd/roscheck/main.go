@@ -83,7 +83,7 @@ func main() {
 			log.Printf("close: %v", err)
 		}
 	}()
-	log.Printf("tersambung dalam %s ke %s (dua koneksi)", time.Since(start).Round(time.Millisecond), cfg.Address)
+	log.Printf("tersambung dalam %s ke %s (satu koneksi)", time.Since(start).Round(time.Millisecond), cfg.Address)
 
 	if *resource == "" {
 		checkConnect(ctx, sess)
@@ -168,8 +168,8 @@ func checkConnect(ctx context.Context, sess *rosrun.MikroTik) {
 	}
 
 	st := sess.Stats()
-	log.Printf("stats: epoch=%d reconnects=%d cmdDown=%v feedDown=%v uptime=%s",
-		st.Epoch, st.Reconnects, st.CmdDown, st.FeedDown, st.Uptime.Round(time.Millisecond))
+	log.Printf("stats: epoch=%d reconnects=%d down=%v uptime=%s",
+		st.Epoch, st.Reconnects, st.Down, st.Uptime.Round(time.Millisecond))
 
 	// Beri monitor status kesempatan menerima probe pertama.
 	deadline := time.Now().Add(2 * time.Second)

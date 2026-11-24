@@ -17,7 +17,7 @@ var (
 	ErrUnknownColumn        = errors.New("roscatalog: kolom tidak ada")
 	ErrMissingArgument      = errors.New("roscatalog: argumen wajib belum diisi")
 	ErrSelectorRequired     = errors.New("roscatalog: selector wajib diisi")
-	ErrBothConnectionsDown  = errors.New("rosrun: both connections down")
+	ErrConnectionDown       = errors.New("rosrun: connection down")
 	ErrStatusTimeout        = errors.New("rosrun: status ping timeout")
 	ErrClosed               = errors.New("rosrun: closed")
 )

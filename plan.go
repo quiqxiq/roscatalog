@@ -199,6 +199,9 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		return Request{}, fmt.Errorf("%w: %s/%s", ErrViewNotFound, r.ID, viewName)
 	}
 	allowed := r.Deliveries(viewName)
+	if len(allowed) == 0 {
+		return Request{}, fmt.Errorf("%w: %s/%s: mode %q tidak punya delivery", ErrDeliveryUnsupported, r.ID, v.Name, v.Mode)
+	}
 	d := plan.Delivery
 	if d == "" {
 		d = allowed[0]
@@ -354,7 +357,18 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		for _, f := range fieldSrc {
 			allowed[f] = true
 		}
+		// .id dan Key adalah kolom identitas yang selalu dipertahankan
+		// runner, jadi keduanya boleh diminta walau tidak ada di Proplist.
+		// Tanpa ini pemakai yang minta Only: [".id", "name"] akan ditolak.
+		wantID := false
 		for _, f := range p.Only {
+			if f == ".id" {
+				wantID = true
+				continue
+			}
+			if v.Key != "" && f == v.Key {
+				continue
+			}
 			if !allowed[f] {
 				return Request{}, fmt.Errorf("%w: %s/%s: %q",
 					ErrUnknownColumn, r.ID, v.Name, f)
@@ -364,9 +378,12 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		for _, f := range p.Only {
 			want[f] = true
 		}
-		filtered := make([]string, 0, len(p.Only))
+		filtered := make([]string, 0, len(p.Only)+1)
+		if wantID {
+			filtered = append(filtered, ".id")
+		}
 		for _, f := range fieldSrc {
-			if want[f] {
+			if want[f] && !(f == ".id" && wantID) {
 				filtered = append(filtered, f)
 			}
 		}

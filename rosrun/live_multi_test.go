@@ -44,7 +44,7 @@ func TestLiveMultiRouter(t *testing.T) {
 			Stream:      i%2 == 0,
 			StreamEvery: time.Second,
 			PollEvery:   5 * time.Second,
-			Status:      rosrun.StatusConfig{Every: time.Second, Timeout: 10 * time.Second},
+			Status:      rosrun.StatusConfig{PingInterval: time.Second, ReplyTimeout: 10 * time.Second},
 			Logf:        t.Logf,
 		})
 	}

@@ -70,8 +70,7 @@ var MikrotikStreaming = fromEnv(rosrun.Config{
 
 	Status: rosrun.StatusConfig{
 		Target:         "8.8.8.8",
-		Every:          time.Second,
-		Timeout:        15 * time.Second,
+		ReplyTimeout:   15 * time.Second,
 		WarnPacketLoss: 5.0,
 	},
 	Cache: rosrun.CacheConfig{
@@ -102,8 +101,7 @@ var MikrotikPolling = fromEnv(rosrun.Config{
 
 	Status: rosrun.StatusConfig{
 		Target:         "1.1.1.1",
-		Every:          2 * time.Second,
-		Timeout:        15 * time.Second,
+		ReplyTimeout:   15 * time.Second,
 		WarnPacketLoss: 5.0,
 	},
 	Cache: rosrun.CacheConfig{
@@ -135,8 +133,7 @@ var MikrotikLab233 = fromEnv(rosrun.Config{
 
 	Status: rosrun.StatusConfig{
 		Target:         "8.8.8.8",
-		Every:          time.Second,
-		Timeout:        15 * time.Second,
+		ReplyTimeout:   15 * time.Second,
 		WarnPacketLoss: 5.0,
 	},
 	Cache: rosrun.CacheConfig{

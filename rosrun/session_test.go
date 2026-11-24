@@ -71,9 +71,9 @@ func TestConfigValidate(t *testing.T) {
 		{"poll valid", Config{Address: "h", Username: "u", PollEvery: 5 * time.Second}, true},
 		{"stream too fast", Config{Address: "h", Username: "u", StreamEvery: 500 * time.Millisecond}, false},
 		{"stream too slow", Config{Address: "h", Username: "u", StreamEvery: 6 * time.Second}, false},
-		{"status too fast", Config{Address: "h", Username: "u", Status: StatusConfig{Every: 500 * time.Millisecond}}, false},
-		{"status too slow", Config{Address: "h", Username: "u", Status: StatusConfig{Every: 6 * time.Second}}, false},
-		{"status timeout below interval", Config{Address: "h", Username: "u", Status: StatusConfig{Every: 2 * time.Second, Timeout: time.Second}}, false},
+		{"status ping too fast", Config{Address: "h", Username: "u", Status: StatusConfig{PingInterval: 500 * time.Millisecond}}, false},
+		{"status ping too slow", Config{Address: "h", Username: "u", Status: StatusConfig{PingInterval: 6 * time.Second}}, false},
+		{"status reply timeout below ping interval", Config{Address: "h", Username: "u", Status: StatusConfig{PingInterval: 2 * time.Second, ReplyTimeout: time.Second}}, false},
 		{"negative cache ttl", Config{Address: "h", Username: "u", Cache: CacheConfig{TTL: -time.Second}}, false},
 	}
 	for _, tt := range tests {
@@ -258,7 +258,7 @@ func TestConfigDefaults(t *testing.T) {
 	if c.PollEvery != 5*time.Second {
 		t.Errorf("PollEvery = %s", c.PollEvery)
 	}
-	if c.Status.Target != "8.8.8.8" || c.Status.Every != time.Second || c.Status.Timeout != 15*time.Second {
+	if c.Status.Target != "8.8.8.8" || c.Status.PingInterval != 0 || c.Status.ReplyTimeout != 15*time.Second {
 		t.Errorf("status defaults = %+v", c.Status)
 	}
 	if c.Cache.TTL != 5*time.Second || c.Cache.MaxEntries != 64 {

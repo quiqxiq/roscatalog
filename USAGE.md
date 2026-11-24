@@ -49,9 +49,9 @@ sess, err := rosrun.Open(ctx, rosrun.Config{
     MaxInFlight: 8,                      // command in-flight per router
     Grace:       30 * time.Second,       // Manager: jeda sebelum sesi ditutup
     Status: rosrun.StatusConfig{
-        Every:   time.Second,            // native /ping tanpa count/duration
-        Target:  "8.8.8.8",
-        Timeout: 15 * time.Second,
+        Target:       "8.8.8.8",
+        ReplyTimeout: 15 * time.Second,  // tanpa balasan ping selama ini = error
+        // PingInterval opsional; kosong = cadence bawaan /ping RouterOS (1s).
     },
 })
 if err != nil {
@@ -90,7 +90,9 @@ go run ./cmd/roscheck -addr 192.168.122.189:8728 -user admin -pass secret \
 ### 1.2 Status realtime
 
 Status selalu memakai native stream `/ping` **tanpa `count`/`duration`**,
-terlepas dari `Config.Stream`. Target bawaan `8.8.8.8`, interval 1 detik.
+terlepas dari `Config.Stream` dan `Config.Poll`. Target bawaan `8.8.8.8`;
+router memakai cadence ping bawaannya (1 detik) kecuali `PingInterval` diisi.
+`ReplyTimeout` (bawaan 15 detik) adalah batas tanpa balasan sebelum error.
 State: `connected`, `warning`, atau `error`.
 
 ```go
@@ -104,7 +106,7 @@ for st := range sess.WatchStatus(ctx) {
 
 Contoh warning: `TLS disabled: API traffic is plaintext`, packet loss melewati
 ambang, atau status ping bermasalah. Error bila koneksi turun
-(`ErrConnectionDown`), sesi ditutup, atau ping status melewati `Status.Timeout`.
+(`ErrConnectionDown`), sesi ditutup, atau ping status melewati `Status.ReplyTimeout`.
 
 ### 1.3 Banyak router sekaligus
 

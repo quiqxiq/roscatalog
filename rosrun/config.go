@@ -29,10 +29,9 @@ const (
 
 	// DefaultStatusTarget adalah target ping status di sisi router.
 	DefaultStatusTarget = "8.8.8.8"
-	// DefaultStatusEvery adalah interval ping status bawaan.
-	DefaultStatusEvery = time.Second
-	// DefaultStatusTimeout adalah batas tanpa balasan ping sebelum status error.
-	DefaultStatusTimeout = 15 * time.Second
+	// DefaultStatusReplyTimeout adalah batas tanpa balasan ping sebelum status
+	// dianggap error.
+	DefaultStatusReplyTimeout = 15 * time.Second
 
 	// DefaultCacheTTL menyimpan event terakhir agar subscriber baru langsung
 	// mendapat snapshot terbaru.
@@ -52,8 +51,10 @@ const (
 
 // StatusConfig mengatur monitor status realtime per router.
 //
-// Monitor selalu memakai native stream /ping tanpa count/duration, terlepas
-// dari Config.Stream. Ping dijalankan di koneksi sesi yang sudah ada.
+// Monitor memakai native stream /ping tanpa count/duration: router mengirim
+// baris ping terus-menerus dan rosrun hanya mengonsumsi stream itu. Tidak ada
+// polling dari Go; Config.Poll tidak mempengaruhi monitor ini. Ping berjalan
+// di koneksi sesi yang sudah ada.
 type StatusConfig struct {
 	// Disable mematikan monitor status. Status() tetap melaporkan keadaan
 	// koneksi, tetapi tanpa data ping.
@@ -62,12 +63,16 @@ type StatusConfig struct {
 	// Target adalah alamat yang di-ping dari sisi router. Kosong = 8.8.8.8.
 	Target string
 
-	// Every adalah interval probe. Kosong = 1s. Batas 1s..5s.
-	Every time.Duration
+	// PingInterval adalah override opsional untuk parameter =interval= pada
+	// command /ping native. Kosong/0 berarti RouterOS memakai bawaannya (1s)
+	// dan rosrun tidak mengirim =interval=. Ini bukan interval polling Go.
+	// Bila diisi, nilainya 1s..5s.
+	PingInterval time.Duration
 
-	// Timeout adalah lama tanpa balasan ping sukses sebelum state error.
-	// Kosong = max(3*Every, 15s).
-	Timeout time.Duration
+	// ReplyTimeout adalah lama tanpa balasan ping sukses sebelum state error.
+	// Kosong = DefaultStatusReplyTimeout (15s). Tidak bergantung pada
+	// PingInterval karena ping adalah stream native, bukan poll.
+	ReplyTimeout time.Duration
 
 	// WarnPacketLoss adalah ambang packet loss (%) untuk state warning.
 	// 0 = 5%. Nilai negatif mematikan warning packet loss.
@@ -213,22 +218,22 @@ func (c Config) Validate() error {
 			return fmt.Errorf("rosrun: stream interval %s above maximum %s", c.StreamEvery, ros.MaxPrintInterval)
 		}
 	}
-	if c.Status.Every < 0 {
-		return fmt.Errorf("rosrun: status interval must not be negative")
+	if c.Status.PingInterval < 0 {
+		return fmt.Errorf("rosrun: status ping interval must not be negative")
 	}
-	if c.Status.Every > 0 {
-		if c.Status.Every < ros.MinPrintInterval {
-			return fmt.Errorf("rosrun: status interval %s below minimum %s", c.Status.Every, ros.MinPrintInterval)
+	if c.Status.PingInterval > 0 {
+		if c.Status.PingInterval < ros.MinPrintInterval {
+			return fmt.Errorf("rosrun: status ping interval %s below minimum %s", c.Status.PingInterval, ros.MinPrintInterval)
 		}
-		if c.Status.Every > ros.MaxPrintInterval {
-			return fmt.Errorf("rosrun: status interval %s above maximum %s", c.Status.Every, ros.MaxPrintInterval)
+		if c.Status.PingInterval > ros.MaxPrintInterval {
+			return fmt.Errorf("rosrun: status ping interval %s above maximum %s", c.Status.PingInterval, ros.MaxPrintInterval)
 		}
 	}
-	if c.Status.Timeout < 0 {
-		return fmt.Errorf("rosrun: status timeout must not be negative")
+	if c.Status.ReplyTimeout < 0 {
+		return fmt.Errorf("rosrun: status reply timeout must not be negative")
 	}
-	if c.Status.Timeout > 0 && c.Status.Every > 0 && c.Status.Timeout < c.Status.Every {
-		return fmt.Errorf("rosrun: status timeout %s below status interval %s", c.Status.Timeout, c.Status.Every)
+	if c.Status.ReplyTimeout > 0 && c.Status.PingInterval > 0 && c.Status.ReplyTimeout < c.Status.PingInterval {
+		return fmt.Errorf("rosrun: status reply timeout %s below status ping interval %s", c.Status.ReplyTimeout, c.Status.PingInterval)
 	}
 	if c.Cache.TTL < 0 {
 		return fmt.Errorf("rosrun: cache ttl must not be negative")
@@ -265,14 +270,8 @@ func (c Config) withDefaults() Config {
 	if c.Status.Target == "" {
 		c.Status.Target = DefaultStatusTarget
 	}
-	if c.Status.Every == 0 {
-		c.Status.Every = DefaultStatusEvery
-	}
-	if c.Status.Timeout == 0 {
-		c.Status.Timeout = 3 * c.Status.Every
-		if c.Status.Timeout < DefaultStatusTimeout {
-			c.Status.Timeout = DefaultStatusTimeout
-		}
+	if c.Status.ReplyTimeout == 0 {
+		c.Status.ReplyTimeout = DefaultStatusReplyTimeout
 	}
 	if c.Status.WarnPacketLoss == 0 {
 		c.Status.WarnPacketLoss = 5

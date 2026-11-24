@@ -130,8 +130,8 @@ func TestManagerWatchStatuses(t *testing.T) {
 	c1, c2 := managerConfig("r1", m1), managerConfig("r2", m2)
 	for _, c := range []*Config{&c1, &c2} {
 		c.Status = StatusConfig{
-			Every:              time.Second,
-			Timeout:            5 * time.Second,
+			PingInterval:       time.Second,
+			ReplyTimeout:       5 * time.Second,
 			SuppressTLSWarning: true,
 		}
 	}

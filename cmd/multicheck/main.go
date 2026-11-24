@@ -45,7 +45,7 @@ func main() {
 	timeout := flag.Duration("timeout", 10*time.Second, "batas dial+login")
 	streamEvery := flag.Duration("stream-every", time.Second, "interval stream (1s..5s)")
 	pollEvery := flag.Duration("poll-every", 5*time.Second, "jeda poll (5s..30s)")
-	statusEvery := flag.Duration("status-every", time.Second, "interval ping status (1s..5s)")
+	statusPingInterval := flag.Duration("status-ping-interval", 0, "override interval /ping native (0 = bawaan RouterOS; 1s..5s)")
 	noTLSWarning := flag.Bool("no-tls-warning", false, "jangan tampilkan warning TLS mati")
 	iface := flag.String("interface", "ether1", "interface untuk monitor-traffic")
 	flag.Parse()
@@ -73,7 +73,7 @@ func main() {
 			StreamEvery: *streamEvery,
 			PollEvery:   *pollEvery,
 			Status: rosrun.StatusConfig{
-				Every:              *statusEvery,
+				PingInterval:       *statusPingInterval,
 				SuppressTLSWarning: *noTLSWarning,
 			},
 			Logf: log.Printf,

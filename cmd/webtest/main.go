@@ -850,10 +850,9 @@ func (s *Server) handleRouters(w http.ResponseWriter, r *http.Request) {
 			StreamEvery: streamEvery,
 			PollEvery:   pollEvery,
 			Status: rosrun.StatusConfig{
-				Disable: false,
-				Target:  req.PingTarget,
-				Every:   1 * time.Second,
-				Timeout: 15 * time.Second,
+				Disable:      false,
+				Target:       req.PingTarget,
+				ReplyTimeout: 15 * time.Second,
 			},
 		}
 

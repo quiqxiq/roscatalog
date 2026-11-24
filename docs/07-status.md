@@ -1,9 +1,12 @@
 # 07 — Realtime Status (connected / warning / error)
 
 `Runner`/`MikroTik` memiliki *monitor status realtime-first*: satu stream
-native `/ping` ke target (default 8.8.8.8), refresh tiap detik — selalu
-**native stream** (bukan poll; `Config.Poll` tidak mempengaruhi — lihat
-`TestStatusUsesNativePingRegardlessOfStream`).
+native `/ping` ke target (default 8.8.8.8) — selalu **native stream** (bukan
+poll; `Config.Poll` tidak mempengaruhi — lihat
+`TestStatusUsesNativePingRegardlessOfStream`). Tanpa `PingInterval`, tidak ada
+`=interval=` yang dikirim dan RouterOS memakai cadence bawaannya (1 detik).
+`ReplyTimeout` (default 15 detik) menentukan kapan tidak adanya balasan ping
+dianggap error; nilainya tidak diturunkan dari interval ping.
 
 ```go
 st := sess.Status()
@@ -59,7 +62,7 @@ WATCH update 3: state=warning connected=true ping={Seq:16 Sent:17 Received:17 ..
 
 - `connected=true`, ping berjalan (RTT ~30ms, no loss), update tiap detik.
 - `warning` = karena CHR di port 8728 tidak pakai TLS (warning biasa — router tetap terhubung).
-- **Err = `ErrStatusTimeout`** bila tidak ada reply ke 8.8.8.8 > `Status.Timeout` (default 15s);
+- **Err = `ErrStatusTimeout`** bila tidak ada reply ke 8.8.8.8 > `Status.ReplyTimeout` (default 15s);
   bila **koneksi down** → `ErrConnectionDown`; bila sesi tertutup → `ErrClosed`.
 - `StatusTimeoutBecomesError` unit test PASS.
 

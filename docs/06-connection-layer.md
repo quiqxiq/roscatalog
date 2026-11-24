@@ -56,7 +56,7 @@ type Config struct {
 	PollEvery time.Duration
 	Poll      bool         // polling dari Go
 	TLS, Insecure bool
-	Status    StatusConfig // Status realtime: interval, target 8.8.8.8, warn-packetloss
+	Status    StatusConfig // native /ping: target, timeout balasan, warn-packetloss
 }
 ```
 

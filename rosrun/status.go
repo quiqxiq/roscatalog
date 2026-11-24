@@ -112,21 +112,21 @@ func (m *MikroTik) startStatus() {
 }
 
 // statusRequest menyusun /ping native tanpa count/duration. Status sengaja
-// tidak memakai .proplist agar tetap kompatibel dengan RouterOS 6.
+// tidak memakai .proplist agar tetap kompatibel dengan RouterOS 6. =interval=
+// hanya dikirim bila pengguna memintanya; tanpa itu RouterOS memakai cadence
+// bawaannya sendiri dan stream tetap berjalan tanpa polling dari Go.
 func (m *MikroTik) statusRequest() ros.Request {
-	every := m.cfg.Status.Every
+	sentence := []string{"/ping", "=address=" + m.cfg.Status.Target}
+	if every := m.cfg.Status.PingInterval; every > 0 {
+		sentence = append(sentence, "=interval="+ros.FormatTime(every))
+	}
 	return ros.Request{
 		ResourceID: "tool-ping",
 		View:       "run",
 		Delivery:   ros.DeliveryStream,
 		Mode:       ros.ModeNative,
-		Every:      every,
 		Shape:      ros.ShapeRows,
-		Sentence: []string{
-			"/ping",
-			"=address=" + m.cfg.Status.Target,
-			"=interval=" + ros.FormatTime(every),
-		},
+		Sentence:   sentence,
 		Fields: []string{
 			"seq", "host", "size", "ttl", "time", "status", "sent", "received",
 			"packet-loss", "min-rtt", "avg-rtt", "max-rtt",
@@ -390,7 +390,7 @@ func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 
 	st.Connected = open && !down
 	if !cfg.Status.Disable {
-		timeout := cfg.Status.Timeout
+		timeout := cfg.Status.ReplyTimeout
 		switch {
 		case !m.status.lastOK.IsZero() && now.Sub(m.status.lastOK) > timeout:
 			st.Connected = false

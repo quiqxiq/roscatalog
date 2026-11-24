@@ -35,8 +35,8 @@ func TestStatusUsesNativePingRegardlessOfStream(t *testing.T) {
 	s := openMock(t, m, func(c *Config) {
 		c.Poll = true // status tetap harus native stream
 		c.Status = StatusConfig{
-			Every:              time.Second,
-			Timeout:            5 * time.Second,
+			PingInterval:       time.Second,
+			ReplyTimeout:       5 * time.Second,
 			SuppressTLSWarning: true,
 			WarnPacketLoss:     100,
 		}
@@ -68,10 +68,38 @@ func TestStatusUsesNativePingRegardlessOfStream(t *testing.T) {
 	}
 }
 
+func TestStatusRequestOmitsPingIntervalByDefault(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, nil) // status disabled; hanya memeriksa sentence
+
+	req := s.statusRequest()
+	for _, arg := range req.Sentence {
+		if strings.HasPrefix(arg, "=interval=") {
+			t.Fatalf("default status tidak boleh mengirim interval: %v", req.Sentence)
+		}
+	}
+}
+
+func TestStatusRequestHonorsPingInterval(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, func(c *Config) {
+		c.Status.PingInterval = 2 * time.Second
+		c.Status.ReplyTimeout = 5 * time.Second
+	})
+
+	req := s.statusRequest()
+	for _, arg := range req.Sentence {
+		if arg == "=interval=2s" {
+			return
+		}
+	}
+	t.Fatalf("interval ping tidak dikirim: %v", req.Sentence)
+}
+
 func TestStatusWarnsTLSByDefault(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, func(c *Config) {
-		c.Status = StatusConfig{Every: time.Second, Timeout: 5 * time.Second}
+		c.Status = StatusConfig{ReplyTimeout: 5 * time.Second}
 	})
 
 	waitFor(t, 4*time.Second, func() bool { return s.Status().Connected }, "status ping pertama")
@@ -90,8 +118,8 @@ func TestStatusTimeoutBecomesError(t *testing.T) {
 	m.pingFail.Store(true)
 	s := openMock(t, m, func(c *Config) {
 		c.Status = StatusConfig{
-			Every:              time.Second,
-			Timeout:            time.Second,
+			PingInterval:       time.Second,
+			ReplyTimeout:       time.Second,
 			SuppressTLSWarning: true,
 		}
 	})
@@ -106,8 +134,8 @@ func TestWatchStatusRealtime(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, func(c *Config) {
 		c.Status = StatusConfig{
-			Every:              time.Second,
-			Timeout:            5 * time.Second,
+			PingInterval:       time.Second,
+			ReplyTimeout:       5 * time.Second,
 			SuppressTLSWarning: true,
 		}
 	})

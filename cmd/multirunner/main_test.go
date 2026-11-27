@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func TestBuildAllCatalogRequests(t *testing.T) {

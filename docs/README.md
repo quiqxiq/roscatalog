@@ -9,9 +9,9 @@ Ada tiga komponen utama dalam project ini:
 
 | Module / Paket | Fungsi |
 |---|---|
-| `example.com/roscatalog` | katalog + `Request` builder + `fields/` struct + sentinel error |
-| `example.com/roscatalog/rosrun` | adapter ke engine transport (`goros/`), transport asinkron, watchdog, Manager |
-| `example.com/roscatalog/mikhmon` | overlay + workflow Mikhmon v4 (on-login, monitor profile, voucher, sales, quickprint) |
+| `github.com/quiqxiq/roscatalog` | katalog + `Request` builder + `fields/` struct + sentinel error |
+| `github.com/quiqxiq/roscatalog/rosrun` | adapter ke engine transport (`goros/`), transport asinkron, watchdog, Manager |
+| `github.com/quiqxiq/roscatalog/mikhmon` | overlay + workflow Mikhmon v4 (on-login, monitor profile, voucher, sales, quickprint) |
 
 Daftar halaman (baca dari awal):
 

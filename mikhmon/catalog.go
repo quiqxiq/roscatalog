@@ -15,7 +15,7 @@ package mikhmon
 import (
 	"fmt"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 const (

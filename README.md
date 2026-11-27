@@ -5,37 +5,42 @@ daftar menu, view baca (oneshot/interval/follow/listen/native), aksi tulis, dan
 `Plan` stream/poll. Katalog hanya data + pembuat kata API; eksekusi ada di
 adapter `rosrun`.
 
-Repo ini adalah **satu workspace dengan dua module**:
+Repo ini adalah **satu Go module** dengan dependency engine [`github.com/quiqxiq/goros/v4`](https://github.com/quiqxiq/goros/v4):
 
-```
-go.work                     # use . dan ./goros
-go.mod                      # module example.com/roscatalog
-catalog_*.go                # 125 resource, 175 view baca, 395 aksi tulis
+```text
+go.mod                      # module github.com/quiqxiq/roscatalog
+catalog_*.go                # katalog resource, view baca, dan aksi tulis/baca
 plan.go / types.go          # Plan, Build, Sentence, Query
-rosrun/                     # adapter ke goros/v4 (satu-satunya import engine)
-mikhmon/                    # overlay khusus Mikhmon: subset + workflow + script
-cmd/example/                # jalankan satu view dari CLI
-cmd/multicheck/             # uji status/stream/poll di banyak router sekaligus
-cmd/rosverify/              # verifikasi/discovery via /console/inspect
-cmd/mikhmon-live/           # uji profile/voucher/sales/expire ke router
-goros/                      # module github.com/quiqxiq/goros/v4 (fork engine)
+rosrun/                     # adapter ke goros/v4 (satu-satunya layer runtime)
+mikhmon/                    # overlay opsional Mikhmon: subset + workflow + script
+cmd/                        # CLI & demo lokal (lihat tabel di bawah)
 ```
 
 Pembagian tanggung jawab:
 
 | Lapisan | Pemilik |
 |---|---|
-| wire, async, tag, cancel, transport, validasi syntax/atribut, schema discovery | `goros/` |
+| wire, async, tag, cancel, transport, validasi syntax/atribut, schema discovery | `github.com/quiqxiq/goros/v4` |
 | path/verb, view, plan, field dashboard, aksi aman, semantik domain | katalog `roscatalog` |
-| eksekusi dan konversi `Request` → command | `rosrun/` |
+| eksekusi, reconnect, shared feed, status, dan konversi `Request` → command | `rosrun/` |
 
 ## Dokumentasi
 
-Wiki lengkap untuk cara pakai: [`docs/`](docs/README.md) — 12 halaman:
-mulai, catalog, custom resources, views, realtime/poll, connection layer,
-status realtime, fields, errors, testing, laporan migrasi MikroDash, dan
-workflow Mikhmon.
+Wiki lengkap untuk cara pakai: [`docs/`](docs/README.md) — 13 halaman (termasuk
+[Command Builder](docs/13-command-builder.md)).
 Contoh yang bisa dijalankan langsung: [`docs/examples/`](docs/examples).
+
+## Daftar Binary `cmd/*`
+
+| Command | Fungsi |
+|---|---|
+| `cmd/example` | Jalankan satu view katalog dari CLI |
+| `cmd/roscheck` | Uji koneksi, reconnect, dan stream/poll pada satu router |
+| `cmd/multicheck` | Uji status/stream/poll di banyak router sekaligus |
+| `cmd/multirunner` | Simulasi manajemen & pemulihan multi-router |
+| `cmd/rosverify` | Verifikasi/discovery katalog via `/console/inspect` |
+| `cmd/mikhmon-live` | Uji workflow profile/voucher/sales/expire ke router |
+| `cmd/webtest` | Demo dashboard HTTP lokal (default bind `127.0.0.1:8080`, redaksi password) |
 
 ## Mulai
 
@@ -113,11 +118,11 @@ Uji `listen` nyata (membuat lalu menghapus entri address-list sementara):
 
 ```bash
 ROUTEROS_LIVE_ADDR=192.168.88.1:8728 ROUTEROS_LIVE_USER=admin \
-ROUTEROS_LIVE_PASS=secret go test ./rosrun -run TestLiveListenRemoval -v
+ROUTEROS_LIVE_PASS=secret go test -tags live ./rosrun -run TestLiveListenRemoval -v
 
 ROUTEROS_LIVE_ADDRS=192.168.122.60:8728,192.168.122.26:8728,192.168.122.189:8728 \
 ROUTEROS_LIVE_USER=admin ROUTEROS_LIVE_PASS=secret \
-go test ./rosrun -run TestLiveMultiRouter -v
+go test -tags live ./rosrun -run TestLiveMultiRouter -v
 ```
 
 `rosverify` memakai `goros.Inspect` (`/console/inspect`) untuk memeriksa path,
@@ -135,7 +140,7 @@ laporan penjualan/QuickPrint, dan `Client` workflow di atas `rosrun.Runner`.
 import (
     "context"
 
-    "example.com/roscatalog/mikhmon"
+    "github.com/quiqxiq/roscatalog/mikhmon"
 )
 
 ctx := context.Background()
@@ -199,8 +204,8 @@ serta tick scheduler Expire Monitor mode `X`/`N`. Detail workflow ada di
 - `commands/` — data perintah + argumen hasil `/console/inspect`, termasuk seluruh flag `print`.
 - `MIKHMON.md` — pemetaan command Mikhmon v4 dan contoh workflow.
 - `REFERENCE.md` — referensi lengkap; dibuat dengan `go run gen_reference.go > REFERENCE.md` (tidak disimpan di repo).
-- Dump `/console/inspect` mentah (`mikrotik_inspect/`) dipakai saat regenerasi `commands/`, tetapi tidak ikut disimpan di repo.
-- `goros/docs/` — desain, keputusan, riset, dan usage engine.
+- `mikrotik_inspect/` — dump `/console/inspect` mentah (di-track di repo sebagai dataset verifikasi untuk regenerasi `commands/`).
+- `SECURITY.md` & `CONTRIBUTING.md` — kebijakan keamanan dan panduan kontribusi.
 
 ## Catatan
 

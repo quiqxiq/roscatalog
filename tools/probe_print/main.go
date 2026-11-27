@@ -20,8 +20,8 @@ import (
 	"github.com/quiqxiq/goros/v4/schema"
 	"github.com/quiqxiq/goros/v4/transport"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 type indexFile struct {

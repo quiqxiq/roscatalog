@@ -20,7 +20,7 @@ type QueueSimpleRow struct {
 
 Helper (di root package `roscatalog`, file `fields.go`):
 
-- `FieldNames[T]() []string` — kolom `ros:` yang ada di struct, urut replease.
+- `FieldNames[T]() []string` — kolom `ros:` yang ada di struct, sesuai urutan deklarasi.
 - `Decode[T any](row map[string]string) (T, error)`
 - `DecodeAll[T any](rows []map[string]string) ([]T, error)`
 - `ArgsOf[T any](v T) (map[string]string, error)` — dari struct balik ke map untuk `Action.Sentence`.
@@ -31,7 +31,7 @@ q, _ := ros.DecodeAll[fields.QueueSimpleRow](rows)
 for _, r := range q { fmt.Println(r.ID, r.Name, r.MaxLimit) }
 
 // Bila hanya perlu kolom targeted, pakai Params.Only atau Params.Proplist:
-req, _ := res.Build("list", ros.Params{Only: ros.FieldNames[fields.QueueSimpleRow]()[:2]})
+req, _ := res.Build("list", ros.Once(), ros.Params{Only: []string{"name", "target"}})
 ```
 
 Rule pakai structs:

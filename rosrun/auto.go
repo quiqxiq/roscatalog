@@ -6,7 +6,7 @@ import (
 
 	"github.com/quiqxiq/goros/v4"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 // WatchAuto seperti Watch tetapi bila stream ditolak router sebelum ada data

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"example.com/roscatalog/rosrun"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 // Konfigurasi contoh untuk cmd/multirunner, cmd/webtest, dan cmd/mikhmon-live.

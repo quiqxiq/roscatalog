@@ -118,3 +118,20 @@ func TestRawWinsOverProplistAndOnly(t *testing.T) {
 		t.Fatalf("Raw harus mengembalikan semua kolom: %v", req.Fields)
 	}
 }
+
+func TestArgsOfRequiredBeforeOmitEmpty(t *testing.T) {
+	type reqAndOmit struct {
+		Name    string `ros:"name,required,omitempty"`
+		Comment string `ros:"comment,omitempty"`
+	}
+	if _, err := ArgsOf(reqAndOmit{}); err == nil {
+		t.Fatal("required+omitempty empty field must return error")
+	}
+	got, err := ArgsOf(reqAndOmit{Name: "u1"})
+	if err != nil {
+		t.Fatalf("unexpected err: %v", err)
+	}
+	if got["name"] != "u1" {
+		t.Fatalf("got %v", got)
+	}
+}

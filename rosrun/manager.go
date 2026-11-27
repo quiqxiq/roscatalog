@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 // RouterEvent adalah Event yang diberi identitas router asal.
@@ -321,12 +321,50 @@ func (m *Manager) Release(id string) {
 	if m.routers[id] == nil {
 		return
 	}
-	if m.refs[id] > 0 {
-		m.refs[id]--
+	if m.refs[id] == 0 {
+		return
 	}
+	m.refs[id]--
 	if m.refs[id] == 0 {
 		m.armLingerLocked(id)
 	}
+}
+
+// Lease represents an acquired reference to a router session that releases idempotently.
+type Lease struct {
+	mgr  *Manager
+	id   string
+	sess *MikroTik
+	once sync.Once
+}
+
+// Session returns the acquired router session.
+func (l *Lease) Session() *MikroTik {
+	if l == nil {
+		return nil
+	}
+	return l.sess
+}
+
+// Release releases the session reference once.
+func (l *Lease) Release() {
+	if l == nil {
+		return
+	}
+	l.once.Do(func() {
+		if l.mgr != nil {
+			l.mgr.Release(l.id)
+		}
+	})
+}
+
+// AcquireLease acquires a session reference wrapped in a Lease.
+func (m *Manager) AcquireLease(ctx context.Context, id string) (*Lease, error) {
+	sess, err := m.Acquire(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return &Lease{mgr: m, id: id, sess: sess}, nil
 }
 
 // Retain menahan sesi hidup tanpa viewer. Alasan yang sama boleh diulang.
@@ -337,8 +375,8 @@ func (m *Manager) Retain(id, reason string) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.ensureMapsLocked()
-	if m.routers[id] == nil {
-		return fmt.Errorf("rosrun: unknown router %q", id)
+	if _, ok := m.cfgs[id]; !ok && m.routers[id] == nil {
+		return fmt.Errorf("%w: %q", ErrUnknownRouter, id)
 	}
 	if m.holds[id] == nil {
 		m.holds[id] = map[string]bool{}
@@ -373,12 +411,11 @@ func (m *Manager) Subscribe(ctx context.Context, id string, req ros.Request) (*S
 	if err != nil {
 		return nil, err
 	}
-	sub, err := sess.Subscribe(ctx, req)
+	sub, err := sess.subscribeWithClose(ctx, req, func() { m.Release(id) })
 	if err != nil {
 		m.Release(id)
 		return nil, err
 	}
-	sub.onClose = func() { m.Release(id) }
 	return sub, nil
 }
 

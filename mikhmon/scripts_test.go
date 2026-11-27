@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func TestCatalogSubset(t *testing.T) {

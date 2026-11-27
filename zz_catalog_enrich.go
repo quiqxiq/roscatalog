@@ -5,7 +5,7 @@ package roscatalog
 
 func init() {
 	enrich := func(id string, fn func(*Resource)) {
-		if r, ok := Lookup(id); ok {
+		if r, ok := lookupRaw(id); ok {
 			fn(r)
 		}
 	}

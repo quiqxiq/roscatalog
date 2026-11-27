@@ -1,3 +1,5 @@
+//go:build live
+
 package rosrun_test
 
 import (
@@ -6,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 func liveConfig(t *testing.T) rosrun.Config {

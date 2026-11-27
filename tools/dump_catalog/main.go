@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"os"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 type viewOut struct {

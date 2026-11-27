@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"example.com/roscatalog/fields"
+	"github.com/quiqxiq/roscatalog/fields"
 )
 
 func TestPathNormalize(t *testing.T) {

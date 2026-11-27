@@ -3,7 +3,7 @@ package mikhmon
 import (
 	"testing"
 
-	"example.com/roscatalog/fields"
+	"github.com/quiqxiq/roscatalog/fields"
 )
 
 func TestQuickPrintRoundTrip(t *testing.T) {

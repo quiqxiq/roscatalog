@@ -24,8 +24,8 @@ import (
 	"strings"
 	"time"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 func main() {
@@ -34,7 +34,7 @@ func main() {
 		user     = flag.String("user", "admin", "user API")
 		pass     = flag.String("pass", "", "password API")
 		useTLS   = flag.Bool("tls", false, "pakai API TLS (8729)")
-		insecure = flag.Bool("insecure", true, "lewati verifikasi sertifikat TLS")
+		insecure = flag.Bool("insecure", false, "lewati verifikasi sertifikat TLS")
 
 		resource = flag.String("resource", "", "ID resource katalog; kosong = uji koneksi")
 		view     = flag.String("view", "", "nama view; kosong = pilih otomatis")

@@ -86,7 +86,7 @@ Interface ini dipenuhi oleh `*rosrun.Runner`, sehingga paket ini tidak mengimpor
   - `QuickPrintRows(ctx) ([]fields.MikhmonQuickPrintRow, error)`: Baca semua preset QuickPrint dalam bentuk typed struct.
 
 ### Typed Fields & Adapters (`fields/mikhmon.go`)
-Paket `example.com/roscatalog/fields` menyediakan struct typed yang siap di-decode atau diubah menjadi argumen router:
+Paket `github.com/quiqxiq/roscatalog/fields` menyediakan struct typed yang siap di-decode atau diubah menjadi argumen router:
 - `MikhmonSalesRow` / `MikhmonSalesAdd` / `MikhmonSalesSet`
 - `MikhmonQuickPrintRow` / `MikhmonQuickPrintAdd` / `MikhmonQuickPrintSet`
 - `MikhmonVoucherRow`
@@ -116,8 +116,8 @@ import (
     "log"
 
     routeros "github.com/quiqxiq/goros/v4"
-    "example.com/roscatalog/mikhmon"
-    "example.com/roscatalog/rosrun"
+    "github.com/quiqxiq/roscatalog/mikhmon"
+    "github.com/quiqxiq/roscatalog/rosrun"
 )
 
 func main() {

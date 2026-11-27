@@ -18,7 +18,7 @@ var resourceBaru = []string{
 	"routing-rule", "ipv6-route", "ip-cloud",
 	"capsman-manager", "capsman-radio", "interface-wifi-cap", "interface-wifi-capsman",
 	"interface-wifi-capsman-remote-cap", "interface-wifi-frequency-scan",
-	"console", "menu", "stub", "system-reset", "system-import", "tool-ping-status",
+	"system-reset", "system-import",
 	"tool-sniffer",
 }
 

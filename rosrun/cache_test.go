@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func monitorReq(iface string) ros.Request {
@@ -182,5 +182,50 @@ func TestSubscribeRejectsOnce(t *testing.T) {
 		Sentence: []string{"/x"},
 	}); err == nil {
 		t.Fatal("Subscribe dengan Delivery once seharusnya ditolak")
+	}
+}
+
+func TestCacheRespectsNoServerProplist(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, nil)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	res, ok := ros.Lookup("system-resource")
+	if !ok {
+		t.Fatal("system-resource missing")
+	}
+	req, err := res.Build("list", ros.Poll(5*time.Second), ros.Params{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !req.NoServerProplist {
+		t.Fatal("expected NoServerProplist=true for system-resource/list")
+	}
+	sub, err := s.Subscribe(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer sub.Close()
+	nextSub(t, sub, 2*time.Second)
+
+	for _, c := range m.callsTo("/system/resource/print") {
+		if c.has(".proplist") {
+			t.Fatalf("cache injected .proplist into NoServerProplist request: %+v", c.attrs)
+		}
+	}
+}
+
+func TestCachePollIntervalKeySeparatesFeeds(t *testing.T) {
+	req5s := ros.Request{
+		ResourceID: "interface", View: "list",
+		Delivery: ros.DeliveryPoll, Mode: ros.ModeOneShot,
+		Every: 5 * time.Second, Shape: ros.ShapeSnapshot,
+		Sentence: []string{"/interface/print"},
+	}
+	req30s := req5s
+	req30s.Every = 30 * time.Second
+	if menuKey(req5s) == menuKey(req30s) {
+		t.Fatal("5s and 30s poll requests must not share the same menuKey")
 	}
 }

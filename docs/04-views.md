@@ -15,10 +15,10 @@ Setiap view adalah satu cara membaca dari resource. Mode + Command:
 
 ```go
 res, _ := ros.Lookup("interface")
-req, _ := res.Build("list", ros.Params{})                    // Proplist dari view
-req, _ := res.Build("list", ros.Params{Only: []string{"name", "running"}}) // subset (validasi)
-req, _ := res.Build("list", ros.Params{Proplist: []string{"rx-byte"}})     // kolom luar katalog (tidak divalidasi)
-req, _ := res.Build("list", ros.Params{Raw: true})                         // semua kolom, tanpa .proplist
+req, _ := res.Build("list", ros.Once(), ros.Params{})                    // Proplist dari view
+req, _ := res.Build("list", ros.Once(), ros.Params{Only: []string{"name", "running"}}) // subset (validasi)
+req, _ := res.Build("list", ros.Once(), ros.Params{Proplist: []string{"rx-byte"}})     // kolom luar katalog (tidak divalidasi)
+req, _ := res.Build("list", ros.Once(), ros.Params{Raw: true})                         // semua kolom, tanpa .proplist
 ```
 
 Prioritas lihat di `Params`: `Raw > Proplist > Only`. Bila `Only` isi field yang
@@ -39,13 +39,8 @@ res.Brief("name", "type")
 ## 4.3 Listen — dilarang proplist
 
 Di RouterOS 7.24.6, `=.proplist=` pada `/path/listen` menekan event `.dead=true`
-(penghapusan item tidak terdeteksi — CHR ini 7.24.6 dua: CHR 7.24.6). Oleh
-sebab itu **`Build` menolak proplist pada `ModeListen`**:
-
-```go
-// Biasanya tidy: View katalog listen sudah ga punya Proplist.
-// Kalau Proplist terisi, Build return error? Tidak — Langsung strip.
-```
+(penghapusan item tidak terdeteksi). Oleh sebab itu **`ModeListen` tidak mengirim
+`=.proplist=` ke router** (`NoServerProplist=true`); kolom tetap disaring di sisi klien.
 
 Praktiknya: listen pakai `Params.Raw` atau plain Params.
 
@@ -53,8 +48,9 @@ Praktiknya: listen pakai `Params.Raw` atau plain Params.
 
 ```go
 rows, err := sess.Once(ctx, req)
-for _, r := range rows {
-	fields.DecodeAll[fields.InterfaceRow](rows)   // struct per field (tag `ros:`)
+if err == nil {
+	ifs, _ := ros.DecodeAll[fields.InterfaceRow](rows)
+	_ = ifs
 }
 ```
 

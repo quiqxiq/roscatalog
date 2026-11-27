@@ -16,4 +16,3 @@ coverage.*
 # python generator cache
 __pycache__/
 *.pyc
-/goros

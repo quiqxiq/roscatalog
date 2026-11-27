@@ -10,7 +10,7 @@ import (
 
 	"github.com/quiqxiq/goros/v4"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 // Error yang bisa dibandingkan pemanggil. Tidak ada klasifikasi otomatis;
@@ -23,6 +23,9 @@ var (
 	// ErrUnknownRouter dikembalikan saat router belum didaftarkan di Manager.
 	ErrUnknownRouter = errors.New("rosrun: unknown router")
 )
+
+// Session is an alias for MikroTik representing a single router session.
+type Session = MikroTik
 
 // MikroTik adalah satu sesi ke router: tepat satu koneksi async persisten yang
 // dipakai bersama oleh command dan feed stream, supervisor reconnect, dan
@@ -271,6 +274,16 @@ func (m *MikroTik) forward(ctx context.Context, cancel context.CancelFunc, req r
 			if !infinite && !m.conn.isDown() && m.epochs.current() == epoch {
 				return
 			}
+			// Beri jeda singkat untuk supervisor menandai koneksi down bila wire baru putus;
+			// jika koneksi tetap sehat, stream berakhir wajar dan tidak perlu menggantung.
+			if !m.conn.isDown() {
+				if !sleepContext(ctx, 150*time.Millisecond) {
+					return
+				}
+				if !m.conn.isDown() && m.epochs.current() == epoch {
+					return
+				}
+			}
 			restart = true
 		}
 
@@ -496,8 +509,8 @@ func (m *MikroTik) Close() error {
 		close(m.stopCh)
 
 		var errs []error
-		if c := m.conn.get(); c != nil {
-			if err := c.Close(); err != nil {
+		if m.conn != nil {
+			if err := m.conn.close(); err != nil {
 				errs = append(errs, fmt.Errorf("rosrun: close connection: %w", err))
 			}
 		}
@@ -514,6 +527,10 @@ func (m *MikroTik) Close() error {
 func shouldReconnect(err error) bool {
 	if err == nil {
 		return true
+	}
+	if errors.Is(err, ErrQueueOverflow) || errors.Is(err, ErrClosed) ||
+		errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
+		return false
 	}
 	var de *routeros.DeviceError
 	return !errors.As(err, &de)

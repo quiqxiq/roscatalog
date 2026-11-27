@@ -6,23 +6,24 @@ func init() {
 			Filter("slot", "fs").
 			List("slot", "fs", "mounted", "free", "size"),
 
-		Single("app", GroupSystem, "App runtime", "/app").
+		Table("app", GroupSystem, "App runtime", "/app").
 			Describe("Statis per build router; format field bisa berubah antar versi. "+
 				"CHR-192/103: field kosong; CHR lama lebih lengkap dari MikroDash.").
-			List("id", "name", "disabled", "running", "status", "ui-url", "interface").
-			Set("use-https"),
+			List("name", "disabled", "running", "status", "ui-url", "interface").
+			Set("auto-update", "disabled", "environment", "network", "use-https", "yaml").
+			Toggle(),
 
-		Table("app-settings", GroupSystem, "App settings", "/app/settings").
+		Single("app-settings", GroupSystem, "App settings", "/app/settings").
 			Describe("CHR-103 fields: auto-update, registry-mirrors, show-in-webfig; CHR lain memberi 0 field.").
-			List("disk", "lan-bridge", "assumed-lan-bridge", "router-ip", "assumed-router-ip",
+			List("disk", "lan-bridge", "router-ip",
 				"auto-update", "registry-mirrors", "show-in-webfig").
-			Set("disk", "lan-bridge", "assumed-lan-bridge", "router-ip", "assumed-router-ip",
+			Set("disk", "lan-bridge", "router-ip",
 				"auto-update", "registry-mirrors", "show-in-webfig"),
 
 		Table("user-group", GroupSystem, "User groups", "/user/group").
-			Filter("name", "group", "disabled").
-			List("id", "name", "policy", "skin", "comment").
-			Add(P("name", "policy", "skin", "comment"), nil).
+			Filter("name").
+			List("name", "policy", "skin", "comment").
+			Add(P("name"), P("policy", "skin", "comment")).
 			Set(P("name", "policy", "skin", "comment")...).
 			Remove("hapus group"),
 
@@ -42,15 +43,12 @@ func init() {
 			List("board-identifier", "bootloader-protocol", "cpu-mode", "channels"),
 
 		// CHR-192/103 tidak punya menu ini; field dari MikroDash/server.
-		Table("system-reset", GroupSystem, "Reset konfigurasi", "/system/reset-configuration").
-			Do("reset-configuration", SelNone, nil, nil, true,
+		Single("system-reset", GroupSystem, "Reset konfigurasi", "/system/reset-configuration").
+			DoAt("/system/reset-configuration", "reset-configuration", SelNone, nil, nil, true,
 				"reset ke konfigurasi standar, lalu reboot otomatis"),
 
-		Table("system-import", GroupSystem, "Import konfigurasi", "/import").
-			Do("import", SelNone, P("file-name"), P("verbose", "dry-run"), true,
+		Single("system-import", GroupSystem, "Import konfigurasi", "/import").
+			DoAt("/import", "import", SelNone, P("file-name"), P("verbose", "dry-run"), true,
 				"import config dari file (putus sampai selesai)"),
-
-		Table("stub", GroupSystem, "Stub menu", "/stub").
-			List("name"),
 	)
 }

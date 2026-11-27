@@ -239,8 +239,8 @@ tidak ambigu. Perlu diputuskan saat implementasi.
 import (
     "context"
 
-    ros "example.com/roscatalog"
-    "example.com/roscatalog/rosrun"
+    ros "github.com/quiqxiq/roscatalog"
+    "github.com/quiqxiq/roscatalog/rosrun"
 )
 
 res, _ := ros.Lookup("hotspot-active")

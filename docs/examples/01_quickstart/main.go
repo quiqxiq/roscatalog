@@ -1,25 +1,40 @@
-// 01 — Mulai cepat: dial CHR, daftar /interface, decode dengan fields.
+// 01 — Mulai cepat: dial RouterOS, daftar /interface, decode dengan fields.
 package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"os"
 	"time"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/fields"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/fields"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
+func envOr(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return def
+}
+
 func main() {
+	addr := flag.String("addr", envOr("ROS_ADDR", "192.168.88.1:8728"), "alamat API RouterOS")
+	user := flag.String("user", envOr("ROS_USER", "admin"), "username API")
+	pass := flag.String("pass", envOr("ROS_PASS", ""), "password API")
+	flag.Parse()
+
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 
 	sess, err := rosrun.Open(ctx, rosrun.Config{
-		Address:  "192.168.88.1:8728",
-		Username: "admin",
-		Password: "r00t",
+		Address:  *addr,
+		Username: *user,
+		Password: *pass,
 		Timeout:  10 * time.Second,
+		Status:   rosrun.StatusConfig{Disable: true},
 	})
 	if err != nil {
 		panic(err)
@@ -30,7 +45,7 @@ func main() {
 	if !ok {
 		panic("interface tidak ada di catalog")
 	}
-	req, err := res.Build("list", ros.Plan{Delivery: ros.DeliveryOnce}, ros.Params{})
+	req, err := res.Build("list", ros.Once(), ros.Params{})
 	if err != nil {
 		panic(err)
 	}

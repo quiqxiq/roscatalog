@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"example.com/roscatalog/fields"
+	"github.com/quiqxiq/roscatalog/fields"
 )
 
 // Sale adalah satu baris laporan penjualan Mikhmon. Name mengikuti konvensi

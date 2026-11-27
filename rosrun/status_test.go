@@ -35,6 +35,7 @@ func TestStatusUsesNativePingRegardlessOfStream(t *testing.T) {
 	s := openMock(t, m, func(c *Config) {
 		c.Poll = true // status tetap harus native stream
 		c.Status = StatusConfig{
+			Target:             DefaultStatusTarget,
 			PingInterval:       time.Second,
 			ReplyTimeout:       5 * time.Second,
 			SuppressTLSWarning: true,
@@ -99,7 +100,7 @@ func TestStatusRequestHonorsPingInterval(t *testing.T) {
 func TestStatusWarnsTLSByDefault(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, func(c *Config) {
-		c.Status = StatusConfig{ReplyTimeout: 5 * time.Second}
+		c.Status = StatusConfig{Target: DefaultStatusTarget, ReplyTimeout: 5 * time.Second}
 	})
 
 	waitFor(t, 4*time.Second, func() bool { return s.Status().Connected }, "status ping pertama")
@@ -118,6 +119,7 @@ func TestStatusTimeoutBecomesError(t *testing.T) {
 	m.pingFail.Store(true)
 	s := openMock(t, m, func(c *Config) {
 		c.Status = StatusConfig{
+			Target:             DefaultStatusTarget,
 			PingInterval:       time.Second,
 			ReplyTimeout:       time.Second,
 			SuppressTLSWarning: true,
@@ -126,7 +128,7 @@ func TestStatusTimeoutBecomesError(t *testing.T) {
 
 	waitFor(t, 5*time.Second, func() bool {
 		st := s.Status()
-		return st.State == StatusError && errors.Is(st.Err, ErrStatusTimeout)
+		return st.State == StatusError && errors.Is(st.Err, ErrStatusTimeout) && st.APIConnected && !st.PingHealthy
 	}, "status error karena ping timeout")
 }
 
@@ -134,6 +136,7 @@ func TestWatchStatusRealtime(t *testing.T) {
 	m := newMock(t)
 	s := openMock(t, m, func(c *Config) {
 		c.Status = StatusConfig{
+			Target:             DefaultStatusTarget,
 			PingInterval:       time.Second,
 			ReplyTimeout:       5 * time.Second,
 			SuppressTLSWarning: true,
@@ -189,10 +192,25 @@ func TestStatusDisabledStillReportsConnections(t *testing.T) {
 	s := openMock(t, m, nil) // openMock menonaktifkan status
 
 	st := s.Status()
-	if !st.Connected || st.State != StatusConnected {
+	if !st.Connected || !st.APIConnected || st.State != StatusConnected {
 		t.Errorf("status tanpa ping: %+v", st)
 	}
 	if len(m.callsTo("/ping")) != 0 {
 		t.Error("status disabled tidak boleh mengirim /ping")
+	}
+}
+
+func TestStatusDefaultDoesNotPingExternal(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, func(c *Config) {
+		c.Status = StatusConfig{SuppressTLSWarning: true}
+	})
+	time.Sleep(50 * time.Millisecond)
+	st := s.Status()
+	if !st.APIConnected || !st.Connected || st.State != StatusConnected {
+		t.Errorf("API-only status: %+v", st)
+	}
+	if len(m.callsTo("/ping")) != 0 {
+		t.Error("default StatusConfig without Target must not send /ping")
 	}
 }

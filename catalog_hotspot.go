@@ -20,9 +20,13 @@ func init() {
 			List("name", "hotspot-address", "dns-name", "html-directory", "login-by",
 				"use-radius", "rate-limit", "http-cookie-lifetime", "install-hotspot-queue",
 				"mac-auth-mode", "comment").
-			CRUD(P("name"), P("hotspot-address", "dns-name", "html-directory", "login-by",
+			Add(P("name"), P("hotspot-address", "dns-name", "html-directory", "login-by",
 				"use-radius", "rate-limit", "http-cookie-lifetime", "install-hotspot-queue",
-				"mac-auth-mode", "radius-mac-format", "smtp-server", "comment")),
+				"mac-auth-mode", "radius-mac-format", "smtp-server", "comment")).
+			Set("name", "hotspot-address", "dns-name", "html-directory", "login-by",
+				"use-radius", "rate-limit", "http-cookie-lifetime", "install-hotspot-queue",
+				"mac-auth-mode", "radius-mac-format", "smtp-server", "comment").
+			Remove(""),
 
 		// -------------------------------------------------------------------
 		// User profile (dipakai Mikhmon untuk paket voucher)
@@ -38,10 +42,15 @@ func init() {
 				"parent-queue", "mac-cookie-timeout", "add-mac-cookie", "transparent-proxy",
 				"on-login", "on-logout", "insert-queue-before", "comment").
 			Hint("on-login memuat script expire/harga Mikhmon; ambil hanya saat perlu").
-			CRUD(P("name"), P("rate-limit", "shared-users", "session-timeout", "idle-timeout",
+			Add(P("name"), P("rate-limit", "shared-users", "session-timeout", "idle-timeout",
 				"keepalive-timeout", "status-autorefresh", "address-pool", "address-list",
 				"parent-queue", "mac-cookie-timeout", "add-mac-cookie", "transparent-proxy",
-				"on-login", "on-logout", "comment")),
+				"on-login", "on-logout", "comment")).
+			Set("name", "rate-limit", "shared-users", "session-timeout", "idle-timeout",
+				"keepalive-timeout", "status-autorefresh", "address-pool", "address-list",
+				"parent-queue", "mac-cookie-timeout", "add-mac-cookie", "transparent-proxy",
+				"on-login", "on-logout", "comment").
+			Remove(""),
 
 		// -------------------------------------------------------------------
 		// User (voucher)

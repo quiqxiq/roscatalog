@@ -86,10 +86,10 @@ func init() {
 			P("name", "cpu", "usage"),
 			true),
 
-		Table("tool-sniffer", GroupTools, "Sniffer (paket sniffing)", "/tool/sniffer").
+		Single("tool-sniffer", GroupTools, "Sniffer (paket sniffing)", "/tool/sniffer").
 			Describe("CHR-103 fields (file-limit ... streaming-server).").
 			Filter("interface", "file-name", "streaming-server").
-			List("id", "file-limit", "file-name", "filter-cpu", "filter-direction",
+			List("file-limit", "file-name", "filter-cpu", "filter-direction",
 				"filter-dst-ip-address", "filter-dst-ipv6-address", "filter-dst-mac-address",
 				"filter-dst-port", "filter-interface", "filter-ip-address", "filter-ip-protocol",
 				"filter-ipv6-address", "filter-mac-address", "filter-mac-protocol",
@@ -109,16 +109,6 @@ func init() {
 			Do("start", SelNone, nil, nil, false, "jalankan sniffer").
 			Do("stop", SelNone, nil, nil, false, "hentikan sniffer").
 			Do("save", SelNone, nil, P("file-name"), false, "simpan sniffer sebagai file"),
-
-		Tool("console", GroupTools, "Console (execute)", "/execute", nil, nil, false).
-			Describe("CHR-192/103 tidak punya /execute; execute console script."),
-
-		Tool("menu", GroupTools, "Menu API", "/menu", nil, nil, false).
-			Describe("CHR-192/103 tidak punya /menu."),
-
-		Table("tool-ping-status", GroupTools, "Ping status (baris terakhir)", "/tool/ping").
-			List("time", "response-time", "status", "min-rtt", "max-rtt").
-			Describe("CHR-192/103 tidak punya /tool/ping; lihat tool-ping (/ping)."),
 
 		Table("tool-netwatch", GroupTools, "Netwatch (monitor host up/down)", "/tool/netwatch").
 			Describe("Perubahan status muncul sebagai perubahan properti status/since; listen layak dicoba, "+

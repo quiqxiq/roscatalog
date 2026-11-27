@@ -32,9 +32,13 @@ func init() {
 			List("name", "local-address", "remote-address", "rate-limit", "parent-queue",
 				"address-list", "dns-server", "only-one", "use-compression", "use-encryption",
 				"session-timeout", "idle-timeout", "change-tcp-mss", "comment").
-			CRUD(P("name"), P("local-address", "remote-address", "rate-limit", "parent-queue",
+			Add(P("name"), P("local-address", "remote-address", "rate-limit", "parent-queue",
 				"address-list", "dns-server", "only-one", "session-timeout", "idle-timeout",
-				"change-tcp-mss", "on-up", "on-down", "comment")),
+				"change-tcp-mss", "on-up", "on-down", "comment")).
+			Set("name", "local-address", "remote-address", "rate-limit", "parent-queue",
+				"address-list", "dns-server", "only-one", "session-timeout", "idle-timeout",
+				"change-tcp-mss", "on-up", "on-down", "comment").
+			Remove(""),
 
 		Single("ppp-aaa", GroupPPP, "PPP AAA (RADIUS untuk PPP)", "/ppp/aaa").
 			Check().

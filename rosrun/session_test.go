@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func openMock(t *testing.T, m *mock, mutate func(*Config)) *MikroTik {
@@ -258,7 +258,7 @@ func TestConfigDefaults(t *testing.T) {
 	if c.PollEvery != 5*time.Second {
 		t.Errorf("PollEvery = %s", c.PollEvery)
 	}
-	if c.Status.Target != "8.8.8.8" || c.Status.PingInterval != 0 || c.Status.ReplyTimeout != 15*time.Second {
+	if c.Status.Target != "" || c.Status.PingInterval != 0 || c.Status.ReplyTimeout != 15*time.Second {
 		t.Errorf("status defaults = %+v", c.Status)
 	}
 	if c.Cache.TTL != 5*time.Second || c.Cache.MaxEntries != 64 {

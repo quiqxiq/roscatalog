@@ -25,7 +25,9 @@ func init() {
 		Table("ip-pool", GroupIP, "IP pool", "/ip/pool").
 			Filter("name").
 			List("name", "ranges", "next-pool", "comment").
-			CRUD(P("name", "ranges"), P("next-pool", "comment")),
+			Add(P("name", "ranges"), P("next-pool", "comment")).
+			Set("name", "ranges", "next-pool", "comment").
+			Remove(""),
 
 		Table("ip-pool-used", GroupIP, "IP pool terpakai", "/ip/pool/used").
 			Filter("pool", "address", "owner").
@@ -73,7 +75,9 @@ func init() {
 
 		Table("dhcp-server-network", GroupIP, "DHCP server network", "/ip/dhcp-server/network").
 			List("address", "gateway", "dns-server", "domain", "comment").
-			CRUD(P("address"), P("gateway", "dns-server", "domain", "comment")),
+			Add(P("address"), P("gateway", "dns-server", "domain", "comment")).
+			Set("address", "gateway", "dns-server", "domain", "comment").
+			Remove(""),
 
 		Table("dhcp-lease", GroupIP, "DHCP lease", "/ip/dhcp-server/lease").
 			Check().
@@ -105,14 +109,14 @@ func init() {
 
 		Table("ipsec-policy", GroupIP, "IPsec policy", "/ip/ipsec/policy").
 			Filter("peer", "dst-address", "action", "protocol").
-			List("id", "dst-address", "protocol", "action", "peer", "disabled", "template"),
+			List("dst-address", "protocol", "action", "peer", "disabled", "template"),
 
 		Table("ipsec-active-peers", GroupIP, "IPsec active peers", "/ip/ipsec/active-peers").
-			List("id", "identity", "address", "state", "dpd-state", "phase1-lifetime",
+			List("identity", "address", "state", "dpd-state", "phase1-lifetime",
 				"phase2-lifetime"),
 
 		Table("ipsec-installed-sa", GroupIP, "IPsec installed SA", "/ip/ipsec/installed-sa").
-			List("id", "name", "security-profile", "phase1-lifetime", "phase2-lifetime",
+			List("name", "security-profile", "phase1-lifetime", "phase2-lifetime",
 				"dont-send-deltas", "lifetime-strict-bytes-kb"),
 
 		Single("discovery-settings", GroupIP, "neighbor discovery settings", "/ip/neighbor/discovery-settings").
@@ -120,12 +124,12 @@ func init() {
 			List("name", "interface", "address", "mac-address", "identity", "platform"),
 
 		Table("routing-rule", GroupIP, "Routing rule", "/routing/rule").
-			List("id", "table", "disabled"),
+			List("table", "disabled"),
 
 		Table("ipv6-route", GroupIP, "IPv6 route", "/ipv6/route").
 			Filter("dst-address", "gateway", "distance", "routing-table", "scope", "target-scope").
-			List("id", "active", "connect", "distance", "dst-address", "dynamic", "gateway",
-				"immediate-gw", "inactive", "routing-table", "scope", "target-scope").
+			List("active", "connect", "distance", "dst-address", "dynamic", "gateway",
+				"immediate-gw", "inactive", "routing-table", "scope", "target-scope", "disabled").
 			CRUD(P("dst-address", "gateway"), P("distance", "routing-table", "scope", "target-scope",
 				"immediate-gw", "comment")),
 

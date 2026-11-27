@@ -200,15 +200,34 @@ func argsOfValue(v reflect.Value, out map[string]string) error {
 			fv = fv.Elem()
 		}
 		name, opts, use := rosTag(f)
-		if !use || name == "" || fv.Kind() != reflect.String {
+		if !use || name == "" {
 			continue
 		}
-		s := fv.String()
-		if s == "" && opts["omitempty"] {
+		var s string
+		var empty bool
+		switch fv.Kind() {
+		case reflect.String:
+			s = fv.String()
+			empty = s == ""
+		case reflect.Bool:
+			if fv.Bool() {
+				s = "yes"
+			} else {
+				s = "no"
+				empty = true
+			}
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			empty = fv.IsZero()
+			s = fmt.Sprint(fv.Interface())
+		default:
 			continue
 		}
-		if s == "" && opts["required"] {
-			return fmt.Errorf("ArgsOf: field %q wajib diisi", f.Name)
+		if empty && opts["required"] {
+			return fmt.Errorf("%w: field %q is required", ErrMissingArgument, f.Name)
+		}
+		if empty && opts["omitempty"] {
+			continue
 		}
 		out[name] = s
 	}

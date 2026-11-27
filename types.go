@@ -197,7 +197,7 @@ type Query struct {
 
 func (q Query) word() (string, error) {
 	if q.Prop == "" {
-		return "", fmt.Errorf("query tanpa properti")
+		return "", fmt.Errorf("%w: empty property", ErrInvalidQuery)
 	}
 	switch q.Op {
 	case "", OpEq:
@@ -211,7 +211,7 @@ func (q Query) word() (string, error) {
 	case OpNotHas:
 		return "?-" + q.Prop, nil
 	}
-	return "", fmt.Errorf("operator query tidak dikenal: %q", q.Op)
+	return "", fmt.Errorf("%w: unknown operator %q", ErrInvalidQuery, q.Op)
 }
 
 // Params adalah masukan untuk View.Sentence.
@@ -240,10 +240,17 @@ type Params struct {
 
 // FormatTime mengubah durasi Go ke format waktu RouterOS (1s, 500ms).
 func FormatTime(d time.Duration) string {
+	if d <= 0 {
+		return "0s"
+	}
 	if d%time.Second == 0 {
 		return fmt.Sprintf("%ds", int64(d/time.Second))
 	}
-	return fmt.Sprintf("%dms", int64(d/time.Millisecond))
+	ms := int64(d / time.Millisecond)
+	if ms < 1 {
+		ms = 1
+	}
+	return fmt.Sprintf("%dms", ms)
 }
 
 // exclusiveFlagGroups berisi flag print yang tidak boleh dipakai bersamaan.
@@ -269,7 +276,7 @@ func checkExclusive(flags []string) error {
 			}
 		}
 		if n > 1 {
-			return fmt.Errorf("flag %s saling eksklusif", strings.Join(group, "/"))
+			return fmt.Errorf("%w: %s are mutually exclusive", ErrInvalidFlag, strings.Join(group, "/"))
 		}
 	}
 	return nil
@@ -314,6 +321,9 @@ func (v View) ProplistWords() []string {
 
 // Sentence menyusun word list API untuk view ini.
 func (v View) Sentence(p Params) ([]string, error) {
+	if strings.TrimSpace(v.Command) == "" {
+		return nil, fmt.Errorf("%w: empty view command", ErrInvalidResource)
+	}
 	w := []string{v.Command}
 
 	switch v.Mode {
@@ -327,7 +337,7 @@ func (v View) Sentence(p Params) ([]string, error) {
 		}
 		for _, k := range sortedKeys(p.Args) {
 			if !declared[k] {
-				return nil, fmt.Errorf("%s: argumen %q tidak dikenal", v.Command, k)
+				return nil, fmt.Errorf("%w: %s: unknown argument %q", ErrInvalidQuery, v.Command, k)
 			}
 		}
 		for _, a := range v.Args {
@@ -335,8 +345,8 @@ func (v View) Sentence(p Params) ([]string, error) {
 				if a.Name == "interval" && val != "" {
 					if d, err := time.ParseDuration(val); err == nil {
 						if d < MinPrintInterval || d > MaxPrintInterval {
-							return nil, fmt.Errorf("%s: interval %s di luar batas %s..%s",
-								v.Command, d, MinPrintInterval, MaxPrintInterval)
+							return nil, fmt.Errorf("%w: %s: interval %s out of range %s..%s",
+								ErrInvalidInterval, v.Command, d, MinPrintInterval, MaxPrintInterval)
 						}
 					}
 				}
@@ -349,16 +359,16 @@ func (v View) Sentence(p Params) ([]string, error) {
 			d = v.Interval
 		}
 		if d < MinPrintInterval {
-			return nil, fmt.Errorf("%s: interval %s di bawah batas %s", v.Command, d, MinPrintInterval)
+			return nil, fmt.Errorf("%w: %s: interval %s below minimum %s", ErrInvalidInterval, v.Command, d, MinPrintInterval)
 		}
 		if d > MaxPrintInterval {
-			return nil, fmt.Errorf("%s: interval %s di atas batas %s", v.Command, d, MaxPrintInterval)
+			return nil, fmt.Errorf("%w: %s: interval %s above maximum %s", ErrInvalidInterval, v.Command, d, MaxPrintInterval)
 		}
 		w = append(w, "=interval="+FormatTime(d))
 		fallthrough
 	default:
 		if len(p.Args) > 0 && v.Mode != ModeNative {
-			return nil, fmt.Errorf("%s: Args hanya untuk view native", v.Command)
+			return nil, fmt.Errorf("%w: %s: Args only supported on native views", ErrInvalidQuery, v.Command)
 		}
 	}
 
@@ -432,7 +442,8 @@ func (a Action) SentenceWith(selector string, flags []string, args map[string]st
 		w = append(w, "="+f+"=")
 	}
 	for _, r := range a.Required {
-		if _, ok := args[r]; !ok {
+		val, ok := args[r]
+		if !ok || strings.TrimSpace(val) == "" {
 			return nil, fmt.Errorf("%w: %s: %q", ErrMissingArgument, a.Command, r)
 		}
 	}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"example.com/roscatalog/fields"
+	"github.com/quiqxiq/roscatalog/fields"
 )
 
 // QuickPrintPreset adalah preset cetak voucher Mikhmon. Source-nya adalah

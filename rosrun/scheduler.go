@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 // feedScheduler menjalankan semua feed DeliveryPoll untuk satu sesi dari SATU
@@ -26,6 +26,7 @@ type feedScheduler struct {
 	stop    chan struct{}
 	done    chan struct{}
 	started bool
+	wg      sync.WaitGroup
 }
 
 func newFeedScheduler(c *feedCache) *feedScheduler {
@@ -89,13 +90,18 @@ func (s *feedScheduler) remove(entry *cacheEntry) {
 // cache sudah ditutup.
 func (s *feedScheduler) stopAll() {
 	s.mu.Lock()
-	defer s.mu.Unlock()
 	if !s.started {
+		s.mu.Unlock()
 		return
 	}
 	s.started = false
 	close(s.stop)
 	s.tasks = map[*cacheEntry]*pollTask{}
+	s.mu.Unlock()
+}
+
+func (s *feedScheduler) wait() {
+	s.wg.Wait()
 }
 
 func (s *feedScheduler) run(now time.Time) {
@@ -116,7 +122,9 @@ func (s *feedScheduler) run(now time.Time) {
 	s.mu.Unlock()
 
 	for _, task := range due {
+		s.wg.Add(1)
 		go func(task *pollTask) {
+			defer s.wg.Done()
 			defer func() {
 				s.mu.Lock()
 				task.running = false

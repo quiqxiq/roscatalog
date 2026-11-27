@@ -111,8 +111,7 @@ v6 yang butuh field lama pakai resource/view sendiri atau `Raw`/`Params.Proplist
   - `MikroTik.WatchAuto` / `Manager.WatchAutoAll` tanpa parameter versi,
   - flag `-ver` di `cmd/rosverify` dan `cmd/roscheck`.
 - View versi di katalog: `ip-route` (field v7: `routing-table`, bukan `routing-mark`
-  v6) dan `system-health` (baris `name/value/type`) hanya v7 sekarang;
-  katalog `zz_catalog_enrich.go` dibuang.
+  v6) dan `system-health` (baris `name/value/type`) hanya v7 sekarang.
 - `ErrActionNotFound` (was dead; `Resource.Action` kembali `(Action, bool)`).
 
 ### Added

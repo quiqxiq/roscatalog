@@ -32,8 +32,11 @@ import (
 	"github.com/quiqxiq/goros/v4"
 	"github.com/quiqxiq/goros/v4/proto"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
+
+// ErrQueueOverflow returned when stream consumer cannot keep up with router sentences.
+var ErrQueueOverflow = errors.New("rosrun: stream queue overflow")
 
 // Kind adalah jenis event.
 type Kind string
@@ -270,9 +273,25 @@ func (r *Runner) WatchCmd(ctx context.Context, reqable ros.Requestable) (<-chan 
 // Eksekusi dasar
 // ---------------------------------------------------------------------------
 
+func stripTagWords(sentence []string) []string {
+	for _, w := range sentence {
+		if strings.HasPrefix(w, ".tag=") {
+			out := make([]string, 0, len(sentence)-1)
+			for _, x := range sentence {
+				if !strings.HasPrefix(x, ".tag=") {
+					out = append(out, x)
+				}
+			}
+			return out
+		}
+	}
+	return sentence
+}
+
 // run menjalankan RunArgs di goroutine agar bisa ditinggalkan saat ctx selesai
 // tanpa memakai varian Context milik library.
 func (r *Runner) run(ctx context.Context, sentence []string) (*routeros.Reply, error) {
+	sentence = stripTagWords(sentence)
 	if len(sentence) == 0 {
 		return nil, errors.New("rosrun: empty sentence")
 	}
@@ -286,8 +305,15 @@ func (r *Runner) run(ctx context.Context, sentence []string) (*routeros.Reply, e
 	}
 	var releaseLim func()
 	if r.limiter != nil {
+		var err error
+		releaseLim, err = r.limiter.acquireCtx(ctx)
+		if err != nil {
+			if releaseGate != nil {
+				releaseGate()
+			}
+			return nil, err
+		}
 		r.limiter.note(sentence[0])
-		releaseLim = r.limiter.acquire()
 	}
 
 	type result struct {
@@ -635,7 +661,7 @@ func (r *Runner) stream(ctx context.Context, req ros.Request, emit func(Event) b
 	}
 
 	for {
-		l, err := r.c.ListenArgs(sentence)
+		l, err := r.c.ListenArgs(stripTagWords(sentence))
 		if err != nil {
 			return err
 		}
@@ -651,7 +677,7 @@ func (r *Runner) stream(ctx context.Context, req ros.Request, emit func(Event) b
 			r.cancel(l) // pembatalan eksplisit: pasti terkirim sebelum Watch menutup channel
 		}
 		if q.overflowed() {
-			return fmt.Errorf("rosrun: antrean stream penuh (>%d kalimat); konsumen terlalu lambat", r.maxBuffered())
+			return fmt.Errorf("%w (>%d sentences); slow consumer", ErrQueueOverflow, r.maxBuffered())
 		}
 		if errors.Is(cerr, errStreamStale) {
 			// Watchdog: channel diam terlalu lama. Buka ulang channel yang sama.
@@ -886,5 +912,10 @@ func (r *Runner) consumeCycles(ctx context.Context, req ros.Request, q *queue, e
 			}
 		}
 		cur = append(cur, trim(raw, req))
+		if max := r.maxBuffered(); max > 0 && len(cur) >= max {
+			if !flush() {
+				return got, nil
+			}
+		}
 	}
 }

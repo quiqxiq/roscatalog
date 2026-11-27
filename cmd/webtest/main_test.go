@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"example.com/roscatalog/rosrun"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 func TestParseSystemMetrics(t *testing.T) {
@@ -187,6 +187,12 @@ func TestServerEndpoints(t *testing.T) {
 		if len(routers) != 1 {
 			t.Fatalf("expected 1 router, got %d", len(routers))
 		}
+		if routers[0].Config.Password != "" {
+			t.Errorf("GET /api/routers leaked raw password")
+		}
+		if !routers[0].Config.HasPassword {
+			t.Errorf("expected has_password=true")
+		}
 
 		// C. GET /api/routers/{id}
 		reqGet := httptest.NewRequest(http.MethodGet, "/api/routers/test-router-unit-01", nil)
@@ -266,5 +272,29 @@ func TestHealthSSEEndpoint(t *testing.T) {
 	}
 	if !strings.Contains(body, "sse-router-01") {
 		t.Errorf("SSE health output does not contain router id 'sse-router-01'")
+	}
+}
+
+func TestServerTokenAuth(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	hub := NewRouterHub(ctx)
+	defer hub.Close()
+	server := NewServerWithToken(hub, "secret-tok")
+
+	req := httptest.NewRequest(http.MethodGet, "/api/routers", nil)
+	w := httptest.NewRecorder()
+	server.ServeHTTP(w, req)
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("unauthenticated GET /api/routers = %d, want 401", w.Code)
+	}
+
+	reqAuth := httptest.NewRequest(http.MethodGet, "/api/routers", nil)
+	reqAuth.Header.Set("Authorization", "Bearer secret-tok")
+	wAuth := httptest.NewRecorder()
+	server.ServeHTTP(wAuth, reqAuth)
+	if wAuth.Code != http.StatusOK {
+		t.Fatalf("authenticated GET /api/routers = %d, want 200", wAuth.Code)
 	}
 }

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 var groupTitle = map[ros.Group]string{

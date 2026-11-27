@@ -13,7 +13,7 @@ cat := ros.Builtin()
 res, err := cat.Find("hotspot-active")      // err = ErrResourceNotFound bila hilang
 res, ok := cat.Lookup("hotspot-active")     // boolean lookup
 
-all := cat.All()                            // urut kan tanah + ID
+all := cat.All()                            // urut menurut grup + ID
 hs := cat.ByGroup(ros.GroupHotspot)         // urut ID (GroupHotspot, GroupPPP, GroupIP, GroupFirewall, GroupQueue, GroupInterface, GroupSystem, GroupTools)
 n := cat.Len()
 ```
@@ -37,7 +37,7 @@ if err := cat.Validate(); err != nil { }            // memeriksa semua (ID koson
 type Resource struct {
 	ID, Group, Title, Path                 // identitas
 	Singleton bool                         // menu settings (tidak punya .id per baris)
-	Filter   []string                      // field aman sebagai filter ?prop=value
+	Filters  []string                      // field aman sebagai filter ?prop=value
 	Views    []View                        // data: list, live, events, tail, monitor, run...
 	Actions  []Action                      // writes: set, add, remove, enable...
 	Notes    string

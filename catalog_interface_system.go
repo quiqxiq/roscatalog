@@ -72,7 +72,9 @@ func init() {
 
 		Table("interface-list", GroupInterface, "Interface list", "/interface/list").
 			List("name", "comment").
-			CRUD(P("name"), P("comment")),
+			Add(P("name"), P("comment")).
+			Set("name", "comment").
+			Remove(""),
 
 		Table("interface-list-member", GroupInterface, "Interface list member", "/interface/list/member").
 			Filter("list", "interface").
@@ -82,17 +84,17 @@ func init() {
 		Table("interface-bridge-vlan", GroupInterface, "Bridge VLAN", "/interface/bridge/vlan").
 			Describe("CHR 7.24.6: CHR tidak punya menu ini; field dari MikroDash (interface-bridge-vlan/print).").
 			Filter("bridge", "vlan-ids").
-			List("id", "bridge", "vlan-ids", "tagged", "untagged", "current-tagged", "dynamic", "disabled").
-			CRUD(P("bridge"), P("vlan-ids", "tagged", "untagged", "dynamic", "disabled")),
+			List("bridge", "vlan-ids", "tagged", "untagged", "current-tagged", "dynamic", "disabled").
+			CRUD(P("bridge"), P("vlan-ids", "tagged", "untagged", "disabled")),
 
 		Table("interface-detect-internet-state", GroupInterface, "detect-internet status", "/interface/detect-internet/state").
 			Describe("Statis; field dari MikroDash (interface-detect-internet-state/print).").
-			List("id", "name", "state", "state-change-time", "interface"),
+			List("name", "state", "state-change-time", "interface"),
 
 		Table("wireguard-peers", GroupInterface, "WireGuard peers", "/interface/wireguard/peers").
 			Describe("CHR 7.24.6: CHR mengirim kolom spesifik router; proplist sebagai konsistensi katalog").
 			Filter("name", "interface").
-			List("id", "interface", "name", "comment", "public-key", "allowed-address"),
+			List("interface", "name", "comment", "public-key", "allowed-address"),
 	)
 
 	// -----------------------------------------------------------------------
@@ -122,7 +124,7 @@ func init() {
 		Single("system-routerboard", GroupSystem, "RouterBOARD", "/system/routerboard").
 			List("routerboard", "model", "serial-number", "firmware-type", "factory-firmware",
 				"current-firmware", "upgrade-firmware").
-			Do("upgrade", SelNone, nil, nil, false, "tulis firmware baru; berlaku setelah reboot"),
+			Do("upgrade", SelNone, nil, nil, true, "tulis firmware baru; berlaku setelah reboot"),
 
 		Single("system-identity", GroupSystem, "Identity", "/system/identity").
 			List("name").
@@ -155,7 +157,9 @@ func init() {
 				"run-count", "source", "comment").
 			Hint("source bisa panjang; ambil hanya saat perlu").
 			Count().
-			CRUD(P("name", "source"), P("owner", "policy", "dont-require-permissions", "comment")).
+			Add(P("name", "source"), P("owner", "policy", "dont-require-permissions", "comment")).
+			Set("name", "source", "owner", "policy", "dont-require-permissions", "comment").
+			Remove("").
 			Do("run", SelNumber, nil, nil, false, "jalankan script"),
 
 		Table("system-scheduler", GroupSystem, "Scheduler", "/system/scheduler").
@@ -173,7 +177,7 @@ func init() {
 		Single("system-export", GroupSystem, "Export konfigurasi", "/export").
 			Describe("Gunakan =file= lalu ambil file-nya. RouterOS 7 menyembunyikan secret secara default "+
 				"(show-sensitive untuk menampilkan); RouterOS 6 memakai hide-sensitive.").
-			Do("export", SelNone, nil, P("file", "compact", "terse", "verbose", "hide-sensitive",
+			DoAt("/export", "export", SelNone, nil, P("file", "compact", "terse", "verbose", "hide-sensitive",
 				"show-sensitive"), false, ""),
 
 		Single("system-power", GroupSystem, "Reboot / shutdown", "/system").
@@ -195,7 +199,7 @@ func init() {
 			Filter("name", "type").
 			List("name", "type", "size", "creation-time").
 			Count().
-			Add(P("name", "type", "contents", "permission", "owner", "group"), nil).
+			Add(P("name"), P("type", "contents", "permission", "owner", "group")).
 			Set(P("name", "contents", "permission", "owner", "group")...).
 			Remove("hapus file di router"),
 

@@ -22,8 +22,8 @@ import (
 	"sync"
 	"time"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 type stringList []string
@@ -40,7 +40,7 @@ func main() {
 	user := flag.String("user", "admin", "user API")
 	pass := flag.String("pass", "", "password API")
 	useTLS := flag.Bool("tls", false, "pakai API TLS (8729)")
-	insecure := flag.Bool("insecure", true, "lewati verifikasi sertifikat TLS")
+	insecure := flag.Bool("insecure", false, "lewati verifikasi sertifikat TLS")
 	duration := flag.Duration("duration", 20*time.Second, "lama pengujian")
 	timeout := flag.Duration("timeout", 10*time.Second, "batas dial+login")
 	streamEvery := flag.Duration("stream-every", time.Second, "interval stream (1s..5s)")

@@ -26,6 +26,7 @@ type managedConn struct {
 	client *routeros.Client
 	errC   <-chan error
 	runner *Runner
+	cancel context.CancelFunc
 
 	down atomic.Bool
 
@@ -33,9 +34,9 @@ type managedConn struct {
 	lastErr error
 }
 
-func newManagedConn(name string, client *routeros.Client, errC <-chan error, run *Runner) *managedConn {
+func newManagedConn(name string, client *routeros.Client, errC <-chan error, run *Runner, cancel context.CancelFunc) *managedConn {
 	c := &managedConn{name: name}
-	c.set(client, errC, run)
+	c.set(client, errC, run, cancel)
 	return c
 }
 
@@ -57,10 +58,45 @@ func (c *managedConn) errChan() <-chan error {
 	return c.errC
 }
 
-func (c *managedConn) set(client *routeros.Client, errC <-chan error, run *Runner) {
+func (c *managedConn) set(client *routeros.Client, errC <-chan error, run *Runner, cancel context.CancelFunc) (*routeros.Client, context.CancelFunc) {
 	c.mu.Lock()
-	c.client, c.errC, c.runner = client, errC, run
+	oldClient, oldCancel := c.client, c.cancel
+	c.client, c.errC, c.runner, c.cancel = client, errC, run, cancel
 	c.mu.Unlock()
+	return oldClient, oldCancel
+}
+
+func (c *managedConn) replace(fresh *managedConn) {
+	if fresh == nil {
+		return
+	}
+	fresh.mu.Lock()
+	client, errC, runner, cancel := fresh.client, fresh.errC, fresh.runner, fresh.cancel
+	fresh.client, fresh.errC, fresh.runner, fresh.cancel = nil, nil, nil, nil
+	fresh.mu.Unlock()
+
+	oldClient, oldCancel := c.set(client, errC, runner, cancel)
+	if oldClient != nil {
+		_ = oldClient.Close()
+	}
+	if oldCancel != nil {
+		oldCancel()
+	}
+}
+
+func (c *managedConn) close() error {
+	c.mu.Lock()
+	client, cancel := c.client, c.cancel
+	c.client, c.errC, c.runner, c.cancel = nil, nil, nil, nil
+	c.mu.Unlock()
+	var err error
+	if client != nil {
+		err = client.Close()
+	}
+	if cancel != nil {
+		cancel()
+	}
+	return err
 }
 
 func (c *managedConn) markDown(err error) {
@@ -117,8 +153,9 @@ func dial(ctx context.Context, cfg Config, name string, lim *limiter) (*managedC
 	// yang konsumennya lambat memblokir dispatcher bersama.
 	client.Queue = cfg.Queue
 
-	errC := client.AsyncContext(context.Background())
-	conn := newManagedConn(name, client, errC, newRunner(client, cfg, lim))
+	asyncCtx, asyncCancel := context.WithCancel(context.Background())
+	errC := client.AsyncContext(asyncCtx)
+	conn := newManagedConn(name, client, errC, newRunner(client, cfg, lim), asyncCancel)
 	return conn, nil
 }
 
@@ -266,7 +303,14 @@ func (m *MikroTik) reconnect(conn *managedConn) bool {
 			continue
 		}
 
-		conn.set(fresh.get(), fresh.errChan(), fresh.run())
+		select {
+		case <-m.stopCh:
+			_ = fresh.close()
+			return false
+		default:
+		}
+
+		conn.replace(fresh)
 		conn.markUp()
 		m.reconnects.Add(1)
 		m.epochs.bump()

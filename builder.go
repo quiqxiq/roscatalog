@@ -54,27 +54,54 @@ func (r *Resource) add(v View) *Resource {
 	return r
 }
 
-func (r *Resource) last() *View { return &r.Views[len(r.Views)-1] }
+func (r *Resource) last() *View {
+	if len(r.Views) == 0 {
+		return nil
+	}
+	return &r.Views[len(r.Views)-1]
+}
 
 // MarkHeavy menandai view terakhir sebagai tabel besar.
-func (r *Resource) MarkHeavy() *Resource { r.last().Heavy = true; return r }
+func (r *Resource) MarkHeavy() *Resource {
+	if v := r.last(); v != nil {
+		v.Heavy = true
+	}
+	return r
+}
 
 // UseServerProplist mengaktifkan =.proplist= pada view terakhir (untuk command
 // native yang terbukti menerimanya, mis. monitor-traffic).
-func (r *Resource) UseServerProplist() *Resource { r.last().ServerProplist = true; return r }
+func (r *Resource) UseServerProplist() *Resource {
+	if v := r.last(); v != nil {
+		v.ServerProplist = true
+	}
+	return r
+}
 
 // WithoutServerProplist menonaktifkan =.proplist= pada view terakhir.
 // Berguna untuk resource singleton atau menu tertentu yang bermasalah bila
 // proplist dikirim ke router (mis. /system/resource pada RouterOS 6).
-func (r *Resource) WithoutServerProplist() *Resource { r.last().ServerProplist = false; return r }
+func (r *Resource) WithoutServerProplist() *Resource {
+	if v := r.last(); v != nil {
+		v.ServerProplist = false
+	}
+	return r
+}
 
 // Hint mengisi catatan pada view terakhir.
-func (r *Resource) Hint(s string) *Resource { r.last().Note = s; return r }
+func (r *Resource) Hint(s string) *Resource {
+	if v := r.last(); v != nil {
+		v.Note = s
+	}
+	return r
+}
 
 // PrintFlags mendeklarasikan flag print yang didukung view terakhir.
 // Sumbernya adalah /console/inspect; Params.Flags divalidasi terhadap daftar ini.
 func (r *Resource) PrintFlags(flags ...string) *Resource {
-	r.last().AllowedFlags = append([]string(nil), flags...)
+	if v := r.last(); v != nil {
+		v.AllowedFlags = append([]string(nil), flags...)
+	}
 	return r
 }
 
@@ -188,7 +215,12 @@ func (r *Resource) Monitor(selector string, fields ...string) *Resource {
 
 // KeyBy menetapkan properti kunci baris pada view terakhir (mis. "name" untuk
 // monitor-traffic dengan banyak interface), dipakai snapshot dan diff.
-func (r *Resource) KeyBy(prop string) *Resource { r.last().Key = prop; return r }
+func (r *Resource) KeyBy(prop string) *Resource {
+	if v := r.last(); v != nil {
+		v.Key = prop
+	}
+	return r
+}
 
 // ---------------------------------------------------------------------------
 // Aksi
@@ -205,6 +237,22 @@ func (r *Resource) Do(name string, sel Selector, req, opt []string, destructive 
 		Name: name, Command: r.Path + "/" + name, Selector: sel,
 		Required: req, Optional: opt, Destructive: destructive, Note: note,
 	})
+}
+
+// DoAt menambah aksi dengan command eksplisit (mis. command root seperti /export atau /import).
+func (r *Resource) DoAt(command, name string, sel Selector, req, opt []string, destructive bool, note string) *Resource {
+	return r.act(Action{
+		Name: name, Command: command, Selector: sel,
+		Required: req, Optional: opt, Destructive: destructive, Note: note,
+	})
+}
+
+// Command mengganti Command pada aksi terakhir (aman no-op bila belum ada aksi).
+func (r *Resource) Command(command string) *Resource {
+	if len(r.Actions) > 0 {
+		r.Actions[len(r.Actions)-1].Command = command
+	}
+	return r
 }
 
 // ReadDo menambah perintah baca (print, get, find, ...) sebagai action.
@@ -278,10 +326,23 @@ var registry []*Resource
 func register(rs ...*Resource) { registry = append(registry, rs...) }
 
 // All mengembalikan semua resource bawaan, urut menurut grup lalu ID.
-func All() []*Resource { return sortedResources(registry) }
+func All() []*Resource {
+	out := make([]*Resource, len(registry))
+	for i, r := range registry {
+		out[i] = r.Clone()
+	}
+	return sortedResources(out)
+}
 
-// Lookup mencari resource menurut ID.
+// Lookup mencari resource menurut ID (mengembalikan salinan aman).
 func Lookup(id string) (*Resource, bool) {
+	if r, ok := lookupRaw(id); ok {
+		return r.Clone(), true
+	}
+	return nil, false
+}
+
+func lookupRaw(id string) (*Resource, bool) {
 	for _, r := range registry {
 		if r.ID == id {
 			return r, true

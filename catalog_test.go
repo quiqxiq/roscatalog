@@ -349,3 +349,69 @@ func contains(s []string, x string) bool {
 	}
 	return false
 }
+
+func TestAllResourcesValidate(t *testing.T) {
+	all := All()
+	if len(all) == 0 {
+		t.Fatal("catalog is empty")
+	}
+	for _, r := range all {
+		if err := r.Validate(); err != nil {
+			t.Errorf("%s: Validate() failed: %v", r.ID, err)
+		}
+	}
+}
+
+func TestCatalogConsistencyInvariants(t *testing.T) {
+	for _, r := range All() {
+		for _, f := range r.Filters {
+			if f == "id" {
+				t.Errorf("%s: Filter contains literal \"id\" instead of \".id\"", r.ID)
+			}
+		}
+		hasDisabled := false
+		for _, v := range r.Views {
+			for _, p := range v.Proplist {
+				if p == "id" {
+					t.Errorf("%s/%s: Proplist contains literal \"id\" instead of \".id\"", r.ID, v.Name)
+				}
+				if p == "disabled" {
+					hasDisabled = true
+				}
+			}
+		}
+		for _, a := range r.Actions {
+			if (a.Name == "enable" || a.Name == "disable") && !hasDisabled {
+				t.Errorf("%s: has %s action without disabled property in views", r.ID, a.Name)
+			}
+			if strings.HasSuffix(a.Command, "/"+a.Name+"/"+a.Name) {
+				t.Errorf("%s/%s: suspicious double-verb command %q", r.ID, a.Name, a.Command)
+			}
+		}
+	}
+	for _, tc := range []struct {
+		id, action, wantCmd string
+	}{
+		{"system-export", "export", "/export"},
+		{"system-import", "import", "/import"},
+		{"system-reset", "reset-configuration", "/system/reset-configuration"},
+	} {
+		r, ok := Lookup(tc.id)
+		if !ok {
+			t.Fatalf("%s missing", tc.id)
+		}
+		a, ok := r.Action(tc.action)
+		if !ok || a.Command != tc.wantCmd {
+			t.Errorf("%s/%s: Command = %q, want %q", tc.id, tc.action, a.Command, tc.wantCmd)
+		}
+	}
+	for _, id := range []string{"app-settings", "tool-sniffer"} {
+		r, ok := Lookup(id)
+		if !ok {
+			t.Fatalf("%s missing", id)
+		}
+		if a, ok := r.Action("set"); !ok || a.Selector != SelNone {
+			t.Errorf("%s/set: Selector = %q, want SelNone", id, a.Selector)
+		}
+	}
+}

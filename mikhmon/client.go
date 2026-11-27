@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/fields"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/fields"
 )
 
 // ErrNotFound dipakai bila baris yang dicari tidak ada di router.
@@ -356,11 +356,11 @@ func (c *Client) AddSale(ctx context.Context, s Sale) (string, error) {
 
 // Sales membaca laporan penjualan Mikhmon (/system/script dengan comment=mikhmon).
 // Parameter monthOrOwner opsional:
-// - Bila kosong, seluruh laporan penjualan Mikhmon dikembalikan.
-// - Bila diisi (mis. "nov2026", "032024", atau "2024-03"), fungsi secara cerdas
-//   mencoba query server-side terlebih dahulu (format teks & numerik), lalu fallback
-//   ke penyaringan sisi klien agar kompatibel dengan seluruh versi RouterOS
-//   (RouterOS 6, RouterOS 7 < 7.24, dan RouterOS 7.24+ owner=*sys).
+//   - Bila kosong, seluruh laporan penjualan Mikhmon dikembalikan.
+//   - Bila diisi (mis. "nov2026", "032024", atau "2024-03"), fungsi secara cerdas
+//     mencoba query server-side terlebih dahulu (format teks & numerik), lalu fallback
+//     ke penyaringan sisi klien agar kompatibel dengan seluruh versi RouterOS
+//     (RouterOS 6, RouterOS 7 < 7.24, dan RouterOS 7.24+ owner=*sys).
 func (c *Client) Sales(ctx context.Context, monthOrOwner string) ([]map[string]string, error) {
 	monthOrOwner = strings.TrimSpace(monthOrOwner)
 	if monthOrOwner == "" {

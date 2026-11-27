@@ -2,10 +2,12 @@ package rosrun
 
 import (
 	"context"
+	"os"
+	"runtime"
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func waitFor(t *testing.T, d time.Duration, cond func() bool, msg string) {
@@ -116,5 +118,74 @@ func TestCloseEndsWatch(t *testing.T) {
 		}
 	case <-time.After(3 * time.Second):
 		t.Fatal("watch channel not closed after session close")
+	}
+}
+
+func countOpenFDs(t *testing.T) int {
+	t.Helper()
+	entries, err := os.ReadDir("/proc/self/fd")
+	if err != nil {
+		return -1
+	}
+	return len(entries)
+}
+
+func TestReconnectNoGoroutineFDLeak(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, nil)
+	defer s.Close()
+
+	// Warm-up goroutine & fd baseline.
+	time.Sleep(50 * time.Millisecond)
+	baseG := runtime.NumGoroutine()
+	baseFD := countOpenFDs(t)
+
+	for i := 0; i < 5; i++ {
+		want := int64(i + 1)
+		m.dropAll()
+		waitFor(t, 5*time.Second, func() bool {
+			st := s.Stats()
+			return !st.Down && st.Reconnects >= want
+		}, "reconnect cycle")
+	}
+
+	// Beri waktu goroutine async lama selesai setelah cancel()+Close().
+	waitFor(t, 2*time.Second, func() bool {
+		runtime.GC()
+		return runtime.NumGoroutine() <= baseG+2
+	}, "goroutine count to settle after reconnects")
+
+	if baseFD >= 0 {
+		waitFor(t, 2*time.Second, func() bool {
+			return countOpenFDs(t) <= baseFD+2
+		}, "fd count to settle after reconnects")
+	}
+}
+
+func TestOpenCloseNoGoroutineLeak(t *testing.T) {
+	m := newMock(t)
+	// Warm-up.
+	s0 := openMock(t, m, nil)
+	_ = s0.Close()
+	m.dropAll()
+	time.Sleep(50 * time.Millisecond)
+	baseG := runtime.NumGoroutine()
+	baseFD := countOpenFDs(t)
+
+	for i := 0; i < 5; i++ {
+		s := openMock(t, m, nil)
+		_ = s.Close()
+	}
+	m.dropAll()
+
+	waitFor(t, 2*time.Second, func() bool {
+		runtime.GC()
+		return runtime.NumGoroutine() <= baseG+1
+	}, "goroutine count after Open/Close")
+
+	if baseFD >= 0 {
+		waitFor(t, 2*time.Second, func() bool {
+			return countOpenFDs(t) <= baseFD+1
+		}, "fd count after Open/Close")
 	}
 }

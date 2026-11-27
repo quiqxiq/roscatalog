@@ -170,12 +170,17 @@ func (p *PathBuilder) Do(action string, uparamAndArgs ...any) *CmdBuilder {
 		delivery: DeliveryOnce,
 		mode:     ModeOneShot,
 	}
+	if action == "run" {
+		b.selectorKey = "number"
+	}
 	if len(uparamAndArgs) > 0 {
 		first := uparamAndArgs[0]
 		// Jika parameter pertama adalah string skalar (bukan map/struct), jadikan uparam/selector
-		if s, ok := first.(string); ok && len(uparamAndArgs) > 1 {
+		if s, ok := first.(string); ok {
 			b.selector = s
-			b.Args(uparamAndArgs[1:]...)
+			if len(uparamAndArgs) > 1 {
+				b.Args(uparamAndArgs[1:]...)
+			}
 		} else if isDataInput(first) {
 			b.Args(uparamAndArgs...)
 		} else {
@@ -442,21 +447,23 @@ func (b *PrintCmdBuilder) Build() (Request, error) {
 		shape = ShapeRows
 	}
 
+	countOnly := b.switches["count-only"]
 	delivery := b.delivery
-	if b.switches["count-only"] {
+	if countOnly {
 		delivery = DeliveryOnce
 	}
 
 	return Request{
-		ResourceID:     "path:" + strings.TrimPrefix(b.path, "/"),
-		View:           "print",
-		Delivery:       delivery,
-		Mode:           b.mode,
-		Sentence:       sent,
-		Fallback:       fallback,
-		Every:          b.interval,
-		Shape:          shape,
-		Fields:         b.proplist,
+		ResourceID: "path:" + strings.TrimPrefix(b.path, "/"),
+		View:       "print",
+		Delivery:   delivery,
+		Mode:       b.mode,
+		Sentence:   sent,
+		Fallback:   fallback,
+		Every:      b.interval,
+		Shape:      shape,
+		Fields:     b.proplist,
+		CountOnly:  countOnly,
 	}, nil
 }
 
@@ -474,16 +481,23 @@ func (b *PrintCmdBuilder) Request() Request {
 // ========================================================================
 
 type CmdBuilder struct {
-	path     string
-	action   string
-	selector string
-	switches map[string]bool
-	args     map[string]string
-	delivery Delivery
-	mode     Mode
-	interval time.Duration
-	shape    Shape
-	err      error
+	path        string
+	action      string
+	selector    string
+	selectorKey string
+	switches    map[string]bool
+	args        map[string]string
+	delivery    Delivery
+	mode        Mode
+	interval    time.Duration
+	shape       Shape
+	err         error
+}
+
+// SelectorKey overrides the selector parameter name (e.g. ".id", "numbers", "number").
+func (b *CmdBuilder) SelectorKey(key string) *CmdBuilder {
+	b.selectorKey = strings.TrimSpace(key)
+	return b
 }
 
 // Switch menambahkan flag/switch tanpa nilai (misal: "once", "stats", "compact", "show-sensitive").
@@ -555,7 +569,11 @@ func (b *CmdBuilder) Sentence() []string {
 
 	// 1. Selector / numbers
 	if b.selector != "" {
-		words = append(words, "=numbers="+b.selector)
+		selKey := b.selectorKey
+		if selKey == "" {
+			selKey = "numbers"
+		}
+		words = append(words, "="+selKey+"="+b.selector)
 	}
 
 	// 2. Switches

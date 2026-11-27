@@ -952,39 +952,40 @@
         const totalHDDStr = formatBytes(sys.total_hdd);
         const freeHDDStr = formatBytes(sys.free_hdd);
 
+        const safeId = escapeHTML(r.config.id);
         // Alert markup
         let alertMarkup = '';
         if (r.warnings && r.warnings.length > 0) {
-          alertMarkup += `<div id="alert-warn-${r.config.id}" style="font-size: 11px; color: var(--warning); background: var(--warning-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(245, 158, 11, 0.25);">
+          alertMarkup += `<div id="alert-warn-${safeId}" style="font-size: 11px; color: var(--warning); background: var(--warning-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(245, 158, 11, 0.25);">
             ⚠️ ${escapeHTML(r.warnings.join(' • '))}
           </div>`;
         }
         if (!isConnected && r.last_error) {
-          alertMarkup += `<div id="alert-err-${r.config.id}" style="font-size: 11px; color: var(--danger); background: var(--danger-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(239, 68, 68, 0.25);">
+          alertMarkup += `<div id="alert-err-${safeId}" style="font-size: 11px; color: var(--danger); background: var(--danger-bg); padding: 6px 10px; border-radius: 6px; font-family: monospace; border: 1px solid rgba(239, 68, 68, 0.25);">
             ❌ ${escapeHTML(r.last_error)}
           </div>`;
         }
 
         return `
-          <div class="router-card" id="card-${r.config.id}">
+          <div class="router-card" id="card-${safeId}">
             <div class="card-top">
               <div>
-                <div class="router-id">${escapeHTML(r.config.id)}</div>
+                <div class="router-id">${safeId}</div>
                 <div class="router-meta">${escapeHTML(r.config.username)}@${escapeHTML(r.config.address)}:${r.config.port}</div>
               </div>
               <div class="card-badges">
                 <span class="badge badge-mode">${modeBadge}</span>
-                <span class="badge ${stateClass}" id="badge-${r.config.id}">${stateBadgeText}</span>
+                <span class="badge ${stateClass}" id="badge-${safeId}">${stateBadgeText}</span>
               </div>
             </div>
 
             <!-- Ping Box -->
             <div class="ping-box">
               <div>
-                <div class="ping-title" id="ping-title-${r.config.id}">Latency Ping (${escapeHTML(pingTarget)})</div>
-                <div class="ping-value ${pingColorClass}" id="ping-val-${r.config.id}">${pingDisplay}</div>
+                <div class="ping-title" id="ping-title-${safeId}">Latency Ping (${escapeHTML(pingTarget)})</div>
+                <div class="ping-value ${pingColorClass}" id="ping-val-${safeId}">${pingDisplay}</div>
               </div>
-              <div class="ping-stats" id="ping-stats-${r.config.id}">
+              <div class="ping-stats" id="ping-stats-${safeId}">
                 <div>Avg: <b>${r.ping_avg_rtt_ms > 0 ? r.ping_avg_rtt_ms.toFixed(2) + ' ms' : '--'}</b></div>
                 <div>Loss: <b>${r.packet_loss !== undefined ? r.packet_loss.toFixed(1) + '%' : '0%'}</b>${r.ping_sent > 0 ? ` (${r.ping_received}/${r.ping_sent})` : ''}</div>
                 ${r.ping_min_rtt_ms > 0 && r.ping_max_rtt_ms > 0 ? `<div>Min/Max: <b>${r.ping_min_rtt_ms.toFixed(2)}/${r.ping_max_rtt_ms.toFixed(2)} ms</b></div>` : ''}
@@ -997,43 +998,43 @@
               <div class="metric-row">
                 <div class="metric-header">
                   <span class="metric-name">CPU Load</span>
-                  <span class="metric-num" id="cpu-num-${r.config.id}">${cpuLoad}%</span>
+                  <span class="metric-num" id="cpu-num-${safeId}">${cpuLoad}%</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-bar bg-cpu" id="cpu-bar-${r.config.id}" style="width: ${cpuLoad}%"></div>
+                  <div class="progress-bar bg-cpu" id="cpu-bar-${safeId}" style="width: ${cpuLoad}%"></div>
                 </div>
               </div>
               <!-- RAM -->
               <div class="metric-row">
                 <div class="metric-header">
                   <span class="metric-name">RAM Memory</span>
-                  <span class="metric-num" id="ram-num-${r.config.id}">${memUsedPct}% (${freeMemStr} free / ${totalMemStr})</span>
+                  <span class="metric-num" id="ram-num-${safeId}">${memUsedPct}% (${freeMemStr} free / ${totalMemStr})</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-bar bg-ram" id="ram-bar-${r.config.id}" style="width: ${memUsedPct}%"></div>
+                  <div class="progress-bar bg-ram" id="ram-bar-${safeId}" style="width: ${memUsedPct}%"></div>
                 </div>
               </div>
               <!-- HDD -->
               <div class="metric-row">
                 <div class="metric-header">
                   <span class="metric-name">Storage / HDD</span>
-                  <span class="metric-num" id="hdd-num-${r.config.id}">${hddUsedPct}% (${freeHDDStr} free / ${totalHDDStr})</span>
+                  <span class="metric-num" id="hdd-num-${safeId}">${hddUsedPct}% (${freeHDDStr} free / ${totalHDDStr})</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-bar bg-hdd" id="hdd-bar-${r.config.id}" style="width: ${hddUsedPct}%"></div>
+                  <div class="progress-bar bg-hdd" id="hdd-bar-${safeId}" style="width: ${hddUsedPct}%"></div>
                 </div>
               </div>
             </div>
 
             <!-- Hardware Chips -->
             <div class="sys-chips">
-              <span class="chip">Uptime: <b id="uptime-${r.config.id}">${uptime}</b></span>
-              <span class="chip">ROS: <b id="version-${r.config.id}">${version}</b></span>
-              <span class="chip">Arch: <b>${arch}</b></span>
+              <span class="chip">Uptime: <b id="uptime-${safeId}">${escapeHTML(uptime)}</b></span>
+              <span class="chip">ROS: <b id="version-${safeId}">${escapeHTML(version)}</b></span>
+              <span class="chip">Arch: <b>${escapeHTML(arch)}</b></span>
             </div>
 
             <!-- Alerts Container -->
-            <div id="alerts-${r.config.id}" style="display: flex; flex-direction: column; gap: 6px;">
+            <div id="alerts-${safeId}" style="display: flex; flex-direction: column; gap: 6px;">
               ${alertMarkup}
             </div>
 
@@ -1449,7 +1450,8 @@
       document.getElementById('form-address').value = r.config.address;
       document.getElementById('form-port').value = r.config.port;
       document.getElementById('form-username').value = r.config.username;
-      document.getElementById('form-password').value = r.config.password;
+      document.getElementById('form-password').value = '';
+      document.getElementById('form-password').placeholder = 'Kosongkan jika tidak diubah';
       document.getElementById('form-poll').value = r.config.poll ? 'true' : 'false';
       document.getElementById('form-stream-every').value = (r.config.stream_every || 1000000000) / 1000000000;
       document.getElementById('form-poll-every').value = (r.config.poll_every || 5000000000) / 1000000000;

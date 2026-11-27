@@ -6,23 +6,19 @@ Membangun menu kustom pemakai (tidak perlu diedit di repo roscatalog).
 
 ```go
 res := ros.Table("queue-custom", ros.GroupQueue, "Queue custom", "/queue/custom").
-	Describe("Menu pemakai; lihat [Docs](04-views.md) saat pakai print").
-	Filter("name", "target").                     // filter diterima sebagai ?prop=value
-	MarkHeavy().                                  // saran: kalau data banyak pakai count/trim
-	KeyBy("name").                                // field utama (list), pakai list watch.
-	UseServerProplist()
-
-	// view read — lihat [Views](04-views.md)
-	.List("name", "target", "rate", "comment").
+	Describe("Menu pemakai; lihat [Views](04-views.md) saat pakai print").
+	Filter("name", "target").
+	List("name", "target", "rate", "comment").
+	MarkHeavy().
+	KeyBy("name").
+	UseServerProplist().
 	Count().
 	Live(time.Second, true, "name", "rate").
-	Tail("time", "topics", "message").            // tail (follow ke back)
-	Events().                                     // listen — punya beberapa router
-	Print("print-comment", P("name", "comment"), "detail").
-
-	// aksi write
-	.Add(P("name"), P("target", "rate", "comment")).
-	Set(P("target", "rate")).
+	Tail("time", "topics", "message").
+	Events().
+	Print("print-comment", ros.P("name", "comment"), "detail").
+	Add(ros.P("name"), ros.P("target", "rate", "comment")).
+	Set("target", "rate").
 	Remove("hapus item").
 	Toggle()
 ```
@@ -36,10 +32,8 @@ error yang dijatuhkan satu dari sentinel dari [Errors](09-errors.md)
 ## 3.3 Panggil Build
 
 ```go
-req, err := res.Build("list", ros.Params{
-	Only:     []string{"name", "target"},  // kolom, harus ada di daftar view
-	Proplist: []string{"name"},            // kolom luar katalog — pakai Raw/Proplist
-	Raw:      false,
+req, err := res.Build("list", ros.Once(), ros.Params{
+	Only: []string{"name", "target"}, // kolom, harus ada di daftar view
 })
 ```
 

@@ -2,12 +2,13 @@ package rosrun
 
 import (
 	"context"
+	"errors"
 	"reflect"
 	"strings"
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func build(t *testing.T, id, view string, plan ros.Plan, p ros.Params) ros.Request {
@@ -413,7 +414,7 @@ func TestQueueOverflowStopsStream(t *testing.T) {
 	time.Sleep(400 * time.Millisecond) // konsumen tidak membaca; antrean melampaui batas
 	evs := drain(t, ch)
 	last := evs[len(evs)-1]
-	if last.Kind != KindError || !strings.Contains(last.Err.Error(), "antrean") {
+	if last.Kind != KindError || !errors.Is(last.Err, ErrQueueOverflow) {
 		t.Fatalf("event terakhir: %+v", last)
 	}
 	if !m.waitStreamsStopped(time.Second) {
@@ -486,5 +487,20 @@ func TestWatchAutoKeepsStreamWhenSupported(t *testing.T) {
 	drain(t, ch)
 	if len(m.callsTo("/ip/hotspot/active/listen")) != 1 {
 		t.Error("listen seharusnya dipanggil sekali")
+	}
+}
+
+func TestLimiterAcquireCtxCancelDoesNotWedge(t *testing.T) {
+	lim := newLimiter(1)
+	rel1, err := lim.acquireCtx(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer rel1()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Millisecond)
+	defer cancel()
+	if _, err := lim.acquireCtx(ctx); !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("expected DeadlineExceeded when limiter full, got %v", err)
 	}
 }

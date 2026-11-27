@@ -41,10 +41,10 @@ import (
 
 	routeros "github.com/quiqxiq/goros/v4"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/cmd"
-	"example.com/roscatalog/mikhmon"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/cmd"
+	"github.com/quiqxiq/roscatalog/mikhmon"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 type check struct {

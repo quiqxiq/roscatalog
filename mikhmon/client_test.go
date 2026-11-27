@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/fields"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/fields"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 var _ Executor = (*rosrun.Runner)(nil)

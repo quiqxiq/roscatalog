@@ -91,21 +91,22 @@ const (
 // Request adalah hasil Build: semua yang dibutuhkan runner untuk menjalankan
 // satu view sesuai Plan. Struktur ini tidak bergantung pada library API.
 type Request struct {
-	ResourceID   string
-	View         string
-	Delivery     Delivery
-	Mode         Mode     // mode di sisi router yang benar-benar dipakai (oneshot saat poll)
-	Sentence     []string // kirim apa adanya; jangan tambah .tag bila library mengelolanya
-	Fallback     []string // sama seperti Sentence tapi tanpa =.proplist= (retry bila ditolak)
-	Every        time.Duration
-	Fields       []string // kolom yang dipertahankan di klien (tanpa .id dan Key)
-	Key          string   // properti kunci baris; kosong = tanpa kunci
-	Shape        Shape
-	CountOnly    bool // balasan berupa =ret=N pada !done
-	Diff         bool
-	Baseline     bool // poll follow-only: hasil pertama hanya jadi baseline
-	Seed         bool // stream listen: ambil snapshot awal
-	SeedSentence []string
+	ResourceID       string
+	View             string
+	Delivery         Delivery
+	Mode             Mode     // mode di sisi router yang benar-benar dipakai (oneshot saat poll)
+	Sentence         []string // kirim apa adanya; jangan tambah .tag bila library mengelolanya
+	Fallback         []string // sama seperti Sentence tapi tanpa =.proplist= (retry bila ditolak)
+	Every            time.Duration
+	Fields           []string // kolom yang dipertahankan di klien (tanpa .id dan Key)
+	Key              string   // properti kunci baris; kosong = tanpa kunci
+	Shape            Shape
+	CountOnly        bool // balasan berupa =ret=N pada !done
+	Diff             bool
+	Baseline         bool // poll follow-only: hasil pertama hanya jadi baseline
+	Seed             bool // stream listen: ambil snapshot awal
+	SeedSentence     []string
+	NoServerProplist bool // view/params melarang pengiriman =.proplist= ke router
 }
 
 // Fingerprint mengembalikan kunci stabil untuk cache/shared feed. Semua field
@@ -117,6 +118,7 @@ func (r Request) Fingerprint() string {
 		r.Every.String(), string(r.Shape), r.Key,
 		strconv.FormatBool(r.CountOnly), strconv.FormatBool(r.Diff),
 		strconv.FormatBool(r.Baseline), strconv.FormatBool(r.Seed),
+		strconv.FormatBool(r.NoServerProplist),
 	}
 	parts = append(parts, r.Sentence...)
 	parts = append(parts, "\x1e")
@@ -235,18 +237,28 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		return Request{}, fmt.Errorf("%w: %s/%s (%s): %q; pilihan: %s",
 			ErrDeliveryUnsupported, r.ID, v.Name, v.Mode, d, strings.Join(names, ", "))
 	}
+	if plan.Diff && d != DeliveryPoll {
+		return Request{}, fmt.Errorf("%w: %s/%s: Diff is only supported for poll delivery",
+			ErrDeliveryUnsupported, r.ID, v.Name)
+	}
+	if plan.Seed && (v.Mode != ModeListen || d != DeliveryEvents) {
+		return Request{}, fmt.Errorf("%w: %s/%s: Seed is only supported for listen events delivery",
+			ErrDeliveryUnsupported, r.ID, v.Name)
+	}
 	if d == DeliveryStream && plan.Every > 0 {
 		if plan.Every < MinPrintInterval || plan.Every > MaxPrintInterval {
-			return Request{}, fmt.Errorf("%s/%s: interval %s di luar batas %s..%s",
-				r.ID, v.Name, plan.Every, MinPrintInterval, MaxPrintInterval)
+			return Request{}, fmt.Errorf("%w: %s/%s: interval %s out of range %s..%s",
+				ErrInvalidInterval, r.ID, v.Name, plan.Every, MinPrintInterval, MaxPrintInterval)
 		}
 	}
 	if d == DeliveryPoll {
 		if plan.Every < MinPollEvery {
-			return Request{}, fmt.Errorf("%s/%s: jeda poll %s di bawah batas %s", r.ID, v.Name, plan.Every, MinPollEvery)
+			return Request{}, fmt.Errorf("%w: %s/%s: poll interval %s below minimum %s",
+				ErrInvalidInterval, r.ID, v.Name, plan.Every, MinPollEvery)
 		}
 		if plan.Every > MaxPollEvery {
-			return Request{}, fmt.Errorf("%s/%s: jeda poll %s di atas batas %s", r.ID, v.Name, plan.Every, MaxPollEvery)
+			return Request{}, fmt.Errorf("%w: %s/%s: poll interval %s above maximum %s",
+				ErrInvalidInterval, r.ID, v.Name, plan.Every, MaxPollEvery)
 		}
 	}
 
@@ -337,14 +349,23 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 				// Request.Fields yang diambil dari view list.
 				fieldSrc = lv.Proplist
 				if plan.Seed {
-					seed, err := lv.Sentence(p)
+					slv := lv
+					if p.Raw {
+						slv.ServerProplist = false
+						slv.Proplist = nil
+					} else if len(p.Proplist) > 0 {
+						slv.Proplist = append([]string(nil), p.Proplist...)
+					} else if len(p.Only) > 0 {
+						slv.Proplist = append([]string(nil), p.Only...)
+					}
+					seed, err := slv.Sentence(p)
 					if err != nil {
 						return Request{}, err
 					}
 					req.Seed, req.SeedSentence = true, seed
 				}
 			} else if plan.Seed {
-				return Request{}, fmt.Errorf("%s: Seed butuh view list", r.ID)
+				return Request{}, fmt.Errorf("%w: %s: Seed requires list view", ErrViewNotFound, r.ID)
 			}
 		}
 	}
@@ -356,9 +377,17 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		pv.Proplist = nil
 		fieldSrc = nil
 	} else if len(p.Proplist) > 0 {
-		pv.Proplist = append([]string(nil), p.Proplist...)
-		fieldSrc = append([]string(nil), p.Proplist...)
+		clean, err := validateAndDedupeCols(p.Proplist)
+		if err != nil {
+			return Request{}, err
+		}
+		pv.Proplist = clean
+		fieldSrc = clean
 	} else if len(p.Only) > 0 {
+		cleanOnly, err := validateAndDedupeCols(p.Only)
+		if err != nil {
+			return Request{}, err
+		}
 		allowed := make(map[string]bool, len(fieldSrc))
 		for _, f := range fieldSrc {
 			allowed[f] = true
@@ -367,7 +396,7 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		// runner, jadi keduanya boleh diminta walau tidak ada di Proplist.
 		// Tanpa ini pemakai yang minta Only: [".id", "name"] akan ditolak.
 		wantID := false
-		for _, f := range p.Only {
+		for _, f := range cleanOnly {
 			if f == ".id" {
 				wantID = true
 				continue
@@ -380,11 +409,11 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 					ErrUnknownColumn, r.ID, v.Name, f)
 			}
 		}
-		want := make(map[string]bool, len(p.Only))
-		for _, f := range p.Only {
+		want := make(map[string]bool, len(cleanOnly))
+		for _, f := range cleanOnly {
 			want[f] = true
 		}
-		filtered := make([]string, 0, len(p.Only)+1)
+		filtered := make([]string, 0, len(cleanOnly)+1)
 		if wantID {
 			filtered = append(filtered, ".id")
 		}
@@ -401,6 +430,7 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 		return Request{}, err
 	}
 	req.Sentence = sent
+	req.NoServerProplist = !pv.ServerProplist
 	if pv.ServerProplist && len(pv.Proplist) > 0 {
 		np := pv
 		np.ServerProplist = false
@@ -410,4 +440,21 @@ func (r *Resource) Build(viewName string, plan Plan, p Params) (Request, error) 
 	}
 	req.Fields = fieldsOf(fieldSrc)
 	return req, nil
+}
+
+func validateAndDedupeCols(cols []string) ([]string, error) {
+	seen := make(map[string]bool, len(cols))
+	out := make([]string, 0, len(cols))
+	for _, c := range cols {
+		c = strings.TrimSpace(c)
+		if c == "" {
+			return nil, fmt.Errorf("%w: empty column name", ErrUnknownColumn)
+		}
+		if seen[c] {
+			continue
+		}
+		seen[c] = true
+		out = append(out, c)
+	}
+	return out, nil
 }

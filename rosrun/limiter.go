@@ -1,6 +1,7 @@
 package rosrun
 
 import (
+	"context"
 	"sort"
 	"sync"
 )
@@ -44,14 +45,23 @@ func newLimiter(max int) *limiter {
 }
 
 func (l *limiter) acquire() func() {
+	rel, _ := l.acquireCtx(context.Background())
+	return rel
+}
+
+func (l *limiter) acquireCtx(ctx context.Context) (func(), error) {
 	if l == nil {
-		return func() {}
+		return func() {}, nil
+	}
+	select {
+	case l.sem <- struct{}{}:
+	case <-ctx.Done():
+		return nil, ctx.Err()
 	}
 	l.mu.Lock()
 	l.inflight++
 	l.mu.Unlock()
 
-	l.sem <- struct{}{}
 	var once sync.Once
 	return func() {
 		once.Do(func() {
@@ -62,7 +72,7 @@ func (l *limiter) acquire() func() {
 			}
 			l.mu.Unlock()
 		})
-	}
+	}, nil
 }
 
 func (l *limiter) note(menu string) {

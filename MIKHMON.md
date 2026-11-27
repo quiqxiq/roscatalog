@@ -64,8 +64,8 @@ import (
     "log"
 
     routeros "github.com/quiqxiq/goros/v4"
-    ros "example.com/roscatalog"
-    "example.com/roscatalog/rosrun"
+    ros "github.com/quiqxiq/roscatalog"
+    "github.com/quiqxiq/roscatalog/rosrun"
 )
 
 c, err := routeros.Dial("192.168.88.1:8728", "admin", "secret")
@@ -854,7 +854,7 @@ bukan command baru — semuanya adalah kombinasi `/ip/hotspot/user/profile`,
 ## 14. Paket `mikhmon/`
 
 Katalog root sengaja tetap umum. Untuk pemakaian sehari-hari ala Mikhmon,
-tersedia paket `example.com/roscatalog/mikhmon` di folder `mikhmon/`.
+tersedia paket `github.com/quiqxiq/roscatalog/mikhmon` di folder `mikhmon/`.
 
 Paket itu adalah **overlay**, bukan duplikat katalog:
 

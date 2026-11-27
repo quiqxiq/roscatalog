@@ -15,7 +15,7 @@ Paket ini menjembatani interoperabilitas penuh dua arah antara aplikasi Go dan i
 Mikhmon hanya memakai 22 dari sekian banyak resource RouterOS:
 
 ```go
-import "example.com/roscatalog/mikhmon"
+import "github.com/quiqxiq/roscatalog/mikhmon"
 
 // Periksa atau ambil resource dalam subset Mikhmon
 res, ok := mikhmon.Lookup("hotspot-user")
@@ -201,10 +201,10 @@ presets, err := client.QuickPrints(ctx)
 
 ## 7. Typed Fields & Struct Adapters (`fields/`)
 
-Paket `example.com/roscatalog/fields` menyediakan struct khusus untuk seluruh resource Mikhmon (`fields/mikhmon.go`). Klien `mikhmon` menyediakan method typed langsung di samping metode map:
+Paket `github.com/quiqxiq/roscatalog/fields` menyediakan struct khusus untuk seluruh resource Mikhmon (`fields/mikhmon.go`). Klien `mikhmon` menyediakan method typed langsung di samping metode map:
 
 ```go
-import "example.com/roscatalog/fields"
+import "github.com/quiqxiq/roscatalog/fields"
 
 // Baca laporan penjualan bertipe fields.MikhmonSalesRow
 sales, err := client.SalesRows(ctx, "nov2026")

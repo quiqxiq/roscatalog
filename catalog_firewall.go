@@ -20,7 +20,8 @@ func concat(parts ...[]string) []string {
 // fwRule membuat resource rule firewall (filter/nat/mangle/raw).
 func fwRule(id, title, path string, extra []string) *Resource {
 	list := concat(ruleProps, extra, P("log", "disabled", "comment"))
-	opt := concat(ruleProps[2:], extra, P("log", "log-prefix", "place-before", "comment"))
+	addOpt := concat(ruleProps[2:], extra, P("log", "log-prefix", "place-before", "comment"))
+	setOpt := concat(ruleProps, extra, P("log", "log-prefix", "comment"))
 	return Table(id, GroupFirewall, title, path).
 		Describe("Counter bytes/packets hanya muncul pada view live (print stats). "+
 			"place-before pada add berisi *ID rule yang akan ditaruh di depannya.").
@@ -29,7 +30,10 @@ func fwRule(id, title, path string, extra []string) *Resource {
 		Live(time.Second, true, "chain", "action", "bytes", "packets", "disabled", "comment").
 		Hint("pantau hit rule; cocokkan baris dengan .id").
 		Count().
-		CRUD(P("chain", "action"), opt).
+		Add(P("chain", "action"), addOpt).
+		Set(setOpt...).
+		Remove("").
+		Toggle().
 		Move().
 		ResetCounters()
 }
@@ -79,8 +83,12 @@ func init() {
 				"dropped", "queued-bytes", "queued-packets").
 			Hint("pantau throughput per queue").
 			Count().
-			CRUD(P("name", "target"), P("max-limit", "limit-at", "burst-limit", "burst-threshold",
+			Add(P("name", "target"), P("max-limit", "limit-at", "burst-limit", "burst-threshold",
 				"burst-time", "parent", "priority", "queue", "place-before", "comment")).
+			Set("name", "target", "max-limit", "limit-at", "burst-limit", "burst-threshold",
+				"burst-time", "parent", "priority", "queue", "comment").
+			Remove("").
+			Toggle().
 			Move().
 			ResetCounters(),
 

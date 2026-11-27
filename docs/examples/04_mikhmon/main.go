@@ -3,22 +3,54 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"os"
 	"time"
 
-	"example.com/roscatalog/mikhmon"
-	"example.com/roscatalog/rosrun"
+	"github.com/quiqxiq/roscatalog/mikhmon"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
+func envOr(key, def string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return def
+}
+
 func main() {
+	addr := flag.String("addr", envOr("ROS_ADDR", "192.168.88.1:8728"), "alamat API RouterOS")
+	user := flag.String("user", envOr("ROS_USER", "admin"), "username API")
+	pass := flag.String("pass", envOr("ROS_PASS", ""), "password API")
+	dryRun := flag.Bool("dry-run", true, "generate script on-login tanpa menulis ke router")
+	flag.Parse()
+
+	onLogin, err := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
+		Mode:         mikhmon.ExpiryRemoveRecord,
+		Price:        "5000",
+		Validity:     "1d",
+		SellingPrice: "7000",
+		Profile:      "paket-1hari",
+		LockUser:     true,
+	})
+	if err != nil {
+		panic(err)
+	}
+	if *dryRun {
+		fmt.Println("[dry-run] on-login script length:", len(onLogin))
+		return
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
 	sess, err := rosrun.Open(ctx, rosrun.Config{
-		Address:  "192.168.88.1:8728",
-		Username: "admin",
-		Password: "secret",
+		Address:  *addr,
+		Username: *user,
+		Password: *pass,
 		Timeout:  10 * time.Second,
+		Status:   rosrun.StatusConfig{Disable: true},
 	})
 	if err != nil {
 		panic(err)
@@ -26,19 +58,6 @@ func main() {
 	defer sess.Close()
 
 	client := mikhmon.New(sess)
-
-	// 1. Buat script on-login sesuai format Mikhmon v4
-	onLogin, err := mikhmon.OnLoginScript(mikhmon.OnLoginOptions{
-		Mode:         mikhmon.ExpiryRemoveRecord, // "remc": hapus user saat expired + catat penjualan
-		Price:        "5000",                     // harga modal
-		Validity:     "1d",                       // masa aktif 1 hari
-		SellingPrice: "7000",                     // harga jual
-		Profile:      "paket-1hari",              // nama profile
-		LockUser:     true,                       // lock MAC user saat pertama login
-	})
-	if err != nil {
-		panic(err)
-	}
 
 	// 2. Tambah Profile Hotspot
 	profileID, err := client.AddProfile(ctx, mikhmon.Profile{

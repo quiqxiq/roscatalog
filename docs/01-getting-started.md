@@ -1,10 +1,9 @@
 # 01 — Mulai
 
-Install (module-local):
+Install:
 
 ```bash
-go get example.com/roscatalog@latest
-go get example.com/roscatalog/rosrun@latest
+go get github.com/quiqxiq/roscatalog@latest
 ```
 
 Pembuatan session — pakai `rosrun.Open` (satu koneksi asinkron + auto-reconnect):
@@ -15,54 +14,50 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
+	"os"
 
-	"example.com/roscatalog"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 func main() {
 	ctx := context.Background()
-
-	// Koneksi satu per router, asynchrony — runner dial, async, autoreconnect.
 	sess, err := rosrun.Open(ctx, rosrun.Config{
-		Address:  "192.168.88.1:8728", // CHR di 192.168.122.189:8728 (jalurs?)
-		Username: "admin",
-		Password: "r00t",
-		Timeout:  10 * time.Second,
+		Address:  os.Getenv("ROS_ADDR"),
+		Username: os.Getenv("ROS_USER"),
+		Password: os.Getenv("ROS_PASS"),
+		Status:   rosrun.StatusConfig{Disable: true}, // API health saja
 	})
 	if err != nil {
 		panic(err)
 	}
 	defer sess.Close()
 
-	// Daftar satu view: /interface/print (list, proplist CHR-terverifikasi).
 	res, ok := ros.Lookup("interface")
 	if !ok {
 		panic("interface tidak ada")
 	}
-	rows, err := sess.Once(ctx, must(res.Build("list", ros.Plan{Delivery: ros.DeliveryOnce})))
-	for _, r := range rows {
-		fmt.Println(r["name"], r["type"])
-	}
-}
-
-func must(req ros.Request, err error) ros.Request {
+	req, err := res.Build("list", ros.Once(), ros.Params{})
 	if err != nil {
 		panic(err)
 	}
-	return req
+	rows, err := sess.Once(ctx, req)
+	if err != nil {
+		panic(err)
+	}
+	for _, r := range rows {
+		fmt.Printf("%-16s %s\n", r["name"], r["type"])
+	}
 }
 ```
+
+Persyaratan: Go 1.22+, RouterOS 7.9+, API user dengan policy `read` (atau `write` untuk aksi), port `8728` (API) atau `8729` (API-SSL / TLS).
 
 Catatan penting:
 
 - `res.Build(view, plan, params)` → `(ros.Request, error)`.
-- Session = tepat satu koneksi asinkron per router; tidak ada koneksi kedua.
-- Default delivery baca: **realtime** (`Stream`); minta `Once()` bila satu dump saja.
-- Command yang tidak ada di catalog → ditangkal: lihat [Custom Resources](03-custom-resources.md)
-  (`Table`, `Tool`, `Single`) dan [Errors](09-errors.md) (`errors.Is(err, ros.ErrViewNotFound)`).
-- Error dari router (command tidak ada, arg salah, trap) kembali sebagai
-  `*routeros.DeviceError` via `rosrun` — dihandle seperti `errors.Is(err, routeros.Err?...)`.
+- Session (`*rosrun.MikroTik` / `*rosrun.Session`) = tepat satu koneksi asinkron per router.
+- Default `StatusConfig` tanpa `Target` hanya memantau koneksi API; isi `Status.Target` (mis. `"8.8.8.8"`) bila ingin native `/ping` aktif.
+- Lihat [Custom Resources](03-custom-resources.md) dan [Errors](09-errors.md).
 
 Pergi ke: [Catalog](02-catalog.md) | [Realtime](05-realtime.md) | [Status](07-status.md).

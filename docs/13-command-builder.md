@@ -134,7 +134,7 @@ cmdRemove  := p.Remove("voucher01")              // /ip/hotspot/user/remove =num
 cmdEnable  := p.Enable("voucher01")              // /ip/hotspot/user/enable =numbers=voucher01
 cmdDisable := p.Disable("voucher01")             // /ip/hotspot/user/disable =numbers=voucher01
 cmdComment := p.Comment("voucher01", "expired")  // /ip/hotspot/user/comment =numbers=voucher01 =comment=expired
-cmdReset   := ros.Path("/system/history").Reset() // /system/history/reset
+cmdReset   := ros.Path("/system/history").Reset("*1") // /system/history/reset =numbers=*1
 ```
 
 ---

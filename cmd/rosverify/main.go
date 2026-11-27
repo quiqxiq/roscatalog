@@ -24,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 
 	routeros "github.com/quiqxiq/goros/v4"
 	"github.com/quiqxiq/goros/v4/schema"

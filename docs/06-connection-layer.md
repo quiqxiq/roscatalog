@@ -23,15 +23,16 @@ Sessions bisa di-persist via `rosrun.Open(ctx, cfg)`.
 
 ```go
 m := rosrun.NewManager()
-sess, _ := m.Add(ctx, rosrun.Config{Address: "192.168.88.1:8728", Username: "admin", Password: "r00t"})
+sess, _ := m.Add(ctx, rosrun.Config{ID: "r1", Address: "192.168.88.1:8728", Username: "admin", Password: "secret"})
+id := sess.Stats().ID
 
-m.Acquire(ctx, sess.ID)     // pin (refcount); membuka sesi dari Config terdaftar bila perlu
-sub, err := m.Subscribe(ctx, sess.ID, req)   // stream/events per subscription
+_, _ = m.Acquire(ctx, id)                      // pin (refcount); membuka sesi dari Config terdaftar bila perlu
+sub, err := m.Subscribe(ctx, id, req)         // stream/events per subscription
 m.Release(id)
-m.Retain(id, reason)        // +1 ref, WatchAuto/WatchAll defers release
-m.Drop(id, reason)          // -1 ref; router di-close bila refcount 0
-m.WatchAutoAll(ctx, res, view, plan, params) // Acquire+Release otomatis per router
-st := m.Statuses()          // []RouterStatus{ID, Status}
+_ = m.Retain(id, "bg-job")                    // tahan sesi tanpa viewer
+m.Drop(id, "bg-job")                          // lepas hold; router di-close bila refcount 0
+_, _ = m.WatchAutoAll(ctx, res, view, plan, params) // Acquire+Release otomatis per router
+st := m.Statuses()                            // []Status
 ```
 
 `Register(cfg)` hanya menyimpan konfigurasi; koneksi dibuka saat `Acquire`
@@ -68,17 +69,16 @@ dimultipleks lewat tag. Tidak ada opsi koneksi kedua. Feature switches
 
 ```go
 type Config struct {
-	MaxInFlight int          // ≤ DefaultMaxInFlight (8) command/router, Watch ↔ publish refcount
-	Grace       time.Duration // antara drop koneksi, DefaultGrace = 30s
+	MaxInFlight int           // <= DefaultMaxInFlight (8) command/router
+	Grace       time.Duration // jeda sebelum sesi idle ditutup, DefaultGrace = 30s
 	StreamStale time.Duration // watchdog: idle stale, DefaultStreamStale = 10s
 	StreamCheck time.Duration // interval check, DefaultStreamCheck = 5s
-	Reconnect   time.Duration // bawaan
 }
 ```
 
 - **Stats()** — snapshot per-router: `ID, Address, Open, Epoch, Reconnects, Down,
   LastError, Uptime, InFlight, OpenStreams, Commands, BusiestMenus []MenuCount`.
 - Watchdog stream: idle > 10s → re-open stream; stuck → check every 5s.
-- Auth reconnect backoff (per router, memulai dari `Reconnect`).
+- Auth reconnect backoff: 30s hingga 5m.
 
 Pergi ke: [Status](07-status.md) | [Realtime](05-realtime.md).

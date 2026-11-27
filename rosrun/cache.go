@@ -8,9 +8,10 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 // ErrCacheFull dikembalikan bila jumlah feed aktif mencapai Cache.MaxEntries
@@ -36,10 +37,19 @@ type Subscription struct {
 	chOnce      sync.Once
 	doneOnce    sync.Once
 	done        chan struct{}
+	dropped     atomic.Int64
 
 	// onClose dipanggil sekali saat subscription ditutup; dipakai Manager
 	// untuk melepas refcount sesi.
 	onClose func()
+}
+
+// Dropped returns the number of events dropped due to a slow subscriber channel.
+func (s *Subscription) Dropped() int64 {
+	if s == nil {
+		return 0
+	}
+	return s.dropped.Load()
 }
 
 // fireClose menjalankan onClose sekali, baik subscription ditutup pemakai
@@ -56,11 +66,14 @@ func (s *Subscription) fireClose() {
 // sesi ditutup, atau upstream berakhir.
 func (s *Subscription) Events() <-chan Event { return s.ch }
 
-// Latest mengembalikan event data terakhir yang masih di-cache, jika ada.
+// Latest mengembalikan event data terakhir yang masih di-cache (belum melewati TTL), jika ada.
 func (s *Subscription) Latest() (Event, bool) {
 	s.hub.mu.Lock()
 	defer s.hub.mu.Unlock()
 	if s.entry == nil || !s.entry.hasLatest {
+		return Event{}, false
+	}
+	if s.hub.cfg.TTL > 0 && time.Since(s.entry.latestAt) > s.hub.cfg.TTL {
 		return Event{}, false
 	}
 	return trimEvent(s.entry.latest, s), true
@@ -80,8 +93,9 @@ func (s *Subscription) send(ev Event) {
 	select {
 	case s.ch <- ev:
 	default:
-		// Konsumen lambat: event terbaru tetap tersedia lewat Latest dan
-		// upstream tidak boleh terblokir oleh satu dashboard.
+		// Konsumen lambat: catat event yang dibuang; event terbaru tetap
+		// tersedia lewat Latest() tanpa memblokir upstream.
+		s.dropped.Add(1)
 	}
 }
 
@@ -122,6 +136,12 @@ type cacheEntry struct {
 }
 
 func newCacheEntry(req ros.Request, now time.Time) *cacheEntry {
+	// Entry cache menggunakan union proplist di Sentence; Fields dikosongkan
+	// agar Runner.trim tidak memotong kolom subscriber berikutnya sebelum
+	// trimEvent menyaring per Subscription.
+	req.Fields = nil
+	req.Sentence = append([]string(nil), req.Sentence...)
+	req.Fallback = append([]string(nil), req.Fallback...)
 	return &cacheEntry{
 		req:          req,
 		baseSentence: append([]string(nil), req.Sentence...),
@@ -155,20 +175,24 @@ func newFeedCache(m *MikroTik) *feedCache {
 // Subscribe membuka atau bergabung ke shared feed untuk req. Request harus
 // memakai Delivery stream atau poll.
 func (m *MikroTik) Subscribe(ctx context.Context, req ros.Request) (*Subscription, error) {
+	return m.subscribeWithClose(ctx, req, nil)
+}
+
+func (m *MikroTik) subscribeWithClose(ctx context.Context, req ros.Request, onClose func()) (*Subscription, error) {
 	if err := m.ready(m.conn); err != nil {
 		return nil, err
 	}
 	if req.Delivery != ros.DeliveryStream && req.Delivery != ros.DeliveryEvents &&
 		req.Delivery != ros.DeliveryPoll {
-		return nil, fmt.Errorf("rosrun.Subscribe: Delivery %q tidak didukung", req.Delivery)
+		return nil, fmt.Errorf("rosrun.Subscribe: unsupported delivery %q", req.Delivery)
 	}
 	if m.cache == nil {
 		return nil, ErrClosed
 	}
-	return m.cache.subscribe(ctx, req)
+	return m.cache.subscribe(ctx, req, onClose)
 }
 
-func (c *feedCache) subscribe(ctx context.Context, req ros.Request) (*Subscription, error) {
+func (c *feedCache) subscribe(ctx context.Context, req ros.Request, onClose func()) (*Subscription, error) {
 	key := menuKey(req)
 	now := time.Now()
 
@@ -185,7 +209,7 @@ func (c *feedCache) subscribe(ctx context.Context, req ros.Request) (*Subscripti
 		if entry == nil {
 			if len(c.entries) >= c.cfg.MaxEntries {
 				if !c.evictLocked() {
-					return nil, fmt.Errorf("%w: %d feed", ErrCacheFull, c.cfg.MaxEntries)
+					return nil, fmt.Errorf("%w: %d feeds", ErrCacheFull, c.cfg.MaxEntries)
 				}
 			}
 			entry = newCacheEntry(req, now)
@@ -196,12 +220,13 @@ func (c *feedCache) subscribe(ctx context.Context, req ros.Request) (*Subscripti
 	}
 
 	sub := &Subscription{
-		hub:    c,
-		entry:  entry,
-		ch:     make(chan Event, 256),
-		done:   make(chan struct{}),
-		fields: append([]string(nil), req.Fields...),
-		key:    req.Key,
+		hub:     c,
+		entry:   entry,
+		ch:      make(chan Event, 256),
+		done:    make(chan struct{}),
+		fields:  append([]string(nil), req.Fields...),
+		key:     req.Key,
+		onClose: onClose,
 	}
 	entry.subs[sub] = struct{}{}
 	entry.lastUsed = now
@@ -251,7 +276,10 @@ func (c *feedCache) startStreamLocked(entry *cacheEntry) {
 	runID := entry.runID
 	runCtx, cancel := context.WithCancel(c.m.runCtx)
 	entry.stop = cancel
-	go c.runStream(entry, runCtx, runID)
+	req := entry.req
+	req.Sentence = append([]string(nil), entry.req.Sentence...)
+	req.Fallback = append([]string(nil), entry.req.Fallback...)
+	go c.runStream(entry, req, runCtx, runID)
 }
 
 func (c *feedCache) restartStreamLocked(entry *cacheEntry) {
@@ -262,8 +290,8 @@ func (c *feedCache) restartStreamLocked(entry *cacheEntry) {
 	c.startStreamLocked(entry)
 }
 
-func (c *feedCache) runStream(entry *cacheEntry, ctx context.Context, runID uint64) {
-	ch, err := c.m.Watch(ctx, entry.req)
+func (c *feedCache) runStream(entry *cacheEntry, req ros.Request, ctx context.Context, runID uint64) {
+	ch, err := c.m.Watch(ctx, req)
 	if err != nil {
 		c.publish(entry, Event{Kind: KindError, At: time.Now(), Err: err})
 		c.finish(entry, runID)
@@ -357,9 +385,9 @@ func (c *feedCache) recomputeLocked(entry *cacheEntry) {
 		}
 	}
 
-	// Listen TIDAK PERNAH mengirim .proplist: di RouterOS 7.24.6 proplist
-	// menekan event .dead=true. Kolomnya disaring di klien lewat trimEvent.
-	if entry.req.Mode == ros.ModeListen {
+	// Listen dan view dengan NoServerProplist TIDAK PERNAH mengirim .proplist.
+	// Kolomnya disaring di klien lewat trimEvent.
+	if entry.req.Mode == ros.ModeListen || entry.req.NoServerProplist {
 		if !equalWords(entry.req.Sentence, entry.baseSentence) {
 			entry.req.Sentence = append([]string(nil), entry.baseSentence...)
 		}
@@ -409,6 +437,7 @@ func (e *cacheEntry) unionLocked() []string {
 func menuKey(req ros.Request) string {
 	parts := []string{
 		string(req.Delivery), string(req.Mode), string(req.Shape), req.Key,
+		req.ResourceID, req.View, req.Every.String(),
 		strconv.FormatBool(req.CountOnly), strconv.FormatBool(req.Diff),
 		strconv.FormatBool(req.Baseline), strconv.FormatBool(req.Seed),
 	}
@@ -464,10 +493,31 @@ func equalWords(a, b []string) bool {
 	return true
 }
 
+func cloneRowMap(row map[string]string) map[string]string {
+	if row == nil {
+		return nil
+	}
+	out := make(map[string]string, len(row))
+	for k, v := range row {
+		out[k] = v
+	}
+	return out
+}
+
 // trimEvent menyaring satu event ke proplist subscription. Subscription dengan
-// fields kosong menerima semua kolom.
+// fields kosong menerima salinan semua kolom agar mutasi antar-subscriber terisolasi.
 func trimEvent(ev Event, s *Subscription) Event {
 	if s == nil || len(s.fields) == 0 {
+		switch ev.Kind {
+		case KindSnapshot:
+			rows := make([]map[string]string, len(ev.Rows))
+			for i, row := range ev.Rows {
+				rows[i] = cloneRowMap(row)
+			}
+			ev.Rows = rows
+		case KindRow, KindAdded, KindChanged, KindRemoved:
+			ev.Row = cloneRowMap(ev.Row)
+		}
 		return ev
 	}
 	trim := func(row map[string]string) map[string]string {
@@ -531,8 +581,8 @@ func (c *feedCache) evictLocked() bool {
 
 func (c *feedCache) close() {
 	c.mu.Lock()
-	defer c.mu.Unlock()
 	if c.closed {
+		c.mu.Unlock()
 		return
 	}
 	c.closed = true
@@ -547,18 +597,28 @@ func (c *feedCache) close() {
 		for sub := range entry.subs {
 			sub.closeChannel()
 			sub.signalDone()
+			sub.fireClose()
 			delete(entry.subs, sub)
 		}
 	}
 	c.entries = make(map[string]*cacheEntry)
+	sched := c.sched
+	c.mu.Unlock()
+	if sched != nil {
+		sched.wait()
+	}
 }
 
 // pollEntry menjalankan satu siklus poll untuk scheduler.
 func (c *feedCache) pollEntry(entry *cacheEntry) {
-	// Salin di bawah lock: recompute bisa mengganti Sentence saat subscriber
-	// lain datang/menunggu.
+	// Salin req dan poll state di bawah lock agar aman terhadap unsubscribe/recompute.
 	c.mu.Lock()
+	if c.closed || entry.poll == nil {
+		c.mu.Unlock()
+		return
+	}
 	req := entry.req
+	poll := entry.poll
 	c.mu.Unlock()
 	ctx, cancel := context.WithTimeout(c.m.runCtx, pollTimeout(req.Every))
 	defer cancel()
@@ -566,8 +626,8 @@ func (c *feedCache) pollEntry(entry *cacheEntry) {
 		c.publish(entry, ev)
 		return true
 	}
-	if err := c.m.conn.run().pollOnce(ctx, req, entry.poll, emit); err != nil {
-		c.m.logf("rosrun: poll %s gagal: %v", req.Sentence[0], err)
+	if err := c.m.conn.run().pollOnce(ctx, req, poll, emit); err != nil {
+		c.m.logf("rosrun: poll %s failed: %v", req.Sentence[0], err)
 		if ctx.Err() == nil && !errors.Is(err, context.Canceled) {
 			c.publish(entry, Event{Kind: KindError, At: time.Now(), Err: err})
 		}

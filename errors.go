@@ -2,25 +2,30 @@ package roscatalog
 
 import "errors"
 
-// Error sentinel yang bisa dibandingkan dengan errors.Is. Semua error dari
-// Build/Sentence/Find membungkus salah satunya bila penyebabnya jelas.
+// Error sentinels that callers can inspect with errors.Is.
 var (
-	// ErrInvalidResource menandai definisi resource yang tidak konsisten.
-	ErrInvalidResource = errors.New("roscatalog: definisi resource tidak valid")
-	// ErrDuplicateResource menandai ID yang sudah ada di catalog.
-	ErrDuplicateResource = errors.New("roscatalog: resource duplikat")
-	// ErrResourceNotFound dikembalikan Find/Lookup tingkat error.
-	ErrResourceNotFound = errors.New("roscatalog: resource tidak ditemukan")
-	// ErrViewNotFound menandai nama view yang tidak ada pada resource.
-	ErrViewNotFound = errors.New("roscatalog: view tidak ditemukan")
-	// ErrDeliveryUnsupported menandai Plan yang tidak valid untuk view.
-	ErrDeliveryUnsupported = errors.New("roscatalog: delivery tidak didukung")
-	// ErrUnknownFlag menandai flag print yang tidak dideklarasikan.
-	ErrUnknownFlag = errors.New("roscatalog: flag tidak didukung")
-	// ErrUnknownColumn menandai kolom di luar daftar field view.
-	ErrUnknownColumn = errors.New("roscatalog: kolom tidak ada")
-	// ErrMissingArgument menandai argumen wajib yang kosong.
-	ErrMissingArgument = errors.New("roscatalog: argumen wajib belum diisi")
-	// ErrSelectorRequired menandai aksi yang butuh selector tetapi tidak diisi.
-	ErrSelectorRequired = errors.New("roscatalog: selector wajib diisi")
+	// ErrInvalidResource indicates an inconsistent resource definition.
+	ErrInvalidResource = errors.New("roscatalog: invalid resource definition")
+	// ErrDuplicateResource indicates a duplicate resource ID in a catalog.
+	ErrDuplicateResource = errors.New("roscatalog: duplicate resource")
+	// ErrResourceNotFound is returned by Catalog.Find when an ID does not exist.
+	ErrResourceNotFound = errors.New("roscatalog: resource not found")
+	// ErrViewNotFound indicates a view name that does not exist on the resource.
+	ErrViewNotFound = errors.New("roscatalog: view not found")
+	// ErrDeliveryUnsupported indicates a Plan delivery mode not valid for the view.
+	ErrDeliveryUnsupported = errors.New("roscatalog: delivery unsupported")
+	// ErrUnknownFlag indicates an undeclared print flag.
+	ErrUnknownFlag = errors.New("roscatalog: unknown flag")
+	// ErrInvalidFlag indicates an invalid or mutually exclusive print flag combination.
+	ErrInvalidFlag = errors.New("roscatalog: invalid flag")
+	// ErrUnknownColumn indicates a column outside the view field list.
+	ErrUnknownColumn = errors.New("roscatalog: unknown column")
+	// ErrMissingArgument indicates a required argument is missing or empty.
+	ErrMissingArgument = errors.New("roscatalog: missing required argument")
+	// ErrSelectorRequired indicates an action requires a selector that was not provided.
+	ErrSelectorRequired = errors.New("roscatalog: selector required")
+	// ErrInvalidInterval indicates a duration outside the allowed interval or poll bounds.
+	ErrInvalidInterval = errors.New("roscatalog: invalid interval")
+	// ErrInvalidQuery indicates a malformed or unsupported query filter.
+	ErrInvalidQuery = errors.New("roscatalog: invalid query")
 )

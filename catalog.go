@@ -23,7 +23,14 @@ func NewCatalog(base ...*Resource) *Catalog {
 		if r == nil || strings.TrimSpace(r.ID) == "" {
 			continue
 		}
-		if _, exists := c.byID[r.ID]; !exists {
+		if _, exists := c.byID[r.ID]; exists {
+			for i, existing := range c.resources {
+				if existing.ID == r.ID {
+					c.resources[i] = r
+					break
+				}
+			}
+		} else {
 			c.resources = append(c.resources, r)
 		}
 		c.byID[r.ID] = r
@@ -31,8 +38,45 @@ func NewCatalog(base ...*Resource) *Catalog {
 	return c
 }
 
-// Builtin mengembalikan catalog bawaan (resource yang di-register saat init).
-func Builtin() *Catalog { return NewCatalog(registry...) }
+// Clone returns a deep copy of the Resource so callers cannot mutate shared catalog state.
+func (r *Resource) Clone() *Resource {
+	if r == nil {
+		return nil
+	}
+	cp := *r
+	cp.Filters = append([]string(nil), r.Filters...)
+	if len(r.Views) > 0 {
+		cp.Views = make([]View, len(r.Views))
+		for i, v := range r.Views {
+			vc := v
+			vc.Flags = append([]string(nil), v.Flags...)
+			vc.AllowedFlags = append([]string(nil), v.AllowedFlags...)
+			vc.Args = append([]Arg(nil), v.Args...)
+			vc.Proplist = append([]string(nil), v.Proplist...)
+			cp.Views[i] = vc
+		}
+	}
+	if len(r.Actions) > 0 {
+		cp.Actions = make([]Action, len(r.Actions))
+		for i, a := range r.Actions {
+			ac := a
+			ac.Required = append([]string(nil), a.Required...)
+			ac.Optional = append([]string(nil), a.Optional...)
+			ac.Args = append([]Arg(nil), a.Args...)
+			cp.Actions[i] = ac
+		}
+	}
+	return &cp
+}
+
+// Builtin mengembalikan catalog bawaan (salinan aman dari resource yang di-register saat init).
+func Builtin() *Catalog {
+	clones := make([]*Resource, len(registry))
+	for i, r := range registry {
+		clones[i] = r.Clone()
+	}
+	return NewCatalog(clones...)
+}
 
 // Add menambahkan resource setelah validasi. Tidak ada perubahan bila salah
 // satu resource gagal divalidasi.
@@ -233,12 +277,11 @@ func (r *Resource) Validate() error {
 			errs = append(errs, fmt.Errorf("%w: %s: action %q duplikat", ErrInvalidResource, r.ID, a.Name))
 		}
 		acts[a.Name] = true
-		want := r.Path + "/" + a.Name
 		if a.Command == "" {
-			errs = append(errs, fmt.Errorf("%w: %s/%s: command kosong", ErrInvalidResource, r.ID, a.Name))
-		} else if a.Command != want {
-			errs = append(errs, fmt.Errorf("%w: %s/%s: command %q, want %q",
-				ErrInvalidResource, r.ID, a.Name, a.Command, want))
+			errs = append(errs, fmt.Errorf("%w: %s/%s: empty command", ErrInvalidResource, r.ID, a.Name))
+		} else if !strings.HasPrefix(a.Command, "/") || strings.ContainsAny(a.Command, " \t\r\n") {
+			errs = append(errs, fmt.Errorf("%w: %s/%s: invalid command %q",
+				ErrInvalidResource, r.ID, a.Name, a.Command))
 		}
 	}
 	return errors.Join(errs...)
@@ -250,9 +293,15 @@ func sortedResources(in []*Resource) []*Resource {
 	for i, g := range GroupOrder {
 		rank[g] = i
 	}
+	rankOf := func(g Group) int {
+		if r, ok := rank[g]; ok {
+			return r
+		}
+		return len(GroupOrder)
+	}
 	sort.SliceStable(out, func(i, j int) bool {
 		if out[i].Group != out[j].Group {
-			return rank[out[i].Group] < rank[out[j].Group]
+			return rankOf(out[i].Group) < rankOf(out[j].Group)
 		}
 		return out[i].ID < out[j].ID
 	})

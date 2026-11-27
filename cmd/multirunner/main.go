@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	ros "example.com/roscatalog"
-	cmd "example.com/roscatalog/cmd"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	cmd "github.com/quiqxiq/roscatalog/cmd"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 // ANSI color helpers
@@ -440,8 +440,8 @@ func runPasswordChangeSimulation(ctx context.Context, mgr *rosrun.Manager) {
 
 	// 1. Ubah password menjadi salah
 	badPassword := "password_salah_simulasi_999"
-	fmt.Printf("\n  %s1. Mengubah password %s dari %q menjadi %q...%s\n",
-		colorBold, target.ID, originalPassword, badPassword, colorReset)
+	fmt.Printf("\n  %s1. Mengubah password %s (kredensial asli dirahasiakan)...%s\n",
+		colorBold, target.ID, colorReset)
 
 	badCfg := target
 	badCfg.Password = badPassword
@@ -475,7 +475,7 @@ func runPasswordChangeSimulation(ctx context.Context, mgr *rosrun.Manager) {
 	}
 
 	// 4. Kembalikan password semula dan verifikasi pemulihan
-	fmt.Printf("\n  4. Mengembalikan password asli (%q) dan memverifikasi koneksi normal kembali...\n", originalPassword)
+	fmt.Printf("\n  4. Mengembalikan password asli dan memverifikasi koneksi normal kembali...\n")
 	restoreCfg := target
 	restoreCfg.Password = originalPassword
 	restoreCfg.Timeout = 5 * time.Second

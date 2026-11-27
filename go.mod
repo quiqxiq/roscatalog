@@ -1,4 +1,4 @@
-module example.com/roscatalog
+module github.com/quiqxiq/roscatalog
 
 go 1.22
 

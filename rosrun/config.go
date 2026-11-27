@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 const (
@@ -60,7 +60,8 @@ type StatusConfig struct {
 	// koneksi, tetapi tanpa data ping.
 	Disable bool
 
-	// Target adalah alamat yang di-ping dari sisi router. Kosong = 8.8.8.8.
+	// Target adalah alamat yang di-ping dari sisi router. Kosong = ping status
+	// tidak dijalankan (hanya health koneksi API).
 	Target string
 
 	// PingInterval adalah override opsional untuk parameter =interval= pada
@@ -266,9 +267,6 @@ func (c Config) withDefaults() Config {
 	}
 	if c.StreamEvery == 0 {
 		c.StreamEvery = DefaultStreamEvery
-	}
-	if c.Status.Target == "" {
-		c.Status.Target = DefaultStatusTarget
 	}
 	if c.Status.ReplyTimeout == 0 {
 		c.Status.ReplyTimeout = DefaultStatusReplyTimeout

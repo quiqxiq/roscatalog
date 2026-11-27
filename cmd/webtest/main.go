@@ -2,20 +2,24 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/subtle"
 	"embed"
+	"encoding/hex"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/cmd"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/cmd"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 //go:embed index.html
@@ -23,28 +27,30 @@ var indexHTML embed.FS
 
 // SystemMetrics menyimpan data ringkasan resource sistem MikroTik.
 type SystemMetrics struct {
-	Uptime       string  `json:"uptime"`
-	Version      string  `json:"version"`
-	CPULoad      int     `json:"cpu_load"`
-	FreeMemory   int64   `json:"free_memory"`
-	TotalMemory  int64   `json:"total_memory"`
+	Uptime        string  `json:"uptime"`
+	Version       string  `json:"version"`
+	CPULoad       int     `json:"cpu_load"`
+	FreeMemory    int64   `json:"free_memory"`
+	TotalMemory   int64   `json:"total_memory"`
 	MemoryUsedPct float64 `json:"memory_used_pct"`
-	FreeHDD      int64   `json:"free_hdd"`
-	TotalHDD     int64   `json:"total_hdd"`
-	HDDUsedPct   float64 `json:"hdd_used_pct"`
-	BoardName    string  `json:"board_name"`
-	Architecture string  `json:"architecture"`
-	Platform     string  `json:"platform"`
-	CPU          string  `json:"cpu"`
+	FreeHDD       int64   `json:"free_hdd"`
+	TotalHDD      int64   `json:"total_hdd"`
+	HDDUsedPct    float64 `json:"hdd_used_pct"`
+	BoardName     string  `json:"board_name"`
+	Architecture  string  `json:"architecture"`
+	Platform      string  `json:"platform"`
+	CPU           string  `json:"cpu"`
 }
 
 // RouterConfigDTO adalah DTO konfigurasi router yang aman untuk JSON serialization.
+// Password tidak pernah dikirim kembali ke klien.
 type RouterConfigDTO struct {
 	ID          string  `json:"id"`
 	Address     string  `json:"address"`
 	Port        int     `json:"port"`
 	Username    string  `json:"username"`
-	Password    string  `json:"password"`
+	Password    string  `json:"password,omitempty"`
+	HasPassword bool    `json:"has_password"`
 	TLS         bool    `json:"tls"`
 	Insecure    bool    `json:"insecure"`
 	Poll        bool    `json:"poll"`
@@ -55,15 +61,12 @@ type RouterConfigDTO struct {
 
 func toConfigDTO(cfg rosrun.Config) RouterConfigDTO {
 	target := cfg.Status.Target
-	if target == "" {
-		target = "8.8.8.8"
-	}
 	return RouterConfigDTO{
 		ID:          cfg.ID,
 		Address:     cfg.Address,
 		Port:        cfg.Port,
 		Username:    cfg.Username,
-		Password:    cfg.Password,
+		HasPassword: cfg.Password != "",
 		TLS:         cfg.TLS,
 		Insecure:    cfg.Insecure,
 		Poll:        cfg.Poll,
@@ -741,30 +744,44 @@ func parseSystemMetrics(row map[string]string) *SystemMetrics {
 // --- HTTP SERVER & HANDLERS ---
 
 type Server struct {
-	hub *RouterHub
-	mux *http.ServeMux
+	hub   *RouterHub
+	mux   *http.ServeMux
+	token string
 }
 
 func NewServer(hub *RouterHub) *Server {
+	return NewServerWithToken(hub, "")
+}
+
+func NewServerWithToken(hub *RouterHub, token string) *Server {
 	s := &Server{
-		hub: hub,
-		mux: http.NewServeMux(),
+		hub:   hub,
+		mux:   http.NewServeMux(),
+		token: token,
 	}
 	s.routes()
 	return s
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// CORS Headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-	if r.Method == http.MethodOptions {
-		w.WriteHeader(http.StatusOK)
-		return
+	if strings.HasPrefix(r.URL.Path, "/api/") && s.token != "" {
+		if !s.authorized(r) {
+			writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "unauthorized"})
+			return
+		}
 	}
 	s.mux.ServeHTTP(w, r)
+}
+
+func (s *Server) authorized(r *http.Request) bool {
+	auth := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
+	if auth == r.Header.Get("Authorization") {
+		auth = ""
+	}
+	if auth == "" {
+		auth = r.URL.Query().Get("token")
+	}
+	return subtle.ConstantTimeCompare([]byte(auth), []byte(s.token)) == 1
 }
 
 func (s *Server) routes() {
@@ -1403,8 +1420,18 @@ func writeJSON(w http.ResponseWriter, code int, v any) {
 	_ = json.NewEncoder(w).Encode(v)
 }
 
+func randomToken() string {
+	var b [16]byte
+	if _, err := rand.Read(b[:]); err != nil {
+		return fmt.Sprintf("%d", time.Now().UnixNano())
+	}
+	return hex.EncodeToString(b[:])
+}
+
 func main() {
+	bind := flag.String("bind", "127.0.0.1", "Alamat bind HTTP server dashboard (demo lokal)")
 	port := flag.Int("port", 8080, "Port HTTP server dashboard")
+	token := flag.String("token", os.Getenv("WEBTEST_TOKEN"), "Bearer token opsional untuk /api/* (otomatis dibuat bila bind non-loopback)")
 	flag.Parse()
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -1426,9 +1453,16 @@ func main() {
 		}
 	}()
 
-	server := NewServer(hub)
-	addr := fmt.Sprintf(":%d", *port)
-	log.Printf("[WebTest] Dashboard roscatalog berjalan di http://localhost%s", addr)
+	isLoopback := *bind == "127.0.0.1" || *bind == "localhost" || *bind == "::1"
+	tok := strings.TrimSpace(*token)
+	if !isLoopback && tok == "" {
+		tok = randomToken()
+		log.Printf("[WebTest] PERINGATAN: bind non-loopback (%s); token API otomatis: %s", *bind, tok)
+	}
+
+	server := NewServerWithToken(hub, tok)
+	addr := fmt.Sprintf("%s:%d", *bind, *port)
+	log.Printf("[WebTest] Dashboard demo lokal berjalan di http://%s", addr)
 
 	httpServer := &http.Server{
 		Addr:    addr,

@@ -103,6 +103,41 @@ func TestCatalogReplaceAndExtend(t *testing.T) {
 	}
 }
 
+func TestBuilderNoPanicBeforeViewAndImmutability(t *testing.T) {
+	// Metadata before first view must not panic.
+	r := Table("custom-x", GroupSystem, "X", "/x").
+		MarkHeavy().
+		KeyBy("name").
+		UseServerProplist().
+		WithoutServerProplist().
+		Hint("note").
+		PrintFlags("detail").
+		List("name")
+	if err := r.Validate(); err != nil {
+		t.Fatalf("Validate: %v", err)
+	}
+
+	// NewCatalog deduplication keeps last-wins consistent between All() and Find().
+	a := Table("dup", GroupIP, "A", "/ip/a").List("name")
+	b := Table("dup", GroupIP, "B", "/ip/b").List("name")
+	cat := NewCatalog(a, b)
+	if cat.Len() != 1 || len(cat.All()) != 1 {
+		t.Fatalf("Len=%d All=%d", cat.Len(), len(cat.All()))
+	}
+	found, _ := cat.Find("dup")
+	if cat.All()[0].Title != "B" || found.Title != "B" {
+		t.Fatalf("inconsistent dedup: All[0]=%s Find=%s", cat.All()[0].Title, found.Title)
+	}
+
+	// Builtin/Lookup mutations do not affect global registry.
+	u, _ := Lookup("hotspot-user")
+	u.Title = "MUTATED"
+	u2, _ := Builtin().Lookup("hotspot-user")
+	if u2.Title == "MUTATED" {
+		t.Fatal("mutating Lookup result mutated global registry")
+	}
+}
+
 func TestBuildSentinelErrors(t *testing.T) {
 	r, ok := Lookup("ip-route")
 	if !ok {

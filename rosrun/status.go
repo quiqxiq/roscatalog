@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 // StatusState adalah keadaan ringkas satu router.
@@ -55,7 +55,11 @@ type Status struct {
 
 	// State adalah connected, warning, atau error.
 	State StatusState
-	// Connected berarti koneksi hidup dan ping status masih segar.
+	// APIConnected reports whether the RouterOS API session is open and up.
+	APIConnected bool
+	// PingHealthy reports whether status /ping replies are fresh (when enabled).
+	PingHealthy bool
+	// Connected berarti koneksi hidup (dan ping status masih segar bila aktif).
 	// Nilainya bisa true walaupun State=warning (mis. TLS mati).
 	Connected bool
 	// Warnings berisi alasan state warning.
@@ -63,7 +67,7 @@ type Status struct {
 	// Err terisi saat State=error.
 	Err error
 
-	// Target adalah alamat ping status (bawaan 8.8.8.8).
+	// Target adalah alamat ping status (kosong = ping monitor nonaktif).
 	Target string
 	Ping   PingStatus
 
@@ -100,7 +104,7 @@ func (m *MikroTik) startStatus() {
 	m.status.mu.Unlock()
 
 	m.publishStatus()
-	if m.cfg.Status.Disable {
+	if m.cfg.Status.Disable || strings.TrimSpace(m.cfg.Status.Target) == "" {
 		return
 	}
 
@@ -328,9 +332,11 @@ func (m *MikroTik) publishStatus() {
 
 func sameStatus(a, b Status) bool {
 	if a.ID != b.ID || a.Address != b.Address || a.State != b.State ||
+		a.APIConnected != b.APIConnected || a.PingHealthy != b.PingHealthy ||
 		a.Connected != b.Connected || a.Target != b.Target ||
 		a.Down != b.Down ||
 		a.Epoch != b.Epoch || a.Reconnects != b.Reconnects ||
+		a.Uptime.Round(time.Second) != b.Uptime.Round(time.Second) ||
 		!slices.Equal(a.Warnings, b.Warnings) || !sameErr(a.Err, b.Err) {
 		return false
 	}
@@ -338,7 +344,8 @@ func sameStatus(a, b Status) bool {
 	return pa.Seq == pb.Seq && pa.Sent == pb.Sent && pa.Received == pb.Received &&
 		pa.PacketLoss == pb.PacketLoss && pa.MinRTT == pb.MinRTT &&
 		pa.AvgRTT == pb.AvgRTT && pa.MaxRTT == pb.MaxRTT &&
-		pa.LastRTT == pb.LastRTT && pa.LastStatus == pb.LastStatus
+		pa.LastRTT == pb.LastRTT && pa.LastStatus == pb.LastStatus &&
+		pa.Updated.Equal(pb.Updated)
 }
 
 func sameErr(a, b error) bool {
@@ -388,20 +395,26 @@ func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 		st.Uptime = now.Sub(m.openedAt)
 	}
 
-	st.Connected = open && !down
-	if !cfg.Status.Disable {
+	pingEnabled := !cfg.Status.Disable && strings.TrimSpace(cfg.Status.Target) != ""
+	st.APIConnected = open && !down
+	st.Connected = st.APIConnected
+	if pingEnabled {
 		timeout := cfg.Status.ReplyTimeout
 		switch {
 		case !m.status.lastOK.IsZero() && now.Sub(m.status.lastOK) > timeout:
 			st.Connected = false
+			st.PingHealthy = false
 			st.State = StatusError
 			st.Err = fmt.Errorf("%w: no reply from %s for %s", ErrStatusTimeout,
 				cfg.Status.Target, now.Sub(m.status.lastOK).Round(time.Second))
 		case m.status.lastOK.IsZero() && now.Sub(m.status.started) > timeout:
 			st.Connected = false
+			st.PingHealthy = false
 			st.State = StatusError
 			st.Err = fmt.Errorf("%w: no reply from %s since %s", ErrStatusTimeout,
 				cfg.Status.Target, now.Sub(m.status.started).Round(time.Second))
+		case !m.status.lastOK.IsZero():
+			st.PingHealthy = true
 		}
 	}
 
@@ -428,7 +441,7 @@ func (m *MikroTik) buildStatusLocked(now time.Time) Status {
 	if cfg.Status.WarnPacketLoss > 0 && st.Ping.PacketLoss > cfg.Status.WarnPacketLoss {
 		st.Warnings = append(st.Warnings, fmt.Sprintf("packet loss %.1f%%", st.Ping.PacketLoss))
 	}
-	if !cfg.Status.Disable && st.State != StatusError && m.status.lastOK.IsZero() {
+	if pingEnabled && st.State != StatusError && m.status.lastOK.IsZero() {
 		st.Warnings = append(st.Warnings, "waiting for first status ping reply")
 		if st.Connected {
 			st.State = StatusWarning

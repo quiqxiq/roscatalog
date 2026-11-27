@@ -7,7 +7,7 @@ ros.Lookup("hotspot-active")  ->  res.Build("live", ver, plan, params)  ->  rosr
       katalog (data)                  Request: sentence, mode, kolom             goros/v4
 ```
 
-Paket `roscatalog` tidak bergantung pada library API apa pun. `rosrun` adalah satu-satunya paket yang mengimpor `github.com/quiqxiq/goros/v4`. Ganti module path `example.com/roscatalog` dengan milik Anda, lalu `go mod tidy`.
+Paket `roscatalog` tidak bergantung pada library API apa pun. `rosrun` adalah satu-satunya paket yang mengimpor `github.com/quiqxiq/goros/v4`. Ganti module path `github.com/quiqxiq/roscatalog` dengan milik Anda, lalu `go mod tidy`.
 
 Repo ini memakai dua module dalam satu workspace: module `roscatalog` (root) dan `goros/` (fork engine). Lihat §9.
 
@@ -334,7 +334,7 @@ Tes mock sudah mencakup race tag go-routeros yang lama; di goros/v4 tag didaftar
 
 ```text
 go.work                 # use . dan ./goros
-go.mod                  # module example.com/roscatalog
+go.mod                  # module github.com/quiqxiq/roscatalog
 catalog_*.go            # data katalog (tanpa dependensi API)
 plan.go, types.go       # Build/Plan/Sentence
 rosrun/                 # adapter: satu-satunya yang mengimpor goros
@@ -411,8 +411,8 @@ jadi `mikhmon` tidak mengimpor `goros` secara langsung.
 import (
     "context"
 
-    "example.com/roscatalog/mikhmon"
-    "example.com/roscatalog/rosrun"
+    "github.com/quiqxiq/roscatalog/mikhmon"
+    "github.com/quiqxiq/roscatalog/rosrun"
 )
 
 run := rosrun.New(c) // c = *routeros.Client yang sudah login

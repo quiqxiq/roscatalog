@@ -21,8 +21,8 @@ import (
 
 	"github.com/quiqxiq/goros/v4"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/rosrun"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/rosrun"
 )
 
 func main() {

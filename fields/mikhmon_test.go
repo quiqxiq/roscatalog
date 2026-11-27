@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	ros "example.com/roscatalog"
-	"example.com/roscatalog/fields"
+	ros "github.com/quiqxiq/roscatalog"
+	"github.com/quiqxiq/roscatalog/fields"
 )
 
 func TestMikhmonSalesFields(t *testing.T) {

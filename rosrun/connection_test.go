@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	ros "example.com/roscatalog"
+	ros "github.com/quiqxiq/roscatalog"
 )
 
 func TestPlanForDefaultsToStream(t *testing.T) {
@@ -155,6 +155,68 @@ func TestUnionProplistSharesOneUpstream(t *testing.T) {
 		if row[".id"] == "" || row["address"] == "" {
 			t.Fatalf("key .id dan address harus ada: %v", row)
 		}
+	}
+
+	// P0-4: subB juga harus menerima field miliknya sendiri ("user") dan tidak menerima "address".
+	var evB Event
+	select {
+	case evB, ok = <-subB.Events():
+	case <-time.After(2 * time.Second):
+		t.Fatal("timeout menunggu event subB")
+	}
+	if !ok || evB.Kind != KindSnapshot || len(evB.Rows) == 0 {
+		t.Fatalf("event pertama subB: %+v ok=%v", evB, ok)
+	}
+	for _, row := range evB.Rows {
+		if _, has := row["address"]; has {
+			t.Fatalf("subB tidak boleh menerima address: %v", row)
+		}
+		if row[".id"] == "" || row["user"] == "" {
+			t.Fatalf("subB kehilangan field user/.id: %v", row)
+		}
+	}
+
+	if latestB, ok := subB.Latest(); !ok || len(latestB.Rows) == 0 || latestB.Rows[0]["user"] == "" {
+		t.Fatalf("subB.Latest() kehilangan field user: %+v ok=%v", latestB, ok)
+	}
+}
+
+func TestSubscribeLaterFieldUnionStream(t *testing.T) {
+	m := newMock(t)
+	s := openMock(t, m, nil)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	reqA := fastInterval(t, "hotspot-active", "live", 80*time.Millisecond,
+		ros.Params{Only: []string{"user"}})
+	reqB := fastInterval(t, "hotspot-active", "live", 80*time.Millisecond,
+		ros.Params{Only: []string{"uptime"}})
+
+	subA, err := s.Subscribe(ctx, reqA)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer subA.Close()
+	nextSub(t, subA, 2*time.Second)
+
+	subB, err := s.Subscribe(ctx, reqB)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer subB.Close()
+
+	// Tunggu hingga snapshot setelah union mengandung field masing-masing.
+	waitFor(t, 2*time.Second, func() bool {
+		ev, ok := subB.Latest()
+		if !ok || len(ev.Rows) == 0 {
+			return false
+		}
+		return ev.Rows[0]["uptime"] != "" && ev.Rows[0][".id"] != "" && ev.Rows[0]["user"] == ""
+	}, "subB receives uptime without user")
+
+	evA := nextSub(t, subA, 2*time.Second)
+	if len(evA.Rows) == 0 || evA.Rows[0]["user"] == "" || evA.Rows[0]["uptime"] != "" {
+		t.Fatalf("subA kehilangan user atau bocor uptime: %+v", evA.Rows)
 	}
 }
 
